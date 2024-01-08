@@ -3,13 +3,14 @@ package br.com.AgendaDigital.projeto.model;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 
 @Entity
 @Repository
-@Table (name = "userteste")
+@Table (name = "usuario")
 public class Usuario implements Serializable{
 
 	private static final long serialVersionUID = 1L; 
@@ -44,5 +45,7 @@ public class Usuario implements Serializable{
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+    public void setRegistrationDate(LocalDateTime now) {
+    }
 	
 }

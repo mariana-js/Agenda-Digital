@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *  
 	1) Precisei colocar este EnableAutoConfiguration para conseguir conectar ao banco
 	2) Coloquei zuul nas pastas, para resolver o problema do autowired = true
-	
 */
 
 //@EnableAuto00Configuration(exclude=(DataSourceAutoConfiguration.class))
