@@ -1,0 +1,34 @@
+package br.com.AgendaDigital.repository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import br.com.AgendaDigital.projeto.DAO.IUsuario;
+import br.com.AgendaDigital.projeto.model.Usuario;
+
+@Controller
+public class UsuarioController {
+	@Autowired
+	private IUsuario dao;
+	
+	@RequestMapping(value ="/usuario", method=RequestMethod.GET)
+	public String form() {
+		return "usuario/Cadastrar_User" ;
+	}
+	
+	@RequestMapping(value ="/usuario", method=RequestMethod.POST)
+	public String form2 (Usuario usuario) {
+		dao.save(usuario);
+		return "redirect:/Cadastrar_User" ;
+	}
+	/*
+	@Autowired
+	private IUsuario dao;
+	
+	@GetMapping("/usuario")
+	public List<Usuario> listaUsuario () {
+		return (List<Usuario>) dao.findAll() ;
+	}*/
+}

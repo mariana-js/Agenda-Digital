@@ -1,0 +1,91 @@
+package br.com.AgendaDigital.projeto.model;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+public class Endereco {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	
+	@Column(name = "id_endereco")
+	private long id_endereco;	
+
+	@Column(name = "rua", length = 40, nullable = true)
+	private String rua;
+	
+	@Column(name = "numero_casa", length = 6, nullable = true)
+	private String numero_casa;
+	
+	@Column(name = "bairro", length = 40, nullable = true)
+	private String bairro;
+	
+	@Column(name = "cidade", length = 20, nullable = true)
+	private String cidade;
+	
+	
+	@Column(name = "uf", length = 2, nullable = true)
+	private String uf;
+
+	@Column(name = "cep", length = 9, nullable = true)
+	private String cep;
+	
+//Getters and Setters
+	public long getId_endereco() {
+		return id_endereco;
+	}
+
+	public void setId_endereco(long id_endereco) {
+		this.id_endereco = id_endereco;
+	}
+
+	public String getRua() {
+		return rua;
+	}
+
+	public void setRua(String rua) {
+		this.rua = rua;
+	}
+
+	public String getNumero_casa() {
+		return numero_casa;
+	}
+
+	public void setNumero_casa(String numero_casa) {
+		this.numero_casa = numero_casa;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+	
+}

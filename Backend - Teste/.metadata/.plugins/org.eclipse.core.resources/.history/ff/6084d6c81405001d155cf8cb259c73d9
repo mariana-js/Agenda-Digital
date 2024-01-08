@@ -1,0 +1,8 @@
+package br.com.AgendaDigital.projeto.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+
+public class FuncionarioController {
+//	@GetMapping("/funcionario")
+
+}

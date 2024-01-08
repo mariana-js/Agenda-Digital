@@ -1,0 +1,40 @@
+package br.com.AgendaDigital.projeto.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table (name = "ramal")
+public class Ramal {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	
+	@Column(name = "id_ramal")
+	private long id_ramal;
+			
+	@Column(name = "numero_ramal", length = 15, nullable = true)
+	private String numero_ramal;
+
+	
+//Getters and Setters
+	public long getId_ramal() {
+		return id_ramal;
+	}
+
+	public void setId_ramal(long id_ramal) {
+		this.id_ramal = id_ramal;
+	}
+
+	public String getNumero_ramal() {
+		return numero_ramal;
+	}
+
+	public void setNumero_ramal(String numero_ramal) {
+		this.numero_ramal = numero_ramal;
+	}
+	
+}

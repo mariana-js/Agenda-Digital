@@ -1,0 +1,16 @@
+package br.com.AgendaDigital.projeto.controller;
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.AgendaDigital.projeto.model.Usuario;
+
+@RestController
+public class PessoaController {
+	@GetMapping("/pessoa")
+	public List<> ListaUsuarios (){
+		 return (List<>) dao.findAll() ;
+	 }
+}
