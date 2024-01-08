@@ -2,6 +2,8 @@ package br.com.AgendaDigital.projeto.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDateTime;
+
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -158,6 +160,9 @@ public class Funcionario implements Serializable{
 	public void setFlag_administrador(Boolean flag_administrador) {
 		this.flag_administrador = flag_administrador;
 	}
+
+    public void setRegistrationDate(LocalDateTime now) {
+    }
 
 
 }

@@ -2,6 +2,7 @@ package br.com.AgendaDigital.projeto.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -34,5 +35,8 @@ public class Ramal implements Serializable{
 	public void setNumero_ramal(String numero_ramal) {
 		this.numero_ramal = numero_ramal;
 	}
+
+    public void setRegistrationDate(LocalDateTime now) {
+    }
 	
 }

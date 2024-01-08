@@ -3,6 +3,7 @@ package br.com.AgendaDigital.projeto.model;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -56,6 +57,9 @@ public class Setor implements Serializable{
 	public void setNome_setor(String nome_setor) {
 		this.nome_setor = nome_setor;
 	}
+
+    public void setRegistrationDate(LocalDateTime now) {
+    }
 	
 	
 }

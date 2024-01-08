@@ -1,6 +1,7 @@
 package br.com.AgendaDigital.projeto.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.persistence.*;
 
@@ -112,5 +113,8 @@ public class Pessoa implements Serializable{
 	public void setFlag_funcionario(Boolean flag_funcionario) {
 		this.flag_funcionario = flag_funcionario;
 	}
+
+    public void setRegistrationDate(LocalDateTime now) {
+    }
 
 }
