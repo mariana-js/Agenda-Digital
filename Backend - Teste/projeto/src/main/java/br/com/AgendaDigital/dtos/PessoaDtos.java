@@ -1,6 +1,5 @@
 package br.com.AgendaDigital.dtos;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -21,7 +20,7 @@ public class PessoaDtos {
     @NotBlank
     private Boolean flag_funcionario;
 
-    
+
     public String getNome_pessoa() {
         return nome_pessoa;
     }
