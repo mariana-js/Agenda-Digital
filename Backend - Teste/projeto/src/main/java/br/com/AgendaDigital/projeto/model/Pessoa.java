@@ -14,9 +14,6 @@ public class Pessoa implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id_pessoa;
-			
-	@Column(name = "id_endereco")
-	private UUID id_endereco;
 	
 	@Column(name = "nome_pessoa", length = 50, nullable = true)
 	private String nome_pessoa;
@@ -47,14 +44,6 @@ public class Pessoa implements Serializable{
 
 	public void setId_pessoa(UUID id_pessoa) {
 		this.id_pessoa = id_pessoa;
-	}
-
-	public UUID getId_endereco() {
-		return id_endereco;
-	}
-
-	public void setId_endereco(UUID id_endereco) {
-		this.id_endereco = id_endereco;
 	}
 
 	public String getNome_pessoa() {

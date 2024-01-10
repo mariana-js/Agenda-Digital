@@ -15,6 +15,8 @@ public class Endereco implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id_endereco;	
 
+	
+
 	@Column(name = "logradouro", length = 40, nullable = false)
 	private String logradouro;
 	
