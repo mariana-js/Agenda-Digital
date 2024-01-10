@@ -15,18 +15,14 @@ public class Endereco implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id_endereco;	
 
-	@Column(name = "rua", length = 40, nullable = false)
-	private String rua;
-	
-	@Column(name = "numero_casa", length = 6, nullable = false)
-	private String numero_casa;
+	@Column(name = "logradouro", length = 40, nullable = false)
+	private String logradouro;
 	
 	@Column(name = "bairro", length = 40, nullable = false)
 	private String bairro;
 	
 	@Column(name = "cidade", length = 20, nullable = false)
 	private String cidade;
-	
 	
 	@Column(name = "uf", length = 2, nullable = false)
 	private String uf;
@@ -35,6 +31,15 @@ public class Endereco implements Serializable{
 	private String cep;
 	
 //Getters and Setters
+
+
+	public void setRegistrationDate(LocalDateTime now) {
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public UUID getId_endereco() {
 		return id_endereco;
 	}
@@ -43,20 +48,12 @@ public class Endereco implements Serializable{
 		this.id_endereco = id_endereco;
 	}
 
-	public String getRua() {
-		return rua;
+	public String getLogradouro() {
+		return logradouro;
 	}
 
-	public void setRua(String rua) {
-		this.rua = rua;
-	}
-
-	public String getNumero_casa() {
-		return numero_casa;
-	}
-
-	public void setNumero_casa(String numero_casa) {
-		this.numero_casa = numero_casa;
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
 	}
 
 	public String getBairro() {
@@ -89,9 +86,6 @@ public class Endereco implements Serializable{
 
 	public void setCep(String cep) {
 		this.cep = cep;
-	}
-
-	public void setRegistrationDate(LocalDateTime now) {
 	}
 	
 }

@@ -25,49 +25,63 @@ public class FuncionarioController {
 
 	final FuncionarioService funcionarioService;
 
-    public FuncionarioController(FuncionarioService funcionarioService) {
-        this.funcionarioService = funcionarioService;
-    }
-	
+	public FuncionarioController(FuncionarioService funcionarioService) {
+		this.funcionarioService = funcionarioService;
+	}
+
 	@PostMapping
-	public ResponseEntity<Object> saveFuncionario (@RequestBody @Valid FuncionarioDtos FuncionarioDtos){
+	public ResponseEntity<Object> saveFuncionario(@RequestBody @Valid FuncionarioDtos FuncionarioDtos) {
+		// if (funcionarioService.existsByEmail(FuncionarioDtos.getEmail())) {
+		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Email is already in use!");
+		// }
+		// if (funcionarioService.existsByCelular_corporativo(FuncionarioDtos.getCelular_corporativo())) {
+		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular corporativo is already in use!");
+		// }
+		// if (funcionarioService.existsByCelular_pessoal(FuncionarioDtos.getCelular_pessoal())) {
+		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular pessoal is already in use!");
+		// }
+		// if (funcionarioService.existsByTelefone(FuncionarioDtos.getTelefone())) {
+		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Telefone is already in use!");
+		// }
+
 		var funcionario = new Funcionario();
 		BeanUtils.copyProperties(FuncionarioDtos, funcionario);
 		funcionario.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
 		return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.save(funcionario));
 	}
 
-
 	// @Autowired
 	// private IFuncionario dao;
-	
+
 	// /*@GetMapping("/funcionario")
 	// public String text() {
-	// 	return "Endpoint de Funcionario ";
+	// return "Endpoint de Funcionario ";
 	// }*/
-	
+
 	// @GetMapping
 	// public List<Funcionario> listaFuncionarios() {
-	// 	return (List<Funcionario>) dao.findAll();
-		
+	// return (List<Funcionario>) dao.findAll();
+
 	// }
-	
+
 	// @PostMapping
 	// public Funcionario criarFuncionario (@RequestBody Funcionario funcionario) {
-	// 	Funcionario funcionarioNovo = dao.save(funcionario);
-	// 	return funcionarioNovo;
+	// Funcionario funcionarioNovo = dao.save(funcionario);
+	// return funcionarioNovo;
 	// }
 
 	// @PutMapping
-	// public Funcionario alterarFuncionario (@RequestBody Funcionario funcionario) {
-	// 	Funcionario funcionarioNovo = dao.save(funcionario);
-	// 	return funcionarioNovo;
+	// public Funcionario alterarFuncionario (@RequestBody Funcionario funcionario)
+	// {
+	// Funcionario funcionarioNovo = dao.save(funcionario);
+	// return funcionarioNovo;
 	// }
-	 
+
 	// @DeleteMapping("/{id_pessoa}")
-	// public Optional<Funcionario> excluirFuncionario (@PathVariable Long id_pessoa){
-	// 	Optional<Funcionario> funcionario = dao.findById(id_pessoa);
-	// 	dao.deleteById(id_pessoa);
-	// 	return funcionario;
+	// public Optional<Funcionario> excluirFuncionario (@PathVariable Long
+	// id_pessoa){
+	// Optional<Funcionario> funcionario = dao.findById(id_pessoa);
+	// dao.deleteById(id_pessoa);
+	// return funcionario;
 	// }
 }

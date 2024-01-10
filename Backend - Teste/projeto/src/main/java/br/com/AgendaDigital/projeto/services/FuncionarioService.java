@@ -19,5 +19,20 @@ public class FuncionarioService {
         return funcionarioRepository.save(funcionario);
     }
 
+    // public boolean existsByEmail(String email) {
+    //     return funcionarioRepository.existsByEmail(email);
+    // }
+
+    // public boolean existsByCelular_corporativo(String celular_corporativo) {
+    //     return funcionarioRepository.existsByCelular_corporativo(celular_corporativo);
+    // }
+
+    // public boolean existsByCelular_pessoal(String celular_pessoal) {
+    //     return funcionarioRepository.existsByCelular_pessoal(celular_pessoal);
+    // }
+
+    // public boolean existsByTelefone(String telefone) {
+    //     return funcionarioRepository.existsByTelefone(telefone);
+    // }
 
 }

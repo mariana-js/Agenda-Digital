@@ -16,7 +16,7 @@ public class Pessoa implements Serializable{
 	private UUID id_pessoa;
 			
 	@Column(name = "id_endereco")
-	private Integer id_endereco;
+	private UUID id_endereco;
 	
 	@Column(name = "nome_pessoa", length = 50, nullable = true)
 	private String nome_pessoa;
@@ -30,14 +30,13 @@ public class Pessoa implements Serializable{
 	@Column(name = "celular_pessoal", length = 15, nullable = false)
 	private String celular_pessoal;
 	
-	
 	@Column(name = "telefone", length = 15, nullable = false)
 	private String telefone;
 	
-	@Column(name = "flag_privado", nullable = true)
+	@Column(name = "flag_privado", nullable = false)
 	private Boolean flag_privado;
 	
-	@Column(name = "flag_funcionario", nullable = true)
+	@Column(name = "flag_funcionario", nullable = false)
 	private Boolean flag_funcionario;
 
 	
@@ -50,11 +49,11 @@ public class Pessoa implements Serializable{
 		this.id_pessoa = id_pessoa;
 	}
 
-	public Integer getId_endereco() {
+	public UUID getId_endereco() {
 		return id_endereco;
 	}
 
-	public void setId_endereco(Integer id_endereco) {
+	public void setId_endereco(UUID id_endereco) {
 		this.id_endereco = id_endereco;
 	}
 

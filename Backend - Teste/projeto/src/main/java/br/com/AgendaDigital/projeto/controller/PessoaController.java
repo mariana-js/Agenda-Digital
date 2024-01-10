@@ -2,9 +2,7 @@ package br.com.AgendaDigital.projeto.controller;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

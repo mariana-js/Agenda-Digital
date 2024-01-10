@@ -3,12 +3,9 @@ package br.com.AgendaDigital.dtos;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 public class EnderecoDtos {
-    
-    @NotBlank
-	private String rua;
 	
     @NotBlank
-    private String numero_casa;
+    private String logradouro;
 	
 	@NotBlank
 	private String bairro;
@@ -22,20 +19,12 @@ public class EnderecoDtos {
 	@Size(max = 9)
 	private String cep;
 
-    public String getRua() {
-        return rua;
+    public String getLogradouro() {
+        return logradouro;
     }
 
-    public void setRua(String rua) {
-        this.rua = rua;
-    }
-
-    public String getNumero_casa() {
-        return numero_casa;
-    }
-
-    public void setNumero_casa(String numero_casa) {
-        this.numero_casa = numero_casa;
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
     }
 
     public String getBairro() {
