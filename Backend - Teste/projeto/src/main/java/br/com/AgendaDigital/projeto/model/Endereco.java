@@ -6,33 +6,33 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table (name = "endereco")
-public class Endereco implements Serializable{
-	
-	private static final long serialVersionUID = 1L; 
+@Table(name = "endereco")
+public class Endereco implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id_endereco;	
+	private UUID id_endereco; // Agora o id é o mesmo que o id da Pessoa
 
-	
+	@Column(name = "id_pessoa", nullable = false)
+	private UUID id_pessoa;	
 
 	@Column(name = "logradouro", length = 40, nullable = false)
 	private String logradouro;
-	
+
 	@Column(name = "bairro", length = 40, nullable = false)
 	private String bairro;
-	
+
 	@Column(name = "cidade", length = 20, nullable = false)
 	private String cidade;
-	
+
 	@Column(name = "uf", length = 2, nullable = false)
 	private String uf;
 
 	@Column(name = "cep", length = 9, nullable = false)
 	private String cep;
-	
-//Getters and Setters
+
+	// Getters and Setters
 
 
 	public void setRegistrationDate(LocalDateTime now) {
@@ -42,12 +42,12 @@ public class Endereco implements Serializable{
 		return serialVersionUID;
 	}
 
-	public UUID getId_endereco() {
-		return id_endereco;
+	public UUID getId_pessoa() {
+		return id_pessoa;
 	}
 
-	public void setId_endereco(UUID id_endereco) {
-		this.id_endereco = id_endereco;
+	public void setId_pessoa(UUID id_pessoa) {
+		this.id_pessoa = id_pessoa;
 	}
 
 	public String getLogradouro() {
@@ -89,5 +89,13 @@ public class Endereco implements Serializable{
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
-	
+
+	public UUID getId_endereco() {
+		return id_endereco;
+	}
+
+	public void setId_endereco(UUID id_endereco) {
+		this.id_endereco = id_endereco;
+	}
+
 }

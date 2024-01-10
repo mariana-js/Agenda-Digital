@@ -1,26 +1,41 @@
 package br.com.AgendaDigital.dtos;
 
+import java.util.UUID;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EnderecoDtos {
-	
+    @JsonProperty("id_pessoa")
+    private UUID id_pessoa;
+
     @NotBlank
     private String logradouro;
-	
-	@NotBlank
-	private String bairro;
-	
-	@NotBlank
-	private String cidade;
-	
-	@NotBlank
-	private String uf;
 
-	@Size(max = 9)
-	private String cep;
+    @NotBlank
+    private String bairro;
+
+    @NotBlank
+    private String cidade;
+
+    @NotBlank
+    private String uf;
+
+    @Size(max = 9)
+    private String cep;
 
     public String getLogradouro() {
         return logradouro;
+    }
+
+    public UUID getId_pessoa() {
+        return id_pessoa;
+    }
+
+    public void setId_pessoa(UUID id_pessoa) {
+        this.id_pessoa = id_pessoa;
     }
 
     public void setLogradouro(String logradouro) {
@@ -59,6 +74,4 @@ public class EnderecoDtos {
         this.cep = cep;
     }
 
-
-    
 }

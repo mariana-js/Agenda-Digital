@@ -15,7 +15,7 @@ public class Funcionario implements Serializable{
 	private UUID id_pessoa;
 
 	@Column(name = "id_setor")
-	private Integer id_setor;
+	private UUID id_setor;
 
 	@Column(name = "img")
 	private Byte img;
@@ -39,11 +39,11 @@ public class Funcionario implements Serializable{
 		this.id_pessoa = id_pessoa;
 	}
 
-	public Integer getId_setor() {
+	public UUID getId_setor() {
 		return id_setor;
 	}
 
-	public void setId_setor(Integer id_setor) {
+	public void setId_setor(UUID id_setor) {
 		this.id_setor = id_setor;
 	}
 
