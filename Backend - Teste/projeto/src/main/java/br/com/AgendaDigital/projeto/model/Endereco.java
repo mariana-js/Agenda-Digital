@@ -10,12 +10,13 @@ import java.util.UUID;
 public class Endereco implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id_endereco; // Agora o id é o mesmo que o id da Pessoa
 
 	@Column(name = "id_pessoa", nullable = false)
-	private UUID id_pessoa;	
+	private UUID id_pessoa;
 
 	@Column(name = "logradouro", length = 40, nullable = false)
 	private String logradouro;
@@ -32,8 +33,10 @@ public class Endereco implements Serializable {
 	@Column(name = "cep", length = 9, nullable = false)
 	private String cep;
 
-	// Getters and Setters
+	@Column(name = "estado", length = 20, nullable = false)
+	private String estado;
 
+	// Getters and Setters
 
 	public void setRegistrationDate(LocalDateTime now) {
 	}
@@ -96,6 +99,14 @@ public class Endereco implements Serializable {
 
 	public void setId_endereco(UUID id_endereco) {
 		this.id_endereco = id_endereco;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 }

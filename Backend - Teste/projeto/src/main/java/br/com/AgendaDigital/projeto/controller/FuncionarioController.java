@@ -31,9 +31,7 @@ public class FuncionarioController {
 
 	@PostMapping
 	public ResponseEntity<Object> saveFuncionario(@RequestBody @Valid FuncionarioDtos FuncionarioDtos) {
-		// if (funcionarioService.existsByEmail(FuncionarioDtos.getEmail())) {
-		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Email is already in use!");
-		// }
+
 		// if (funcionarioService.existsByCelular_corporativo(FuncionarioDtos.getCelular_corporativo())) {
 		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular corporativo is already in use!");
 		// }

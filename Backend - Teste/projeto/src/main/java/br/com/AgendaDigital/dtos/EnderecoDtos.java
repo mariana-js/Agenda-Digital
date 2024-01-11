@@ -26,6 +26,17 @@ public class EnderecoDtos {
     @Size(max = 9)
     private String cep;
 
+    @JsonProperty("estado")
+    private String estado;
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     public String getLogradouro() {
         return logradouro;
     }

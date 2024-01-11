@@ -1,5 +1,7 @@
 package br.com.AgendaDigital.projeto.services;
 
+import java.util.UUID;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
