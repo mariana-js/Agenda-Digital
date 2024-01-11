@@ -2,17 +2,24 @@ package br.com.AgendaDigital.projeto.controller;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.AgendaDigital.dtos.Setor_RamalDtos;
 import br.com.AgendaDigital.projeto.model.Setor_Ramal;
+import br.com.AgendaDigital.projeto.model.Usuario;
 import br.com.AgendaDigital.projeto.services.Setor_RamalService;
 
 @RestController
@@ -20,11 +27,11 @@ import br.com.AgendaDigital.projeto.services.Setor_RamalService;
 @RequestMapping("/setor_ramal")
 public class Setor_RamalController {
 
-    final Setor_RamalService setor_RamalService;
+	final Setor_RamalService setor_RamalService;
 
-    public Setor_RamalController(Setor_RamalService setor_RamalService) {
-        this.setor_RamalService = setor_RamalService;
-    }
+	public Setor_RamalController(Setor_RamalService setor_RamalService) {
+		this.setor_RamalService = setor_RamalService;
+	}
 
 	@PostMapping
 	public ResponseEntity<Object> saveSetor_Ramal(@RequestBody @Valid Setor_RamalDtos setor_RamalDtos) {
@@ -34,4 +41,17 @@ public class Setor_RamalController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(setor_RamalService.save(setor_ramal));
 	}
 
+	@GetMapping
+	public ResponseEntity<List<Setor_Ramal>> getAllSetor_Ramal() {
+		return ResponseEntity.status(HttpStatus.OK).body(setor_RamalService.findAll());
+	}
+
+	@GetMapping("/{id_setor_ramal}")
+	public ResponseEntity getOneUsuario(@PathVariable(value = "id_setor_ramal") UUID id_setor_ramal) {
+		Optional<Setor_Ramal> setor_ramalOptional = setor_RamalService.findById(id_setor_ramal);
+		if (!setor_ramalOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Setor_ramal not found.");
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(setor_ramalOptional.get());
+	}
 }

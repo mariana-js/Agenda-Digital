@@ -1,5 +1,9 @@
 package br.com.AgendaDigital.projeto.services;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import br.com.AgendaDigital.projeto.model.Setor_Ramal;
@@ -17,5 +21,13 @@ public class Setor_RamalService {
     @Transactional
     public Setor_Ramal save(Setor_Ramal setor_Ramal) {
         return setor_RamalRepository.save(setor_Ramal);
+    }
+
+    public List<Setor_Ramal> findAll() {
+        return setor_RamalRepository.findAll();
+    }
+
+    public Optional<Setor_Ramal> findById(UUID id_setor_ramal) {
+       return setor_RamalRepository.findById(id_setor_ramal);
     }
 }
