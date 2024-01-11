@@ -2,6 +2,9 @@ package br.com.AgendaDigital.projeto.services;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import br.com.AgendaDigital.projeto.model.Usuario;
 import br.com.AgendaDigital.projeto.repositories.UsuarioRepository;
@@ -20,6 +23,9 @@ public class UsuarioService {
 
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();    
+    }
+    public Optional<Usuario> findById(UUID id) {
+       return usuarioRepository.findById(id);
     }
 
 }
