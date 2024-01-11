@@ -18,7 +18,6 @@ import br.com.AgendaDigital.projeto.services.SetorService;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/setor")
-
 public class SetorController {
 	final SetorService setorService;
 
