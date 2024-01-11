@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.AgendaDigital.dtos.UsuarioDtos;
 import br.com.AgendaDigital.projeto.model.Usuario;
 import br.com.AgendaDigital.projeto.services.UsuarioService;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 
@@ -42,7 +44,6 @@ public class UsuarioController {
 	public ResponseEntity<Object> saveUsuario (@RequestBody @Valid UsuarioDtos usuarioDtos){
 		var usuario = new Usuario();
 		BeanUtils.copyProperties(usuarioDtos, usuario);
-		usuario.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuario));
 	}
 
@@ -70,6 +71,24 @@ public class UsuarioController {
 		return ResponseEntity.status(HttpStatus.OK).body("Usuario deleted successfully.");
 	}
 	
+	@PutMapping("/{id}")
+	public ResponseEntity<Object> updateUsuario(@PathVariable(value = "id") UUID id,
+												@RequestBody @Valid UsuarioDtos usuarioDtos){
+		Optional<Usuario> usuarioOptional = usuarioService.findById(id);
+		if(!usuarioOptional.isPresent()){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario not found.");
+		}
+		// 1ª Forma de fazer o PUT
+		// var usuario = usuarioOptional.get();
+		// usuario.setNome(usuarioDtos.getNome());
+		// usuario.setSenha(usuarioDtos.getSenha());
+
+		// 2ª Forma de fazer o PUT
+		var usuario = new Usuario();
+		BeanUtils.copyProperties(usuarioDtos, usuario);
+		usuario.setId(usuarioOptional.get().getId());
+		return ResponseEntity.status(HttpStatus.OK).body(usuarioService.save(usuario));
+	}
 	
 	// @Autowired
 
