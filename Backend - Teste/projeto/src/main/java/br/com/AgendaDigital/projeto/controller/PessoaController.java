@@ -29,6 +29,20 @@ public class PessoaController {
 
 	@PostMapping
 	public ResponseEntity<Object> savePessoa(@RequestBody @Valid PessoaDtos pessoaDtos) {
+		
+		if (pessoaService.existsByEmail(pessoaDtos.getEmail())) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Email is already in use!");
+		}
+		// if (pessoaService.existsByCelular_corporativo(pessoaDtos.getCelular_corporativo())) {
+		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular corporativo is already in use!");
+		// }
+		// if (pessoaService.existsByCelular_pessoal(pessoaDtos.getCelular_pessoal())) {
+		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular pessoal is already in use!");
+		// }
+		// if (pessoaService.existsByTelefone(pessoaDtos.getTelefone())) {
+		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Telefone is already in use!");
+		// }	
+
 		var pessoa = new Pessoa();
 		BeanUtils.copyProperties(pessoaDtos, pessoa);
 		pessoa.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));

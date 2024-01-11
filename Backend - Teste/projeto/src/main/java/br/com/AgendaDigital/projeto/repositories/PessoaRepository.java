@@ -6,6 +6,15 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface PessoaRepository extends JpaRepository<Pessoa, UUID>{
+public interface PessoaRepository extends JpaRepository<Pessoa, UUID> {
     
+    boolean existsByEmail(String email);
+
+    // boolean existsByCelular_corporativo(String celular_corporativo);
+
+    // boolean existsByCelular_pessoal(String celular_pessoal);
+
+    // boolean existsByTelefone(String telefone);
+
+
 }
