@@ -27,5 +27,8 @@ public class UsuarioService {
     public Optional<Usuario> findById(UUID id) {
        return usuarioRepository.findById(id);
     }
+    public void delete(Usuario usuario) {
+        usuarioRepository.delete(usuario);
+    }
 
 }
