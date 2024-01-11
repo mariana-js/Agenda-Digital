@@ -1,11 +1,9 @@
 package br.com.AgendaDigital.projeto.model;
 
 import javax.persistence.*;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
-
 import org.springframework.stereotype.Repository;
 
 @Entity
