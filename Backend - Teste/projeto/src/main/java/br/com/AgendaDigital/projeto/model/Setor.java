@@ -1,10 +1,15 @@
 package br.com.AgendaDigital.projeto.model;
 
-import javax.persistence.*;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "setor")
@@ -15,9 +20,6 @@ public class Setor implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id_setor;
-
-	@Column(name = "id_funcionario")
-	private Integer id_funcionario;
 
 	@Column(name = "nome_setor", length = 20, nullable = true)
 	private String nome_setor;
@@ -32,14 +34,6 @@ public class Setor implements Serializable {
 
 	public void setId_setor(UUID id_setor) {
 		this.id_setor = id_setor;
-	}
-
-	public Integer getId_funcionario() {
-		return id_funcionario;
-	}
-
-	public void setId_funcionario(Integer id_funcionario) {
-		this.id_funcionario = id_funcionario;
 	}
 
 	public String getNome_setor() {

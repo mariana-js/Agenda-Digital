@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,6 +56,16 @@ public class EnderecoController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Endereco not found.");
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(enderecoOptional.get());
+	}
+
+	@DeleteMapping("/{id_endereco}")
+	public ResponseEntity<Object> deleteEndereco(@PathVariable(value = "id_endereco") UUID id_endereco) {
+		Optional<Endereco> enderecoOptional = enderecoService.findById(id_endereco);
+		if (!enderecoOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Endereco not found.");
+		}
+		enderecoService.delete(enderecoOptional.get());
+		return ResponseEntity.status(HttpStatus.OK).body("Endereco deleted successfully.");
 	}
 
 	// @Autowired

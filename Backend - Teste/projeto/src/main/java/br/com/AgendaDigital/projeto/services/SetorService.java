@@ -30,4 +30,8 @@ public class SetorService {
        return setorRepository.findById(id_setor);
     }
 
+    public void delete(Setor setor) {
+        setorRepository.delete(setor);
+    }
+
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,6 +55,17 @@ public class SetorController {
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(setorOptional.get());
 	}
+
+	@DeleteMapping("/{id_setor}")
+	public ResponseEntity<Object> deleteSetor(@PathVariable(value = "id_setor") UUID id_setor) {
+		Optional<Setor> setorOptional = setorService.findById(id_setor);
+		if (!setorOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Setor not found.");
+		}
+		setorService.delete(setorOptional.get());
+		return ResponseEntity.status(HttpStatus.OK).body("Setor deleted successfully.");
+	}
+
 	// @Autowired
 	// private ISetor dao;
 

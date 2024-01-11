@@ -4,14 +4,12 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,6 +52,16 @@ public class RamalController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ramal not found.");
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(ramalOptional.get());
+	}
+
+	@DeleteMapping("/{id_ramal}")
+	public ResponseEntity<Object> delete(@PathVariable(value = "id_ramal") String id_ramal) {
+		Optional<Ramal> ramalOptional = ramalService.findById(id_ramal);
+		if (!ramalOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ramal not found.");
+		}
+		ramalService.delete(ramalOptional.get());
+		return ResponseEntity.status(HttpStatus.OK).body("Ramal deleted successfully.");
 	}
 	// @Autowired
 	// private IRamal dao;

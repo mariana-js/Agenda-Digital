@@ -3,7 +3,6 @@ package br.com.AgendaDigital.projeto.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import br.com.AgendaDigital.projeto.model.Setor_Ramal;
@@ -29,5 +28,9 @@ public class Setor_RamalService {
 
     public Optional<Setor_Ramal> findById(UUID id_setor_ramal) {
        return setor_RamalRepository.findById(id_setor_ramal);
+    }
+
+    public void delete(Setor_Ramal setor_Ramal) {
+        setor_RamalRepository.delete(setor_Ramal);
     }
 }

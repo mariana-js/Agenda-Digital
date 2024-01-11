@@ -32,6 +32,10 @@ public class FuncionarioService {
         return funcionarioRepository.findById(id_funcionario);
     }
 
+    public void delete(Funcionario funcionario) {
+        funcionarioRepository.delete(funcionario);
+    }
+
     // public boolean existsByEmail(String email) {
     // return funcionarioRepository.existsByEmail(email);
     // }

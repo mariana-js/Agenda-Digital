@@ -30,4 +30,8 @@ public class EnderecoService {
 
     }
 
+    public void delete(Endereco endereco) {
+        enderecoRepository.delete(endereco);
+    }
+
 }

@@ -28,4 +28,8 @@ public class RamalService {
         return ramalRepository.findById(id_ramal);
     }
 
+    public void delete(Ramal ramal) {
+       ramalRepository.delete(ramal);
+    }
+
 }

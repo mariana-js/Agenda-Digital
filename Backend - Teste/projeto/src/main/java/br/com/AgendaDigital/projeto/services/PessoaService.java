@@ -33,6 +33,10 @@ public class PessoaService {
         return pessoaRepository.findById(id_pessoa);
     }
 
+    public void delete(Pessoa pessoa) {
+        pessoaRepository.delete(pessoa);
+    }
+
     // public boolean existsByCelular_corporativo(String celular_corporativo) {
     // return pessoaRepository.existsByCelular_corporativo(celular_corporativo);
     // }
