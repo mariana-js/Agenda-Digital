@@ -2,13 +2,16 @@ package br.com.AgendaDigital.projeto.controller;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import javax.validation.Valid;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,21 +34,24 @@ public class FuncionarioController {
 
 	@PostMapping
 	public ResponseEntity<Object> saveFuncionario(@RequestBody @Valid FuncionarioDtos FuncionarioDtos) {
-
-		// if (funcionarioService.existsByCelular_corporativo(FuncionarioDtos.getCelular_corporativo())) {
-		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular corporativo is already in use!");
-		// }
-		// if (funcionarioService.existsByCelular_pessoal(FuncionarioDtos.getCelular_pessoal())) {
-		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular pessoal is already in use!");
-		// }
-		// if (funcionarioService.existsByTelefone(FuncionarioDtos.getTelefone())) {
-		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Telefone is already in use!");
-		// }
-
 		var funcionario = new Funcionario();
 		BeanUtils.copyProperties(FuncionarioDtos, funcionario);
 		funcionario.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
 		return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.save(funcionario));
+	}
+
+	@GetMapping
+	public ResponseEntity<List<Funcionario>> getAllFuncionarios() {
+		return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.findAll());
+	}
+
+	@GetMapping("/{id_funcionario}")
+	public ResponseEntity getOneUsuario(@PathVariable(value = "id_funcionario") UUID id_funcionario) {
+		Optional<Funcionario> funcionarioOptional = funcionarioService.findById(id_funcionario);
+		if (!funcionarioOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Funcionario not found.");
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(funcionarioOptional.get());
 	}
 
 	// @Autowired
