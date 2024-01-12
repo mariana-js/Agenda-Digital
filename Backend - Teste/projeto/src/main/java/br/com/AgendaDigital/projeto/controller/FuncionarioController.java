@@ -5,7 +5,9 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +16,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import br.com.AgendaDigital.dtos.FuncionarioDtos;
 import br.com.AgendaDigital.projeto.model.Funcionario;
 import br.com.AgendaDigital.projeto.services.FuncionarioService;
@@ -64,6 +68,21 @@ public class FuncionarioController {
 		funcionarioService.delete(funcionarioOptional.get());
 		return ResponseEntity.status(HttpStatus.OK).body("Funcionario deleted successfully.");
 	}
+
+	@PutMapping("/{id_funcionario}")
+	public ResponseEntity<Object> updateFuncionario(@PathVariable(value = "id_funcionario") UUID id_funcionario,
+			@RequestBody @Valid FuncionarioDtos funcionarioDtos) {
+		Optional<Funcionario> funcionarioOptional = funcionarioService.findById(id_funcionario);
+		if (!funcionarioOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Funcionario not found.");
+		}
+
+		var funcionario = new Funcionario();
+		BeanUtils.copyProperties(funcionarioDtos, funcionario);
+		funcionario.setId_funcionario(funcionarioOptional.get().getId_funcionario());
+		return ResponseEntity.status(HttpStatus.OK).body("Funcionario deleted successfully.");
+	}
+
 	// @Autowired
 	// private IFuncionario dao;
 

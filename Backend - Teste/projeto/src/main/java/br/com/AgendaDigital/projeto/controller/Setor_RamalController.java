@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.AgendaDigital.dtos.Setor_RamalDtos;
 import br.com.AgendaDigital.projeto.model.Setor_Ramal;
 import br.com.AgendaDigital.projeto.services.Setor_RamalService;
+
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -65,5 +67,18 @@ public class Setor_RamalController {
 		}
 		setor_RamalService.delete(setor_ramalOptional.get());
 		return ResponseEntity.status(HttpStatus.OK).body("Ramal deleted successfully.");
+	}
+
+	@PutMapping("/{id_setor_ramal}")
+	public ResponseEntity<Object> updateSetor_Ramal(@PathVariable(value = "id_setor_ramal") UUID id_setor_ramal,
+												@RequestBody @Valid Setor_RamalDtos setor_RamalDtos) {
+		Optional<Setor_Ramal> setor_ramalOptional = setor_RamalService.findById(id_setor_ramal);
+		if (!setor_ramalOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Setor_ramal not found.");
+		}
+		var setor_ramal = new Setor_Ramal();
+		BeanUtils.copyProperties(setor_RamalDtos, setor_ramal);
+		setor_ramal.setId_setor_ramal(setor_ramalOptional.get().getId_setor_ramal());
+		return ResponseEntity.status(HttpStatus.OK).body(setor_RamalService.save(setor_ramal));
 	}
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,6 +65,19 @@ public class SetorController {
 		}
 		setorService.delete(setorOptional.get());
 		return ResponseEntity.status(HttpStatus.OK).body("Setor deleted successfully.");
+	}
+
+	@PutMapping("/{id_setor}")
+	public ResponseEntity<Object> updateSetor(@PathVariable(value = "id_setor") UUID id_setor,
+			@RequestBody @Valid SetorDtos setorDtos) {
+		Optional<Setor> setorOptional = setorService.findById(id_setor);
+		if (!setorOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Setor not found.");
+		}
+		var setor = new Setor();
+		BeanUtils.copyProperties(setorDtos, setor);
+		setor.setId_setor(setorOptional.get().getId_setor());
+		return ResponseEntity.status(HttpStatus.OK).body(setorService.save(setor));
 	}
 
 	// @Autowired

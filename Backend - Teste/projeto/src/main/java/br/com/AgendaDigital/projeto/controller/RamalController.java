@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.AgendaDigital.dtos.RamalDtos;
 import br.com.AgendaDigital.projeto.model.Ramal;
 import br.com.AgendaDigital.projeto.services.RamalService;
+
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -62,6 +66,20 @@ public class RamalController {
 		}
 		ramalService.delete(ramalOptional.get());
 		return ResponseEntity.status(HttpStatus.OK).body("Ramal deleted successfully.");
+	}
+
+	@PutMapping("/{id_ramal}")
+	public ResponseEntity<Object> updateRamal(@PathVariable(value = "id_ramal") String id_ramal,
+												@RequestBody @Valid RamalDtos ramalDtos) {
+		Optional<Ramal> ramalOptional = ramalService.findById(id_ramal);
+		if (!ramalOptional.isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ramal not found.");
+		}
+
+		var ramal = new Ramal();
+		BeanUtils.copyProperties(ramalDtos, ramal);
+		ramal.setNumero_ramal(ramalOptional.get().getNumero_ramal());
+		return ResponseEntity.status(HttpStatus.OK).body(ramalService.save(ramal));
 	}
 	// @Autowired
 	// private IRamal dao;

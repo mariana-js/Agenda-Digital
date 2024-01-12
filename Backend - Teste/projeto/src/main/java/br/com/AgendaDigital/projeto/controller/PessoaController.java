@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +16,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import br.com.AgendaDigital.dtos.PessoaDtos;
 import br.com.AgendaDigital.projeto.model.Pessoa;
-import br.com.AgendaDigital.projeto.model.Usuario;
 import br.com.AgendaDigital.projeto.services.PessoaService;
 
 @RestController
@@ -80,6 +82,19 @@ public class PessoaController {
 		}
 		pessoaService.delete(pessoaOptional.get());
 		return ResponseEntity.status(HttpStatus.OK).body("Pessoa deleted successfully.");
+	}
+	@PutMapping("/{id_pessoa}")
+	public ResponseEntity<Object> updatePessoa(@PathVariable(value = "id_pessoa") UUID id_pessoa,
+												@RequestBody @Valid PessoaDtos pessoaDtos) {
+		Optional<Pessoa> pessoaOptional = pessoaService.findById(id_pessoa);
+		if(!pessoaOptional.isPresent()){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pessoa not found.");
+		}
+
+		var pessoa = new Pessoa();
+		BeanUtils.copyProperties(pessoaDtos, pessoa);
+		pessoa.setId_pessoa(pessoaOptional.get().getId_pessoa());
+		return ResponseEntity.status(HttpStatus.OK).body(pessoaService.save(pessoa));
 	}
 	// @Autowired
 	// private IPessoa dao;
