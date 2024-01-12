@@ -1,0 +1,55 @@
+package br.com.AgendaDigital.projeto.controller;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.AgendaDigital.projeto.intefaces.IEndereco;
+import br.com.AgendaDigital.projeto.model.Endereco;
+
+@RestController
+@CrossOrigin("*")
+@RequestMapping("/endereco")
+
+public class EnderecoController {
+	@Autowired
+	private IEndereco dao;
+	/*@GetMapping("/endereco")
+	public String text() {
+		return "Endpoint de Endereco";
+	}*/
+	@GetMapping
+	public List<Endereco> listaEnderecos() {
+		return (List<Endereco>) dao.findAll();
+		
+	}
+	
+	@PostMapping
+	public Endereco criarEndereco (@RequestBody Endereco endereco) {
+		Endereco enderecoNovo = dao.save(endereco); 
+		return enderecoNovo;
+	}
+
+	@PutMapping
+	public Endereco alterarEndereco (@RequestBody Endereco endereco) {
+		Endereco enderecoNovo = dao.save(endereco);
+		return enderecoNovo;
+	}
+	 
+	@DeleteMapping("/{id_endereco}")
+	public Optional<Endereco> excluirEndereco(@PathVariable Long id_endereco){
+		Optional<Endereco> endereco = dao.findById(id_endereco);
+		dao.deleteById(id_endereco);
+		return endereco;
+	}
+}

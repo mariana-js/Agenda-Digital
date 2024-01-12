@@ -1,0 +1,8 @@
+package br.com.AgendaDigital.projeto.controller;
+
+
+@RestController
+public class UsuarioController {
+
+
+}

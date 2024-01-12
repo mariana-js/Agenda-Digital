@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt_br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title >Agenda Digital</title>
+    <link rel="shortcut icon" href="/IMG/livro.png1946" type="image/x-icon">
+
+    <link rel="stylesheet" href="/CSS/Main.css">
+    <link rel="stylesheet" href="/CSS/Pessoa.css">
+    
+</head>
+<body>
+    <div id="page-home">
+
+        <!--Contecet ou container-->
+        <div class="content">
+
+            <!--cabeçalho-->
+            <header>
+
+                <nav>
+                    <div class="logo-div">
+                        
+                        <div class="mobile-menu">
+                            <img class="logo-img" src="/IMG/livro.png">
+                        </div>
+
+                        <a class="logo" href="Home.html" >Agenda Digital</a>
+
+                        <img class="logo-img" src="/IMG/lupa.png">
+                    </div>
+
+                    <ul class="nav-list">
+
+                        <li><a href="/HTML/Home.html">Inicio</a></li>
+
+                        <ul class="sub-list">
+                            <li><a href="#"></a>Pessoas</li>
+                            <li><a href="#"></a>Setor</li>
+                            <li><a href="#"></a>Ramal</li>
+                            <li><a href="#"></a>Cadastrar</li>
+
+                        
+                        </ul>
+
+                        <ul class="sub-list2">
+                            <li><a href="#"></a>Pessoas</li>
+                            <li><a href="#"></a>Setor</li>
+                            <li><a href="#"></a>Ramal</li>
+                            <li><a href="#"></a>Alterar</li>
+
+                        
+                        </ul>
+
+                        <li><a href="#">Sair</a></li>
+
+                    </ul>
+                </nav>
+
+            </header>
+
+            <!--Parte-central-do-conteudo-->
+            <main class="main">
+                
+                <div class="Inicio">
+                    <form action="">
+
+                        <h1>Cadastro de Pessoa</h1>
+            
+                        <fieldset>
+
+                            <div class="field-group">
+                                <legend>
+                                    <h2>Dados da Entidade</h2>
+                                </legend>
+                                <div class="field-chekbox">
+                                    <input type="checkbox" name="address2" required>
+                                    <label for="cel-corp">Privado</label>
+                                </div>
+
+                                <div class="field-chekbox">
+
+                                    <input type="checkbox" name="address2" required>
+                                    <label for="cel-corp">Admin</label>
+                                </div>
+                            </div>
+            
+                            <div class="field">
+                                <label for="name">Nome da Entidade</label>
+                                <input type="text" name="name" required placeholder="Nome">
+                            </div>
+
+                            <div class="field">
+                                <label for="mail">E-mail</label>
+                                <input type="text" name="mail" required placeholder="Ex.: habitacional@habitacional.net.br">
+                            </div>
+
+                            <div class="field-group">
+                                <div class="field">
+                                    <label for="cel">Número/Celular</label>
+                                    <input type="tel" name="cel" required placeholder="Ex.: (99) 99999-9999">
+                                </div>
+                                <div class="field">
+                                    <label for="cel-corp">Número/Empresarial</label>
+                                    <input type="tel" name="cel-corp" required placeholder="Ex.: (99) 99999-9999">
+                                </div>
+                            </div>
+
+                            <div class="field-group">
+                                <div class="field">
+                                    <label for="date">Data/Nascimento</label>
+                                    <input type="date" name="date" required>
+                                </div>
+                                <div class="field">
+                                    <label for="Imagem">Imagem</label>
+                                    <input type="file" name="PHOTO">
+                                </div>
+                            </div>
+
+                            <div class="field-group">
+                                <div class="field">
+                                    <label for="sector">Setor</label>
+                                    <select name="sector" required onchange="location.href=this.value" >
+                                        <option value=""> Selecione o Setor </option>
+                                        <option value="Home.html"> Criar Novo Setor </option>
+                                    </select>
+                                
+                                </div>
+            
+                                <div class="field">
+                                    <label for="Ramal">Ramal</label>
+                                    <select name="ramal" disable required onchange="location.href=this.value" >
+                                        <option value=""> Selecione o Ramal </option>
+                                        <option value=""> Criar Novo Ramal </option>
+                                    </select>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            
+                        </fieldset>
+
+                        <fieldset>
+
+                            <legend>
+                                <h2>Dados do Endereço</h2>
+                            </legend>
+
+                            <div class="field-group">
+                                <div class="field">
+                                    <label for="state">Estado</label>
+                                    <select name="uf" required>
+                                         <option value=""> Selecione o Estado</option>
+                                    </select>
+                                
+                                 <input type="hidden" name="state">
+                                
+                                </div>
+            
+                                <div class="field">
+                                    <label for="city">Cidade</label>
+                                    <select name="city" disabled required>
+                                        <option value="">Selecione a Cidade</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="field-group">
+                                <div class="field">
+                                    <label for="cep">CEP</label>
+                                    <input type="text" name="address" required>
+                                </div>
+                                <div class="field">
+                                    <label for="bairro">Bairro</label>
+                                    <input type="text" name="address2" required>
+                                </div>
+                            </div>         
+                            
+                        </fieldset>
+
+                        <button type="submit">Cadastrar</button>
+
+                    </form>  
+                </div> 
+
+            </main>
+
+            <!--Rodape-->
+            <footer class="footer">
+
+            </footer>
+
+            <!----Link-para-JavaScript----->
+            <script src="/JAVASCRIPT/mobile-navbar.js"></script>
+            <script src="/JAVASCRIPT/Emdereco.js"></script>
+            <script src="/JAVASCRIPT/Recebendo_Valores.js"></script>
+
+        </div>
+    </div>
+</body>
+</html>

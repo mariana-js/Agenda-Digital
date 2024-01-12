@@ -1,0 +1,10 @@
+package br.com.AgendaDigital.projeto.DAO;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table (name = "setor")
+public interface ISetor {
+
+}

@@ -1,0 +1,5 @@
+package br.com.AgendaDigital.repository;
+
+public class UserController {
+
+}
