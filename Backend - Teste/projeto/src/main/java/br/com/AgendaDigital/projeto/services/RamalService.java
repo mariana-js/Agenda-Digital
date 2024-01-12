@@ -2,8 +2,11 @@ package br.com.AgendaDigital.projeto.services;
 
 import java.util.List;
 import java.util.Optional;
+
 import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
+
 import br.com.AgendaDigital.projeto.model.Ramal;
 import br.com.AgendaDigital.projeto.repositories.RamalRepository;
 
@@ -29,7 +32,7 @@ public class RamalService {
     }
 
     public void delete(Ramal ramal) {
-       ramalRepository.delete(ramal);
+        ramalRepository.delete(ramal);
     }
 
 }

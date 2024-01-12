@@ -39,19 +39,24 @@ public class PessoaController {
 
 	@PostMapping
 	public ResponseEntity<Object> savePessoa(@RequestBody @Valid PessoaDtos pessoaDtos) {
-		
+
 		if (pessoaService.existsByEmail(pessoaDtos.getEmail())) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Email is already in use!");
 		}
-		// if (pessoaService.existsByCelular_corporativo(pessoaDtos.getCelular_corporativo())) {
-		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular corporativo is already in use!");
+		// if
+		// (pessoaService.existsByCelular_corporativo(pessoaDtos.getCelular_corporativo()))
+		// {
+		// return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular
+		// corporativo is already in use!");
 		// }
 		// if (pessoaService.existsByCelular_pessoal(pessoaDtos.getCelular_pessoal())) {
-		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular pessoal is already in use!");
+		// return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular
+		// pessoal is already in use!");
 		// }
 		// if (pessoaService.existsByTelefone(pessoaDtos.getTelefone())) {
-		// 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Telefone is already in use!");
-		// }	
+		// return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Telefone is
+		// already in use!");
+		// }
 
 		var pessoa = new Pessoa();
 		BeanUtils.copyProperties(pessoaDtos, pessoa);
@@ -59,16 +64,15 @@ public class PessoaController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(pessoaService.save(pessoa));
 	}
 
-	
 	@GetMapping
-	public ResponseEntity<List<Pessoa>> getAllPessoas(){
+	public ResponseEntity<List<Pessoa>> getAllPessoas() {
 		return ResponseEntity.status(HttpStatus.OK).body(pessoaService.findAll());
 	}
 
 	@GetMapping("/{id_pessoa}")
 	public ResponseEntity getOneUsuario(@PathVariable(value = "id_pessoa") UUID id_pessoa) {
 		Optional<Pessoa> pessoaOptional = pessoaService.findById(id_pessoa);
-		if(!pessoaOptional.isPresent()){
+		if (!pessoaOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pessoa not found.");
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(pessoaOptional.get());
@@ -77,17 +81,18 @@ public class PessoaController {
 	@DeleteMapping("/{id_pessoa}")
 	public ResponseEntity<Object> deletePessoa(@PathVariable(value = "id_pessoa") UUID id_pessoa) {
 		Optional<Pessoa> pessoaOptional = pessoaService.findById(id_pessoa);
-		if(!pessoaOptional.isPresent()){
+		if (!pessoaOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pessoa not found.");
 		}
 		pessoaService.delete(pessoaOptional.get());
 		return ResponseEntity.status(HttpStatus.OK).body("Pessoa deleted successfully.");
 	}
+
 	@PutMapping("/{id_pessoa}")
 	public ResponseEntity<Object> updatePessoa(@PathVariable(value = "id_pessoa") UUID id_pessoa,
-												@RequestBody @Valid PessoaDtos pessoaDtos) {
+			@RequestBody @Valid PessoaDtos pessoaDtos) {
 		Optional<Pessoa> pessoaOptional = pessoaService.findById(id_pessoa);
-		if(!pessoaOptional.isPresent()){
+		if (!pessoaOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pessoa not found.");
 		}
 

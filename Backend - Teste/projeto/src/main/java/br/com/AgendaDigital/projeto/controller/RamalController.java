@@ -24,7 +24,6 @@ import br.com.AgendaDigital.dtos.RamalDtos;
 import br.com.AgendaDigital.projeto.model.Ramal;
 import br.com.AgendaDigital.projeto.services.RamalService;
 
-
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/ramal")
@@ -70,7 +69,7 @@ public class RamalController {
 
 	@PutMapping("/{id_ramal}")
 	public ResponseEntity<Object> updateRamal(@PathVariable(value = "id_ramal") String id_ramal,
-												@RequestBody @Valid RamalDtos ramalDtos) {
+			@RequestBody @Valid RamalDtos ramalDtos) {
 		Optional<Ramal> ramalOptional = ramalService.findById(id_ramal);
 		if (!ramalOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ramal not found.");

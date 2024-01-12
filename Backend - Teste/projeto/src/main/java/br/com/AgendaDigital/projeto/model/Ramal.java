@@ -1,19 +1,22 @@
 package br.com.AgendaDigital.projeto.model;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Entity
-@Table (name = "ramal")
-public class Ramal implements Serializable{
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-	private static final long serialVersionUID = 1L; 
+@Entity
+@Table(name = "ramal")
+public class Ramal implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	private String numero_ramal;
-	
-//Getters and Setters
+
+	// Getters and Setters
 
 	public String getNumero_ramal() {
 		return numero_ramal;
@@ -23,7 +26,7 @@ public class Ramal implements Serializable{
 		this.numero_ramal = numero_ramal;
 	}
 
-    public void setRegistrationDate(LocalDateTime now) {
-    }
-	
+	public void setRegistrationDate(LocalDateTime now) {
+	}
+
 }

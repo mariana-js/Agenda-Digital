@@ -50,6 +50,6 @@ public class Setor_Ramal {
     }
 
     public void setRegistrationDate(LocalDateTime now) {
- }
+    }
 
 }

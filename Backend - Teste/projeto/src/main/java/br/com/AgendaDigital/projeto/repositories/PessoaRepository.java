@@ -1,13 +1,15 @@
 package br.com.AgendaDigital.projeto.repositories;
 
-import br.com.AgendaDigital.projeto.model.Pessoa;
+import java.util.UUID;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.UUID;
+
+import br.com.AgendaDigital.projeto.model.Pessoa;
 
 @Repository
 public interface PessoaRepository extends JpaRepository<Pessoa, UUID> {
-    
+
     boolean existsByEmail(String email);
 
     // boolean existsByCelular_corporativo(String celular_corporativo);
@@ -15,6 +17,5 @@ public interface PessoaRepository extends JpaRepository<Pessoa, UUID> {
     // boolean existsByCelular_pessoal(String celular_pessoal);
 
     // boolean existsByTelefone(String telefone);
-
 
 }

@@ -25,7 +25,6 @@ import br.com.AgendaDigital.dtos.Setor_RamalDtos;
 import br.com.AgendaDigital.projeto.model.Setor_Ramal;
 import br.com.AgendaDigital.projeto.services.Setor_RamalService;
 
-
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/setor_ramal")
@@ -71,7 +70,7 @@ public class Setor_RamalController {
 
 	@PutMapping("/{id_setor_ramal}")
 	public ResponseEntity<Object> updateSetor_Ramal(@PathVariable(value = "id_setor_ramal") UUID id_setor_ramal,
-												@RequestBody @Valid Setor_RamalDtos setor_RamalDtos) {
+			@RequestBody @Valid Setor_RamalDtos setor_RamalDtos) {
 		Optional<Setor_Ramal> setor_ramalOptional = setor_RamalService.findById(id_setor_ramal);
 		if (!setor_ramalOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Setor_ramal not found.");

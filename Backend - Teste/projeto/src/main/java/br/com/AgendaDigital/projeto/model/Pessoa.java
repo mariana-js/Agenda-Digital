@@ -3,41 +3,46 @@ package br.com.AgendaDigital.projeto.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table (name = "pessoa")
-public class Pessoa implements Serializable{
+@Table(name = "pessoa")
+public class Pessoa implements Serializable {
 
-	private static final long serialVersionUID = 1L; 
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id_pessoa;
-	
+
 	@Column(name = "nome_pessoa", length = 50, nullable = true)
 	private String nome_pessoa;
-	
+
 	@Column(name = "email", length = 50, nullable = true)
 	private String email;
-	
+
 	@Column(name = "celular_corporativo", length = 15, nullable = true)
 	private String celular_corporativo;
-	
+
 	@Column(name = "celular_pessoal", length = 15, nullable = false)
 	private String celular_pessoal;
-	
+
 	@Column(name = "telefone", length = 15, nullable = false)
 	private String telefone;
-	
+
 	@Column(name = "flag_privado", nullable = false)
 	private Boolean flag_privado;
-	
+
 	@Column(name = "flag_funcionario", nullable = false)
 	private Boolean flag_funcionario;
 
-	
-//Getters and setters
+	// Getters and setters
 	public UUID getId_pessoa() {
 		return id_pessoa;
 	}
@@ -102,7 +107,7 @@ public class Pessoa implements Serializable{
 		this.flag_funcionario = flag_funcionario;
 	}
 
-    public void setRegistrationDate(LocalDateTime now) {
-    }
+	public void setRegistrationDate(LocalDateTime now) {
+	}
 
 }

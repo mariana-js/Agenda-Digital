@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.AgendaDigital.dtos.EnderecoDtos;
 import br.com.AgendaDigital.projeto.model.Endereco;
-import br.com.AgendaDigital.projeto.model.Usuario;
 import br.com.AgendaDigital.projeto.services.EnderecoService;
 
 @RestController
