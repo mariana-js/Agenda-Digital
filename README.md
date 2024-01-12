@@ -28,8 +28,19 @@ Essa funcionalidade é uma ótima maneira de promover a integração entre os fu
 - Consulta a agenda do administrador: Ao consultar a agenda do administrador, serão exibidos todos os contatos na tabela. Ao clicar na linha da pessoa, será exibida outra tela contendo todos os seus meios de comunicação e endereço.
 
 - Consulta aos aniversariantes do mês: Ao consultar os aniversariantes do mês, serão exibidos todos os aniversariantes do mês atual.
-  
-## Configuração
+
+## Telas
+...
+
+## Stack utilizada
+
+**Front-end:** Angular
+
+**Back-end:** Spring Boot
+
+**Database:** PostgreSQL
+
+## Instalação
 
 ### Backend
 - Instalar: PostgreSQL e executar o script do banco na pasta 'Documents\Scripts Database' e copiar o script do arquivo 'bd.txt' no banco de dados, para a criação das tabelas.
@@ -39,13 +50,8 @@ Essa funcionalidade é uma ótima maneira de promover a integração entre os fu
 ### Front-end
 - Instalar Node.js
 
+## Autora
 
-
-## Stack utilizada
-
-**Front-end:** Angular
-
-**Back-end:** Spring Boot
-
-**Database:** PostgreSQL
+... Escrever sobre mim
+- [@mariana-js](https://www.github.com/mariana-js)
 
