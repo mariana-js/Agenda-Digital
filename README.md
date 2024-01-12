@@ -30,8 +30,14 @@ Essa funcionalidade é uma ótima maneira de promover a integração entre os fu
 - Consulta aos aniversariantes do mês: Ao consultar os aniversariantes do mês, serão exibidos todos os aniversariantes do mês atual.
   
 ## Configuração
+
+### Backend
 - Instalar: PostgreSQL e executar o script do banco na pasta 'Documents\Scripts Database' e copiar o script do arquivo 'bd.txt' no banco de dados, para a criação das tabelas.
 - Instalar o Maven na máquina, fazer download em 'https://maven.apache.org/download.cgi'.
+- Necessário o Java 17 instalado na máquina.
+
+### Front-end
+- Instalar Node.js
 
 
 
