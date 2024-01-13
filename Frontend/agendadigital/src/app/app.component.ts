@@ -9,7 +9,7 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 
-  template: `<h1>Hello world!</h1>`
+  template: `<h1>Agenda Digital</h1>`
 })
 export class AppComponent {
   title = 'homes';
