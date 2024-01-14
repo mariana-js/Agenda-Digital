@@ -7,11 +7,26 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
-
-  template: `<h1>Agenda Digital</h1>`
+  styleUrl: './app.component.css'
 })
-export class AppComponent {
-  title = 'homes';
+export class AppComponent  {
+
+  // qtddeContatos: number = 200;
+  // pessoa: any; implements OnInit
+
+  // constructor(
+  //   private pessoaService: PessoaService
+  // ) { }
+
+  // ngOnInit() {
+  //   this.pessoa.getPessoas().subscribe(
+  //     (data:any) => {
+  //       this.pessoa = data['pessoa'];
+
+  //     },
+  //     (error:any) => {
+  //       console.log(error);
+  //     })
+  // }
 
 }
