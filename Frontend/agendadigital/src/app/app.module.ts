@@ -6,7 +6,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
     AppComponent,
@@ -14,6 +15,8 @@ import { AppComponent } from './app.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: []
+
+  providers: [],
+  bootstrap: []
 })
 export class AppModule { }
