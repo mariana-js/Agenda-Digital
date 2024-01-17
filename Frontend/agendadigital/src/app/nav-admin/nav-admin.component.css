@@ -1,0 +1,17 @@
+.nav-admin{
+    background-color: aliceblue;
+    display: grid;
+    align-items: initial;
+
+    width: 15rem;
+    height: max-content;
+    text-align: left;
+
+
+    margin: 0;
+    justify-content: center;
+    align-content: center;
+    align-items: start;
+    justify-items: start;
+
+}
