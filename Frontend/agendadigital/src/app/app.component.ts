@@ -16,6 +16,7 @@ import { CadatrarPessoaComponent } from './principal/cadatrar-pessoa/cadatrar-pe
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
+    
     imports: [CommonModule, RouterOutlet, PrincipalComponent, HeadComponent, FooterComponent, NavAdminComponent, AdminComponent, SobreComponent, AniversariantesComponent, PessoaComponent, CadatrarPessoaComponent]
 })
 export class AppComponent  {
