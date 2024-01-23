@@ -1,17 +1,18 @@
-.nav-admin{
-    background-color: aliceblue;
+.nav-admin {
+    background-color: rgb(95, 127, 185);
+    color: white;
     display: grid;
-    align-items: initial;
-
-    width: 15rem;
-    height: max-content;
+    padding: 1rem 0 20rem 0;
+    width: 12rem;
     text-align: left;
+    margin: 0 4rem 0 0;
+    text-transform: capitalize;
+    height: auto;
+}
 
-
-    margin: 0;
-    justify-content: center;
-    align-content: center;
-    align-items: start;
-    justify-items: start;
-
+a {
+    margin: 0.7rem;
+    font-size: 1rem;
+    padding: 0 1rem;
+    font-family: 'Times New Roman', Times, serif;
 }
