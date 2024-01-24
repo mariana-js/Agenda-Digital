@@ -1,5 +1,0 @@
-package br.com.AgendaDigital.projeto.DAO;
-
-public interface IEndereco {
-
-}

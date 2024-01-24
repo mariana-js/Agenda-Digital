@@ -1,9 +1,0 @@
-package br.com.AgendaDigital.projeto.controller;
-
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-public class PessoaController {
-	@GetMapping("/pessoa")
-	
-}

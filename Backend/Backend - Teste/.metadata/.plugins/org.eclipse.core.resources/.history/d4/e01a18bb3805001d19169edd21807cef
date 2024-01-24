@@ -1,7 +1,0 @@
-package br.com.AgendaDigital.projeto.controller;
-
-
-public class PessoaController {
-	//@GetMapping("/pessoa")
-	
-}

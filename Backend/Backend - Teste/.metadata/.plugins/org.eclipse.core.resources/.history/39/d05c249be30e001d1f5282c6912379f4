@@ -1,9 +1,0 @@
-package br.com.AgendaDigital.projeto.DAO;
-
-import org.springframework.data.repository.CrudRepository;
-
-import br.com.AgendaDigital.projeto.model.Endereco;
-
-public interface IEndereco extends CrudRepository<Endereco, Long>{
-
-}

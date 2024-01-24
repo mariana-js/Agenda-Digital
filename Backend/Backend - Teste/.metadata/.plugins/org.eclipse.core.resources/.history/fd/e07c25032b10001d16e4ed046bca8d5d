@@ -1,9 +1,0 @@
-package br.com.AgendaDigital.projeto.inteface;
-
-import org.springframework.data.repository.CrudRepository;
-
-import br.com.AgendaDigital.projeto.model.Usuario;
-
-public interface IUsuario extends CrudRepository<Usuario, Long>{
-
-}
