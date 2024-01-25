@@ -1,3 +1,6 @@
 .pag{
-    display: inline-flex;
+    display:flex;
+}
+.area {
+  margin: 2.5rem;
 }
