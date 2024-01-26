@@ -15,6 +15,8 @@ body {
   /* Centraliza o texto */
   width: 45rem;
   font-size: 14px;
+  position: absolute;
+  align-items: center;
 }
 
 a {

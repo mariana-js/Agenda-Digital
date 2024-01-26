@@ -1,8 +1,8 @@
 .nav-admin {
-  background-color: rgb(95, 127, 185);
-  color: white;
+  background-color: rgb(227, 237, 255);
+  color: rgb(15, 29, 105);
   display: block;
-  width: 14.8rem;
+  width: 13.8rem;
   text-align: left;
   height: 45rem;
   z-index: 2;
@@ -11,7 +11,7 @@
 a {
   text-transform: capitalize;
   font-size: 1rem;
-  /* font-family: 'Times New Roman', Times, serif; */
+  
 }
 
 table tr {
@@ -23,8 +23,8 @@ table tr {
 }
 
 table tr:hover {
-  background-color: #ccc;
-  color: #000;
+  background-color: #628cca;
+  color: #ffffff;
   transition: background-color 0.5s;
 }
 
