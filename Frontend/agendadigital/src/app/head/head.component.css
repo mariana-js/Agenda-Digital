@@ -1,8 +1,9 @@
 .head {
   box-shadow: 0px 3px 3px rgb(125, 125, 126);
-  width: 85.32rem;
+  width: auto;
   position: relative; /* Posicione o menu como referência */
   z-index: 1;
+  height: 3.5rem;
 }
 .head,p {
   background-color: rgb(95, 127, 185);
