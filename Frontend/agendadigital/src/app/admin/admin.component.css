@@ -1,6 +1,50 @@
-.pag{
-    display:flex;
+.pag {
+  display: flex;
 }
+
 .area {
-  margin: 2.5rem;
+  margin: 2rem;
+  padding: 2rem;
+  display: block;
+  background-color: rgb(244, 244, 247);
+  border-radius: 0.3rem;
+  width: 50rem;
+  position: relative;
+}
+
+h2, h3, .add {
+  text-align: left;
+  font-size: 16px;
+  color: rgb(109, 109, 109);
+  margin-top: 2rem;
+}
+
+
+table {
+  margin: 0.5rem;
+  padding: 0rem;
+  background-color: white;
+  color: rgb(44, 43, 43);
+  display: grid;
+  border-radius: 0.2rem;
+  text-align: center;
+  border-spacing: 0.8rem;
+  border-collapse: separate;
+  width: max-content;
+
+}
+
+h3 {
+  font-size: 13px;
+  margin: 0;
+}
+
+.setor {
+  margin-top: -3rem;
+  display: grid;
+}
+
+.add {
+  margin: 0;
+  padding: 1rem;
 }

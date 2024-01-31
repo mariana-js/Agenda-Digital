@@ -4,20 +4,20 @@
   display: block;
   width: 13.8rem;
   text-align: left;
-  height: 45rem;
+  height: 50rem;
   z-index: 2;
 }
 
 a {
   text-transform: capitalize;
   font-size: 1rem;
-  
+
 }
 
 table tr {
   cursor: pointer;
   outline: none;
-  display:grid;
+  display: grid;
   padding: 0.3rem;
   margin: 0rem;
 }
@@ -26,6 +26,8 @@ table tr:hover {
   background-color: #628cca;
   color: #ffffff;
   transition: background-color 0.5s;
+  width: 13rem;
+
 }
 
 td {

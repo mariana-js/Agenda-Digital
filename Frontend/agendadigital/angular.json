@@ -23,8 +23,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/assets/img/*",
-              "src/assets/img/call.png"
+              "src/assets/Imagens/*"
             ],
             "styles": [
               "src/styles.css"
