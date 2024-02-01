@@ -5,9 +5,9 @@
 
   <DIV>
     <div class="area">
+      <h2>Setores</h2>
+      <div class="container">
 
-      <div class="setor">
-        <h2>Setores</h2>
         <table>
           <tr>
             <th>Setor</th>
@@ -33,18 +33,22 @@
 
         <div class="add">
           <h3>Setor</h3>
-          <form action="">
-            <label for="name">Setor</label>
-            <input type="text">
+
+          <form>
+            <label for="name" >Setor</label>
+            <input type="text" placeholder="Ex.: Orçamento">
             <label for="sigla">Sigla</label>
-            <input type="text">
+            <input type="text"placeholder="Ex.: OR">
+            <button> Salvar </button>
           </form>
-          <button>Salvar</button>
+
         </div>
 
       </div>
-      <div class="ramal">
-        <h2>Ramais</h2>
+
+      <h2 id="ramal">Ramais</h2>
+      <div class="container">
+
         <table>
           <tr>
             <th>Setor</th>
@@ -67,6 +71,26 @@
             <td>9012</td>
           </tr>
         </table>
+
+        <div class="add">
+          <h3>Ramal</h3>
+
+          <form>
+            <label for="name">Setor</label>
+
+            <select id="setores" name="setor">
+              <option value="opcao1">Selecionar setor</option>
+              <option value="opcao2">Orçamento</option>
+              <option value="opcao3">Financeiro</option>
+          </select>
+
+            <label for="ramal">Número</label>
+            <input type="text" placeholder="Ex.: 9090">
+            <button> Salvar </button>
+
+          </form>
+
+        </div>
       </div>
 
     </div><!-- Fim area -->
