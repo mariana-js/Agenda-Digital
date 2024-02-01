@@ -4,20 +4,24 @@
 
 .area {
   margin: 2rem;
-  padding: 2rem;
+  padding: 0.9rem;
   display: block;
-  background-color: rgb(244, 244, 247);
+  background-color: rgb(243, 243, 243);
   border-radius: 0.3rem;
   width: 50rem;
   position: absolute;
+}
 
+.area1 {
+  background-color: white;
+  padding: 1rem;
 }
 
 h2, h3, .add {
   text-align: left;
   font-size: 16px;
   color: rgb(109, 109, 109);
-  margin-top: 2rem;
+  margin-top: 0rem;
 }
 
 table {
@@ -29,8 +33,32 @@ table {
   border-radius: 0rem;
   text-align: center;
   border-spacing: 0.8rem;
-  border-collapse: separate;
+  border-collapse: collapse;
   width: max-content;
+
+}
+
+th,
+td {
+  border-top: solid 0.1rem rgb(224, 224, 224);
+  border-bottom: solid 0.1rem rgb(224, 224, 224);
+  padding: 0.5rem;
+  padding-right: 4rem;
+}
+
+td {
+  border-top: solid 0.1rem rgb(224, 224, 224);
+  padding: 0.5rem;
+  padding-right: 4rem;
+}
+
+tr:first-child {
+  border-top: 2px;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+  /* Altera a cor de fundo ao passar o mouse sobre a linha */
 }
 
 h3 {
@@ -43,15 +71,13 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  /* border: solid 0.1rem #c9c9c9 ;
 
-  border-radius: 0.5rem; */
 }
 
 .add {
   margin: 0;
   padding: 1rem;
-
+  border: solid 0.1rem rgb(224, 224, 224);
 }
 
 form {
@@ -60,12 +86,17 @@ form {
 }
 
 input {
-  border: none;
-  margin: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  margin: 0.8rem;
   border-radius: 0.4rem;
   width: auto;
-}
+  outline: none;
 
+}
+input:focus {
+  border: 1px solid blue;
+}
 button {
   border: none;
   border-radius: 0.2rem;
@@ -77,11 +108,14 @@ button {
   align-items: center;
   justify-content: center;
 }
+
 select {
   padding: 0.1rem;
   font-size: 13px;
-  border: 1px solid #ccc;
+  border: 1px solid blue;
   border-radius: 0.5rem;
+  margin: 0.5rem;
+  
 }
 
 /* Estilizando as opções da caixa de seleção */
