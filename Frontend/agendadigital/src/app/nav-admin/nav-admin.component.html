@@ -2,7 +2,13 @@
   <table>
     <tbody>
       <tr>
-        <td><img src="assets/Imagens/home-b.png" alt="home"><a>Home</a></td>
+        <td><img src="assets/Imagens/home-b.png"
+          alt="home"
+          (mouseover)="changeImage('assets/Imagens/home.png')"
+          (mouseout)="changeImage('assets/Imagens/home.png')"
+          >
+          <a>Home</a>
+        </td>
       </tr>
       <tr>
         <td><img src="assets/Imagens/setor.png" alt="setor"><a>Setor</a></td>
