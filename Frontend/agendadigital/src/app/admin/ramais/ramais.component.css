@@ -17,11 +17,10 @@ h2, h3, .add {
     border-spacing: 0.8rem;
     border-collapse: collapse;
     width: max-content;
-  
   }
   
-  th,
-  td {
+
+  th, td {
     border-top: solid 0.1rem rgb(224, 224, 224);
     border-bottom: solid 0.1rem rgb(224, 224, 224);
     padding: 0.5rem;
