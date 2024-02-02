@@ -12,6 +12,7 @@
 a {
   text-transform: capitalize;
   font-size: 1rem;
+  padding-left: 0.5rem;
 }
 
 table tr {

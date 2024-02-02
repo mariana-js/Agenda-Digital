@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PrincipalComponent } from "../principal/principal.component";
 import { CadatrarPessoaComponent } from "../principal/cadatrar-pessoa/cadatrar-pessoa.component";
+
 @Component({
   selector: 'app-nav-admin',
   standalone: true,
@@ -9,11 +10,11 @@ import { CadatrarPessoaComponent } from "../principal/cadatrar-pessoa/cadatrar-p
   imports: [PrincipalComponent, CadatrarPessoaComponent]
 })
 export class NavAdminComponent {
+
   imagePath: string = 'assets/Imagens/home-b.png';
 
   changeImage(newImagePath: string): void {
     this.imagePath = newImagePath;
   }
-
 
 }
