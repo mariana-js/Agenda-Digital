@@ -1,1 +1,124 @@
-<p>cadatrar-contato works!</p>
+<div class="Inicio">
+    <form action="/pessoa" method="POST" enctype="multipart/form-data">
+        <h2>Adicionar Contato</h2>
+        <fieldset>
+
+            <div class="field-group">
+                <legend>
+                    <h2>Dados da Entidade</h2>
+                </legend>
+                <div class="field-chekbox">
+                    <input type="checkbox" name="box_private">
+                    <label for="box-private">Privado</label>
+                </div>
+
+                <div class="field-chekbox">
+                    <input id="box_fun" type="checkbox" name="box_fun">
+                    <label for="box-funcionario">Funcionario</label>
+                </div>
+
+
+            </div>
+
+            <div class="field">
+                <label for="name">Nome</label>
+                <input type="text" name="name" required>
+            </div>
+
+            <div class="field">
+                <label for="mail">E-mail</label>
+                <input type="text" name="mail" required>
+            </div>
+
+            <div class="field-group">
+                <div class="field">
+                    <label for="cel">Número/Celular</label>
+                    <input type="tel" name="cel" required>
+                </div>
+                <div class="field">
+                    <label for="cel-corp">Número/Empresarial</label>
+                    <input type="tel" name="cel_corp" required>
+                </div>
+            </div>
+
+            <div class="field-group">
+                <div class="field">
+                    <label for="date">Data/Nascimento</label>
+                    <input type="date" name="date">
+                </div>
+                <div class="field">
+                    <label for="Imagem">Foto</label>
+                    <input type="file" name="photo_image" alt="submit">
+                    <!-- <textarea name="area" cols="50" rows="10"></textarea> -->
+                </div>
+            </div>
+
+            <div class="field-group">
+                <div class="field">
+                    <label for="sector">Setor</label>
+                    <select name="sector" required onchange disabled>
+                        <option value=""> Selecione o Setor </option>                       
+                        <option value="s1">Orçamento</option>
+                        <option value="s2">Tecnologia da Informação</option>
+                        <option value="s3">Juridico</option>
+
+                    </select>
+
+                </div>
+
+                <div class="field">
+                    <label for="Ramal">Ramal</label>
+                    <select name="ramal" required onchange disabled>
+                        <option value=""> Selecione o Ramal </option>
+                        <option value="r1">9090</option>
+                        <option value="r2">9030</option>
+                        <option value="r3">9020</option>
+                        <option value="r4">9010</option>
+                    </select>
+
+                </div>
+            </div>
+
+        </fieldset>
+
+        <fieldset>
+
+            <legend>
+                <h2>Dados do Endereço</h2>
+            </legend>
+
+            <div class="field-group">
+                <div class="field">
+                    <label for="state">Estado</label>
+                    <select name="uf">
+                        <option value=""> Selecione o Estado</option>
+                    </select>
+
+                    <input type="hidden" name="state">
+
+                </div>
+
+                <div class="field">
+                    <label for="city">Cidade</label>
+                    <select name="city" disabled required>
+                        <option value="">Selecione a Cidade</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="field-group">
+                <div class="field">
+                    <label for="cep">CEP</label>
+                    <input type="text" name="cep">
+                </div>
+                <div class="field">
+                    <label for="bairro">Logadouro</label>
+                    <input type="text" name="addresss">
+                </div>
+            </div>
+
+        </fieldset>
+
+        <button type="submit" value="submit">Cadastrar</button>
+
+    </form>
