@@ -26,6 +26,17 @@ public class Usuario implements Serializable {
 	@Column(name = "nome", length = 10, nullable = true)
 	private String nome;
 
+	@Column(name = "nivel", length = 10, nullable = true)
+	private String nivel;
+
+	public String getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(String nivel) {
+		this.nivel = nivel;
+	}
+
 	@Column(name = "senha", columnDefinition = "TEXT", nullable = true)
 	private String senha;
 
