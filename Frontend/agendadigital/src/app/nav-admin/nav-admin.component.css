@@ -1,11 +1,12 @@
 .nav-admin {
-  background-color: rgb(223, 227, 231);
+  background-color: rgb(212, 222, 245);
   color: rgb(15, 29, 105);
   display: block;
   width: 13.8rem;
   text-align: left;
   height: 70rem;
   z-index: 2;
+  
 }
 
 a {
@@ -31,5 +32,7 @@ table tr:hover {
 
 td {
   margin: 0.7rem;
-  display: inline;
+
+  display: inline-flex;
+  align-items: flex-end;
 }
