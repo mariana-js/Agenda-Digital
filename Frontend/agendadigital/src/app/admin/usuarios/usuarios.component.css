@@ -1,0 +1,107 @@
+
+h2, h3, .add {
+    text-align: left;
+    font-size: 16px;
+    color: rgb(109, 109, 109);
+    margin-top: 0rem;
+  }
+  
+  table {
+    margin: 0rem;
+    padding: 0rem;
+    background-color: white;
+    color: rgb(44, 43, 43);
+    display: grid;
+    border-radius: 0rem;
+    text-align: center;
+    border-spacing: 0.8rem;
+    border-collapse: collapse;
+    width: max-content;
+  
+  }
+  
+  th,
+  td {
+    border-top: solid 0.1rem rgb(224, 224, 224);
+    border-bottom: solid 0.1rem rgb(224, 224, 224);
+    padding: 0.5rem;
+    padding-right: 4rem;
+  }
+  
+  td {
+    border-top: solid 0.1rem rgb(224, 224, 224);
+    padding: 0.5rem;
+    padding-right: 4rem;
+  }
+  
+  tr:first-child {
+    border-top: 2px;
+  }
+  
+  tr:hover {
+    background-color: #f5f5f5;
+    /* Altera a cor de fundo ao passar o mouse sobre a linha */
+  }
+  
+  h3 {
+    font-size: 13px;
+    margin: 0;
+  }
+  
+  .container {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  
+  }
+  
+  .add {
+    margin: 0;
+    padding: 1rem;
+    border: solid 0.1rem rgb(224, 224, 224);
+  }
+  
+  form {
+    display: grid;
+    padding: 1rem 0.1rem 1rem 0.1rem;
+  }
+  
+  input {
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    margin: 0.8rem;
+    border-radius: 0.4rem;
+    width: auto;
+    outline: none;
+  
+  }
+  input:focus {
+    border: 1px solid blue;
+  }
+  button {
+    border: none;
+    border-radius: 0.2rem;
+    background-color: rgb(95, 127, 185);
+    color: white;
+    cursor: pointer;
+    padding: 0.1rem;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  select {
+    padding: 0.1rem;
+    font-size: 13px;
+    border: 1px solid blue;
+    border-radius: 0.5rem;
+    margin: 0.5rem;
+    color:rgb(109, 109, 109);
+  }
+  
+  /* Estilizando as opções da caixa de seleção */
+  option {
+    background-color: #f8f8f8;
+    color:rgb(109, 109, 109);
+  }
