@@ -10,7 +10,6 @@ import { SobreComponent } from './sobre/sobre.component';
 import { AniversariantesComponent } from './principal/aniversariantes/aniversariantes.component';
 import { PessoaComponent } from './principal/pessoa/pessoa.component';
 import { CadatrarPessoaComponent } from './principal/cadatrar-pessoa/cadatrar-pessoa.component';
-
 @Component({
     selector: 'app-root',
     standalone: true,
