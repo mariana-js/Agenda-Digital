@@ -11,7 +11,7 @@ describe('CadatrarContatoComponent', () => {
       imports: [CadatrarContatoComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(CadatrarContatoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -21,3 +21,4 @@ describe('CadatrarContatoComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
