@@ -52,6 +52,9 @@
         .then(res => res.json())
         .then(states => {
 
+          // Organizando os estados em ordem alfabética pelo nome
+          states.sort((a, b) => a.nome.localeCompare(b.nome));
+
           for (const state of states) {
             ufselect.innerHTML += `<option value="${state.id}">${state.nome}</option>`
           }
@@ -112,7 +115,6 @@
         const itemFound = item == itemId
         return itemFound
       })
-
       //se ja estiver selecionado, tirar da selcao
       // se nao estiver selecionado,adicionar á selácao
       //atualizar o campo escondido com os itens selecionados
