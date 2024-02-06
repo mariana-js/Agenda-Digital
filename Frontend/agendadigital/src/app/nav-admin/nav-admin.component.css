@@ -6,7 +6,6 @@
   text-align: left;
   height: 70rem;
   z-index: 2;
-  
 }
 
 a {
@@ -21,19 +20,19 @@ table tr {
   display: grid;
   padding: 0.3rem;
   margin: 0rem;
+  
 }
 
 table tr:hover {
-  background-color: #628cca;
-  color: #ffffff;
+  background-color: #c0d2ec;
+  /* color: #ffffff; */
   transition: background-color 0.5s;
   width: 13rem;
-
+  font-weight: 600;
 }
 
 td {
   margin: 0.7rem;
-
   display: inline-flex;
   align-items: flex-end;
 }
