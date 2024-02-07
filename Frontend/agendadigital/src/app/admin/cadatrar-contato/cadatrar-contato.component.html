@@ -21,7 +21,7 @@
           <label for="name">Nome</label>
           <input type="text" name="name" required>
         </div>
-  
+
       </div>
 
       <div class="field-group">
@@ -31,24 +31,24 @@
         </div>
         <div class="field">
           <label for="cel-corp">Telefone</label>
-          <input type="tel" name="tel" required>
+          <input type="tel" name="tel" required  data-mask="(00) 0000-0000" data-mask-selectonfocus="true">
         </div>
       </div>
-     
+
       <div class="field-group">
         <div class="field">
           <label for="cel">Celular Corporativo</label>
-          <input type="tel" name="cel" required>
+          <input  type="tel" name="cel" required>
         </div>
         <div class="field">
           <label for="cel-corp">Celular Pessoal</label>
-          <input type="tel" name="cel_corp" required>
+          <input data-mask="(00) 0000-0000" data-mask-selectonfocus="true" type="tel" name="cel_corp" required>
         </div>
 
       </div>
 
       <div class="field-group">
-        
+
         <div class="field">
           <label for="date">Data de Nascimento</label>
           <input type="date" name="date">
@@ -125,7 +125,7 @@
 
       <div class="field-group">
 
-        
+
         <div class="field">
           <label for="bairro">Logradouro</label>
           <input type="text" name="addresss">

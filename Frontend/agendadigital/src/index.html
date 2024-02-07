@@ -21,6 +21,19 @@
 <body>
   <app-root></app-root>
 
+  <!-- Mascara celular -->
+  <script>
+    $(document).ready(function () {
+      $('#tel').mask('(00) 00000-0000');
+    });
+    $(document).ready(function () {
+      $('#cel').mask('(00) 00000-0000');
+    });
+    $(document).ready(function () {
+      $('#cel_corp').mask('(00) 00000-0000');
+    });
+  </script>
+
   <!-- Checkbox -->
   <script>
     const checkbox = document.getElementById('box_fun')
