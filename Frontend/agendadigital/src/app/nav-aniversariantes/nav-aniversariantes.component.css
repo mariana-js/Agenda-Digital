@@ -16,11 +16,13 @@ nav {
   width: max-content;
   height: max-content;
   background-color: burlywood;
+  display: block;
+  position: absolute;
 }
 
 h1{
   text-align: center;
-  
+
 }
 
 
