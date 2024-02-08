@@ -1,27 +1,79 @@
 nav {
   display: flex;
   position: relative;
-  margin: 1rem;
-  margin-bottom: -2rem;
-  justify-content: center;
-}
+  margin: 3.5rem 5rem 0 3rem;
+  justify-content: left;
 
-nav img {
-  max-width: 4rem;
-  max-height: 4rem;
-  width: auto;
-  height: auto;
+  flex: 0 0 auto; /* Isso faz com que a navegação não seja flexível e mantenha seu tamanho original */
+
+  width: min-content;
+  height: min-content;
+
+  background-color: brown;
 }
 
 .container {
-  background-color: rgb(255, 255, 142);
-  border-radius: 1rem;
-  padding: 0.5rem 1rem 0.2rem 1rem;
-
+  width: max-content;
+  height: max-content;
+  background-color: burlywood;
 }
 
-.container h1 {
-  color: rgb(80, 80, 243);
-  font-size: 1rem;
+h1{
   text-align: center;
+  
+}
+
+
+.image-container {
+  margin: 0.4rem;
+  border: 1px solid #0026ff; /* Borda vermelha de 2px */
+  width: 3rem; /* Largura do contêiner da imagem */
+  height: 3rem; /* Altura do contêiner da imagem */
+  border-radius: 50%; /* Define as bordas como redondas (círculo) */
+  overflow: hidden; /* Oculta qualquer parte da imagem que exceda o contêiner */
+}
+
+.image-container img {
+  width: 100%; /* Ajusta a largura da imagem para preencher o contêiner */
+  height: 100%; /* Ajusta a altura da imagem para preencher o contêiner */
+  object-fit: cover; /* Faz a imagem preencher o contêiner sem distorcer */
+}
+
+img{
+  width: 100%; /* Ajusta a largura da imagem para preencher o contêiner */
+  height: 100%;
+}
+
+table{
+  width: 12rem;
+  height: max-content;
+  margin: 1rem;
+}
+
+.aniversariante {
+  background-color: rgb(157, 180, 255);
+  outline: none;
+  padding: 0.5rem 1rem 0.1rem 1rem;
+  width: auto;
+  margin: 0;
+}
+
+td{
+  margin: 0;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  width: 17rem;
+}
+tr{
+  word-wrap: none;
+  border-radius: 4rem;
+}
+
+.aniversariante span {
+  color: rgb(80, 80, 243);
+  font-size: 0.8rem;
+  text-align: left;
+  padding: 0 0.3rem;
+  font-weight: bold;
 }
