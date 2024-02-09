@@ -5,24 +5,29 @@ nav {
   justify-content: left;
 
   flex: 0 0 auto; /* Isso faz com que a navegação não seja flexível e mantenha seu tamanho original */
-
   width: min-content;
   height: min-content;
+}
 
-  background-color: brown;
+.aniversariante td {
+  border-radius: 2rem;
+  background-color: rgb(219, 222, 235);
 }
 
 .container {
   width: max-content;
   height: max-content;
-  background-color: burlywood;
+  background-color: rgb(244, 244, 247);
   display: block;
   position: absolute;
+  border-radius: 0.4rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 h1{
   text-align: center;
-
+  font-size: 1rem;
+  color: #8a9cff;
 }
 
 
@@ -47,13 +52,12 @@ img{
 }
 
 table{
-  width: 12rem;
+  width: max-content;
   height: max-content;
   margin: 1rem;
 }
 
 .aniversariante {
-  background-color: rgb(157, 180, 255);
   outline: none;
   padding: 0.5rem 1rem 0.1rem 1rem;
   width: auto;
@@ -65,15 +69,15 @@ td{
   display: inline-flex;
   flex-direction: row;
   align-items: center;
-  width: 17rem;
+  width: 13rem;
 }
+
 tr{
   word-wrap: none;
-  border-radius: 4rem;
 }
 
 .aniversariante span {
-  color: rgb(80, 80, 243);
+  color: #0026ff;
   font-size: 0.8rem;
   text-align: left;
   padding: 0 0.3rem;
