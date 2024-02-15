@@ -2,53 +2,23 @@ nav {
   display: flex;
   position: relative;
   margin: 3.5rem 5rem 0 3rem;
-  justify-content: left;
 
-  flex: 0 0 auto; /* Isso faz com que a navegação não seja flexível e mantenha seu tamanho original */
+ /* Isso faz com que a navegação não seja flexível e mantenha seu tamanho original */
   width: min-content;
   height: min-content;
 }
-
-.aniversariante td {
-  border-radius: 2rem;
-  background-color: rgb(219, 222, 235);
-}
-
 .container {
   width: max-content;
   height: max-content;
   background-color: rgb(244, 244, 247);
-  display: block;
   position: absolute;
   border-radius: 0.4rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 h1{
   text-align: center;
   font-size: 1rem;
   color: #8a9cff;
-}
-
-
-.image-container {
-  margin: 0.4rem;
-  border: 1px solid #0026ff; /* Borda vermelha de 2px */
-  width: 3rem; /* Largura do contêiner da imagem */
-  height: 3rem; /* Altura do contêiner da imagem */
-  border-radius: 50%; /* Define as bordas como redondas (círculo) */
-  overflow: hidden; /* Oculta qualquer parte da imagem que exceda o contêiner */
-}
-
-.image-container img {
-  width: 100%; /* Ajusta a largura da imagem para preencher o contêiner */
-  height: 100%; /* Ajusta a altura da imagem para preencher o contêiner */
-  object-fit: cover; /* Faz a imagem preencher o contêiner sem distorcer */
-}
-
-img{
-  width: 100%; /* Ajusta a largura da imagem para preencher o contêiner */
-  height: 100%;
 }
 
 table{
@@ -64,22 +34,61 @@ table{
   margin: 0;
 }
 
-td{
-  margin: 0;
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  width: 13rem;
-}
-
-tr{
+.aniversariante td {
+  border-radius: 2rem;
+  background-color: rgb(219, 222, 235);
+  display: grid;
+  padding: 0.3rem;
+  width: 8rem;
+  margin: 0.1rem;
   word-wrap: none;
 }
 
-.aniversariante span {
+.aniversariante .dt-aniversario {
+  text-align: right;
+  margin: 0 0.8rem 0  0 ;
+  font-size: 0.8rem;
+  font-weight: bold;
+  background-color: #8393f1;
+  width: min-content;
+}
+
+.aniversariante .aniversariante-descricao .image-container img{
+  justify-content: center;
+  justify-items: center;
+
+}
+
+.aniversariante .nome {
   color: #0026ff;
   font-size: 0.8rem;
-  text-align: left;
-  padding: 0 0.3rem;
   font-weight: bold;
+}
+
+.aniversariante .aniversariante-descricao {
+  display: grid;
+  text-align: center;
+  padding: 0 0.3rem;
+}
+
+.image-container {
+  margin: 0.4rem;
+  border: 1px solid #0026ff; /* Borda vermelha de 2px */
+  width: 3rem; /* Largura do contêiner da imagem */
+  height: 3rem; /* Altura do contêiner da imagem */
+  border-radius: 50%; /* Define as bordas como redondas (círculo) */
+  overflow: hidden; /* Oculta qualquer parte da imagem que exceda o contêiner */
+}
+
+.image-container img {
+
+  width: 100%; /* Ajusta a largura da imagem para preencher o contêiner */
+  height: 100%; /* Ajusta a altura da imagem para preencher o contêiner */
+  object-fit: cover; /* Faz a imagem preencher o contêiner sem distorcer */
+}
+
+img{
+  width: 100%; /* Ajusta a largura da imagem para preencher o contêiner */
+  height: 100%;
+
 }
