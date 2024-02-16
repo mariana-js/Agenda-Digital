@@ -2,7 +2,7 @@ nav {
   display: flex;
   position: relative;
   margin: 3.5rem 5rem 0 3rem;
-
+  margin-bottom: 50rem;
  /* Isso faz com que a navegação não seja flexível e mantenha seu tamanho original */
   width: min-content;
   height: min-content;
@@ -13,12 +13,14 @@ nav {
   background-color: rgb(244, 244, 247);
   position: absolute;
   border-radius: 0.4rem;
+  padding: 0.6rem;
 }
 
 h1{
   text-align: center;
   font-size: 1rem;
   color: #8a9cff;
+  margin:0.1rem;
 }
 
 table{
@@ -34,6 +36,11 @@ table{
   margin: 0;
 }
 
+.aniversariante div {
+  justify-content: center;
+  justify-items: center;
+}
+
 .aniversariante td {
   border-radius: 2rem;
   background-color: rgb(219, 222, 235);
@@ -42,33 +49,41 @@ table{
   width: 8rem;
   margin: 0.1rem;
   word-wrap: none;
+  justify-content: center;
+  justify-items: center;
+  margin-bottom: 0.5rem;
 }
 
-.aniversariante .dt-aniversario {
-  text-align: right;
-  margin: 0 0.8rem 0  0 ;
+.dt-aniversario {
+  text-align:left;
+  margin: 0 0.8rem 0  0;
   font-size: 0.8rem;
   font-weight: bold;
   background-color: #8393f1;
   width: min-content;
-}
-
-.aniversariante .aniversariante-descricao .image-container img{
-  justify-content: center;
-  justify-items: center;
-
+  display: flex;
 }
 
 .aniversariante .nome {
   color: #0026ff;
   font-size: 0.8rem;
   font-weight: bold;
+  margin: 0.1rem; /* Adiciona um pequeno espaçamento */
+}
+
+.aniversariante .descricao{
+  font-size: 0.9rem;
+  color: rgb(65, 67, 71);
+  font-weight: 300;
 }
 
 .aniversariante .aniversariante-descricao {
   display: grid;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
   text-align: center;
-  padding: 0 0.3rem;
+  padding: 0.1rem;
+  margin: 0rem;
 }
 
 .image-container {
