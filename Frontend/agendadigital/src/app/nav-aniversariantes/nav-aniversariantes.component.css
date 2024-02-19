@@ -6,7 +6,9 @@ nav {
  /* Isso faz com que a navegação não seja flexível e mantenha seu tamanho original */
   width: min-content;
   height: min-content;
+
 }
+
 .container {
   width: max-content;
   height: max-content;

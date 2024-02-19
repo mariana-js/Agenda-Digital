@@ -82,3 +82,25 @@ input {
 input:focus {
   border: 1px solid blue;
 }
+
+.image {
+  margin: 0.4rem;
+  border: 1px solid #0026ff; /* Borda vermelha de 2px */
+  width: 0.3rem; /* Largura do contêiner da imagem */
+  height: 0.3rem; /* Altura do contêiner da imagem */
+  border-radius: 50%; /* Define as bordas como redondas (círculo) */
+  overflow: hidden; /* Oculta qualquer parte da imagem que exceda o contêiner */
+}
+
+.image {
+
+  width: 100%; /* Ajusta a largura da imagem para preencher o contêiner */
+  height: 100%; /* Ajusta a altura da imagem para preencher o contêiner */
+  object-fit: cover; /* Faz a imagem preencher o contêiner sem distorcer */
+}
+
+img{
+  width: 3rem; /* Ajusta a largura da imagem para preencher o contêiner */
+  height: 3rem;
+
+}
