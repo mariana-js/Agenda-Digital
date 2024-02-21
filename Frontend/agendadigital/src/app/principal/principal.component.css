@@ -20,26 +20,32 @@ table {
   padding: 0.2rem;
   background-color: white;
   color: rgb(44, 43, 43);
-  display: grid;
+  display: inline-table;
   border-radius: 0.2rem;
   text-align: center;
   border-spacing: 20px;
   border-collapse: collapse;
   align-content: center;
   align-items: center;
-  width: max-content;
+  width: 40rem;
+}
+
+.nome {
+  justify-items: left;
+  display: flex;
+  justify-content: center;
 }
 
 th {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-
+  padding: 0.3rem;
 }
 tr:first-child {
   border-top: 2px;
 }
 
 tr:hover {
-  background-color: #f5f5f5;
+  background-color: #f3f5ff;
   /* Altera a cor de fundo ao passar o mouse sobre a linha */
 }
 td {
@@ -83,24 +89,9 @@ input:focus {
   border: 1px solid blue;
 }
 
-.image {
-  margin: 0.4rem;
-  border: 1px solid #0026ff; /* Borda vermelha de 2px */
-  width: 0.3rem; /* Largura do contêiner da imagem */
-  height: 0.3rem; /* Altura do contêiner da imagem */
-  border-radius: 50%; /* Define as bordas como redondas (círculo) */
-  overflow: hidden; /* Oculta qualquer parte da imagem que exceda o contêiner */
-}
-
-.image {
-
-  width: 100%; /* Ajusta a largura da imagem para preencher o contêiner */
-  height: 100%; /* Ajusta a altura da imagem para preencher o contêiner */
-  object-fit: cover; /* Faz a imagem preencher o contêiner sem distorcer */
-}
-
 img{
   width: 3rem; /* Ajusta a largura da imagem para preencher o contêiner */
   height: 3rem;
-
+  object-fit: cover;
+  padding: 0rem;
 }

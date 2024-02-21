@@ -57,13 +57,19 @@ table{
 }
 
 .dt-aniversario {
-  text-align:left;
-  margin: 0 0.8rem 0  0;
-  font-size: 0.8rem;
+  text-align: right;
+  margin: 0;
+  padding: 0.2rem;
+  font-size: 0.7rem;
   font-weight: bold;
-  background-color: #8393f1;
   width: min-content;
   display: flex;
+
+  background-color: #a6c1d1;
+  color: #1536f0;
+
+  border-radius: 0.5rem;
+
 }
 
 .aniversariante .nome {
