@@ -19,13 +19,16 @@ public class Endereco implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id_endereco; 
+	private UUID id_endereco;
 
 	@Column(name = "id_pessoa", nullable = false)
 	private UUID id_pessoa;
 
 	@Column(name = "logradouro", length = 40, nullable = false)
 	private String logradouro;
+
+	@Column(name = "numero", length = 5, nullable = false)
+	private String numero;
 
 	@Column(name = "bairro", length = 40, nullable = false)
 	private String bairro;
@@ -43,6 +46,14 @@ public class Endereco implements Serializable {
 	private String estado;
 
 	// Getters and Setters
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
 
 	public void setRegistrationDate(LocalDateTime now) {
 	}
