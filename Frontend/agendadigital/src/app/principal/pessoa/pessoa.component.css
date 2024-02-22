@@ -1,14 +1,25 @@
 nav {
   display: inline-table;
+  justify-content: center;
 }
 
 .pagina-pessoa {
-  margin: 3rem 0 0 13rem;
-  display: flexbox;
+  margin: 2rem 4rem;
+  display: flex;
   position: absolute;
-
   width: max-content;
   height: min-content;
+
+  padding: 1rem;
+  background-color: #d0d3e4;
+
+  flex-direction: column;
+  align-items: baseline;
+}
+/* Mantenha suas outras regras CSS */
+
+.title-contact.custom-color {
+  background-color: #5a4915; /* Cor de fundo personalizada para a tabela */
 }
 
 .title-contact {
@@ -16,11 +27,17 @@ nav {
 }
 
 .title-contact table {
-  width: 50rem;
+  width: max-content;
   height: min-content;
   display: table;
 }
 
+.title-contact td, .title-contact th {
+  border: none;
+  background-color:  #d0d3e4;
+  padding: 0 1rem;
+
+}
 
 .informacoes {
   display: grid;
@@ -36,19 +53,21 @@ nav {
 
 .title-contact h1 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #2c3257;  white-space: nowrap;
 }
 
 .image-container img {
   width: 5.5rem;
   height: 5.5rem;
-  margin-left: 15rem;
-  border: 1px solid #0026ff;
+  margin-left: 14rem;
+  border: 1px solid #6876b6;
   /* Borda vermelha de 2px */
   border-radius: 50%;
   /* Define as bordas como redondas (círculo) */
   overflow: hidden;
   /* Oculta qualquer parte da imagem que exceda o contêiner */
-  object-fit: cover; /* Faz a imagem preencher o contêiner sem distorcer */
+  object-fit: cover;
+  /* Faz a imagem preencher o contêiner sem distorcer */
 }
 
 img {
@@ -56,10 +75,37 @@ img {
   height: 100%;
 }
 
-
 table {
-  width: 40rem;
+  margin-bottom: 1rem;
+  width: 32rem;
   height: min-content;
+  border-collapse: collapse;
+}
 
-  
+td, th {
+  border: 0.5px solid rgb(190, 205, 238);
+  padding: 0.25rem;
+}
+
+th {
+  background-color: #6876b6;
+  /* Cor de fundo do cabeçalho */
+  color: white;
+  /* Cor do texto do cabeçalho */
+  font-size: 14px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+  /* Cor de fundo das linhas pares */
+}
+
+tr:nth-child(odd) {
+  background-color: #ffffff;
+  /* Cor de fundo das linhas ímpares */
+}
+
+h6 {
+  font-size: 0.9rem;
+  margin: 0;
 }
