@@ -41,6 +41,4 @@ a {
 
 .container {
   display: flex;
-  justify-content: center;
-  flex-direction: row;
 }
