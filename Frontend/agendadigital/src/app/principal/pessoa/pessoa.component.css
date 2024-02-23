@@ -3,7 +3,11 @@ nav {
   justify-content: center;
   position: relative;
 }
-
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
 .pagina-pessoa {
   margin: 1.5rem 5rem 4rem 4rem;
   display: flex;
