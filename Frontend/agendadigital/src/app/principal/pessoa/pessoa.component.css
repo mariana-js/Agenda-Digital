@@ -1,12 +1,13 @@
 nav {
-  display: inline-table;
+  display:flex;
   justify-content: center;
+  position: relative;
 }
 
 .pagina-pessoa {
-  margin: 2rem 4rem;
+  margin: 1.5rem 5rem 4rem 4rem;
   display: flex;
-  position: absolute;
+  position: relative;
   width: max-content;
   height: min-content;
 
@@ -14,8 +15,9 @@ nav {
   background-color: #d0d3e4;
 
   flex-direction: column;
-  align-items: baseline;
+  align-items: center;
 }
+
 /* Mantenha suas outras regras CSS */
 
 .title-contact.custom-color {

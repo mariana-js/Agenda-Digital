@@ -1,13 +1,15 @@
 .head {
   box-shadow: 0px 3px 3px rgb(125, 125, 126);
   width: 100%;
-  position: relative; /* Posicione o menu como referência */
+  position: relative;
+  /* Posicione o menu como referência */
   z-index: 1;
   height: 3.5rem;
   display: flex;
   flex: 1;
 }
-.head,p {
+
+.head, p {
   background-color: rgb(95, 127, 185);
   margin: 0;
   padding: 0.4rem 0;
@@ -34,9 +36,11 @@ a {
   font-size: 14px;
   display: inline-flexbox;
   color: white;
-  text-transform:capitalize;
+  text-transform: capitalize;
 }
 
 .container {
   display: flex;
+  justify-content: center;
+  flex-direction: row;
 }

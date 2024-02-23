@@ -5,11 +5,12 @@
 .area {
   margin: 2rem;
   padding: 0.9rem;
-  display: block;
+  display: flex;
   background-color: rgb(243, 243, 243);
   border-radius: 0.3rem;
   width: 50rem;
-  position: absolute;
+  position: relative;
+  justify-content: center;
 }
 
 .area1 {
