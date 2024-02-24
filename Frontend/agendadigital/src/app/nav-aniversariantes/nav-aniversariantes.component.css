@@ -1,19 +1,17 @@
 nav {
   display: flex;
   position: relative;
-  margin: 3.5rem 5rem 0 3rem;
-  margin-bottom: 50rem;
+  margin: 3.2rem 3rem 5rem 3rem;
  /* Isso faz com que a navegação não seja flexível e mantenha seu tamanho original */
   width: min-content;
   height: min-content;
-
 }
 
 .container {
   width: max-content;
   height: max-content;
   background-color: rgb(244, 244, 247);
-  position: absolute;
+  position: relative;
   border-radius: 0.4rem;
   padding: 0.6rem;
 }

@@ -29,3 +29,25 @@ a {
   cursor: pointer;
   text-decoration: none;
 }
+
+
+/* Styles admin */
+.pag {
+  display: flex;
+}
+
+.area {
+  margin: 2rem;
+  padding: 0.9rem;
+  display: flex;
+  background-color: rgb(243, 243, 243);
+  border-radius: 0.3rem;
+  width: 50rem;
+  position: relative;
+  justify-content: center;
+}
+
+.area1 {
+  background-color: white;
+  padding: 1rem;
+}

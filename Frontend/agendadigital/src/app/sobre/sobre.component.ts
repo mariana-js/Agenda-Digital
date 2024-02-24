@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-sobre',
   standalone: true,
@@ -8,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './sobre.component.css'
 })
 export class SobreComponent {
+  constructor(private router: Router) {}
 
+  navegarParaAbout() {
+    this.router.navigate(['/sobre']);
+  }
 }

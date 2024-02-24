@@ -1,3 +1,13 @@
+.container {
+  display: flex; /* Torna os elementos filhos flexíveis */
+  position: relative;
+}
+
+.nav-aniversariantes,
+.nav-principal {
+  flex: 0;
+}
+
 h2 {
   text-align: left;
   font-size: 16px;
@@ -5,10 +15,10 @@ h2 {
 }
 
 .principal {
-  margin: 1rem 0  0 13rem;
+  margin: 1rem;
   display: block;
   flex: 1;
-  position: absolute;
+  position: relative;
 }
 
 .page2{
