@@ -1,50 +1,49 @@
+import { CadatrarContatoComponent } from './admin/cadatrar-contato/cadatrar-contato.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { PrincipalComponent } from './principal/principal.component';
 import { SobreComponent } from './sobre/sobre.component';
-import { CadatrarContatoComponent } from './admin/cadatrar-contato/cadatrar-contato.component';
 import { ContatosHideComponent } from './admin/contatos-hide/contatos-hide.component';
 import { RamaisComponent } from './admin/ramais/ramais.component';
 import { SetoresComponent } from './admin/setores/setores.component';
 import { UsuariosComponent } from './admin/usuarios/usuarios.component';
 
 
-const routes: Routes = [ 
+const routes: Routes = [
   {
-      path: '', component: PrincipalComponent
-  },
-  
-  {
-      path: 'principal', component: PrincipalComponent
+    path: '', component: PrincipalComponent
   },
 
   {
-      path:'cadastrar-contato',
-      component: CadatrarContatoComponent
+    path: 'principal', component: PrincipalComponent
   },
   {
-      path:'contatos-ocultos',
-      component: ContatosHideComponent
+    path: 'cadastrar-contato',
+    component: CadatrarContatoComponent
   },
   {
-      path:'ramais',
-      component: RamaisComponent
+    path: 'contatos-ocultos',
+    component: ContatosHideComponent
   },
   {
-      path:'setores',
-      component: SetoresComponent
+    path: 'ramais',
+    component: RamaisComponent
   },
   {
-      path:'usuarios',
-      component: UsuariosComponent
+    path: 'setores',
+    component: SetoresComponent
+  },
+  {
+    path: 'usuarios',
+    component: UsuariosComponent
   },
 
   {
-      path:'sobre',
-      component: SobreComponent
+    path: 'sobre',
+    component: SobreComponent
   }
-  
+
 ];
 
 @NgModule({

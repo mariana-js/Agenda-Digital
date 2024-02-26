@@ -13,6 +13,6 @@ export class PrincipalComponent{
     constructor(private router: Router) {}
 
   navegarParaAbout() {
-    this.router.navigate(['/principal']);
+    this.router.navigate(['/']);
   }
 }
