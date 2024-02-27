@@ -4,6 +4,12 @@ h2, h3, .add {
     font-size: 16px;
     color: rgb(109, 109, 109);
     margin-top: 0rem;
+    display: flex;
+    justify-items: start;
+    align-items: center;
+  }
+  img{
+    padding-right: 0.4rem;
   }
   
   table {
@@ -20,18 +26,11 @@ h2, h3, .add {
   
   }
   
-  th,
-  td {
-    border-top: solid 0.1rem rgb(224, 224, 224);
+  th, td {
     border-bottom: solid 0.1rem rgb(224, 224, 224);
     padding: 0.5rem;
     padding-right: 4rem;
-  }
-  
-  td {
-    border-top: solid 0.1rem rgb(224, 224, 224);
-    padding: 0.5rem;
-    padding-right: 4rem;
+    width: 100%;
   }
   
   tr:first-child {
@@ -40,7 +39,7 @@ h2, h3, .add {
   
   tr:hover {
     background-color: #f5f5f5;
-    /* Altera a cor de fundo ao passar o mouse sobre a linha */
+
   }
   
   h3 {
