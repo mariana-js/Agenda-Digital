@@ -4,9 +4,9 @@ import { ContatosHideComponent } from './admin/contatos-hide/contatos-hide.compo
 import { RamaisComponent } from './admin/ramais/ramais.component';
 import { SetoresComponent } from './admin/setores/setores.component';
 import { UsuariosComponent } from './admin/usuarios/usuarios.component';
-import { PrincipalComponent } from './principal/principal.component';
-import { SobreComponent } from './sobre/sobre.component';
 import { LoginComponent } from './login/login.component';
+import { SobreComponent } from './sobre/sobre.component';
+import { PrincipalComponent } from './principal/principal/principal.component';
 
 
 export const routes: Routes = [
@@ -39,7 +39,7 @@ export const routes: Routes = [
     path: 'usuarios',
     component: UsuariosComponent
   },
-  
+
   {
     path: 'login',
     component: LoginComponent

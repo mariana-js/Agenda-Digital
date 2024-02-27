@@ -1,20 +1,17 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PrincipalComponent } from "./principal/principal.component";
-import { HeadComponent } from "./head/head.component";
+import { NavAdminComponent } from "./admin/nav-admin/nav-admin.component";
 import { FooterComponent } from "./footer/footer.component";
-import { NavAdminComponent } from "./nav-admin/nav-admin.component";
-import { AdminComponent } from './admin/admin.component';
+import { HeadComponent } from "./head/head.component";
 import { SobreComponent } from './sobre/sobre.component';
-import { PessoaComponent } from './principal/pessoa/pessoa.component';
 @Component({
     selector: 'app-root',
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
 
-    imports: [CommonModule, RouterOutlet, PrincipalComponent, HeadComponent, FooterComponent, NavAdminComponent, AdminComponent, SobreComponent,PessoaComponent, ]
+    imports: [CommonModule, RouterOutlet, HeadComponent, FooterComponent, NavAdminComponent, SobreComponent ]
 })
 
 export class AppComponent  {
