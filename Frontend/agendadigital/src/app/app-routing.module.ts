@@ -8,6 +8,7 @@ import { ContatosHideComponent } from './admin/contatos-hide/contatos-hide.compo
 import { RamaisComponent } from './admin/ramais/ramais.component';
 import { SetoresComponent } from './admin/setores/setores.component';
 import { UsuariosComponent } from './admin/usuarios/usuarios.component';
+import { LoginComponent } from './login/login.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'principal', component: PrincipalComponent
+    path: 'home', component: PrincipalComponent
   },
   {
     path: 'cadastrar-contato',
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: 'usuarios',
     component: UsuariosComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
 
   {

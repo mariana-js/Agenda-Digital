@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { PrincipalComponent } from "../principal/principal.component";
-
 
 @Component({
   selector: 'app-nav-admin',
@@ -15,6 +15,28 @@ export class NavAdminComponent {
 
   changeImage(newImagePath: string): void {
     this.imagePath = newImagePath;
+  }
+
+  constructor(private router: Router) { }
+  navegarParaHome() {
+    this.router.navigate(['/']);
+  }
+
+  navegarParaRamais() {
+    this.router.navigate(['/ramais']);
+  }
+
+  navegarParaSetores() {
+    this.router.navigate(['/setores']);
+  }
+  navegarParaUsuarios() {
+    this.router.navigate(['/usuarios']);
+  }
+  navegarParaContatosHide() {
+    this.router.navigate(['/contatos-ocultos']);
+  }
+  navegarParaAddContato() {
+    this.router.navigate(['/cadastrar-contato']);
   }
 
 }

@@ -16,7 +16,7 @@ export class PrincipalComponent{
 
   navegarParaAbout() {
     this.router.navigate(['/']);
-    this.router.navigate(['/setores']);
+    this.router.navigate(['/home']);
     this.router.navigate(['/cadastrar-contato']);
     console.log('navegando...')
   }
