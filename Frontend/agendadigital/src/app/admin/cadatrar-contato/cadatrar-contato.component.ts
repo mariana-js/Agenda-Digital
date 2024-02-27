@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 
 @Component({
@@ -10,11 +9,7 @@ import { NavAdminComponent } from "../nav-admin/nav-admin.component";
   imports: [NavAdminComponent]
 })
 export class CadatrarContatoComponent {
-  constructor(private router: Router) { }
 
-  navegarParaAbout() {
-    this.router.navigate(['cadastrar-contato']);
-  }
 }
 
 
