@@ -32,8 +32,10 @@ export class PrincipalComponent {
   }
 
   informacoes() {
-  this.router.navigate(['/contato']);
+    this.router.navigate(['/contato']);
+    
   }
+
   // getContatos2() {
 
   //   this.http.get(`${this.url}/pessoa`)

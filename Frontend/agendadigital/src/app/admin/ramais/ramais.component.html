@@ -15,22 +15,11 @@
               <th>Setor</th>
               <th>Ramal</th>
             </tr>
-            <tr>
-              <td>Orçamento</td>
-              <td>9020</td>
+            <tr *ngFor ="let setorramal item of setor_ramais">
+              <td>{{setorramal.setor}}</td>
+              <td>{{setorramal.ramal}}</td>
             </tr>
-            <tr>
-              <td>Financeiro</td>
-              <td>9025</td>
-            </tr>
-            <tr>
-              <td>Contabilidade</td>
-              <td>9030</td>
-            </tr>
-            <tr>
-              <td>Financeiro</td>
-              <td>9012</td>
-            </tr>
+
           </table>
 
           <div class="add">
