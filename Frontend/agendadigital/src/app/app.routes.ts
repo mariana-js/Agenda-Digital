@@ -7,6 +7,7 @@ import { UsuariosComponent } from './admin/usuarios/usuarios.component';
 import { LoginComponent } from './login/login.component';
 import { SobreComponent } from './sobre/sobre.component';
 import { PrincipalComponent } from './principal/principal/principal.component';
+import { ContatoComponent } from './principal/contato/contato.component';
 
 
 export const routes: Routes = [
@@ -17,6 +18,9 @@ export const routes: Routes = [
 
   {
     path: 'home', component: PrincipalComponent
+  },
+  {
+    path: 'contato', component: ContatoComponent
   },
 
   {

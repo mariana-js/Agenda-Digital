@@ -11,7 +11,7 @@
         <button class="search-button">Buscar</button>
 
         <div class="page">
-          <button (click)="getContatos()">Obter Contatos</button>
+          <!-- <button (click)="getContatos2()">Obter Contatos</button> -->
           <h2>Contatos <span>( {{500}} )</span></h2>
           <div class="page2">
             <table>
@@ -25,20 +25,16 @@
                 </tr>
               </thead>
               <tbody>
-
-                <tr>
-                  <td class="image"> <img src="assets/foto/denir.jpeg" alt=""></td>
-                  <td>Denir Araujo</td>
-                  <td>denir.habitacional.net.br</td>
-                  <td>(79) 99994-8831</td>
-
+                <tr *ngFor="let contato of contatos" (click)="informacoes()" >
+                  <td class="image"> <img src="assets/foto/foto.png" alt=""></td>
+                  <td>{{ contato.nome_pessoa }} </td>
+                  <td>{{ contato.email }}</td>
+                  <td>{{ contato.telefone}}</td>
                 </tr>
-
               </tbody>
 
             </table>
-            <button>
-              Próxima Página >></button>
+            <button>Próxima Página >></button>
           </div>
         </div>
       </div>

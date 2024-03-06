@@ -5,7 +5,6 @@ import { NavAdminComponent } from "./admin/nav-admin/nav-admin.component";
 import { FooterComponent } from "./footer/footer.component";
 import { HeadComponent } from "./head/head.component";
 import { SobreComponent } from './sobre/sobre.component';
-import { ContatoService } from './services/contato.service';
 @Component({
     selector: 'app-root',
     standalone: true,
