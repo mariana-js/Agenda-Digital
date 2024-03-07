@@ -1,7 +1,7 @@
 export interface SetorRamal {
-  id: string;
+  id_setor_ramal: string;
   id_setor: string;
-  ramal: string;
-  setor: string;
-  sigla: string;
+  id_ramal_setor: string;
+
+  nome_setor: string;
 }

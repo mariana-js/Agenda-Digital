@@ -1,5 +1,5 @@
 export interface Setor {
-  id: string;
-  setor: string;
-  sigla: string;
+  id_setor: string;
+  nome_setor: string;
+  sigla_setor: string;
 }

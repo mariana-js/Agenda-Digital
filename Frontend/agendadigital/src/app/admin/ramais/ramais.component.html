@@ -11,15 +11,21 @@
         <div class="container">
 
           <table>
-            <tr>
-              <th>Setor</th>
-              <th>Ramal</th>
-            </tr>
-            <tr *ngFor ="let setorramal item of setor_ramais">
-              <td>{{setorramal.setor}}</td>
-              <td>{{setorramal.ramal}}</td>
-            </tr>
+            <thead>
 
+              <tr>
+                <th>Setor</th>
+                <th>Ramal</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let setorramal of setor_ramais">
+                <td>{{setorramal.id_setor_ramal}}</td>
+                <td>{{setorramal.numero_ramal}}</td>
+              </tr>
+
+            </tbody>
           </table>
 
           <div class="add">
