@@ -1,9 +1,10 @@
 import { NgFor, NgForOf } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Setor } from '../../models/setor';
 import { SetorRamal } from '../../models/setor-ramal';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
+import { Setor } from './../../models/setor';
+import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-ramais',
   standalone: true,
@@ -27,17 +28,32 @@ export class RamaisComponent {
       .subscribe(resultados => {
         this.setor_ramais = resultados;
 
-        this.setor_ramais.forEach(ramal => {
+        const requests = this.setor_ramais.map(ramal => {
+          return this.getSetor(ramal.id_setor);
+        });
 
-          this.getSetor(ramal.id_setor).subscribe(setor => {
-            ramal.id_setor = setor.nome_setor;
+        forkJoin(requests).subscribe((setores: Setor[][]) => {
+          this.setor_ramais.forEach((ramal, index) => {
+            const setor = setores[index][2]; // Primeiro elemento do array de setores
+            if (setor) {
+              ramal.setor = setor.nome_setor;
+            } else {
+              ramal.setor = "Setor não encontrado"; // Ou faça algo caso o setor não seja encontrado
+            }
           });
         });
-      }
-      );
+      });
 
+
+
+      // console.log('Id do setor: ' )
+      // console.log("Retorno da função getSetor(): " + this.getSetor(ramal.id_setor))
   }
   getSetor(id_setor: string) {
     return this.http.get<Setor[]>(`${this.url}/setor/${id_setor}`);
+  }
+
+  getSetores() {
+    return this.http.get<Setor[]>(`${this.url}/setor`);
   }
 }
