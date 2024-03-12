@@ -9,10 +9,21 @@ public class UsuarioDtos {
     private UUID id;
 
     @NotBlank
+    private String usuario;
+
+    @NotBlank
     private String nome;
 
     @NotBlank
     private String senha;
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
     public UUID getId() {
         return id;

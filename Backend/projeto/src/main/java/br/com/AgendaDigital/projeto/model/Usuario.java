@@ -22,34 +22,26 @@ public class Usuario implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
-	@Column(name = "user", length = 10, nullable = true)
-	private String user;
 	
-    @Column(name = "nome", length = 10, nullable = true)
+	@Column(name = "usuario", length = 10, nullable = true)
+	private String usuario;
+
+	@Column(name = "nome", length = 10, nullable = true)
 	private String nome;
-	
-	@Column(name = "nivel", length = 10, nullable = true)
-	private String nivel;
-	
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
-	}
-	public String getNivel() {
-		return nivel;
-	}
-
-	public void setNivel(String nivel) {
-		this.nivel = nivel;
-	}
 
 	@Column(name = "senha", columnDefinition = "TEXT", nullable = true)
 	private String senha;
 
 	// Getters and setters
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
 	public UUID getId() {
 		return id;
 	}

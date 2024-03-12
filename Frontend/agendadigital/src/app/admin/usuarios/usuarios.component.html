@@ -13,17 +13,15 @@
           <table>
             <thead>
               <tr>
-                <th>Usuário</th>
                 <th>Nome</th>
-                <th>Nível</th>
+                <th>Usuário</th>
               </tr>
             </thead>
 
             <tbody>
-              <tr>
-                <td>marianasilva</td>
-                <td>Mariana Silva</td>
-                <td>Administrador</td>
+              <tr *ngFor="let user of users">
+                <td>{{user.nome}}</td>
+                <td>{{user.usuario}}</td>
               </tr>
             </tbody>
           </table>
@@ -37,14 +35,6 @@
 
               <label for="nome">Nome</label>
               <input type="text" placeholder="Ex.: Mariana Silva">
-
-              <label for="name">Nível</label>
-              <select id="setores" name="setor">
-                <option value="opcao1">Selecionar nível</option>
-                <option value="opcao2">Administrador</option>
-                <option value="opcao3">Usuário</option>
-                <option value="opcao3">Padrão</option>
-              </select>
 
               <label for="senha">Senha</label>
               <input type="password">

@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { Usuario } from '../../models/usuario';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NgFor } from '@angular/common';
 @Component({
     selector: 'app-usuarios',
     standalone: true,
     templateUrl: './usuarios.component.html',
     styleUrl: './usuarios.component.css',
-    imports: [NavAdminComponent]
+    imports: [NavAdminComponent, HttpClientModule, NgFor]
 })
 export class UsuariosComponent {
   readonly url: string;
