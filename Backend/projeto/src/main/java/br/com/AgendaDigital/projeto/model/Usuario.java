@@ -22,13 +22,22 @@ public class Usuario implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
-
-	@Column(name = "nome", length = 10, nullable = true)
+	@Column(name = "user", length = 10, nullable = true)
+	private String user;
+	
+    @Column(name = "nome", length = 10, nullable = true)
 	private String nome;
-
+	
 	@Column(name = "nivel", length = 10, nullable = true)
 	private String nivel;
+	
+	public String getUser() {
+		return user;
+	}
 
+	public void setUser(String user) {
+		this.user = user;
+	}
 	public String getNivel() {
 		return nivel;
 	}

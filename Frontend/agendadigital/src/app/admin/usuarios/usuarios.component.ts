@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Usuario } from '../../models/usuario';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
+import { HttpClient } from '@angular/common/http';
 @Component({
     selector: 'app-usuarios',
     standalone: true,
@@ -8,5 +10,21 @@ import { NavAdminComponent } from "../nav-admin/nav-admin.component";
     imports: [NavAdminComponent]
 })
 export class UsuariosComponent {
+  readonly url: string;
+  users: Usuario[] = [];
 
+  constructor(private http: HttpClient) {
+    this.url = 'http://localhost:8080';
+  }
+
+  ngOnInit() {
+    this.getUsuarios();
+  }
+
+  getUsuarios() {
+    this.http.get<Usuario[]>(`${this.url}/usuario`)
+      .subscribe(resultados => {
+        this.users = resultados;
+      });
+  }
 }
