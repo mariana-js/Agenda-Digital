@@ -36,8 +36,7 @@
 
               <select id="setores" name="setor">
                 <option value="opcao1">Selecionar setor</option>
-                <option value="opcao2">Orçamento</option>
-                <option value="opcao3">Financeiro</option>
+                <option *ngFor="let setor of setores" value={{setor.id_setor}}>{{ setor.nome_setor }}</option>
               </select>
 
               <label for="ramal">Número</label>
