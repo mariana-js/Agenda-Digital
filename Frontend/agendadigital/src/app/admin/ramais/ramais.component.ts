@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { SetorRamal } from '../../models/setor-ramal';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { Setor } from './../../models/setor';
+
 @Component({
   selector: 'app-ramais',
   standalone: true,
@@ -13,6 +14,7 @@ import { Setor } from './../../models/setor';
 })
 export class RamaisComponent {
   readonly url: string;
+
   setor_ramais: SetorRamal[] = [];
   setores: Setor[] = [];
 
@@ -28,18 +30,33 @@ export class RamaisComponent {
     this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`)
       .subscribe(resultados => {
         this.setor_ramais = resultados;
+        this.getSetores();
 
-        });
-      }
 
-  // getSetor(id_setor: string) {
-  //   return this.http.get<Setor[]>(`${this.url}/setor/${id_setor}`);
-  // }
+      });
+  }
 
   getSetores() {
     this.http.get<Setor[]>(`${this.url}/setor`)
-    .subscribe(resultados => {
-      this.setores = resultados;
-    })
+      .subscribe(resultados => {
+        this.setores = resultados;
+        this.getNomeSetores();
+      })
+  }
+
+  getNomeSetores() {
+
+    for (let i = 0; i < this.setor_ramais.length; i++) {
+      const setor_ramal = this.setor_ramais[i];
+      const setor = this.setores.find(setor => setor.id_setor === setor_ramal.id_setor);
+
+      if (setor) {
+        setor_ramal.setor = setor.nome_setor
+      } else {
+        console.log('Erro ao trazer as informações!')
+      }
+    }
+
+
   }
 }
