@@ -1,14 +1,14 @@
-import { CadatrarContatoComponent } from './admin/cadatrar-contato/cadatrar-contato.component';
+import { CadatrarContatoComponent } from '../../admin/cadatrar-contato/cadatrar-contato.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { SobreComponent } from './sobre/sobre.component';
-import { ContatosHideComponent } from './admin/contatos-hide/contatos-hide.component';
-import { RamaisComponent } from './admin/ramais/ramais.component';
-import { SetoresComponent } from './admin/setores/setores.component';
-import { UsuariosComponent } from './admin/usuarios/usuarios.component';
-import { LoginComponent } from './login/login.component';
-import { PrincipalComponent } from './principal/principal/principal.component';
+import { ContatosHideComponent } from '../../admin/contatos-hide/contatos-hide.component';
+import { RamaisComponent } from '../../admin/ramais/ramais.component';
+import { SetoresComponent } from '../../admin/setores/setores.component';
+import { UsuariosComponent } from '../../admin/usuarios/usuarios.component';
+import { LoginComponent } from '../../views/login/login.component';
+import { PrincipalComponent } from '../../principal/principal/principal.component';
+import { SobreComponent } from '../../views/sobre/sobre.component';
 
 
 const routes: Routes = [
