@@ -12,29 +12,24 @@
           <div class="tabela">
 
             <table>
-              <tr>
-              <th>Setor</th>
-              <th>Sigla</th>
-            </tr>
-            <tr>
-              <td>Orçamento</td>
-              <td>OR</td>
-            </tr>
-            <tr>
-              <td>Tecnologia da Informação</td>
-              <td>TI</td>
-            </tr>
-            <tr>
-              <td>Financeiro</td>
-              <td>FI</td>
-            </tr>
-            <tr>
-              <td>Jurídico</td>
-              <td>DJ</td>
-            </tr>
-          </table>
-        </div>
-          
+
+              <thead>
+                <tr>
+                  <th>Setor</th>
+                  <th>Sigla</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let setor of setores">
+                  <td>{{setor.nome_setor}}</td>
+                  <td>{{setor.sigla_setor}}</td>
+                </tr>
+              </tbody>
+
+            </table>
+          </div>
+
           <div class="add">
             <h3>Setor</h3>
 
