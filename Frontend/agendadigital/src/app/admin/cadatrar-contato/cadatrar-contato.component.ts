@@ -9,7 +9,10 @@ import { NavAdminComponent } from "../nav-admin/nav-admin.component";
   imports: [NavAdminComponent]
 })
 export class CadatrarContatoComponent {
+ngOnInit(){
 
+
+}
 }
 
 

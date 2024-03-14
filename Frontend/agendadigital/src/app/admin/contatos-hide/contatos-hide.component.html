@@ -15,59 +15,29 @@
             <h2><img src="assets/Imagens/privado.png" alt="hide">Contatos Ocultos <span>( {{500}} )</span></h2>
             <div class="page2">
               <table>
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th></th>
+                  </tr>
+                </thead>
 
-                <tr>
-                  <th>Nome</th>
-                  <th>Email</th>
-                  <th>Telefone</th>
-                </tr>
+                <tbody>
+                  <tr *ngFor="let contato of contatosHide">
+                    <td class="image"> <img src="assets/foto/foto.png" alt=""></td>
+                    <td>{{contato.nome_pessoa}}</td>
+                    <td>{{contato.email}}</td>
+                    <td>{{contato.telefone}}</td>
+                  </tr>
+                </tbody>
 
-                <tr>
-                  <td>Jaqueline Soares Silva Nunes</td>
-                  <td>jaquelinesoares.habitacional.net.br</td>
-                  <td>(79) 99994-8831</td>
-
-                </tr>
-                <tr>
-                  <td>Jaqueline Soares Silva Nunes</td>
-                  <td>jaquelinesoares.habitacional.net.br</td>
-                  <td>(79) 99994-8831</td>
-
-                </tr>
-                <tr>
-                  <td>Jaqueline Soares Silva Nunes</td>
-                  <td>jaquelinesoares.habitacional.net.br</td>
-                  <td>(79) 99994-8831</td>
-
-                </tr>
-                <tr>
-                  <td>Jaqueline Soares Silva Nunes</td>
-                  <td>jaquelinesoares.habitacional.net.br</td>
-                  <td>(79) 99994-8831</td>
-
-                </tr>
-                <tr>
-                  <td>Jaqueline Soares Silva Nunes</td>
-                  <td>jaquelinesoares.habitacional.net.br</td>
-                  <td>(79) 99994-8831</td>
-
-                </tr>
-                <tr>
-                  <td>Jaqueline Soares Silva Nunes</td>
-                  <td>jaquelinesoares.habitacional.net.br</td>
-                  <td>(79) 99994-8831</td>
-
-                </tr>
-                <!-- <tr *ngFor="let pessoa of pessoa">
-          <td>{{pessoa.nome_pessoa}}</td>
-          <td>{{pessoa.email}}</td>
-          <td>{{pessoa.telefone}}</td>
-        </tr> -->
               </table>
-              <button> Próxima Página >></button>
+              <button > Próxima Página >></button>
             </div>
           </div>
         </div>
       </div>
 
-  </div>
+    </div>
