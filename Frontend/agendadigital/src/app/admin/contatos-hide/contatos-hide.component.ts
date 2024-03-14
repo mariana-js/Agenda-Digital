@@ -19,31 +19,27 @@ export class ContatosHideComponent {
   }
 
   ngOnInit() {
-
-      console.log("I'm Here!")
-      this.getContatosHides()
-
+    this.getContatosHides()
   }
 
   getContatosHides() {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
       .subscribe(resultados => {
         this.contatosHide = resultados;
-
-
       });
+      this.getHides();
   }
 
-  // getHides(){
-  //   for (let i =0 ; i < this.contatosHide.length; i++){
-  //     const flag_privado = this.contatosHide[i];
-  //     const contato = this.contatosHide.find(contato => contato.flag_privado === true);
-  //     if (contato){
-
-  //     } else {
-  //       console.log("Erro ao trazer os contatos ocultos!")
-  //     }
-  //   }
-  // }
+  getHides(){
+    for (let i =0 ; i < this.contatosHide.length; i++){
+      const hide = this.contatosHide.filter(contato => contato.flag_privado === true);
+      if (hide.length > 0){
+        this.contatosHide = hide;
+        
+      } else {
+        console.log("Erro ao trazer os contatos ocultos!")
+      }
+    }
+  }
 
 }

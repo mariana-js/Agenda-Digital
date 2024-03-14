@@ -29,11 +29,23 @@ export class PrincipalComponent {
       .subscribe(resultados => {
         this.contatos = resultados;
       });
-  }
+      this.getHides();
+    }
 
+    getHides(){
+      for (let i =0 ; i < this.contatos.length; i++){
+        const hide = this.contatos.filter(contato => contato.flag_privado === false);
+        if (hide.length > 0){
+          this.contatos = hide;
+
+        } else {
+          console.log("Erro ao trazer os contatos ocultos!")
+        }
+      }
+    }
   informacoes() {
     this.router.navigate(['/contato']);
-    
+
   }
 
   // getContatos2() {
