@@ -13,6 +13,7 @@ import { NgFor } from '@angular/common';
 export class ContatosHideComponent {
   readonly url: string;
   contatosHide: Contato[] = [];
+  amount: number = 0;
 
   constructor(private http: HttpClient) {
     this.url = 'http://localhost:8080';
@@ -26,7 +27,9 @@ export class ContatosHideComponent {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
     .subscribe(resultados => {
       this.contatosHide = resultados.filter(contatosHide => contatosHide.flag_privado === true);
-      if (this.contatosHide.length === 0) {
+      this.amount = this.contatosHide.length;
+
+      if (this.amount === 0) {
         console.log("Erro ao trazer os contatos ocultos!")
       }
     });

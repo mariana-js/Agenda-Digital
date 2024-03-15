@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class PrincipalComponent {
   readonly url: string;
   contatos: Contato[] = [];
-
+  amount: number = 0;
 
   constructor(private http: HttpClient, private router: Router) {
     this.url = 'http://localhost:8080';
@@ -28,7 +28,8 @@ export class PrincipalComponent {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
       .subscribe(resultados => {
         this.contatos = resultados.filter(contato => contato.flag_privado === false);
-        if (this.contatos.length === 0) {
+        this.amount = this.contatos.length;
+        if (this.amount === 0) {
           console.log("Erro ao trazer os contatos!")
         }
       });
@@ -40,9 +41,5 @@ export class PrincipalComponent {
 
   }
 
-  // getContatos2() {
 
-  //   this.http.get(`${this.url}/pessoa`)
-  //     .subscribe(resultado => console.log(resultado));
-  // }
 }
