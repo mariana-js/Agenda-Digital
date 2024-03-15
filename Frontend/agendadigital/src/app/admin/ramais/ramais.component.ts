@@ -48,10 +48,10 @@ export class RamaisComponent {
       
       if (setor) {
         setor_ramal.setor = setor.nome_setor;
-        this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
       } else {
         console.log('Erro ao trazer as informações!');
       }
     });
+    this.setor_ramais.sort((a, b) => a.setor.localeCompare(b.setor));
   }
 }
