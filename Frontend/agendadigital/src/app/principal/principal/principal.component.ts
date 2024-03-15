@@ -27,22 +27,14 @@ export class PrincipalComponent {
   getContatos() {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
       .subscribe(resultados => {
-        this.contatos = resultados;
-      });
-      this.getHides();
-    }
-
-    getHides(){
-      for (let i =0 ; i < this.contatos.length; i++){
-        const hide = this.contatos.filter(contato => contato.flag_privado === false);
-        if (hide.length > 0){
-          this.contatos = hide;
-
-        } else {
-          console.log("Erro ao trazer os contatos ocultos!")
+        this.contatos = resultados.filter(contato => contato.flag_privado === false);
+        if (this.contatos.length === 0) {
+          console.log("Erro ao trazer os contatos!")
         }
-      }
-    }
+      });
+
+  }
+
   informacoes() {
     this.router.navigate(['/contato']);
 

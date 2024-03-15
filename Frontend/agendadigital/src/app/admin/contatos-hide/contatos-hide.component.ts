@@ -24,22 +24,13 @@ export class ContatosHideComponent {
 
   getContatosHides() {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
-      .subscribe(resultados => {
-        this.contatosHide = resultados;
-      });
-      this.getHides();
-  }
-
-  getHides(){
-    for (let i =0 ; i < this.contatosHide.length; i++){
-      const hide = this.contatosHide.filter(contato => contato.flag_privado === true);
-      if (hide.length > 0){
-        this.contatosHide = hide;
-        
-      } else {
+    .subscribe(resultados => {
+      this.contatosHide = resultados.filter(contatosHide => contatosHide.flag_privado === true);
+      if (this.contatosHide.length === 0) {
         console.log("Erro ao trazer os contatos ocultos!")
       }
-    }
+    });
+
   }
 
 }
