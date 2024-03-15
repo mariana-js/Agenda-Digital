@@ -23,7 +23,6 @@ export class RamaisComponent {
   }
   ngOnInit() {
     this.getRamais();
-    this.getSetores();
   }
 
   getRamais() {
@@ -31,8 +30,6 @@ export class RamaisComponent {
       .subscribe(resultados => {
         this.setor_ramais = resultados;
         this.getSetores();
-
-
       });
   }
 
@@ -40,23 +37,21 @@ export class RamaisComponent {
     this.http.get<Setor[]>(`${this.url}/setor`)
       .subscribe(resultados => {
         this.setores = resultados;
+        this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
         this.getNomeSetores();
-      })
+      });
   }
 
   getNomeSetores() {
-
-    for (let i = 0; i < this.setor_ramais.length; i++) {
-      const setor_ramal = this.setor_ramais[i];
+    this.setor_ramais.forEach(setor_ramal => {
       const setor = this.setores.find(setor => setor.id_setor === setor_ramal.id_setor);
-
+      
       if (setor) {
-        setor_ramal.setor = setor.nome_setor
+        setor_ramal.setor = setor.nome_setor;
+        this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
       } else {
-        console.log('Erro ao trazer as informações!')
+        console.log('Erro ao trazer as informações!');
       }
-    }
-
-
+    });
   }
 }

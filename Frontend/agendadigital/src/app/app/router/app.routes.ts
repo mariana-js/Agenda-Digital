@@ -9,7 +9,6 @@ import { PrincipalComponent } from '../../principal/principal/principal.componen
 import { LoginComponent } from '../../views/login/login.component';
 import { SobreComponent } from '../../views/sobre/sobre.component';
 
-
 export const routes: Routes = [
 
   {

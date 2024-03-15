@@ -26,6 +26,8 @@ export class SetoresComponent {
     this.http.get<Setor[]>(`${this.url}/setor`)
       .subscribe(resultados => {
         this.setores = resultados;
+        this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
+
       });
   }
 }

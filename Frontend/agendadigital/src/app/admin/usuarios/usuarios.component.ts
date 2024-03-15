@@ -4,11 +4,11 @@ import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgFor } from '@angular/common';
 @Component({
-    selector: 'app-usuarios',
-    standalone: true,
-    templateUrl: './usuarios.component.html',
-    styleUrl: './usuarios.component.css',
-    imports: [NavAdminComponent, HttpClientModule, NgFor]
+  selector: 'app-usuarios',
+  standalone: true,
+  templateUrl: './usuarios.component.html',
+  styleUrl: './usuarios.component.css',
+  imports: [NavAdminComponent, HttpClientModule, NgFor]
 })
 export class UsuariosComponent {
   readonly url: string;
@@ -25,7 +25,17 @@ export class UsuariosComponent {
   getUsuarios() {
     this.http.get<Usuario[]>(`${this.url}/usuario`)
       .subscribe(resultados => {
-        this.users = resultados;
+        this.users = resultados.sort((a, b) => {
+          if (a.nome < b.nome) {
+            return -1;
+          }
+          if (a.nome > b.nome) {
+            return 1;
+          }
+          return 0;
+        });
+
       });
   }
+
 }

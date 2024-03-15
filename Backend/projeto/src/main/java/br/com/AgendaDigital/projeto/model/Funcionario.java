@@ -24,22 +24,21 @@ public class Funcionario implements Serializable {
 	@Column(name = "id_pessoa")
 	private UUID id_pessoa;
 
-	@Column(name = "id_setor")
-	private UUID id_setor;
-
-	@Column(name = "numero_ramal")
-	private String numero_ramal;
+	@Column(name = "id_setor_ramal")
+	private UUID id_setor_ramal;
 
 	@Column(name = "data_nascimento", nullable = true)
 	private LocalDate data_nascimento;
-
-	@Column(name = "flag_administrador", nullable = true)
-	private Boolean flag_administrador;
-
-	// Mês Aniversariantes
-
+	
 	// Getters and setters
+	public UUID getId_setor_ramal() {
+		return id_setor_ramal;
+	}
 
+	public void setId_setor_ramal(UUID id_setor_ramal) {
+		this.id_setor_ramal = id_setor_ramal;
+	}
+	
 	public void setRegistrationDate(LocalDateTime now) {
 	}
 
@@ -61,30 +60,6 @@ public class Funcionario implements Serializable {
 
 	public void setId_pessoa(UUID id_pessoa) {
 		this.id_pessoa = id_pessoa;
-	}
-
-	public UUID getId_setor() {
-		return id_setor;
-	}
-
-	public void setId_setor(UUID id_setor) {
-		this.id_setor = id_setor;
-	}
-
-	public String getNumero_ramal() {
-		return numero_ramal;
-	}
-
-	public void setNumero_ramal(String numero_ramal) {
-		this.numero_ramal = numero_ramal;
-	}
-
-	public Boolean getFlag_administrador() {
-		return flag_administrador;
-	}
-
-	public void setFlag_administrador(Boolean flag_administrador) {
-		this.flag_administrador = flag_administrador;
 	}
 
 	public LocalDate getData_nascimento() {

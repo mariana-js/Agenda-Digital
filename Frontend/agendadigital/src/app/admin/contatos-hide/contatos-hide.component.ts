@@ -28,12 +28,11 @@ export class ContatosHideComponent {
     .subscribe(resultados => {
       this.contatosHide = resultados.filter(contatosHide => contatosHide.flag_privado === true);
       this.amount = this.contatosHide.length;
-
+      this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
       if (this.amount === 0) {
         console.log("Erro ao trazer os contatos ocultos!")
       }
     });
-
   }
 
 }

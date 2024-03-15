@@ -28,6 +28,7 @@ export class PrincipalComponent {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
       .subscribe(resultados => {
         this.contatos = resultados.filter(contato => contato.flag_privado === false);
+        this.contatos.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
         this.amount = this.contatos.length;
         if (this.amount === 0) {
           console.log("Erro ao trazer os contatos!")
