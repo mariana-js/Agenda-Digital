@@ -6,8 +6,6 @@ import javax.validation.constraints.NotBlank;
 
 public class UsuarioDtos {
 
-    private UUID id;
-
     @NotBlank
     private String usuario;
 
@@ -23,14 +21,6 @@ public class UsuarioDtos {
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getNome() {

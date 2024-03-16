@@ -22,10 +22,33 @@ export class NavAniversariantesComponent {
     this.getAniversariantes();
   }
 
+
   getAniversariantes() {
-    this.http.get<Funcionario[]>(`${this.url}/funcionario`)
+    // Obtém a data atual
+    const dataAtual = new Date();
+    const mesAtual = dataAtual.getMonth() + 1; // Os meses em JavaScript começam do zero, então adicionamos 1 para obter o mês atual
+
+    // Faz a requisição para obter os funcionários com aniversários no mês atual
+    this.http.get<Funcionario[]>(`${this.url}/funcionario?mes=${mesAtual}`)
       .subscribe(resultados => {
-        this.aniversariantes = resultados.sort();
+        // Limpa os aniversariantes existentes antes de adicionar os novos
+        this.aniversariantes = [];
+
+        // Itera sobre os resultados e extrai apenas o dia e o mês dos aniversariantes
+        resultados.forEach(funcionario => {
+          // Cria um novo objeto Funcionario apenas com as propriedades dia, mes e data_nascimento
+          const aniversariante: Funcionario = {
+            id_setor_ramal: funcionario.id_setor_ramal,
+            id_pessoa: funcionario.id_pessoa,
+            data_nascimento:funcionario.data_nascimento, // Cria uma string com a data de nascimento no formato "MM/DD"
+            dia: funcionario.dia,
+            mes: funcionario.mes,
+            nome: 'Rosana',
+            setor: 'Juridico'
+          };
+
+          this.aniversariantes.push(aniversariante);
+        });
       });
   }
 }

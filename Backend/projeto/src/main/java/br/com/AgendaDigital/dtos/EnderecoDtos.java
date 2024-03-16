@@ -15,6 +15,9 @@ public class EnderecoDtos {
     private String logradouro;
 
     @NotBlank
+    private String numero;
+
+    @NotBlank
     private String bairro;
 
     @NotBlank
@@ -28,6 +31,14 @@ public class EnderecoDtos {
 
     @JsonProperty("estado")
     private String estado;
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
 
     public String getEstado() {
         return estado;

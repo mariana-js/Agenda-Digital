@@ -3,16 +3,16 @@
     <h1>Aniversariantes do Mês</h1>
     <table>
       <tbody>
-        <tr class="aniversariante">
+        <tr class="aniversariante" *ngFor="let aniversariante of aniversariantes">
           <td>
-            <span class="dt-aniversario">06/12</span>
+            <span class="dt-aniversario">{{aniversariante.data_nascimento}}</span>
             <div class="image-container">
               <img src="assets/foto/fabiana.avif" alt="">
             </div>
 
             <div class="aniversariante-descricao">
-              <span class="nome">Fabiana</span>
-              <span class="descricao">Suprimentos</span>
+              <span class="nome">{{aniversariante.nome}}</span>
+              <span class="descricao">{{aniversariante.setor}}</span>
             </div>
           </td>
         </tr>

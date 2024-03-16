@@ -21,7 +21,7 @@ public class Usuario implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+	private UUID id_usuario;
 	
 	@Column(name = "usuario", length = 10, nullable = true)
 	private String usuario;
@@ -42,12 +42,12 @@ public class Usuario implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public UUID getId() {
-		return id;
+	public UUID getId_usuario() {
+		return id_usuario;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setId_usuario(UUID id_usuario) {
+		this.id_usuario = id_usuario;
 	}
 
 	public String getNome() {

@@ -75,7 +75,7 @@ public class UsuarioController {
 		}
 		var usuario = new Usuario();
 		BeanUtils.copyProperties(usuarioDtos, usuario);
-		usuario.setId(usuarioOptional.get().getId());
+		usuario.setId_usuario(usuarioOptional.get().getId_usuario());
 		return ResponseEntity.status(HttpStatus.OK).body(usuarioService.save(usuario));
 	}
 

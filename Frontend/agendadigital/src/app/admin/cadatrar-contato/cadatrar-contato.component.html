@@ -71,11 +71,10 @@
               <div class="field-group">
                 <div class="field">
                   <label for="sector">Setor</label>
-                  <select name="sector" required onchange disabled>
+                  <select name="sector" required onchange disabled (change)="selecionarSetor($event)">
                     <option value=""> Selecione o Setor </option>
-                    <option value="s1">Orçamento</option>
-                    <option value="s2">Tecnologia da Informação</option>
-                    <option value="s3">Juridico</option>
+                    <option value="{{setor.id_setor}}" *ngFor="let setor of setores">{{setor.nome_setor}}</option>
+                  
 
                   </select>
 
@@ -85,10 +84,7 @@
                   <label for="Ramal">Ramal</label>
                   <select name="ramal" required onchange disabled>
                     <option value=""> Selecione o Ramal </option>
-                    <option value="r1">9090</option>
-                    <option value="r2">9030</option>
-                    <option value="r3">9020</option>
-                    <option value="r4">9010</option>
+                    <option value="{{ramal.id_ramal_setor}}" *ngFor="let ramal of ramaisFiltrados">{{ramal.id_ramal_setor}}</option>
                   </select>
 
                 </div>

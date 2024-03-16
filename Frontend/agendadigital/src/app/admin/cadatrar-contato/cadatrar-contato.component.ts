@@ -1,20 +1,66 @@
 import { Component } from '@angular/core';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
+import { NgFor } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { RamaisComponent } from '../ramais/ramais.component';
+import { Setor } from '../../models/setor';
+import { SetorRamal } from '../../models/setor-ramal';
 
 @Component({
   selector: 'app-cadatrar-contato',
   standalone: true,
   templateUrl: './cadatrar-contato.component.html',
   styleUrl: './cadatrar-contato.component.css',
-  imports: [NavAdminComponent]
+  imports: [NavAdminComponent, NgFor, HttpClientModule, RamaisComponent]
 })
 export class CadatrarContatoComponent {
-  ngOnInit() {
-    this.checkbox();
-    this.estados();
+
+  readonly url: string;
+
+  setor_ramais: SetorRamal[] = [];
+  setores: Setor[] = [];
+
+  setorSelecionado: Setor | null = null;
+  ramaisFiltrados: SetorRamal[] = [];
+
+  constructor(private http: HttpClient) {
+    this.url = 'http://localhost:8080';
 
   }
 
+  ngOnInit() {
+    this.checkbox();
+    this.estados();
+    this.getSetores();
+    this.getSetorRamal();
+  }
+
+  getSetores() {
+    this.http.get<Setor[]>(`${this.url}/setor`)
+      .subscribe(resultados => {
+        this.setores = resultados;
+        this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
+      });
+  }
+
+  selecionarSetor(event: Event) {
+    const idSetor = (event.target as HTMLSelectElement).value;
+    console.log('ID do setor selecionado:', idSetor);
+
+    this.getRamaisPorSetor(idSetor);
+  }
+
+  getRamaisPorSetor(idSetor: string) {
+    // Filtrar a lista de setor_ramais pelo id_setor selecionado
+    this.ramaisFiltrados = this.setor_ramais.filter(ramal => ramal.id_setor === idSetor);
+  }
+
+  getSetorRamal() {
+    this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`)
+      .subscribe(resultados => {
+        this.setor_ramais = resultados;
+      })
+  }
   checkbox() {
 
     const checkbox = document.getElementById('box_fun') as HTMLInputElement;
@@ -103,5 +149,6 @@ export class CadatrarContatoComponent {
     populateUFs();
 
   }
+
 
 }
