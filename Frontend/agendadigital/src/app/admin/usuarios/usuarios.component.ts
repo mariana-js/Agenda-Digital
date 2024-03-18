@@ -25,16 +25,8 @@ export class UsuariosComponent {
   getUsuarios() {
     this.http.get<Usuario[]>(`${this.url}/usuario`)
       .subscribe(resultados => {
-        this.users = resultados.sort((a, b) => {
-          if (a.nome < b.nome) {
-            return -1;
-          }
-          if (a.nome > b.nome) {
-            return 1;
-          }
-          return 0;
-        });
-
+        this.users = resultados;
+        this.users.sort((a, b) => a.nome.localeCompare(b.nome));
       });
   }
 

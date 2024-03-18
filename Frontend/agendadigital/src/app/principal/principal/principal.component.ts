@@ -1,9 +1,9 @@
 import { NgFor } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Contato } from '../../models/contato';
 import { NavAniversariantesComponent } from "../nav-aniversariantes/nav-aniversariantes.component";
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-principal',
