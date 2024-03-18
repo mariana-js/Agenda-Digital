@@ -13,9 +13,6 @@ public class FuncionarioDtos {
     @JsonProperty("id_setor_ramal")
     private UUID id_setor_ramal;
 
-    @JsonProperty("flag_administrador")
-    private Boolean flag_administrador;
-
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate data_nascimento;
 
@@ -33,14 +30,6 @@ public class FuncionarioDtos {
 
     public void setId_setor_ramal(UUID id_setor_ramal) {
         this.id_setor_ramal = id_setor_ramal;
-    }
-
-    public Boolean getFlag_administrador() {
-        return flag_administrador;
-    }
-
-    public void setFlag_administrador(Boolean flag_administrador) {
-        this.flag_administrador = flag_administrador;
     }
 
     public LocalDate getData_nascimento() {

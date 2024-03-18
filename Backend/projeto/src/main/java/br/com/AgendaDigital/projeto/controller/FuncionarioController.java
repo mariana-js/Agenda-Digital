@@ -46,13 +46,13 @@ public class FuncionarioController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.save(funcionario));
 	}
 
-	@GetMapping("/funcionario/mes")
+	@GetMapping
 	public List<Funcionario> getFuncionariosPorMes(@RequestParam("mes") int mes) {
 		// Chame o serviço para obter os funcionários filtrados pelo mês
 		return funcionarioService.getFuncionariosPorMes(mes);
 	}
 
-	@GetMapping
+	@GetMapping("/all")
 	public ResponseEntity<List<Funcionario>> getAllFuncionarios() {
 		return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.findAll());
 	}
