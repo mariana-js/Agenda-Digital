@@ -5,6 +5,6 @@ export interface Funcionario {
     setor: string;
 
     data_nascimento: string;
-    dia: number;
-    mes: number;
+    dia: string;
+    mes: string;
 }

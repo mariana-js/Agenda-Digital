@@ -2,7 +2,7 @@ nav {
   display: flex;
   position: relative;
   margin: 3.2rem 3rem 5rem 3rem;
- /* Isso faz com que a navegação não seja flexível e mantenha seu tamanho original */
+  /* Isso faz com que a navegação não seja flexível e mantenha seu tamanho original */
   width: min-content;
   height: min-content;
 }
@@ -16,14 +16,14 @@ nav {
   padding: 0.6rem;
 }
 
-h1{
+h1 {
   text-align: center;
   font-size: 1rem;
   color: #8a9cff;
-  margin:0.1rem;
+  margin: 0.1rem;
 }
 
-table{
+table {
   width: max-content;
   height: max-content;
   margin: 1rem;
@@ -55,29 +55,27 @@ table{
 }
 
 .dt-aniversario {
-  text-align: right;
+  background-color: #a6c1d1;
+  color: #1536f0;
   margin: 0;
   padding: 0.2rem;
   font-size: 0.7rem;
   font-weight: bold;
   width: min-content;
-  display: flex;
-
-  background-color: #a6c1d1;
-  color: #1536f0;
-
   border-radius: 0.5rem;
-
+  text-align: center;
+  display: inline;
 }
 
 .aniversariante .nome {
   color: #0026ff;
   font-size: 0.8rem;
   font-weight: bold;
-  margin: 0.1rem; /* Adiciona um pequeno espaçamento */
+  margin: 0.1rem;
+  /* Adiciona um pequeno espaçamento */
 }
 
-.aniversariante .descricao{
+.aniversariante .descricao {
   font-size: 0.9rem;
   color: rgb(65, 67, 71);
   font-weight: 300;
@@ -85,8 +83,10 @@ table{
 
 .aniversariante .aniversariante-descricao {
   display: grid;
-  justify-content: center; /* Centraliza horizontalmente */
-  align-items: center; /* Centraliza verticalmente */
+  justify-content: center;
+  /* Centraliza horizontalmente */
+  align-items: center;
+  /* Centraliza verticalmente */
   text-align: center;
   padding: 0.1rem;
   margin: 0rem;
@@ -94,22 +94,31 @@ table{
 
 .image-container {
   margin: 0.4rem;
-  border: 1px solid #0026ff; /* Borda vermelha de 2px */
-  width: 3rem; /* Largura do contêiner da imagem */
-  height: 3rem; /* Altura do contêiner da imagem */
-  border-radius: 50%; /* Define as bordas como redondas (círculo) */
-  overflow: hidden; /* Oculta qualquer parte da imagem que exceda o contêiner */
+  border: 1px solid #0026ff;
+  /* Borda vermelha de 2px */
+  width: 3rem;
+  /* Largura do contêiner da imagem */
+  height: 3rem;
+  /* Altura do contêiner da imagem */
+  border-radius: 50%;
+  /* Define as bordas como redondas (círculo) */
+  overflow: hidden;
+  /* Oculta qualquer parte da imagem que exceda o contêiner */
 }
 
 .image-container img {
 
-  width: 100%; /* Ajusta a largura da imagem para preencher o contêiner */
-  height: 100%; /* Ajusta a altura da imagem para preencher o contêiner */
-  object-fit: cover; /* Faz a imagem preencher o contêiner sem distorcer */
+  width: 100%;
+  /* Ajusta a largura da imagem para preencher o contêiner */
+  height: 100%;
+  /* Ajusta a altura da imagem para preencher o contêiner */
+  object-fit: cover;
+  /* Faz a imagem preencher o contêiner sem distorcer */
 }
 
-img{
-  width: 100%; /* Ajusta a largura da imagem para preencher o contêiner */
+img {
+  width: 100%;
+  /* Ajusta a largura da imagem para preencher o contêiner */
   height: 100%;
 
 }
