@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.AgendaDigital.dtos.FuncionarioDtos;
@@ -43,6 +44,12 @@ public class FuncionarioController {
 		BeanUtils.copyProperties(FuncionarioDtos, funcionario);
 		funcionario.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
 		return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.save(funcionario));
+	}
+
+	@GetMapping("/funcionario/mes")
+	public List<Funcionario> getFuncionariosPorMes(@RequestParam("mes") int mes) {
+		// Chame o serviço para obter os funcionários filtrados pelo mês
+		return funcionarioService.getFuncionariosPorMes(mes);
 	}
 
 	@GetMapping

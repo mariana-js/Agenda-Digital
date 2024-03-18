@@ -35,4 +35,8 @@ public class FuncionarioService {
     public void delete(Funcionario funcionario) {
         funcionarioRepository.delete(funcionario);
     }
+
+    public List<Funcionario> getFuncionariosPorMes(int mes) {
+       return funcionarioRepository.findByMes(mes);
+    }
 }
