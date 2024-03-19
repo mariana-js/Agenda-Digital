@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class PessoaDtos {
 
     @NotBlank
+    
+    @JsonProperty("nome_pessoa")
     private String nome_pessoa;
 
     @NotBlank

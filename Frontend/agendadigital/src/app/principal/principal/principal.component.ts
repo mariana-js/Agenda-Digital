@@ -39,8 +39,11 @@ export class PrincipalComponent {
 
   informacoes() {
     this.router.navigate(['/contato']);
-
+    
   }
+
+  search(){}
+
 
 
 }

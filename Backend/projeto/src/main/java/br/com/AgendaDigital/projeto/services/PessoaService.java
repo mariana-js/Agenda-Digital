@@ -40,7 +40,11 @@ public class PessoaService {
         pessoaRepository.delete(pessoa);
     }
 
-    // public boolean existsByCelular_corporativo(String celular_corporativo) {
+    // public List<Pessoa> findByNome(String nome_pessoa) {
+    //     return pessoaRepository.findByNome(nome_pessoa);
+    // }
+
+    // public boolean existsByCelular_corporativo(String celular_corporativo) {a
     // return pessoaRepository.existsByCelular_corporativo(celular_corporativo);
     // }
 

@@ -3,25 +3,25 @@
   <nav class="pagina-pessoa">
 
 
-    <table class="title-contact custom-color">
+    <!-- <table class="title-contact custom-color">
       <tbody>
         <tr>
-          <td>
-            <h1>Larissa Soares</h1>
+          <td *ngFor="let pessoa of contato">
+            <h1>{{pessoa.nome_pessoa}}</h1>
           </td>
           <td rowspan="2">
             <div class="image-container">
-              <img src="assets/foto/fabiana.avif" alt="foto-contato">
+              <img src="assets/foto/foto.png" alt="foto-contato">
             </div>
           </td>
-        </tr>
-        <tr>
+        </tr> -->
+        <!-- <tr>
           <td class="informacoes">
-            <span>Orçamento - OR</span>
-            <span>Ramal: 9032</span>
+            <span>{{setor.nome_setor}} - {{setor.sigla_setor}}</span>
+            <span>Ramal: {{ramal.numero_ramal}}</span>
           </td>
-        </tr>
-      </tbody>
+        </tr> -->
+      <!-- </tbody>
 
     </table>
 
@@ -32,34 +32,34 @@
         </tr>
       </thead>
 
-      <tbody>
+      <tbody *ngFor="let pessoa of contato">
         <tr>
           <td>
             <h6>E-mail</h6>
           </td>
-          <td>larissa.habitacional.net.br</td>
+          <td>{{pessoa.email}}</td>
         </tr>
         <tr>
           <td>
             <h6>Celular Corporativo</h6>
           </td>
-          <td>(79) 99998-8888</td>
+          <td>{{pessoa.celular_corporativo}}</td>
         </tr>
         <tr>
           <td>
             <h6>Celular Pessoal</h6>
           </td>
-          <td>(79) 99998-8888</td>
+          <td>{{pessoa.celular_pessoal}}</td>
         </tr>
         <tr>
           <td>
             <h6>Telefone</h6>
           </td>
-          <td>(79) 99998-8888</td>
+          <td>{{pessoa.telefone}}</td>
         </tr>
       </tbody>
-
-      <thead>
+    </table> -->
+      <!-- <thead>
         <tr>
           <th colspan="2">Endereço</th>
         </tr>
@@ -70,35 +70,35 @@
           <td>
             <h6>Logradouro</h6>
           </td>
-          <td>Rua Claúdio Batista, 88</td>
+          <td>{{endereco.logradouro}}</td>
         </tr>
         <tr>
           <td>
             <h6>Bairro</h6>
           </td>
-          <td>Santo Antônio</td>
+          <td>{{endereco.bairro}}</td>
         </tr>
         <tr>
           <td>
             <h6>Cidade</h6>
           </td>
-          <td>Aracaju</td>
+          <td>{{endereco.cidade}}</td>
         </tr>
         <tr>
           <td>
             <h6>Estado</h6>
           </td>
-          <td>Sergipe - SE</td>
+          <td>{{endereco.estado}} - {{endereco.uf}}</td>
         </tr>
         <tr>
           <td>
             <h6>CEP</h6>
           </td>
-          <td>49066-900</td>
+          <td>{{endereco.cep}}</td>
         </tr>
 
       </tbody>
 
-    </table>
+    </table> -->
   </nav>
   </div>
