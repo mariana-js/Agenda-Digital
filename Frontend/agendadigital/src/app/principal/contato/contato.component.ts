@@ -7,6 +7,7 @@ import { Endereco } from '../../models/endereco';
 import { Funcionario } from '../../models/funcionario';
 import { Setor } from '../../models/setor';
 import { SetorRamal } from '../../models/setor-ramal';
+import { ContatoStateService } from '../../services/contato-state.service';
 
 @Component({
   selector: 'app-contato',
@@ -23,13 +24,12 @@ export class ContatoComponent {
   setores: Setor[] = [];
   endereco: Endereco[] = [];
 
-  id_contato = '1f49cd84-4142-4deb-9201-b785a43af48b';
-
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private contatoStateService: ContatoStateService) {
     this.url = 'http://localhost:8080';
   }
 
   ngOnInit() {
+
     forkJoin({
       contato: this.http.get<Contato[]>(`${this.url}/pessoa`),
       funcionario: this.http.get<Funcionario[]>(`${this.url}/funcionario/all`),
@@ -45,13 +45,23 @@ export class ContatoComponent {
       this.endereco = endereco;
       this.getInformacoes(); // Chamada para obter informações depois de carregar os dados
     });
+
   }
 
   getInformacoes() {
 
-    //Dados da pesso
-    const pessoa = this.contato.find(pessoa => pessoa.id_pessoa === this.id_contato)
-    if (pessoa != undefined){
+    const contatoSelecionado = this.contatoStateService.contatoSelecionado;
+    if (contatoSelecionado && contatoSelecionado.id_contatoSelecionado) {
+      const id_contato = contatoSelecionado.id_contatoSelecionado;
+      console.log('Aqui é o id do contato selecionado - Contato:', id_contato);
+    } else {
+      console.log('Erro ao trazer o id do contato selecionado');
+    }
+    const id_contato = this.contatoStateService.contatoSelecionado?.id_contatoSelecionado;
+    //Dados da pessoa
+    const pessoa = this.contato.find(pessoa => pessoa.id_pessoa === id_contato)
+    console.log(id_contato,pessoa)
+    if (pessoa !== undefined) {
       console.log('Informações do contato:', pessoa);
     } else {
       console.log('ERRO: Id do contato não encontrado!')
@@ -60,7 +70,7 @@ export class ContatoComponent {
 
     //Dados do endereco da pessoa
     const endereco = this.endereco.find(endereco => endereco.id_pessoa === pessoa?.id_pessoa);
-    if (endereco != undefined){
+    if (endereco !== undefined) {
       console.log('Informações do endereço:', endereco);
 
     } else {
@@ -68,9 +78,9 @@ export class ContatoComponent {
     }
 
     //Dados do funcionario
-    const funcionario = this.funcionario.find(funcionario => funcionario.id_pessoa === this.id_contato)
+    const funcionario = this.funcionario.find(funcionario => funcionario.id_pessoa === id_contato)
 
-    if (funcionario != undefined) {
+    if (funcionario !== undefined) {
 
       const setor_ramal = this.setor_ramais.find(setor_ramal => setor_ramal.id_setor_ramal === funcionario?.id_setor_ramal)
       const setor = this.setores.find(setor => setor_ramal?.id_setor === setor.id_setor)

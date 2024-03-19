@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Contato } from '../../models/contato';
 import { NavAniversariantesComponent } from "../nav-aniversariantes/nav-aniversariantes.component";
+import { ContatoStateService } from '../../services/contato-state.service';
 
 @Component({
   selector: 'app-principal',
@@ -13,11 +14,14 @@ import { NavAniversariantesComponent } from "../nav-aniversariantes/nav-aniversa
   imports: [HttpClientModule, NavAniversariantesComponent, NgFor]
 })
 export class PrincipalComponent {
-  readonly url: string;
+  readonly url: string
+
+  id_contatoSelecionado: string | null = null;
+
   contatos: Contato[] = [];
   amount: number = 0;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private contatoStateService: ContatoStateService) {
     this.url = 'http://localhost:8080';
   }
   ngOnInit() {
@@ -37,9 +41,12 @@ export class PrincipalComponent {
 
   }
 
-  informacoes() {
+  informacoes(contato: Contato) {
+    contato.id_contatoSelecionado = contato.id_pessoa; // Atribui o id_contatoSelecionado do componente para o contato selecionado
+    console.log('Aqui é o id do contato selecionado - Principal: ', contato.id_contatoSelecionado)
+    this.contatoStateService.contatoSelecionado = contato; // Armazena o contato selecionado no serviço
     this.router.navigate(['/contato']);
-    
+
   }
 
   search(){}

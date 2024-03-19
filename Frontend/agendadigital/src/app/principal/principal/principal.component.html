@@ -25,9 +25,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let contato of contatos" (click)="informacoes()" >
+                <tr *ngFor="let contato of contatos" (click)="informacoes(contato)">
                   <td class="image"> <img src="assets/foto/foto.png" alt=""></td>
-                  <td>{{ contato.nome_pessoa }} </td>
+                  <td >{{ contato.nome_pessoa }} </td>
                   <td>{{ contato.email }}</td>
                   <td>{{ contato.telefone}}</td>
                 </tr>

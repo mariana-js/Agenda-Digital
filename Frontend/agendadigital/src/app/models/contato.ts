@@ -1,5 +1,6 @@
 export interface Contato {
   id_pessoa:string;
+  id_contatoSelecionado?: string | null;
   nome_pessoa: string;
 
   email: string;
