@@ -1,27 +1,26 @@
-
 <div class="container">
   <nav class="pagina-pessoa">
 
 
-    <!-- <table class="title-contact custom-color">
+    <table class="title-contact custom-color">
       <tbody>
         <tr>
-          <td *ngFor="let pessoa of contato">
-            <h1>{{pessoa.nome_pessoa}}</h1>
+          <td>
+            <h1>{{nome}}</h1>
           </td>
           <td rowspan="2">
             <div class="image-container">
               <img src="assets/foto/foto.png" alt="foto-contato">
             </div>
           </td>
-        </tr> -->
-        <!-- <tr>
+        </tr>
+        <tr>
           <td class="informacoes">
-            <span>{{setor.nome_setor}} - {{setor.sigla_setor}}</span>
-            <span>Ramal: {{ramal.numero_ramal}}</span>
+            <span>{{nome_setor }}  {{ sigla }}</span>
+            <span> {{ ramal}}</span>
           </td>
-        </tr> -->
-      <!-- </tbody>
+        </tr>
+      </tbody>
 
     </table>
 
@@ -32,34 +31,33 @@
         </tr>
       </thead>
 
-      <tbody *ngFor="let pessoa of contato">
+      <tbody>
         <tr>
           <td>
             <h6>E-mail</h6>
           </td>
-          <td>{{pessoa.email}}</td>
+          <td>{{email}}</td>
         </tr>
         <tr>
           <td>
-            <h6>Celular Corporativo</h6>
+            <h6>Celular 1</h6>
           </td>
-          <td>{{pessoa.celular_corporativo}}</td>
+          <td>{{cel_corp}}</td>
         </tr>
         <tr>
           <td>
-            <h6>Celular Pessoal</h6>
+            <h6>Celular 2</h6>
           </td>
-          <td>{{pessoa.celular_pessoal}}</td>
+          <td>{{cel_pes}}</td>
         </tr>
         <tr>
           <td>
             <h6>Telefone</h6>
           </td>
-          <td>{{pessoa.telefone}}</td>
+          <td>{{telefone}}</td>
         </tr>
       </tbody>
-    </table> -->
-      <!-- <thead>
+      <thead>
         <tr>
           <th colspan="2">Endereço</th>
         </tr>
@@ -70,35 +68,36 @@
           <td>
             <h6>Logradouro</h6>
           </td>
-          <td>{{endereco.logradouro}}</td>
+          <td>{{logradouro}}</td>
         </tr>
         <tr>
           <td>
             <h6>Bairro</h6>
           </td>
-          <td>{{endereco.bairro}}</td>
+          <td>{{bairro}}</td>
         </tr>
         <tr>
           <td>
             <h6>Cidade</h6>
           </td>
-          <td>{{endereco.cidade}}</td>
+          <td>{{cidade}}</td>
         </tr>
         <tr>
           <td>
             <h6>Estado</h6>
           </td>
-          <td>{{endereco.estado}} - {{endereco.uf}}</td>
+          <td>{{estado}} {{uf}}</td>
         </tr>
         <tr>
           <td>
             <h6>CEP</h6>
           </td>
-          <td>{{endereco.cep}}</td>
+          <td>{{cep}}</td>
         </tr>
 
       </tbody>
 
-    </table> -->
+
+    </table>
   </nav>
-  </div>
+</div>

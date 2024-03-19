@@ -17,6 +17,7 @@ import { ContatoStateService } from '../../services/contato-state.service';
   styleUrl: './contato.component.css'
 })
 export class ContatoComponent {
+
   readonly url: string;
   contato: Contato[] = [];
   funcionario: Funcionario[] = [];
@@ -24,13 +25,36 @@ export class ContatoComponent {
   setores: Setor[] = [];
   endereco: Endereco[] = [];
 
+  //contato
+  nome: string | undefined;
+  email: string | undefined;
+  cel_corp: string | undefined;
+  cel_pes: string | undefined;
+  telefone: string | undefined;
+
+  //endereco
+  logradouro: string | undefined;
+  bairro: string | undefined;
+  cidade: string | undefined;
+  estado: string | undefined;
+  uf: string | undefined;
+  cep: string | undefined;
+
+  //setor
+  nome_setor: string | undefined;
+  sigla: string | undefined;
+  ramal: string | undefined;
+
+  contatoSelecionado: Contato | null | undefined;
+
   constructor(private http: HttpClient, private contatoStateService: ContatoStateService) {
     this.url = 'http://localhost:8080';
   }
 
   ngOnInit() {
-
+    this.contatoSelecionado = this.contatoStateService.contatoSelecionado;
     forkJoin({
+
       contato: this.http.get<Contato[]>(`${this.url}/pessoa`),
       funcionario: this.http.get<Funcionario[]>(`${this.url}/funcionario/all`),
       setor_ramais: this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`),
@@ -47,31 +71,43 @@ export class ContatoComponent {
     });
 
   }
-
   getInformacoes() {
 
     const contatoSelecionado = this.contatoStateService.contatoSelecionado;
     if (contatoSelecionado && contatoSelecionado.id_contatoSelecionado) {
       const id_contato = contatoSelecionado.id_contatoSelecionado;
       console.log('Aqui é o id do contato selecionado - Contato:', id_contato);
+      this.nome = contatoSelecionado.nome_pessoa;
+      this.email = contatoSelecionado.email;
+      this.cel_corp = contatoSelecionado.celular_corporativo;
+      this.cel_pes = contatoSelecionado.celular_pessoal;
+      this.telefone = contatoSelecionado.telefone;
+
     } else {
       console.log('Erro ao trazer o id do contato selecionado');
     }
     const id_contato = this.contatoStateService.contatoSelecionado?.id_contatoSelecionado;
+
     //Dados da pessoa
     const pessoa = this.contato.find(pessoa => pessoa.id_pessoa === id_contato)
-    console.log(id_contato,pessoa)
+    console.log(id_contato, pessoa)
+
     if (pessoa !== undefined) {
       console.log('Informações do contato:', pessoa);
+
     } else {
       console.log('ERRO: Id do contato não encontrado!')
     }
 
-
     //Dados do endereco da pessoa
     const endereco = this.endereco.find(endereco => endereco.id_pessoa === pessoa?.id_pessoa);
     if (endereco !== undefined) {
-      console.log('Informações do endereço:', endereco);
+      this.logradouro = endereco.logradouro;
+      this.bairro = endereco.bairro;
+      this.cidade = endereco.cidade;
+      this.estado = `${endereco.estado} -`;
+      this.uf = endereco.uf;
+      this.cep = endereco.cep;
 
     } else {
       console.log('ERRO: Contato não possui endereço!')
@@ -85,9 +121,9 @@ export class ContatoComponent {
       const setor_ramal = this.setor_ramais.find(setor_ramal => setor_ramal.id_setor_ramal === funcionario?.id_setor_ramal)
       const setor = this.setores.find(setor => setor_ramal?.id_setor === setor.id_setor)
 
-      console.log('Informações do funcionário:', funcionario);
-      console.log('Nome do setor:', setor?.nome_setor);
-      console.log('Sigla do setor:', setor?.sigla_setor);
+      this.nome_setor = `${setor?.nome_setor} -`;
+      this.sigla = setor?.sigla_setor;
+      this.ramal = `Ramal: ${setor_ramal?.id_ramal_setor}`;
 
     } else {
       console.log('ERRO: Não é funcionario!')
@@ -95,4 +131,6 @@ export class ContatoComponent {
 
 
   }
+
+
 }
