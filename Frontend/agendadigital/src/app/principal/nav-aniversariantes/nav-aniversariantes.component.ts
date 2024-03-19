@@ -42,19 +42,20 @@ export class NavAniversariantesComponent implements OnInit {
 
   getAniversariantes(): void {
     const dataAtual = new Date();
-    const mesAtual = dataAtual.getMonth() + 1;
-  
+    const mesAtual = dataAtual.getMonth() +1;
+
     this.http.get<Funcionario[]>(`${this.url}/funcionario?mes=${mesAtual}`).subscribe(aniversariantes => {
       this.aniversariantes = aniversariantes.map(aniversariante => {
         const contato = this.contatos.find(contato => contato.id_pessoa === aniversariante.id_pessoa);
         const setorRamal = this.setor_ramais.find(setorRamal => setorRamal.id_setor_ramal === aniversariante.id_setor_ramal);
         const setor = setorRamal?.id_setor ? this.setores.find(setor => setor.id_setor === setorRamal.id_setor) : undefined;
-  
+
         // Separando a data de nascimento em dia e mês
         const dataNascimento = new Date(aniversariante.data_nascimento);
-        const dia = (dataNascimento.getDate() + 1 ).toString().padStart(2, '0');
-        const mes = (dataNascimento.getMonth() + 1).toString().padStart(2, '0');
-  
+        const dia = dataNascimento.getUTCDate().toString().padStart(2, '0');
+        const mes = (dataNascimento.getUTCMonth() + 1).toString().padStart(2, '0');
+
+
         return {
           ...aniversariante,
           nome: contato?.nome_pessoa || 'Nome não encontrado',
@@ -66,6 +67,6 @@ export class NavAniversariantesComponent implements OnInit {
       });
     });
   }
-  
+
 
 }

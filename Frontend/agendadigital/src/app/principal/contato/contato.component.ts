@@ -52,6 +52,13 @@ export class ContatoComponent {
   }
 
   ngOnInit() {
+    // Recupera o contato selecionado do localStorage ao inicializar o componente
+    const contatoSelecionadoStorage = localStorage.getItem('contatoSelecionado');
+    if (contatoSelecionadoStorage) {
+      this.contatoSelecionado = JSON.parse(contatoSelecionadoStorage);
+      console.log('LocalStorage: ',contatoSelecionadoStorage)
+    }
+
     this.contatoSelecionado = this.contatoStateService.contatoSelecionado;
     forkJoin({
 
@@ -72,11 +79,10 @@ export class ContatoComponent {
 
   }
   getInformacoes() {
-
+    //Dados do contato
     const contatoSelecionado = this.contatoStateService.contatoSelecionado;
     if (contatoSelecionado && contatoSelecionado.id_contatoSelecionado) {
       const id_contato = contatoSelecionado.id_contatoSelecionado;
-      console.log('Aqui é o id do contato selecionado - Contato:', id_contato);
       this.nome = contatoSelecionado.nome_pessoa;
       this.email = contatoSelecionado.email;
       this.cel_corp = contatoSelecionado.celular_corporativo;
@@ -90,10 +96,9 @@ export class ContatoComponent {
 
     //Dados da pessoa
     const pessoa = this.contato.find(pessoa => pessoa.id_pessoa === id_contato)
-    console.log(id_contato, pessoa)
 
     if (pessoa !== undefined) {
-      console.log('Informações do contato:', pessoa);
+      console.log('Informações.');
 
     } else {
       console.log('ERRO: Id do contato não encontrado!')

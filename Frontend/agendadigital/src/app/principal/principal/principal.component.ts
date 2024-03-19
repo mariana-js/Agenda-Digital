@@ -42,9 +42,8 @@ export class PrincipalComponent {
   }
 
   informacoes(contato: Contato) {
-    contato.id_contatoSelecionado = contato.id_pessoa; // Atribui o id_contatoSelecionado do componente para o contato selecionado
-    console.log('Aqui é o id do contato selecionado - Principal: ', contato.id_contatoSelecionado)
-    this.contatoStateService.contatoSelecionado = contato; // Armazena o contato selecionado no serviço
+    contato.id_contatoSelecionado = contato.id_pessoa;
+    this.contatoStateService.contatoSelecionado = contato;
     this.router.navigate(['/contato']);
 
   }
