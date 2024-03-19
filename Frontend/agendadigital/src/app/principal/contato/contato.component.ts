@@ -23,8 +23,7 @@ export class ContatoComponent {
   setores: Setor[] = [];
   endereco: Endereco[] = [];
 
-  id_contato = '32500971-b49f-427b-a3b6-ed9136212a53';
-  id_funcionario = '';
+  id_contato = '1f49cd84-4142-4deb-9201-b785a43af48b';
 
   constructor(private http: HttpClient) {
     this.url = 'http://localhost:8080';
@@ -52,7 +51,12 @@ export class ContatoComponent {
 
     //Dados da pesso
     const pessoa = this.contato.find(pessoa => pessoa.id_pessoa === this.id_contato)
-    console.log('Informações do contato:', pessoa);
+    if (pessoa != undefined){
+      console.log('Informações do contato:', pessoa);
+    } else {
+      console.log('ERRO: Id do contato não encontrado!')
+    }
+
 
     //Dados do endereco da pessoa
     const endereco = this.endereco.find(endereco => endereco.id_pessoa === pessoa?.id_pessoa);
@@ -60,11 +64,11 @@ export class ContatoComponent {
       console.log('Informações do endereço:', endereco);
 
     } else {
-      console.log('Contato não possui endereço!')
+      console.log('ERRO: Contato não possui endereço!')
     }
 
     //Dados do funcionario
-    const funcionario = this.funcionario.find(funcionario => funcionario.id_funcionario === this.id_funcionario)
+    const funcionario = this.funcionario.find(funcionario => funcionario.id_pessoa === this.id_contato)
 
     if (funcionario != undefined) {
 
@@ -76,7 +80,7 @@ export class ContatoComponent {
       console.log('Sigla do setor:', setor?.sigla_setor);
 
     } else {
-      console.log('Não é funcionario!')
+      console.log('ERRO: Não é funcionario!')
     }
 
 
