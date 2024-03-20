@@ -48,7 +48,10 @@ export class PrincipalComponent {
   informacoes(contato: Contato) {
     contato.id_contatoSelecionado = contato.id_pessoa;
     this.contatoStateService.contatoSelecionado = contato;
-    this.router.navigate(['/contato']);
+    // this.router.navigate(['/contato']);
+
+      this.router.navigate(['/contato', contato.id_contatoSelecionado]);
+
 
   }
 

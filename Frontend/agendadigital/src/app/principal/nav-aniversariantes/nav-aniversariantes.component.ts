@@ -6,14 +6,13 @@ import { Contato } from '../../models/contato';
 import { Funcionario } from '../../models/funcionario';
 import { Setor } from '../../models/setor';
 import { SetorRamal } from '../../models/setor-ramal';
-import { ContatoComponent } from '../contato/contato.component';
 
 @Component({
   selector: 'app-nav-aniversariantes',
   standalone: true,
   templateUrl: './nav-aniversariantes.component.html',
   styleUrl: './nav-aniversariantes.component.css',
-  imports: [NgFor, HttpClientModule, ContatoComponent]
+  imports: [NgFor, HttpClientModule]
 })
 export class NavAniversariantesComponent implements OnInit {
   readonly url: string;
@@ -50,11 +49,11 @@ export class NavAniversariantesComponent implements OnInit {
         const setorRamal = this.setor_ramais.find(setorRamal => setorRamal.id_setor_ramal === aniversariante.id_setor_ramal);
         const setor = setorRamal?.id_setor ? this.setores.find(setor => setor.id_setor === setorRamal.id_setor) : undefined;
 
+
         // Separando a data de nascimento em dia e mês
         const dataNascimento = new Date(aniversariante.data_nascimento);
         const dia = dataNascimento.getUTCDate().toString().padStart(2, '0');
         const mes = (dataNascimento.getUTCMonth() + 1).toString().padStart(2, '0');
-
 
         return {
           ...aniversariante,
