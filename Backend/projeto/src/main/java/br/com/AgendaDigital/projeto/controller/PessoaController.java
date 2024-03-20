@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.AgendaDigital.dtos.PessoaDtos;
+import br.com.AgendaDigital.projeto.model.Funcionario;
 import br.com.AgendaDigital.projeto.model.Pessoa;
 import br.com.AgendaDigital.projeto.services.PessoaService;
 
@@ -80,14 +81,6 @@ public class PessoaController {
 		return ResponseEntity.status(HttpStatus.OK).body(pessoaOptional.get());
 	}
 
-	// // Endpoint para pesquisar contatos por nome
-	// @PostMapping("/search")
-	// public ResponseEntity<List<Pessoa>> searchPessoas(@RequestBody Map<String,
-	// String> requestBody) {
-	// String nomePessoa = requestBody.get("nome_pessoa");
-	// List<Pessoa> pessoas = pessoaService.findByNome(nomePessoa);
-	// return ResponseEntity.status(HttpStatus.OK).body(pessoas);
-	// }
 
 	@DeleteMapping("/{id_pessoa}")
 	public ResponseEntity<Object> deletePessoa(@PathVariable(value = "id_pessoa") UUID id_pessoa) {

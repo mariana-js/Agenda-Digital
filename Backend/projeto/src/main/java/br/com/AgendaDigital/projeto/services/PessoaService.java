@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import br.com.AgendaDigital.projeto.model.Funcionario;
 import br.com.AgendaDigital.projeto.model.Pessoa;
 import br.com.AgendaDigital.projeto.repositories.PessoaRepository;
 
@@ -39,6 +40,7 @@ public class PessoaService {
     public void delete(Pessoa pessoa) {
         pessoaRepository.delete(pessoa);
     }
+
 
     // public List<Pessoa> findByNome(String nome_pessoa) {
     //     return pessoaRepository.findByNome(nome_pessoa);

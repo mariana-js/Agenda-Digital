@@ -7,37 +7,38 @@
 
     <div class="principal">
       <div class="search">
-        <input type="text" placeholder="Pesquisar...">
+        <input type="text" placeholder="Pesquisar..." [(ngModel)]="searchTerm">
         <button class="search-button" (click)="search()">Buscar</button>
+      </div>
+      <span>{{retorno}}</span>
+      <div class="page">
 
-        <div class="page">
+        <h2>Contatos <span>( {{amount}} )</span></h2>
+        <div class="page2">
+          <table>
+            <thead>
 
-          <h2>Contatos <span >( {{amount}} )</span></h2>
-          <div class="page2">
-            <table>
-              <thead>
+              <tr>
+                <th></th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Telefone</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let contato of contatos" (click)="informacoes(contato)">
+                <td class="image"> <img src="assets/foto/foto.png" alt=""></td>
+                <td>{{ contato.nome_pessoa }} </td>
+                <td>{{ contato.email }}</td>
+                <td>{{ contato.telefone}}</td>
+              </tr>
+            </tbody>
 
-                <tr>
-                  <th></th>
-                  <th>Nome</th>
-                  <th>Email</th>
-                  <th>Telefone</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let contato of contatos" (click)="informacoes(contato)">
-                  <td class="image"> <img src="assets/foto/foto.png" alt=""></td>
-                  <td >{{ contato.nome_pessoa }} </td>
-                  <td>{{ contato.email }}</td>
-                  <td>{{ contato.telefone}}</td>
-                </tr>
-              </tbody>
-
-            </table>
-            <button>Próxima Página >></button>
-          </div>
+          </table>
+          <button>Próxima Página >></button>
         </div>
       </div>
-    </div>
-  </nav>
+
+</div>
+</nav>
 </div>
