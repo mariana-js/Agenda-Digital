@@ -54,11 +54,7 @@ export class PrincipalComponent {
 
 
   search() {
-    console.log('Search')
-    // Captura o valor do input usando o ElementRef
     const searchTerm = (document.querySelector('.search input') as HTMLInputElement).value;
-
-    // Chama a função de busca passando o termo de pesquisa
     this.filterContacts(searchTerm);
   }
 
@@ -70,7 +66,6 @@ export class PrincipalComponent {
     } else {
       this.retorno = "";
     }
-    console.log('Search 2', searchTerm)
     this.http.get<Contato[]>(`${this.url}/pessoa`)
       .subscribe(resultados => {
         this.contatos = resultados.filter(contato =>
