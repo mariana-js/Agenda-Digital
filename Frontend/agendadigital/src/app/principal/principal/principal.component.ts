@@ -65,7 +65,10 @@ export class PrincipalComponent {
   filterContacts(searchTerm: string) {
     if (searchTerm.trim() === '') {
       this.getContatos();
+
       return;
+    } else {
+      this.retorno = "";
     }
     console.log('Search 2', searchTerm)
     this.http.get<Contato[]>(`${this.url}/pessoa`)
@@ -74,6 +77,7 @@ export class PrincipalComponent {
           contato.flag_privado === false &&
           contato.nome_pessoa.toLowerCase().includes(searchTerm.toLowerCase())
         );
+
         this.amount = this.contatos.length;
         if (this.amount === 0) {
           this.retorno = "Nenhum contato encontrado.";
