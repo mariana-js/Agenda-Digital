@@ -2,12 +2,13 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import { Contato } from '../../models/contato';
 import { Endereco } from '../../models/endereco';
 import { Funcionario } from '../../models/funcionario';
 import { Setor } from '../../models/setor';
 import { SetorRamal } from '../../models/setor-ramal';
 import { ContatoStateService } from '../../services/contato-state.service';
+import { Contato } from './../../models/contato';
+import { UntypedFormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-contato',
@@ -44,6 +45,7 @@ export class ContatoComponent implements OnInit {
   sigla: string | undefined;
   ramal: string | undefined;
   contatoSelecionado: Contato | null = null;
+
   constructor(
     private http: HttpClient,
     private contatoStateService: ContatoStateService,
@@ -54,13 +56,6 @@ export class ContatoComponent implements OnInit {
   }
 
   ngOnInit() {
-
-  this.getIdSelecionado();
-    const idContato = this.contatoStateService.contatoSelecionado?.id_contatoSelecionado;
-    if (idContato) {
-      this.router.navigate(['/contato', idContato]);
-
-    }
 
     forkJoin({
       contato: this.http.get<Contato[]>(`${this.url}/pessoa`),
@@ -78,24 +73,24 @@ export class ContatoComponent implements OnInit {
     });
   }
 
-  getIdSelecionado(){
-    const id = this.activatedRoute.snapshot.params['id'];
-    console.log(`ID da rota: ${id}`);
-  }
-
   getInformacoes() {
-    const id = this.activatedRoute.snapshot.params['id'];
-    console.log(`ID da rota: ${id}`);
     // Dados do contato
+    // Depois ajeitar esse erro que ao recarregar a pagina os
+    //       valores não retornando porque o id do contato se perde ao recarregar
     const contatoSelecionado = this.contatoStateService.contatoSelecionado;
-    if (contatoSelecionado && contatoSelecionado.id_contatoSelecionado) {
+
+    if (contatoSelecionado && (contatoSelecionado.id_contatoSelecionado)) {
       const id_contato = contatoSelecionado.id_contatoSelecionado;
       this.nome = contatoSelecionado.nome_pessoa;
       this.email = contatoSelecionado.email;
       this.cel_corp = contatoSelecionado.celular_corporativo;
       this.cel_pes = contatoSelecionado.celular_pessoal;
       this.telefone = contatoSelecionado.telefone;
-    } else {
+
+    } if ((contatoSelecionado && contatoSelecionado.id_contatoSelecionado) === null || undefined) {
+          console.log('O cantato está retornando ', contatoSelecionado)
+    }
+    else {
       console.log('Erro ao trazer o id do contato selecionado');
     }
 
@@ -134,6 +129,4 @@ export class ContatoComponent implements OnInit {
       console.log('ERRO: Não é funcionario!')
     }
   }
-
-
 }

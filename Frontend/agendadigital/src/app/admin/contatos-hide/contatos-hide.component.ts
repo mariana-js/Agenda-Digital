@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { Contato } from './../../models/contato';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ContatoStateService } from '../../services/contato-state.service';
 @Component({
   selector: 'app-contatos-hide',
   standalone: true,
@@ -13,11 +15,12 @@ import { FormsModule } from '@angular/forms';
 })
 export class ContatosHideComponent {
   readonly url: string;
+  id_contatoSelecionado: string | null = null;
   contatosHide: Contato[] = [];
   amount: number = 0;
   searchTerm: string = '';
   retorno: string = "";
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router, private contatoStateService: ContatoStateService) {
     this.url = 'http://localhost:8080';
   }
 
@@ -36,7 +39,15 @@ export class ContatosHideComponent {
       }
     });
   }
+  informacoes(contatosHide: Contato) {
+    contatosHide.id_contatoSelecionado = contatosHide.id_pessoa;
+    this.contatoStateService.contatoSelecionado = contatosHide;
+    // this.router.navigate(['/contato']);
 
+      this.router.navigate(['/contato', contatosHide.id_contatoSelecionado]);
+
+
+  }
   search() {
     const searchTerm = (document.querySelector('.search input') as HTMLInputElement).value;
     this.filterContacts(searchTerm);
