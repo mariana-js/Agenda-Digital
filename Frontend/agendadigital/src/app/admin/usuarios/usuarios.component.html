@@ -31,14 +31,14 @@
 
             <form>
               <label for="usuario">Usuário</label>
-              <input type="text" placeholder="Ex.: marianasilva">
+              <input type="text" placeholder="Ex.: marianasilva" [(ngModel)]="usuario" name="usuario">
 
               <label for="nome">Nome</label>
-              <input type="text" placeholder="Ex.: Mariana Silva">
+              <input type="text" placeholder="Ex.: Mariana Silva"[(ngModel)]="nome" name="nome">
 
               <label for="senha">Senha</label>
-              <input type="password">
-              <button> Salvar </button>
+              <input type="password" [(ngModel)]="senha" name="senha">
+              <button (click)="adicionarUsuario()"> Salvar </button>
 
             </form>
 

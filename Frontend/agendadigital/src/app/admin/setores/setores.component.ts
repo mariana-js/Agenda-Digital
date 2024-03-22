@@ -17,7 +17,7 @@ export class SetoresComponent {
   sigla: string = '';
 
   setores: Setor[] = [];
-  novoSetor: Setor = { id_setor: '' , nome_setor: this.setor, sigla_setor: this.sigla }; // Novo setor a ser inserido
+  novoSetor: Setor = { id_setor: '' , nome_setor: this.setor, sigla_setor: this.sigla };
 
   constructor(private http: HttpClient) {
     this.url = 'http://localhost:8080';
@@ -36,7 +36,6 @@ export class SetoresComponent {
   }
 
   adicionarSetor() {
-    console.log('Adicionando setor!');
     this.novoSetor.nome_setor = this.setor;
     this.novoSetor.sigla_setor = this.sigla;
 
@@ -44,11 +43,11 @@ export class SetoresComponent {
       .subscribe(novoSetor => {
         this.setores.push(novoSetor);
         this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
-        this.setor = ''; // Limpar os campos do formulário após a inserção
+        this.setor = '';
         this.sigla = '';
       }, error => {
         console.error('Erro ao adicionar setor:', error);
-        // Manipule os erros de requisição aqui, se necessário
+
       });
   }
 }
