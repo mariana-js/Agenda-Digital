@@ -51,7 +51,7 @@ export class SetoresComponent {
 
     if (setorExistente) {
       // Se setorExistente não for undefined, um setor correspondente foi encontrado na lista
-      alert('O setor já existe.');
+      alert('O setor já está cadastrado.');
       return; // Parar a execução da função se o setor já existir localmente
     }
     this.http.post<Setor>(`${this.url}/setor`, this.novoSetor)

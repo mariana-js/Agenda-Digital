@@ -44,8 +44,8 @@ export class RamaisComponent {
       numero_ramal: this.http.get<Ramal[]>(`${this.url}/ramal`),
     }).subscribe(({ numero_ramal }) => {
       this.numero_ramal = numero_ramal;
+      this.getRamais();
     });
-    this.getRamais();
 
   }
 
@@ -86,20 +86,22 @@ export class RamaisComponent {
       ramal.numero_ramal.trim().toLowerCase() === this.novoRamal.numero_ramal.trim().toLowerCase()
     );
 
-    console.log('resposta de ramal existe',ramalExistente)
+    console.log('resposta de ramal existe', ramalExistente)
 
     if (ramalExistente) {
       alert('O ramal já está cadastrado.');
+      this.resposta = false;
       return;
     }
 
     this.http.post<Ramal>(`${this.url}/ramal`, this.novoRamal)
       .subscribe(
-        novoSetor => {
-          this.numero_ramal.push(this.novoRamal);
+        novoRamal => {
+          this.numero_ramal.push(novoRamal);
           this.ramal = '';
           this.resposta = true;
-          console.log('Resposta 1: ',this.resposta)
+          console.log('Resposta 1: ', this.resposta)
+          this.adicionarSetorRamal(this.resposta, this.novoRamal.numero_ramal);
         }
       );
   }
@@ -107,25 +109,22 @@ export class RamaisComponent {
   onChange(event: any) {
     // Obtendo o valor selecionado
     const valorSelecionado = event.target.value;
-    console.log('Valor selecionado:', valorSelecionado);
     this.setor = valorSelecionado;
   }
 
-  adicionarSetorRamal() {
-    this.adicionarRamal();
-    console.log('Valor de setor: ', this.setor)
-    this.novoSetorRamal.id_ramal_setor = this.ramal;
+  adicionarSetorRamal(resposta: boolean,ramal: string) {
     this.novoSetorRamal.id_setor = this.setor;
+    this.novoSetorRamal.id_ramal_setor = ramal;
 
-    console.log('Resposta 2: ',this.resposta)
-    if (this.resposta === true) {
+    console.log('Resposta 2: ', resposta, ramal, this.novoSetorRamal.id_setor)
+    if (resposta == true) {
       this.http.post<SetorRamal>(`${this.url}/setor_ramal`, this.novoSetorRamal)
         .subscribe(
           novoSetorRamal => {
             this.setor_ramais.push(novoSetorRamal);
             this.setor = 'opcao1';
             this.ramal = '';
-
+            this.getRamais();
           }
         );
     } else {
