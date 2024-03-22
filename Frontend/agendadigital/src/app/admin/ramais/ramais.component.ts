@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { SetorRamal } from '../../models/setor-ramal';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { Setor } from './../../models/setor';
+import { Ramal } from '../../models/ramal';
 
 @Component({
   selector: 'app-ramais',
@@ -17,6 +18,14 @@ export class RamaisComponent {
 
   setor_ramais: SetorRamal[] = [];
   setores: Setor[] = [];
+
+  novoRamal: Ramal = {numero_ramal: ''};
+  novoSetorRamal: SetorRamal = {
+    id_setor_ramal: '',
+    id_setor: '',
+    id_ramal_setor: '',
+    setor: ''
+  };
 
   constructor(private http: HttpClient) {
     this.url = 'http://localhost:8080';
@@ -45,7 +54,7 @@ export class RamaisComponent {
   getNomeSetores() {
     this.setor_ramais.forEach(setor_ramal => {
       const setor = this.setores.find(setor => setor.id_setor === setor_ramal.id_setor);
-      
+
       if (setor) {
         setor_ramal.setor = setor.nome_setor;
       } else {
