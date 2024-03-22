@@ -36,11 +36,11 @@
             <form>
               <fieldset>
                 <label for="name">Setor</label>
-                <input type="text" placeholder="Ex.: Orçamento"> <br>
+                <input type="text" placeholder="Ex.: Orçamento" [(ngModel)]="setor" name="setor"> <br>
                 <label for="sigla">Sigla</label>
-                <input type="text" placeholder="Ex.: OR">
+                <input type="text" placeholder="Ex.: OR" [(ngModel)]="sigla" name="sigla">
                 <br>
-                <button> Salvar </button>
+                <button (click)="adicionarSetor()"> Salvar </button>
               </fieldset>
             </form>
 

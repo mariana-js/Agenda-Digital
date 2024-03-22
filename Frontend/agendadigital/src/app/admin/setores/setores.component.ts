@@ -3,17 +3,21 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Setor } from '../../models/setor';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-setores',
   standalone: true,
   templateUrl: './setores.component.html',
   styleUrl: './setores.component.css',
-  imports: [NavAdminComponent, NgFor, HttpClientModule]
+  imports: [NavAdminComponent, NgFor, HttpClientModule, FormsModule]
 })
 export class SetoresComponent {
   readonly url: string;
-  setores: Setor[] = [];
+  setor: string = '';
+  sigla: string = '';
 
+  setores: Setor[] = [];
+  novoSetor: Setor = { id_setor: '' , nome_setor: this.setor, sigla_setor: this.sigla }; // Novo setor a ser inserido
 
   constructor(private http: HttpClient) {
     this.url = 'http://localhost:8080';
@@ -28,6 +32,23 @@ export class SetoresComponent {
         this.setores = resultados;
         this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
 
+      });
+  }
+
+  adicionarSetor() {
+    console.log('Adicionando setor!');
+    this.novoSetor.nome_setor = this.setor;
+    this.novoSetor.sigla_setor = this.sigla;
+
+    this.http.post<Setor>(`${this.url}/setor`, this.novoSetor)
+      .subscribe(novoSetor => {
+        this.setores.push(novoSetor);
+        this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
+        this.setor = ''; // Limpar os campos do formulário após a inserção
+        this.sigla = '';
+      }, error => {
+        console.error('Erro ao adicionar setor:', error);
+        // Manipule os erros de requisição aqui, se necessário
       });
   }
 }
