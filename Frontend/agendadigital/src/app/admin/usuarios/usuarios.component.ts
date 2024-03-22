@@ -18,6 +18,7 @@ export class UsuariosComponent {
   nome: string = '';
   usuario: string = '';
   senha: string = '';
+  userSelecionado : Usuario | null = null;
   novoUsuario: Usuario = { id_usuario: '', nome: this.nome, usuario: this.usuario, senha: this.senha }; // Novo setor a ser inserido
 
   constructor(private http: HttpClient) {
@@ -41,7 +42,16 @@ export class UsuariosComponent {
     this.senha = '';
   }
 
-  adicionarUsuario() {
+  adicionarUsuario(){
+    if (this.userSelecionado) {
+      // Se setorSelecionado não for nulo, então estamos atualizando um setor existente
+      this.atualizarUsuario();
+    } else {
+      // Caso contrário, estamos adicionando um novo setor
+      this.adicionarNovoUsuario();
+    }
+  }
+  adicionarNovoUsuario() {
     this.novoUsuario.nome = this.nome;
     this.novoUsuario.usuario = this.usuario;
     this.novoUsuario.senha = this.senha;
@@ -74,6 +84,61 @@ export class UsuariosComponent {
       }, error => {
         console.error('Erro ao adicionar usuario:', error);
       })
+  }
+
+
+  selecionarUsuario(user: Usuario){
+    this.userSelecionado = {...user}
+    this.nome = user.nome;
+    this.usuario = user.usuario;
+    this.senha = user.senha;
+  }
+
+  atualizarUsuario(){
+    if (!this.userSelecionado) return;
+    this.userSelecionado.nome = this.nome;
+    this.userSelecionado.usuario = this.usuario;
+    
+    // Verificar se o nome do setor já existe localmente, excluindo o setor selecionado
+    const nomeExistente = this.users.some(user =>
+      user.nome.trim().toLowerCase() === this.nome.trim().toLowerCase() &&
+      user.id_usuario !== this.userSelecionado?.id_usuario
+    );
+  
+    if (nomeExistente) {
+      alert('Este nome já está cadastrado!');
+      return;
+    }
+  
+    // Verificar se a sigla do setor já existe localmente, excluindo o setor selecionado
+    const usuarioExistente = this.users.some(user =>
+      user.usuario.trim().toLowerCase() === this.usuario.trim().toLowerCase() &&
+      user.id_usuario !== this.userSelecionado?.id_usuario
+    );
+  
+    if (usuarioExistente) {
+      alert('O nome de usuário já está cadastrado!');
+      return;
+    }
+  
+    // Atualizar o setor apenas se nenhum nome ou sigla existir
+    this.userSelecionado.nome = this.nome;
+    this.userSelecionado.usuario = this.usuario;
+    this.userSelecionado.senha = this.senha;
+    
+    this.http.put<Usuario>(`${this.url}/usuario/${this.userSelecionado.id_usuario}`, this.userSelecionado)
+      .subscribe(
+        () => {
+          alert('Setor atualizado com sucesso!');
+          this.clear();
+          this.userSelecionado = null;
+          this.getUsuarios(); // Atualiza a lista de setores após a atualização
+        },
+        error => {
+          console.error('Erro ao atualizar usuário:', error);
+          alert('Erro ao atualizar usuário!');
+        }
+      );
   }
 
 }

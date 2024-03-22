@@ -19,7 +19,7 @@
             </thead>
 
             <tbody>
-              <tr *ngFor="let user of users">
+              <tr *ngFor="let user of users" (click)="selecionarUsuario(user)">
                 <td>{{user.nome}}</td>
                 <td>{{user.usuario}}</td>
               </tr>
