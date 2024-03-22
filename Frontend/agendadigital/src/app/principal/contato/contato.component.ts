@@ -8,7 +8,6 @@ import { Setor } from '../../models/setor';
 import { SetorRamal } from '../../models/setor-ramal';
 import { ContatoStateService } from '../../services/contato-state.service';
 import { Contato } from './../../models/contato';
-import { UntypedFormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-contato',
@@ -74,9 +73,6 @@ export class ContatoComponent implements OnInit {
   }
 
   getInformacoes() {
-    // Dados do contato
-    // Depois ajeitar esse erro que ao recarregar a pagina os
-    //       valores não retornando porque o id do contato se perde ao recarregar
     const contatoSelecionado = this.contatoStateService.contatoSelecionado;
 
     if (contatoSelecionado && (contatoSelecionado.id_contatoSelecionado)) {
@@ -93,7 +89,6 @@ export class ContatoComponent implements OnInit {
     else {
       console.log('Erro ao trazer o id do contato selecionado');
     }
-
     const id_contato = this.contatoStateService.contatoSelecionado?.id_contatoSelecionado;
 
     // Dados da pessoa

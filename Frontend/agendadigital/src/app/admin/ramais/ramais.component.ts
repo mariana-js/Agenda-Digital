@@ -81,26 +81,20 @@ export class RamaisComponent {
 
   adicionarRamal() {
     this.novoRamal.numero_ramal = this.ramal;
-
     const ramalExistente = this.numero_ramal.find(ramal =>
       ramal.numero_ramal.trim().toLowerCase() === this.novoRamal.numero_ramal.trim().toLowerCase()
     );
-
-    console.log('resposta de ramal existe', ramalExistente)
-
     if (ramalExistente) {
       alert('O ramal já está cadastrado.');
       this.resposta = false;
       return;
     }
-
     this.http.post<Ramal>(`${this.url}/ramal`, this.novoRamal)
       .subscribe(
         novoRamal => {
           this.numero_ramal.push(novoRamal);
           this.ramal = '';
           this.resposta = true;
-          console.log('Resposta 1: ', this.resposta)
           this.adicionarSetorRamal(this.resposta, this.novoRamal.numero_ramal);
         }
       );
@@ -115,8 +109,6 @@ export class RamaisComponent {
   adicionarSetorRamal(resposta: boolean,ramal: string) {
     this.novoSetorRamal.id_setor = this.setor;
     this.novoSetorRamal.id_ramal_setor = ramal;
-
-    console.log('Resposta 2: ', resposta, ramal, this.novoSetorRamal.id_setor)
     if (resposta == true) {
       this.http.post<SetorRamal>(`${this.url}/setor_ramal`, this.novoSetorRamal)
         .subscribe(
@@ -131,6 +123,4 @@ export class RamaisComponent {
       alert('Erro ao adicionar o ramal!')
     }
   }
-
-
 }

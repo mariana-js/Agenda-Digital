@@ -21,7 +21,7 @@
               </thead>
 
               <tbody>
-                <tr *ngFor="let setor of setores">
+                <tr *ngFor="let setor of setores" (click)="selecionarSetor(setor)">
                   <td>{{setor.sigla_setor}}</td>
                   <td>{{setor.nome_setor}}</td>
                 </tr>
