@@ -1,29 +1,37 @@
 import { NgFor } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Ramal } from '../../models/ramal';
 import { SetorRamal } from '../../models/setor-ramal';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { Setor } from './../../models/setor';
-import { Ramal } from '../../models/ramal';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-ramais',
   standalone: true,
   templateUrl: './ramais.component.html',
   styleUrl: './ramais.component.css',
-  imports: [HttpClientModule, NavAdminComponent, NgFor]
+  imports: [HttpClientModule, NavAdminComponent, NgFor, FormsModule]
 })
 export class RamaisComponent {
   readonly url: string;
 
   setor_ramais: SetorRamal[] = [];
+  numero_ramal: Ramal[] = [];
   setores: Setor[] = [];
 
-  novoRamal: Ramal = {numero_ramal: ''};
+  ramal: string = '';
+  setor: string = 'opcao1';
+  setor_ramal: string = '';
+  resposta: boolean = false;
+
+  novoRamal: Ramal = { numero_ramal: this.ramal };
   novoSetorRamal: SetorRamal = {
     id_setor_ramal: '',
-    id_setor: '',
-    id_ramal_setor: '',
+    id_setor: this.setor,
+    id_ramal_setor: this.ramal,
     setor: ''
   };
 
@@ -31,7 +39,14 @@ export class RamaisComponent {
     this.url = 'http://localhost:8080';
   }
   ngOnInit() {
+
+    forkJoin({
+      numero_ramal: this.http.get<Ramal[]>(`${this.url}/ramal`),
+    }).subscribe(({ numero_ramal }) => {
+      this.numero_ramal = numero_ramal;
+    });
     this.getRamais();
+
   }
 
   getRamais() {
@@ -63,4 +78,60 @@ export class RamaisComponent {
     });
     this.setor_ramais.sort((a, b) => a.setor.localeCompare(b.setor));
   }
+
+  adicionarRamal() {
+    this.novoRamal.numero_ramal = this.ramal;
+
+    const ramalExistente = this.numero_ramal.find(ramal =>
+      ramal.numero_ramal.trim().toLowerCase() === this.novoRamal.numero_ramal.trim().toLowerCase()
+    );
+
+    console.log('resposta de ramal existe',ramalExistente)
+
+    if (ramalExistente) {
+      alert('O ramal já está cadastrado.');
+      return;
+    }
+
+    this.http.post<Ramal>(`${this.url}/ramal`, this.novoRamal)
+      .subscribe(
+        novoSetor => {
+          this.numero_ramal.push(this.novoRamal);
+          this.ramal = '';
+          this.resposta = true;
+          console.log('Resposta 1: ',this.resposta)
+        }
+      );
+  }
+
+  onChange(event: any) {
+    // Obtendo o valor selecionado
+    const valorSelecionado = event.target.value;
+    console.log('Valor selecionado:', valorSelecionado);
+    this.setor = valorSelecionado;
+  }
+
+  adicionarSetorRamal() {
+    this.adicionarRamal();
+    console.log('Valor de setor: ', this.setor)
+    this.novoSetorRamal.id_ramal_setor = this.ramal;
+    this.novoSetorRamal.id_setor = this.setor;
+
+    console.log('Resposta 2: ',this.resposta)
+    if (this.resposta === true) {
+      this.http.post<SetorRamal>(`${this.url}/setor_ramal`, this.novoSetorRamal)
+        .subscribe(
+          novoSetorRamal => {
+            this.setor_ramais.push(novoSetorRamal);
+            this.setor = 'opcao1';
+            this.ramal = '';
+
+          }
+        );
+    } else {
+      alert('Erro ao adicionar o ramal!')
+    }
+  }
+
+
 }

@@ -34,14 +34,14 @@
             <form>
               <label for="name">Setor</label>
 
-              <select id="setores" name="setor">
+              <select id="setores" name="setor" (change)="onChange($event)">
                 <option value="opcao1">Selecionar</option>
                 <option *ngFor="let setor of setores" value={{setor.id_setor}}>{{ setor.nome_setor }}</option>
               </select>
 
               <label for="ramal">Número</label>
-              <input type="text" placeholder="Ex.: 9090">
-              <button> Salvar </button>
+              <input type="text" placeholder="Ex.: 9090"  [(ngModel)]="ramal" name="ramal">
+              <button (click)="adicionarSetorRamal()"> Salvar </button>
 
             </form>
 

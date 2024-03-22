@@ -35,6 +35,11 @@ export class UsuariosComponent {
         this.users.sort((a, b) => a.nome.localeCompare(b.nome));
       });
   }
+  clear(){
+    this.nome = '';
+    this.usuario = '';
+    this.senha = '';
+  }
 
   adicionarUsuario() {
     this.novoUsuario.nome = this.nome;
@@ -64,9 +69,8 @@ export class UsuariosComponent {
       .subscribe(novoUsuario => {
         this.users.push(novoUsuario);
         this.users.sort((a, b) => a.nome.localeCompare(b.nome));
-        this.nome = '';
-        this.usuario = '';
-        this.senha = '';
+        this.clear();
+        
       }, error => {
         console.error('Erro ao adicionar usuario:', error);
       })

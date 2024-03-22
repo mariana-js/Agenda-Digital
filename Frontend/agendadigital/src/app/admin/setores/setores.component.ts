@@ -24,6 +24,7 @@ export class SetoresComponent {
   }
   ngOnInit() {
     this.getSetores();
+    
   }
 
   getSetores() {
@@ -63,7 +64,7 @@ export class SetoresComponent {
       );
 
     }
-  
+
 
 
 }
