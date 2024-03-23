@@ -17,6 +17,7 @@
                 <tr>
                   <th>Sigla</th>
                   <th>Setor</th>
+                  <th></th>
                 </tr>
               </thead>
 
@@ -24,6 +25,7 @@
                 <tr *ngFor="let setor of setores" (click)="selecionarSetor(setor)">
                   <td>{{setor.sigla_setor}}</td>
                   <td>{{setor.nome_setor}}</td>
+                  <td><img src="assets/img/lixo.png" alt="setor" (click)="excluirSetor(setor)"></td>
                 </tr>
               </tbody>
 

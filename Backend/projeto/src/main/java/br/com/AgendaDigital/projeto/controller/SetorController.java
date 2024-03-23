@@ -24,11 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.AgendaDigital.dtos.SetorDtos;
 import br.com.AgendaDigital.projeto.model.Setor;
 import br.com.AgendaDigital.projeto.services.SetorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/setor")
 public class SetorController {
+	private static final Logger log = LoggerFactory.getLogger(SetorController.class);
 	final SetorService setorService;
 
 	public SetorController(SetorService setorService) {
@@ -60,11 +63,18 @@ public class SetorController {
 	@DeleteMapping("/{id_setor}")
 	public ResponseEntity<Object> deleteSetor(@PathVariable(value = "id_setor") UUID id_setor) {
 		Optional<Setor> setorOptional = setorService.findById(id_setor);
+	
 		if (!setorOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Setor not found.");
 		}
-		setorService.delete(setorOptional.get());
-		return ResponseEntity.status(HttpStatus.OK).body("Setor deleted successfully.");
+	
+		try {
+			setorService.delete(setorOptional.get());
+			return ResponseEntity.noContent().build();
+		} catch (Exception e) {
+			log.error("Erro ao excluir setor:", e); 
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir setor.");
+		}
 	}
 
 	@PutMapping("/{id_setor}")

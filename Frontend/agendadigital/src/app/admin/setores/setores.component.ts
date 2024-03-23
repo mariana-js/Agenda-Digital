@@ -34,7 +34,7 @@ export class SetoresComponent {
       .subscribe(resultados => {
         this.setores = resultados;
         this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
-
+        this.clear();
       });
   }
 
@@ -135,6 +135,26 @@ export class SetoresComponent {
         }
       );
   }
+  excluirSetor(setor: Setor) {
+    if (confirm('Tem certeza de que deseja excluir este setor?')) {
+      this.http.delete(`${this.url}/setor/${setor.id_setor}`)
+        .subscribe(
+          () => {
+            // Remover o setor excluído da lista
+            this.setores = this.setores.filter(s => s.id_setor !== setor.id_setor);
+            this.getSetores();
+            alert('Setor excluído com sucesso!');
+          },
+          error => {
+            
+            this.getSetores();
+            console.error('Erro ao excluir setor:', error);
+            alert('Erro ao excluir setor!');
+          }
+        );
+    }
+  }
+  
    
 
 }
