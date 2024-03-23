@@ -140,7 +140,6 @@ export class SetoresComponent {
       this.http.delete(`${this.url}/setor/${setor.id_setor}`)
         .subscribe(
           () => {
-            // Remover o setor excluído da lista
             this.setores = this.setores.filter(s => s.id_setor !== setor.id_setor);
             this.getSetores();
             alert('Setor excluído com sucesso!');

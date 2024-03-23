@@ -15,6 +15,7 @@
               <tr>
                 <th>Nome</th>
                 <th>Usuário</th>
+                <th></th>
               </tr>
             </thead>
 
@@ -22,6 +23,7 @@
               <tr *ngFor="let user of users" (click)="selecionarUsuario(user)">
                 <td>{{user.nome}}</td>
                 <td>{{user.usuario}}</td>
+                <td><img src="assets/img/lixo.png" alt="setor" (click)="excluirUsuario(user)"></td>
               </tr>
             </tbody>
           </table>

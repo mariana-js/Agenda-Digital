@@ -12,13 +12,14 @@ import { FormsModule } from '@angular/forms';
   imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule]
 })
 export class UsuariosComponent {
+
   readonly url: string;
   users: Usuario[] = [];
 
   nome: string = '';
   usuario: string = '';
   senha: string = '';
-  userSelecionado : Usuario | null = null;
+  userSelecionado: Usuario | null = null;
   novoUsuario: Usuario = { id_usuario: '', nome: this.nome, usuario: this.usuario, senha: this.senha }; // Novo setor a ser inserido
 
   constructor(private http: HttpClient) {
@@ -34,15 +35,16 @@ export class UsuariosComponent {
       .subscribe(resultados => {
         this.users = resultados;
         this.users.sort((a, b) => a.nome.localeCompare(b.nome));
+        this.clear();
       });
   }
-  clear(){
+  clear() {
     this.nome = '';
     this.usuario = '';
     this.senha = '';
   }
 
-  adicionarUsuario(){
+  adicionarUsuario() {
     if (this.userSelecionado) {
       // Se setorSelecionado não for nulo, então estamos atualizando um setor existente
       this.atualizarUsuario();
@@ -80,52 +82,52 @@ export class UsuariosComponent {
         this.users.push(novoUsuario);
         this.users.sort((a, b) => a.nome.localeCompare(b.nome));
         this.clear();
-        
+
       }, error => {
         console.error('Erro ao adicionar usuario:', error);
       })
   }
 
 
-  selecionarUsuario(user: Usuario){
-    this.userSelecionado = {...user}
+  selecionarUsuario(user: Usuario) {
+    this.userSelecionado = { ...user }
     this.nome = user.nome;
     this.usuario = user.usuario;
     this.senha = user.senha;
   }
 
-  atualizarUsuario(){
+  atualizarUsuario() {
     if (!this.userSelecionado) return;
     this.userSelecionado.nome = this.nome;
     this.userSelecionado.usuario = this.usuario;
-    
+
     // Verificar se o nome do setor já existe localmente, excluindo o setor selecionado
     const nomeExistente = this.users.some(user =>
       user.nome.trim().toLowerCase() === this.nome.trim().toLowerCase() &&
       user.id_usuario !== this.userSelecionado?.id_usuario
     );
-  
+
     if (nomeExistente) {
       alert('Este nome já está cadastrado!');
       return;
     }
-  
+
     // Verificar se a sigla do setor já existe localmente, excluindo o setor selecionado
     const usuarioExistente = this.users.some(user =>
       user.usuario.trim().toLowerCase() === this.usuario.trim().toLowerCase() &&
       user.id_usuario !== this.userSelecionado?.id_usuario
     );
-  
+
     if (usuarioExistente) {
       alert('O nome de usuário já está cadastrado!');
       return;
     }
-  
+
     // Atualizar o setor apenas se nenhum nome ou sigla existir
     this.userSelecionado.nome = this.nome;
     this.userSelecionado.usuario = this.usuario;
     this.userSelecionado.senha = this.senha;
-    
+
     this.http.put<Usuario>(`${this.url}/usuario/${this.userSelecionado.id_usuario}`, this.userSelecionado)
       .subscribe(
         () => {
@@ -141,4 +143,22 @@ export class UsuariosComponent {
       );
   }
 
+  excluirUsuario(user: Usuario) {
+    if (confirm('Tem certeza de que deseja excluir este usuário?')) {
+      this.http.delete(`${this.url}/usuario/${user.id_usuario}`)
+        .subscribe(
+          () => {
+            this.users = this.users.filter(s => s.id_usuario !== user.id_usuario);
+            this.getUsuarios();
+            alert('Usuário excluído com sucesso!');
+          },
+          error => {
+            
+            this.getUsuarios();
+            console.error('Erro ao excluir setor:', error);
+            alert('Erro ao excluir setor!');
+          }
+        );
+    }
+  }
 }

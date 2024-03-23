@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.AgendaDigital.dtos.UsuarioDtos;
 import br.com.AgendaDigital.projeto.model.Usuario;
 import br.com.AgendaDigital.projeto.services.UsuarioService;
-
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/usuario")
 
 public class UsuarioController {
-
+	private static final Logger log = LoggerFactory.getLogger(UsuarioController.class);
 	final UsuarioService usuarioService;
 
 	public UsuarioController(UsuarioService usuarioService) {
@@ -56,14 +57,21 @@ public class UsuarioController {
 		return ResponseEntity.status(HttpStatus.OK).body(usuarioOptional.get());
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> deleteUsuario(@PathVariable(value = "id") UUID id) {
+	@DeleteMapping("/{id_usuario}")
+	public ResponseEntity<Object> deleteUsuario(@PathVariable(value = "id_usuario") UUID id) {
 		Optional<Usuario> usuarioOptional = usuarioService.findById(id);
+	
 		if (!usuarioOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario not found.");
 		}
-		usuarioService.delete(usuarioOptional.get());
-		return ResponseEntity.status(HttpStatus.OK).body("Usuario deleted successfully.");
+	
+		try {
+			usuarioService.delete(usuarioOptional.get());
+			return ResponseEntity.noContent().build(); // Retorno 204 No Content
+		} catch (Exception e) {
+			log.error("Erro ao excluir usuario:", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir usuario.");
+		}
 	}
 
 	@PutMapping("/{id}")

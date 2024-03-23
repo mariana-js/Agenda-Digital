@@ -16,6 +16,7 @@ import { Setor } from './../../models/setor';
   imports: [HttpClientModule, NavAdminComponent, NgFor, FormsModule]
 })
 export class RamaisComponent {
+
   readonly url: string;
 
   setor_ramais: SetorRamal[] = [];
@@ -206,6 +207,8 @@ export class RamaisComponent {
         }
       );
   }
-
+  excluirRamal (setorramal: SetorRamal) {
+  
+  }
 
 }

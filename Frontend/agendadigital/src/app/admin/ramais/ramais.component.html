@@ -16,6 +16,7 @@
               <tr>
                 <th>Ramal</th>
                 <th>Setor</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -23,6 +24,7 @@
               <tr *ngFor="let setorramal of setor_ramais" (click)="selecionarSetorRamal(setorramal)">
                 <td>{{setorramal.id_ramal_setor}}</td>
                 <td>{{setorramal.setor}}</td>
+                <td><img src="assets/img/lixo.png" alt="setor" (click)="excluirRamal(setorramal)"></td>
               </tr>
 
             </tbody>
