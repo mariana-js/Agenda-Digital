@@ -1,12 +1,12 @@
 import { NgFor } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 import { Ramal } from '../../models/ramal';
 import { SetorRamal } from '../../models/setor-ramal';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { Setor } from './../../models/setor';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-ramais',
@@ -27,6 +27,7 @@ export class RamaisComponent {
   setor_ramal: string = '';
   resposta: boolean = false;
 
+  setorramalSelecionado: SetorRamal | null = null;
   novoRamal: Ramal = { numero_ramal: this.ramal };
   novoSetorRamal: SetorRamal = {
     id_setor_ramal: '',
@@ -35,7 +36,7 @@ export class RamaisComponent {
     setor: ''
   };
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private ngZone: NgZone) {
     this.url = 'http://localhost:8080';
   }
   ngOnInit() {
@@ -79,7 +80,22 @@ export class RamaisComponent {
     this.setor_ramais.sort((a, b) => a.setor.localeCompare(b.setor));
   }
 
-  adicionarRamal() {
+  onChange(event: any) {
+    // Obtendo o valor selecionado
+    const valorSelecionado = event.target.value;
+    this.setor = valorSelecionado;
+  }
+
+  adicionarRamal(){
+    if (this.setorramalSelecionado) {
+      // Se setorSelecionado não for nulo, então estamos atualizando um setor existente
+      this.atualizarRamal();
+    } else {
+      // Caso contrário, estamos adicionando um novo setor
+      this.adicionarNovoRamal();
+    }
+  }
+  adicionarNovoRamal() {
     this.novoRamal.numero_ramal = this.ramal;
     const ramalExistente = this.numero_ramal.find(ramal =>
       ramal.numero_ramal.trim().toLowerCase() === this.novoRamal.numero_ramal.trim().toLowerCase()
@@ -95,18 +111,11 @@ export class RamaisComponent {
           this.numero_ramal.push(novoRamal);
           this.ramal = '';
           this.resposta = true;
-          this.adicionarSetorRamal(this.resposta, this.novoRamal.numero_ramal);
+          this.adicionarNovoSetorRamal(this.resposta, this.novoRamal.numero_ramal);
         }
       );
   }
-
-  onChange(event: any) {
-    // Obtendo o valor selecionado
-    const valorSelecionado = event.target.value;
-    this.setor = valorSelecionado;
-  }
-
-  adicionarSetorRamal(resposta: boolean,ramal: string) {
+  adicionarNovoSetorRamal(resposta: boolean, ramal: string) {
     this.novoSetorRamal.id_setor = this.setor;
     this.novoSetorRamal.id_ramal_setor = ramal;
     if (resposta == true) {
@@ -123,4 +132,80 @@ export class RamaisComponent {
       alert('Erro ao adicionar o ramal!')
     }
   }
+  selecionarSetorRamal(setorramal: SetorRamal) {
+    this.setorramalSelecionado = { ...setorramal };
+    this.setor = setorramal.id_setor;
+    this.ramal = setorramal.id_ramal_setor;
+
+    // Encontrar o nome do setor com base no ID
+    const nomeSetor = this.setores.find(setor => setor.id_setor === this.setor);
+    if (nomeSetor) {
+      // Definir o valor selecionado na caixa de seleção
+      const setorSelecionado = this.setores.find(setor => setor.nome_setor === nomeSetor.nome_setor);
+      if (setorSelecionado) {
+        this.setor = setorSelecionado.id_setor;
+      } else {
+        console.error('Setor não encontrado na lista de setores.');
+      }
+    } else {
+      console.error('Nome do setor não encontrado.');
+    }
+}
+
+
+  adicionarSetorRamal() {
+    if (this.setorramalSelecionado) {
+
+      this.atualizarRamal();
+    } else {
+      this.adicionarRamal();
+    }
+  }
+
+  atualizarRamal() {
+    if (!this.setorramalSelecionado) return;
+    this.setorramalSelecionado.id_setor = this.setor;
+    this.setorramalSelecionado.id_ramal_setor = this.ramal;
+    const setorExistente = this.setor_ramais.some(setorramal =>
+      setorramal.id_setor.trim().toLowerCase() === this.setor.trim().toLowerCase() &&
+      setorramal.id_setor !== this.setorramalSelecionado?.id_setor
+    );
+
+    if (setorExistente) {
+      alert('O setor já está vinculado a este ramal.');
+      return;
+    }
+
+    const ramalExistente = this.setor_ramais.some(ramal =>
+      ramal.id_ramal_setor.trim().toLowerCase() === this.ramal.trim().toLowerCase() &&
+      ramal.id_ramal_setor !== this.setorramalSelecionado?.id_ramal_setor
+    );
+
+    if (ramalExistente) {
+      alert('O ramal já está cadastrado!');
+      return;
+    }
+    // Atualizar o setor apenas se nenhum nome ou sigla existir
+    this.setorramalSelecionado.id_setor = this.setor;
+    this.setorramalSelecionado.id_ramal_setor = this.ramal;
+
+    this.http.put<Ramal>(`${this.url}/ramal/${this.setorramalSelecionado.id_ramal_setor}`, this.setorramalSelecionado)
+
+    this.http.put<SetorRamal>(`${this.url}/setor_ramal/${this.setorramalSelecionado.id_setor_ramal}`, this.setorramalSelecionado)
+      .subscribe(
+        () => {
+          alert('Setor do ramal atualizado com sucesso!');
+          this.setor = 'opcao1';
+          this.ramal = '';
+          this.setorramalSelecionado = null;
+          this.getRamais(); 
+        },
+        error => {
+          console.error('Erro ao atualizar o setor do ramal:', error);
+          alert('Erro ao alterar Setor do ramal!');
+        }
+      );
+  }
+
+
 }

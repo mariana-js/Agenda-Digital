@@ -85,11 +85,9 @@ export class SetoresComponent {
       );
   }
   
-
-
   selecionarSetor(setor: Setor) {
     this.setorSelecionado = { ...setor };
-    this.setor = setor.nome_setor; // Preencher o campo "setor" com o nome do setor selecionado
+    this.setor = setor.nome_setor;
     this.sigla = setor.sigla_setor;
   }
 
@@ -137,8 +135,7 @@ export class SetoresComponent {
         }
       );
   }
-  
-  
+   
 
 }
 // atualizarSetor() {

@@ -20,7 +20,7 @@
             </thead>
             <tbody>
 
-              <tr *ngFor="let setorramal of setor_ramais">
+              <tr *ngFor="let setorramal of setor_ramais" (click)="selecionarSetorRamal(setorramal)">
                 <td>{{setorramal.id_ramal_setor}}</td>
                 <td>{{setorramal.setor}}</td>
               </tr>
@@ -34,7 +34,7 @@
             <form>
               <label for="name">Setor</label>
 
-              <select id="setores" name="setor" (change)="onChange($event)">
+              <select id="setores" name="setor" (change)="onChange($event)" name="setor" [(ngModel)]="setor">
                 <option value="opcao1">Selecionar</option>
                 <option *ngFor="let setor of setores" value={{setor.id_setor}}>{{ setor.nome_setor }}</option>
               </select>
