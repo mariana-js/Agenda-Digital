@@ -131,7 +131,7 @@ export class UsuariosComponent {
     this.http.put<Usuario>(`${this.url}/usuario/${this.userSelecionado.id_usuario}`, this.userSelecionado)
       .subscribe(
         () => {
-          alert('Setor atualizado com sucesso!');
+          alert('Usuário atualizado com sucesso!');
           this.clear();
           this.userSelecionado = null;
           this.getUsuarios(); // Atualiza a lista de setores após a atualização
@@ -155,8 +155,8 @@ export class UsuariosComponent {
           error => {
             
             this.getUsuarios();
-            console.error('Erro ao excluir setor:', error);
-            alert('Erro ao excluir setor!');
+            console.error('Erro ao excluir usuario:', error);
+            alert('Erro ao excluir usuario!');
           }
         );
     }

@@ -95,7 +95,6 @@ export class SetoresComponent {
     if (!this.setorSelecionado) return;
     this.setorSelecionado.sigla_setor = this.sigla;
     this.setorSelecionado.nome_setor = this.setor;
-    // Verificar se o nome do setor já existe localmente, excluindo o setor selecionado
     const nomeExistente = this.setores.some(setor =>
       setor.nome_setor.trim().toLowerCase() === this.setor.trim().toLowerCase() &&
       setor.id_setor !== this.setorSelecionado?.id_setor
@@ -106,7 +105,6 @@ export class SetoresComponent {
       return;
     }
   
-    // Verificar se a sigla do setor já existe localmente, excluindo o setor selecionado
     const siglaExistente = this.setores.some(setor =>
       setor.sigla_setor.trim().toLowerCase() === this.sigla.trim().toLowerCase() &&
       setor.id_setor !== this.setorSelecionado?.id_setor
@@ -117,7 +115,6 @@ export class SetoresComponent {
       return;
     }
   
-    // Atualizar o setor apenas se nenhum nome ou sigla existir
     this.setorSelecionado.sigla_setor = this.sigla;
     this.setorSelecionado.nome_setor = this.setor;
   
@@ -127,7 +124,7 @@ export class SetoresComponent {
           alert('Setor atualizado com sucesso!');
           this.clear();
           this.setorSelecionado = null;
-          this.getSetores(); // Atualiza a lista de setores após a atualização
+          this.getSetores(); 
         },
         error => {
           console.error('Erro ao atualizar setor:', error);
@@ -153,28 +150,4 @@ export class SetoresComponent {
         );
     }
   }
-  
-   
-
 }
-// atualizarSetor() {
-//   if (!this.setorSelecionado) return;
-
-//   this.setorSelecionado.sigla_setor = this.sigla;
-//   this.setorSelecionado.nome_setor = this.setor;
-  
-//   console.log('Setor selecioando: ', this.setorSelecionado)
-//   this.http.put<Setor>(`${this.url}/setor/${this.setorSelecionado.id_setor}`, this.setorSelecionado)
-//     .subscribe(
-//       () => {
-//         alert('Setor atualizado com sucesso!');
-//         this.clear();
-//         this.setorSelecionado = null;
-//         this.getSetores(); // Atualiza a lista de setores após a atualização
-//       },
-//       error => {
-//         console.error('Erro ao atualizar setor:', error);
-//         alert('Erro ao atualizar setor. Verifique o console para mais detalhes.');
-//       }
-//     );
-// }
