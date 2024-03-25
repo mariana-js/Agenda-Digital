@@ -20,6 +20,7 @@ export class NavAniversariantesComponent implements OnInit {
   contatos: Contato[] = [];
   setor_ramais: SetorRamal[] = [];
   setores: Setor[] = [];
+  resposta: string = '';
 
   constructor(private http: HttpClient) {
     this.url = 'http://localhost:8080';
@@ -41,7 +42,7 @@ export class NavAniversariantesComponent implements OnInit {
 
   getAniversariantes(): void {
     const dataAtual = new Date();
-    const mesAtual = dataAtual.getMonth() +1;
+    const mesAtual = dataAtual.getMonth() + 1;
 
     this.http.get<Funcionario[]>(`${this.url}/funcionario?mes=${mesAtual}`).subscribe(aniversariantes => {
       this.aniversariantes = aniversariantes.map(aniversariante => {
@@ -65,6 +66,9 @@ export class NavAniversariantesComponent implements OnInit {
         };
       });
     });
+    if (this.aniversariantes.length === 0) {
+      this.resposta = 'Não há nenhum aniversariante neste mês.'
+    }
   }
 
 

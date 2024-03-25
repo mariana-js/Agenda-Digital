@@ -218,9 +218,14 @@ export class RamaisComponent {
           () => {
             this.setor_ramais = this.setor_ramais.filter(s => s.id_setor_ramal !== setorramal.id_setor_ramal);
             this.excluirRamal(n_ramal);
+            this.setor = 'opcao1';
+            this.ramal = '';
+            this.setorramalSelecionado = null;
+            this.getRamais();
             alert('Ramal excluído com sucesso!');
           },
           error => {
+            this.getRamais();
             console.error('Erro ao excluir o ramal:', error);
             alert('Erro ao excluir ramal!');
           }
@@ -229,21 +234,14 @@ export class RamaisComponent {
   }
 
   excluirRamal (ramal: string) {
-    if (confirm('Tem certeza de que deseja excluir este ramal?')) {
       this.http.delete(`${this.url}/ramal/${ramal}`)
         .subscribe(
           () => {
             this.numero_ramal = this.numero_ramal.filter(s => s.numero_ramal !== ramal);
-            this.getRamais();
-            alert('Ramal excluído com sucesso!');
           },
           error => {
-            this.getRamais();
             console.error('Erro ao excluir o ramal:', error);
           }
         );
-    }
   }
-
-
 }
