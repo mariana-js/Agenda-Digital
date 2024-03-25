@@ -79,8 +79,8 @@ export class ContatoComponent implements OnInit {
       const id_contato = contatoSelecionado.id_contatoSelecionado;
       this.nome = contatoSelecionado.nome_pessoa;
       this.email = contatoSelecionado.email;
-      this.cel_corp = contatoSelecionado.celular_corporativo;
-      this.cel_pes = contatoSelecionado.celular_pessoal;
+      this.cel_corp = contatoSelecionado.celular1;
+      this.cel_pes = contatoSelecionado.celular2;
       this.telefone = contatoSelecionado.telefone;
 
     } if ((contatoSelecionado && contatoSelecionado.id_contatoSelecionado) === null || undefined) {

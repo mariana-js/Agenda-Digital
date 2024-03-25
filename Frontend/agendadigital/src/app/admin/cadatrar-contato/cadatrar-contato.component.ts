@@ -6,13 +6,16 @@ import { RamaisComponent } from '../ramais/ramais.component';
 import { Setor } from '../../models/setor';
 import { SetorRamal } from '../../models/setor-ramal';
 import { Contato } from '../../models/contato';
+import { Endereco } from '../../models/endereco';
+import { Funcionario } from '../../models/funcionario';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-cadatrar-contato',
   standalone: true,
   templateUrl: './cadatrar-contato.component.html',
   styleUrl: './cadatrar-contato.component.css',
-  imports: [NavAdminComponent, NgFor, HttpClientModule, RamaisComponent]
+  imports: [NavAdminComponent, NgFor, HttpClientModule, FormsModule, RamaisComponent]
 })
 export class CadatrarContatoComponent {
 
@@ -43,6 +46,43 @@ export class CadatrarContatoComponent {
     flag_privado: this.flag_privado,
     flag_funcionario: this.flag_funcionario
   };
+
+  // Endereco
+  id_contato: string = '';
+  logradouro: string = '';
+  numero: string = '';
+  estado: string = '';
+  cidade: string = '';
+  bairro: string = '';
+  uf: string = '';
+  cep: string = '';
+
+  novoEndereco: Endereco = {
+    id_endereco: '',
+    id_pessoa: this.id_contato,
+    logradouro: this.logradouro,
+    numero: this.numero,
+    estado: this.estado,
+    cidade: this.cidade,
+    bairro: this.bairro,
+    uf: this.uf,
+    cep: this.cep
+  }
+
+  // Funcionario
+  id_setor_ramal: string = '';
+  data_nascimento: string = '';
+
+  novoFuncionario: Funcionario = {
+    id_funcionario: '',
+    id_setor_ramal: this.id_setor_ramal,
+    id_pessoa: this.id_contato,
+    nome: '',
+    setor: '',
+    data_nascimento: this.data_nascimento,
+    dia: '',
+    mes: ''
+  }
 
   constructor(private http: HttpClient) {
     this.url = 'http://localhost:8080';

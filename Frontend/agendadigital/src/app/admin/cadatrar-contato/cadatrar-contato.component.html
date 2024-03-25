@@ -27,7 +27,7 @@
               <div class="field-group">
                 <div class="field">
                   <label for="name">Nome</label>
-                  <input type="text" name="name" required>
+                  <input type="text" required [(ngModel)]="nome_pessoa" name="nome_pessoa">
                 </div>
 
               </div>
@@ -39,18 +39,18 @@
                 </div>
                 <div class="field">
                   <label for="cel-corp">Telefone</label>
-                  <input type="tel" name="tel" required data-mask="(00) 0000-0000" data-mask-selectonfocus="true">
+                  <input [(ngModel)]="telefone" name="telefone" type="tel" name="tel" required data-mask="(00) 0000-0000" data-mask-selectonfocus="true">
                 </div>
               </div>
 
               <div class="field-group">
                 <div class="field">
-                  <label for="cel">Celular Corporativo</label>
-                  <input type="tel" name="cel" required>
+                  <label for="cel">Celular 1</label>
+                  <input type="tel" required [(ngModel)]="celular1" name="celular1">
                 </div>
                 <div class="field">
-                  <label for="cel-corp">Celular Pessoal</label>
-                  <input data-mask="(00) 0000-0000" data-mask-selectonfocus="true" type="tel" name="cel_corp" required>
+                  <label for="cel-corp">Celular 2</label>
+                  <input data-mask="(00) 0000-0000" data-mask-selectonfocus="true" type="tel" required [(ngModel)]="celular2" name="celular2">
                 </div>
 
               </div>
@@ -59,7 +59,7 @@
 
                 <div class="field">
                   <label for="date">Data de Nascimento</label>
-                  <input type="date" name="date">
+                  <input type="date" [(ngModel)]="data_nascimento" name="data_nascimento">
                 </div>
 
                 <div class="field">
@@ -74,7 +74,7 @@
                   <select name="sector" required onchange disabled (change)="selecionarSetor($event)">
                     <option value=""> Selecione o Setor </option>
                     <option value="{{setor.id_setor}}" *ngFor="let setor of setores">{{setor.nome_setor}}</option>
-                  
+
 
                   </select>
 
@@ -100,7 +100,7 @@
                 <div class="field">
                   <label for="state">Estado</label>
                   <select name="uf">
-                    <option value=""> Selecione o Estado</option>
+                    <option value="estado"> Selecione o Estado</option>
                   </select>
 
                   <input type="hidden" name="state">
@@ -109,7 +109,7 @@
 
                 <div class="field">
                   <label for="city">Cidade</label>
-                  <select name="city" disabled required>
+                  <select name="cidade" [(ngModel)]="cidade" disabled required>
                     <option value="">Selecione a Cidade</option>
                   </select>
                 </div>
