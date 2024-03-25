@@ -5,6 +5,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RamaisComponent } from '../ramais/ramais.component';
 import { Setor } from '../../models/setor';
 import { SetorRamal } from '../../models/setor-ramal';
+import { Contato } from '../../models/contato';
 
 @Component({
   selector: 'app-cadatrar-contato',
@@ -22,6 +23,26 @@ export class CadatrarContatoComponent {
 
   setorSelecionado: Setor | null = null;
   ramaisFiltrados: SetorRamal[] = [];
+
+  //Contato
+  nome_pessoa: string = '';
+  email: string = '';
+  celular1: string = '';
+  celular2: string = '';
+  telefone: string = '';
+  flag_privado: boolean = false;
+  flag_funcionario: boolean = false;
+
+  novoContato: Contato = {
+    id_pessoa: '',
+    nome_pessoa: this.nome_pessoa,
+    email: this.email,
+    celular1: this.celular1,
+    celular2: this.celular2,
+    telefone: this.telefone,
+    flag_privado: this.flag_privado,
+    flag_funcionario: this.flag_funcionario
+  };
 
   constructor(private http: HttpClient) {
     this.url = 'http://localhost:8080';
@@ -151,4 +172,133 @@ export class CadatrarContatoComponent {
   }
 
 
+  adicionarContato() {
+    // this.novoUsuario.nome = this.nome;
+    // this.novoUsuario.usuario = this.usuario;
+    // this.novoUsuario.senha = this.senha;
+
+    // // Verificar se o nome do usuário já existe localmente
+    // const nomeExistente = this.users.find(usuario =>
+    //   usuario.nome.trim().toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
+    // );
+
+    // if (nomeExistente) {
+    //   alert('O nome de usuário já está sendo utilizado.');
+    //   return; // Parar a execução da função se o nome já existir localmente
+    // }
+
+    // // Verificar se o nome de usuário já existe localmente
+    // const usuarioExistente = this.users.find(usuario =>
+    //   usuario.usuario.trim().toLowerCase() === this.novoUsuario.usuario.trim().toLowerCase()
+    // );
+
+    // if (usuarioExistente) {
+    //   alert('O nome de usuário já está cadastrado.');
+    //   return; // Parar a execução da função se o usuário já existir localmente
+    // }
+    // this.http.post<Usuario>(`${this.url}/usuario`, this.novoUsuario)
+    //   .subscribe(novoUsuario => {
+    //     this.users.push(novoUsuario);
+    //     this.users.sort((a, b) => a.nome.localeCompare(b.nome));
+    //     this.clear();
+
+    //   }, error => {
+    //     console.error('Erro ao adicionar usuario:', error);
+    //   })
+  }
+  adicionarEndereco() {
+    // this.novoUsuario.nome = this.nome;
+    // this.novoUsuario.usuario = this.usuario;
+    // this.novoUsuario.senha = this.senha;
+
+    // // Verificar se o nome do usuário já existe localmente
+    // const nomeExistente = this.users.find(usuario =>
+    //   usuario.nome.trim().toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
+    // );
+
+    // if (nomeExistente) {
+    //   alert('O nome de usuário já está sendo utilizado.');
+    //   return; // Parar a execução da função se o nome já existir localmente
+    // }
+
+    // // Verificar se o nome de usuário já existe localmente
+    // const usuarioExistente = this.users.find(usuario =>
+    //   usuario.usuario.trim().toLowerCase() === this.novoUsuario.usuario.trim().toLowerCase()
+    // );
+
+    // if (usuarioExistente) {
+    //   alert('O nome de usuário já está cadastrado.');
+    //   return; // Parar a execução da função se o usuário já existir localmente
+    // }
+    // this.http.post<Usuario>(`${this.url}/usuario`, this.novoUsuario)
+    //   .subscribe(novoUsuario => {
+    //     this.users.push(novoUsuario);
+    //     this.users.sort((a, b) => a.nome.localeCompare(b.nome));
+    //     this.clear();
+
+    //   }, error => {
+    //     console.error('Erro ao adicionar usuario:', error);
+    //   })
+  }
+  adicionarFuncionario() {
+    // this.novoUsuario.nome = this.nome;
+    // this.novoUsuario.usuario = this.usuario;
+    // this.novoUsuario.senha = this.senha;
+
+    // // Verificar se o nome do usuário já existe localmente
+    // const nomeExistente = this.users.find(usuario =>
+    //   usuario.nome.trim().toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
+    // );
+
+    // if (nomeExistente) {
+    //   alert('O nome de usuário já está sendo utilizado.');
+    //   return; // Parar a execução da função se o nome já existir localmente
+    // }
+
+    // // Verificar se o nome de usuário já existe localmente
+    // const usuarioExistente = this.users.find(usuario =>
+    //   usuario.usuario.trim().toLowerCase() === this.novoUsuario.usuario.trim().toLowerCase()
+    // );
+
+    // if (usuarioExistente) {
+    //   alert('O nome de usuário já está cadastrado.');
+    //   return; // Parar a execução da função se o usuário já existir localmente
+    // }
+    // this.http.post<Usuario>(`${this.url}/usuario`, this.novoUsuario)
+    //   .subscribe(novoUsuario => {
+    //     this.users.push(novoUsuario);
+    //     this.users.sort((a, b) => a.nome.localeCompare(b.nome));
+    //     this.clear();
+
+    //   }, error => {
+    //     console.error('Erro ao adicionar usuario:', error);
+    //   })
+  }
+
 }
+
+// selecionarUsuario(user: Usuario) {
+//   this.userSelecionado = { ...user }
+//   this.nome = user.nome;
+//   this.usuario = user.usuario;
+//   this.senha = user.senha;
+// }
+
+// excluirUsuario(user: Usuario) {
+//   if (confirm('Tem certeza de que deseja excluir este usuário?')) {
+//     this.http.delete(`${this.url}/usuario/${user.id_usuario}`)
+//       .subscribe(
+//         () => {
+//           this.users = this.users.filter(s => s.id_usuario !== user.id_usuario);
+//           this.getUsuarios();
+//           alert('Usuário excluído com sucesso!');
+//         },
+//         error => {
+
+//           this.getUsuarios();
+//           console.error('Erro ao excluir usuario:', error);
+//           alert('Erro ao excluir usuario!');
+//         }
+//       );
+//   }
+// }

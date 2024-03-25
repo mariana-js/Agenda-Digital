@@ -4,8 +4,8 @@ export interface Contato {
   nome_pessoa: string;
 
   email: string;
-  celular_corporativo: string;
-  celular_pessoal: string;
+  celular1: string;
+  celular2: string;
   telefone: string;
 
   flag_privado:boolean;

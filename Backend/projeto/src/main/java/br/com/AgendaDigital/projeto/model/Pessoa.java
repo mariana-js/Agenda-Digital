@@ -27,11 +27,11 @@ public class Pessoa implements Serializable {
 	@Column(name = "email", length = 50, nullable = true)
 	private String email;
 
-	@Column(name = "celular_corporativo", length = 15, nullable = true)
-	private String celular_corporativo;
+	@Column(name = "celular1", length = 15, nullable = true)
+	private String celular1;
 
-	@Column(name = "celular_pessoal", length = 15, nullable = false)
-	private String celular_pessoal;
+	@Column(name = "celular2", length = 15, nullable = false)
+	private String celular2;
 
 	@Column(name = "telefone", length = 15, nullable = false)
 	private String telefone;
@@ -67,20 +67,20 @@ public class Pessoa implements Serializable {
 		this.email = email;
 	}
 
-	public String getCelular_corporativo() {
-		return celular_corporativo;
+	public String getCelular1() {
+		return celular1;
 	}
 
-	public void setCelular_corporativo(String celular_corporativo) {
-		this.celular_corporativo = celular_corporativo;
+	public void setCelular1(String celular1) {
+		this.celular1 = celular1;
 	}
 
-	public String getCelular_pessoal() {
-		return celular_pessoal;
+	public String getCelular2() {
+		return celular2;
 	}
 
-	public void setCelular_pessoal(String celular_pessoal) {
-		this.celular_pessoal = celular_pessoal;
+	public void setCelular2(String celular2) {
+		this.celular2 = celular2;
 	}
 
 	public String getTelefone() {

@@ -20,7 +20,7 @@ export class UsuariosComponent {
   usuario: string = '';
   senha: string = '';
   userSelecionado: Usuario | null = null;
-  novoUsuario: Usuario = { id_usuario: '', nome: this.nome, usuario: this.usuario, senha: this.senha }; // Novo setor a ser inserido
+  novoUsuario: Usuario = { id_usuario: '', nome: this.nome, usuario: this.usuario, senha: this.senha };
 
   constructor(private http: HttpClient) {
     this.url = 'http://localhost:8080';
