@@ -23,13 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.AgendaDigital.dtos.Setor_RamalDtos;
 import br.com.AgendaDigital.projeto.model.Setor_Ramal;
+import br.com.AgendaDigital.projeto.model.Usuario;
 import br.com.AgendaDigital.projeto.services.Setor_RamalService;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/setor_ramal")
 public class Setor_RamalController {
-
+	private static final Logger log = LoggerFactory.getLogger(UsuarioController.class);
 	final Setor_RamalService setor_RamalService;
 
 	public Setor_RamalController(Setor_RamalService setor_RamalService) {
@@ -64,9 +66,15 @@ public class Setor_RamalController {
 		if (!setor_ramalOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Setor_ramal not found.");
 		}
-		setor_RamalService.delete(setor_ramalOptional.get());
-		return ResponseEntity.status(HttpStatus.OK).body("Ramal deleted successfully.");
+		try{
+			setor_RamalService.delete(setor_ramalOptional.get());
+			return ResponseEntity.noContent().build();
+		}  catch (Exception e) { 
+			log.error("Erro ao excluir setor ramal:", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Setor Ramal deleted successfully.");
+		}
 	}
+
 
 	@PutMapping("/{id_setor_ramal}")
 	public ResponseEntity<Object> updateSetor_Ramal(@PathVariable(value = "id_setor_ramal") UUID id_setor_ramal,

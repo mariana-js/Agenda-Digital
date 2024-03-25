@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -22,7 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.AgendaDigital.dtos.RamalDtos;
 import br.com.AgendaDigital.projeto.model.Ramal;
+import br.com.AgendaDigital.projeto.model.Usuario;
 import br.com.AgendaDigital.projeto.services.RamalService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -30,6 +34,7 @@ import br.com.AgendaDigital.projeto.services.RamalService;
 
 public class RamalController {
 	final RamalService ramalService;
+	private static final Logger log = LoggerFactory.getLogger(UsuarioController.class);
 
 	public RamalController(RamalService ramalService) {
 		this.ramalService = ramalService;
@@ -63,8 +68,13 @@ public class RamalController {
 		if (!ramalOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ramal not found.");
 		}
-		ramalService.delete(ramalOptional.get());
-		return ResponseEntity.status(HttpStatus.OK).body("Ramal deleted successfully.");
+		try {
+			ramalService.delete(ramalOptional.get());
+			return ResponseEntity.noContent().build(); // Retorno 204 No Content
+		} catch (Exception e) {
+			log.error("Erro ao excluir ramal:", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ramal deleted successfully.");
+		}
 	}
 
 	@PutMapping("/{id_ramal}")

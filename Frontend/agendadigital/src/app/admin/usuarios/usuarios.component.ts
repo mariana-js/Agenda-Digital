@@ -88,7 +88,6 @@ export class UsuariosComponent {
       })
   }
 
-
   selecionarUsuario(user: Usuario) {
     this.userSelecionado = { ...user }
     this.nome = user.nome;
@@ -153,7 +152,7 @@ export class UsuariosComponent {
             alert('Usuário excluído com sucesso!');
           },
           error => {
-            
+
             this.getUsuarios();
             console.error('Erro ao excluir usuario:', error);
             alert('Erro ao excluir usuario!');
