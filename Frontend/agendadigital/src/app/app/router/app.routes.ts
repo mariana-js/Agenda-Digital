@@ -27,7 +27,7 @@ export const routes: Routes = [
     component: CadatrarContatoComponent
   },
   {
-    path: 'contatos-ocultos',
+    path: 'contatos-admin',
     component: ContatosHideComponent
   },
   {

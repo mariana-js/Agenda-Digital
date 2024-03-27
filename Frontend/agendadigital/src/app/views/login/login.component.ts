@@ -12,6 +12,6 @@ export class LoginComponent {
   constructor(private router: Router) {}
 
   logar() {
-    this.router.navigate(['/setores']);
+    this.router.navigate(['/contatos-admin']);
   }
 }

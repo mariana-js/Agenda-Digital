@@ -26,8 +26,8 @@ export class NavAdminComponent {
   navegarParaUsuarios() {
     this.router.navigate(['/usuarios']);
   }
-  navegarParaContatosHide() {
-    this.router.navigate(['/contatos-ocultos']);
+  navegarParaContatosAdmin() {
+    this.router.navigate(['/contatos-admin']);
   }
   navegarParaAddContato() {
     this.router.navigate(['/cadastrar-contato']);
