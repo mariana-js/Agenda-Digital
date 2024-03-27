@@ -1,15 +1,15 @@
-import { Component, Inject } from '@angular/core';
-import { NavAdminComponent } from "../nav-admin/nav-admin.component";
-import { DOCUMENT, NgFor } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { RamaisComponent } from '../ramais/ramais.component';
-import { Setor } from '../../models/setor';
-import { SetorRamal } from '../../models/setor-ramal';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { Contato } from '../../models/contato';
 import { Endereco } from '../../models/endereco';
 import { Funcionario } from '../../models/funcionario';
-import { FormsModule } from '@angular/forms';
-import { forkJoin } from 'rxjs/internal/observable/forkJoin';
+import { Setor } from '../../models/setor';
+import { SetorRamal } from '../../models/setor-ramal';
+import { NavAdminComponent } from "../nav-admin/nav-admin.component";
+import { RamaisComponent } from '../ramais/ramais.component';
 
 @Component({
   selector: 'app-cadatrar-contato',
@@ -90,7 +90,7 @@ export class CadatrarContatoComponent {
     dia: '',
     mes: ''
   }
-  constructor(private http: HttpClient, @Inject(DOCUMENT) private document: Document) {
+  constructor(private http: HttpClient) {
     this.url = 'http://localhost:8080';
 
   }
@@ -113,7 +113,7 @@ export class CadatrarContatoComponent {
       this.funcionarios = funcionarios;
       this.setor_ramais = setor_ramais;
     });
-
+    console.log(this.cidade, this.estado, this.uf)
   }
   getSetores() {
     this.http.get<Setor[]>(`${this.url}/setor`)
@@ -143,93 +143,101 @@ export class CadatrarContatoComponent {
       })
   }
   checkbox() {
-      const checkbox = document.getElementById('box_fun') as HTMLInputElement;
-      const sectorSelect = document.querySelector("select[name=sector]") as HTMLSelectElement;
-      const ramalSelect = document.querySelector("select[name=ramal]") as HTMLSelectElement;
-      sectorSelect.disabled = true;
-      checkbox.addEventListener('change', (event) => {
-        const target = event.currentTarget as HTMLInputElement;
-        if (target.checked) {
-          sectorSelect.disabled = false;
-          ramalSelect.disabled = false;
-        } else {
-          sectorSelect.disabled = true;
-          ramalSelect.disabled = true;
-        }
-      });
+    const checkbox = document.getElementById('box_fun') as HTMLInputElement;
+    const sectorSelect = document.querySelector("select[name=sector]") as HTMLSelectElement;
+    const ramalSelect = document.querySelector("select[name=ramal]") as HTMLSelectElement;
     const checkboxPrivate = document.getElementById('boxPrivate') as HTMLInputElement;
     checkboxPrivate.addEventListener('change', (event) => {
       this.boxPrivate = checkboxPrivate.checked;
     });
-
+    sectorSelect.disabled = true;
+    checkbox.addEventListener('change', (event) => {
+      const target = event.currentTarget as HTMLInputElement;
+      if (target.checked) {
+        sectorSelect.disabled = false;
+        ramalSelect.disabled = false;
+      } else {
+        sectorSelect.disabled = true;
+        ramalSelect.disabled = true;
+      }
+    });
   }
 
   estados() {
+    // Salvar uma referência à instância da classe
+    const self = this;
+  
+    // Objeto para mapear o UF de cada estado
+    const stateUFs: { [key: string]: string } = {};
+  
     // Função para popular as UF
     async function populateUFs() {
       const ufSelect = document.querySelector<HTMLSelectElement>("select[name=uf]") ?? document.createElement("select");
       const states = await (await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados")).json();
-
+  
       states.sort((a: any, b: any) => a.nome.localeCompare(b.nome));
-
+  
       // Adicionando a opção "Selecione o Estado" como a primeira opção
       ufSelect.innerHTML = `<option value="">Selecione o Estado</option>`;
-
+  
       // Adicionando as opções dos estados
-      ufSelect.innerHTML += states.map((state: any) => `<option value="${state.id}">${state.nome}</option>`).join("");
+      states.forEach((state: any) => {
+        ufSelect.innerHTML += `<option value="${state.id}">${state.nome}</option>`;
+        // Mapeia o UF de cada estado
+        stateUFs[state.nome] = state.sigla;
+      });
     }
-
+  
     // Função para obter as cidades
     async function getCities(event: Event) {
       const target = event.target as HTMLSelectElement;
-      const ufValue = target.value;
+      const ufId = target.value;
+      const ufName = target.options[target.selectedIndex].text;
+  
+      // Obtém o UF correspondente ao estado selecionado
+      const uf1 = stateUFs[ufName];
+  
+      // Agora você pode usar 'uf' conforme necessário
+      self.uf = uf1;
+      self.estado = ufName;
+      // Limpa o valor anterior da cidade
+      self.cidade = '';
+  
+      // Restante do código para obter e mostrar as cidades...
       const stateInput = document.querySelector<HTMLInputElement>("input[name=state]") ?? document.createElement("input");
       const citySelect = document.querySelector<HTMLSelectElement>("select[name=city]") ?? document.createElement("select");
-
-      const indexOfSelectedState = target.selectedIndex;
-      const selectedOption = target.options[indexOfSelectedState];
-      const stateName = selectedOption ? selectedOption['text'] : ""; // Acessando a propriedade 'text' corretamente
-
-      stateInput.value = stateName;
-
-      const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${ufValue}/municipios`;
-      const cities = await (await fetch(url)).json();
-
+    
+      stateInput.value = ufName;
+    
+      const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${ufId}/municipios`;
+      const response = await fetch(url); 
+      const cities = await response.json();
+    
       // Limpa o conteúdo atual do select de cidades
       citySelect.innerHTML = "";
-
+    
       // Adiciona a opção "Selecione a Cidade" como a primeira opção
       citySelect.innerHTML = `<option value="">Selecione a Cidade</option>`;
-
+    
       // Adiciona as opções das cidades
-      citySelect.innerHTML += cities.map((city: any) => `<option value="${city.nome}">${city.nome}</option>`).join("");
+      cities.forEach((city: any) => {
+        citySelect.innerHTML += `<option value="${city.nome}">${city.nome}</option>`;
+      });
+    
       citySelect.disabled = false;
+    
+      // Adiciona um ouvinte de evento para atualizar o valor da cidade quando o usuário selecionar uma opção na lista de cidades
+      citySelect.addEventListener('change', (event) => {
+        const selectedCity = (event.target as HTMLSelectElement).value; // Obtém o valor da cidade selecionada pelo usuário
+        self.cidade = selectedCity; // Define a cidade com a cidade selecionada pelo usuário
+      });
     }
-
-
+  
     // Adicionando evento de mudança para as UF
     document.querySelector("select[name=uf]")?.addEventListener("change", getCities);
-    // Adicionando evento de clique para os itens de coleta
-    document.querySelectorAll(".items-grid li").forEach(item => item.addEventListener("click", handleSelectedItem));
-
-    // Função para lidar com a seleção de itens
-    function handleSelectedItem(event: Event) {
-      const itemLi = event.target as HTMLLIElement;
-      itemLi.classList.toggle("selected");
-
-      const itemId = Number(itemLi.dataset['id']); // Corrigindo acesso ao data-id
-      const selectedItems = document.querySelector<HTMLInputElement>("input[name=items]");
-
-      if (selectedItems) {
-        const items = new Set(selectedItems.value.split(",").map(Number));
-        items.has(itemId) ? items.delete(itemId) : items.add(itemId);
-        selectedItems.value = Array.from(items).join(",");
-      }
-    }
-
+  
     // Populando as UF
     populateUFs();
-
   }
   adicionarContato() {
     this.novoContato.nome_pessoa = this.nome_pessoa;
@@ -240,7 +248,6 @@ export class CadatrarContatoComponent {
     this.novoContato.flag_privado = this.boxPrivate;
     this.novoContato.flag_funcionario = this.box_fun;
     // Verificar se o nome do usuário já existe localmente
-
     /*const nomeExistente = this.users.find(usuario =>
       usuario.nome.trim().toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
     );
@@ -259,25 +266,25 @@ export class CadatrarContatoComponent {
       alert('O nome de usuário já está cadastrado.');
       return; // Parar a execução da função se o usuário já existir localmente
     }*/
-    console.log('Logradouro', this.logradouro)
+
     this.http.post<Contato>(`${this.url}/pessoa`, this.novoContato)
       .subscribe(novoContato => {
         this.contatos.push(novoContato);
-        console.log('Logradouro', this.logradouro)
-        if ((this.logradouro || this.numero || this.estado || this.cidade || this.bairro || this.uf || this.cep) === null) {
-          console.log(this.logradouro)
-          this.adicionarEndereco(novoContato.id_pessoa);
-        }
-
-
+        const id = novoContato.id_pessoa;
+        
+        if ((this.logradouro && this.numero && this.estado && this.cidade && this.bairro && this.uf && this.cep)) {
+          this.adicionarEndereco(id);
+        } 
         if (this.box_fun === true) {
-          this.adicionarFuncionario(novoContato.id_pessoa);
+          this.adicionarFuncionario(id);
         }
+        alert('Contato adicionado com sucesso!');
       }, error => {
         console.error('Erro ao adicionar contato:', error);
         alert('Erro ao adicionar contato!');
 
       })
+      
   }
   adicionarEndereco(id_contato: string) {
     this.novoEndereco.id_pessoa = id_contato;
