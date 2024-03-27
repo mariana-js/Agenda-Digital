@@ -9,6 +9,7 @@ import { Contato } from '../../models/contato';
 import { Endereco } from '../../models/endereco';
 import { Funcionario } from '../../models/funcionario';
 import { FormsModule } from '@angular/forms';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 
 @Component({
   selector: 'app-cadatrar-contato',
@@ -20,6 +21,9 @@ import { FormsModule } from '@angular/forms';
 export class CadatrarContatoComponent {
 
   readonly url: string;
+  contatos: Contato[] = [];
+  enderecos: Endereco[] = [];
+  funcionarios: Funcionario[] = [];
 
   setor_ramais: SetorRamal[] = [];
   setores: Setor[] = [];
@@ -33,8 +37,8 @@ export class CadatrarContatoComponent {
   celular1: string = '';
   celular2: string = '';
   telefone: string = '';
-  flag_privado: boolean = false;
-  flag_funcionario: boolean = false;
+  boxPrivate: boolean = false;
+  box_fun: boolean = false;
 
   novoContato: Contato = {
     id_pessoa: '',
@@ -43,8 +47,8 @@ export class CadatrarContatoComponent {
     celular1: this.celular1,
     celular2: this.celular2,
     telefone: this.telefone,
-    flag_privado: this.flag_privado,
-    flag_funcionario: this.flag_funcionario
+    flag_privado: this.boxPrivate,
+    flag_funcionario: this.box_fun
   };
 
   // Endereco
@@ -83,19 +87,29 @@ export class CadatrarContatoComponent {
     dia: '',
     mes: ''
   }
-
   constructor(private http: HttpClient) {
     this.url = 'http://localhost:8080';
 
   }
-
   ngOnInit() {
     this.checkbox();
     this.estados();
     this.getSetores();
     this.getSetorRamal();
-  }
 
+    forkJoin({
+      contatos: this.http.get<Contato[]>(`${this.url}/pessoa`),
+      enderecos: this.http.get<Endereco[]>(`${this.url}/endereco`),
+      funcionarios: this.http.get<Funcionario[]>(`${this.url}/funcionario/all`),
+      setor_ramais: this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`),
+    }).subscribe(({ contatos, enderecos, funcionarios, setor_ramais }) => {
+      this.contatos = contatos;
+      this.enderecos = enderecos;
+      this.funcionarios = funcionarios;
+      this.setor_ramais = setor_ramais;
+    });
+
+  }
   getSetores() {
     this.http.get<Setor[]>(`${this.url}/setor`)
       .subscribe(resultados => {
@@ -103,19 +117,16 @@ export class CadatrarContatoComponent {
         this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
       });
   }
-
   selecionarSetor(event: Event) {
     const idSetor = (event.target as HTMLSelectElement).value;
     console.log('ID do setor selecionado:', idSetor);
 
     this.getRamaisPorSetor(idSetor);
   }
-
   getRamaisPorSetor(idSetor: string) {
     // Filtrar a lista de setor_ramais pelo id_setor selecionado
     this.ramaisFiltrados = this.setor_ramais.filter(ramal => ramal.id_setor === idSetor);
   }
-
   getSetorRamal() {
     this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`)
       .subscribe(resultados => {
@@ -123,7 +134,6 @@ export class CadatrarContatoComponent {
       })
   }
   checkbox() {
-
     const checkbox = document.getElementById('box_fun') as HTMLInputElement;
     const sectorSelect = document.querySelector("select[name=sector]") as HTMLSelectElement;
     const ramalSelect = document.querySelector("select[name=ramal]") as HTMLSelectElement;
@@ -142,7 +152,6 @@ export class CadatrarContatoComponent {
     });
 
   }
-
   estados() {
     // Função para popular as UF
     async function populateUFs() {
@@ -210,109 +219,116 @@ export class CadatrarContatoComponent {
     populateUFs();
 
   }
-
-
   adicionarContato() {
-    // this.novoUsuario.nome = this.nome;
-    // this.novoUsuario.usuario = this.usuario;
-    // this.novoUsuario.senha = this.senha;
+    this.novoContato.nome_pessoa = this.nome_pessoa;
+    this.novoContato.email = this.email;
+    this.novoContato.celular1 = this.celular1;
+    this.novoContato.celular2 = this.celular2;
+    this.novoContato.telefone = this.telefone;
+    this.novoContato.flag_privado = this.boxPrivate;
+    this.novoContato.flag_funcionario = this.box_fun;
+    // Verificar se o nome do usuário já existe localmente
 
-    // // Verificar se o nome do usuário já existe localmente
-    // const nomeExistente = this.users.find(usuario =>
-    //   usuario.nome.trim().toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
-    // );
+    /*const nomeExistente = this.users.find(usuario =>
+      usuario.nome.trim().toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
+    );
 
-    // if (nomeExistente) {
-    //   alert('O nome de usuário já está sendo utilizado.');
-    //   return; // Parar a execução da função se o nome já existir localmente
-    // }
+    if (nomeExistente) {
+      alert('O nome de usuário já está sendo utilizado.');
+      return; // Parar a execução da função se o nome já existir localmente
+    }
 
-    // // Verificar se o nome de usuário já existe localmente
-    // const usuarioExistente = this.users.find(usuario =>
-    //   usuario.usuario.trim().toLowerCase() === this.novoUsuario.usuario.trim().toLowerCase()
-    // );
+    // Verificar se o nome de usuário já existe localmente
+    const usuarioExistente = this.users.find(usuario =>
+      usuario.usuario.trim().toLowerCase() === this.novoUsuario.usuario.trim().toLowerCase()
+    );
 
-    // if (usuarioExistente) {
-    //   alert('O nome de usuário já está cadastrado.');
-    //   return; // Parar a execução da função se o usuário já existir localmente
-    // }
-    // this.http.post<Usuario>(`${this.url}/usuario`, this.novoUsuario)
-    //   .subscribe(novoUsuario => {
-    //     this.users.push(novoUsuario);
-    //     this.users.sort((a, b) => a.nome.localeCompare(b.nome));
-    //     this.clear();
+    if (usuarioExistente) {
+      alert('O nome de usuário já está cadastrado.');
+      return; // Parar a execução da função se o usuário já existir localmente
+    }*/
 
-    //   }, error => {
-    //     console.error('Erro ao adicionar usuario:', error);
-    //   })
+    this.http.post<Contato>(`${this.url}/pessoa`, this.novoContato)
+      .subscribe(novoContato => {
+        this.contatos.push(novoContato);
+        this.adicionarEndereco(novoContato.id_pessoa);
+        if (this.box_fun === true) {
+          this.adicionarFuncionario(novoContato.id_pessoa);
+        }
+      }, error => {
+        console.error('Erro ao adicionar contato:', error);
+      })
   }
-  adicionarEndereco() {
-    // this.novoUsuario.nome = this.nome;
-    // this.novoUsuario.usuario = this.usuario;
-    // this.novoUsuario.senha = this.senha;
+  adicionarEndereco(id_contato: string) {
+    this.novoEndereco.id_pessoa = id_contato;
+    this.novoEndereco.logradouro = this.logradouro;
+    this.novoEndereco.numero = this.numero;
+    this.novoEndereco.estado = this.estado;
+    this.novoEndereco.cidade = this.cidade;
+    this.novoEndereco.bairro = this.bairro;
+    this.novoEndereco.uf = this.uf;
+    this.novoEndereco.cep = this.cep;
+    // Verificar se o nome do usuário já existe localmente
+    /*const nomeExistente = this.users.find(usuario =>
+      usuario.nome.trim().toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
+    );
 
-    // // Verificar se o nome do usuário já existe localmente
-    // const nomeExistente = this.users.find(usuario =>
-    //   usuario.nome.trim().toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
-    // );
+    if (nomeExistente) {
+      alert('O nome de usuário já está sendo utilizado.');
+      return; // Parar a execução da função se o nome já existir localmente
+    }
 
-    // if (nomeExistente) {
-    //   alert('O nome de usuário já está sendo utilizado.');
-    //   return; // Parar a execução da função se o nome já existir localmente
-    // }
+    // Verificar se o nome de usuário já existe localmente
+    const usuarioExistente = this.users.find(usuario =>
+      usuario.usuario.trim().toLowerCase() === this.novoUsuario.usuario.trim().toLowerCase()
+    );
 
-    // // Verificar se o nome de usuário já existe localmente
-    // const usuarioExistente = this.users.find(usuario =>
-    //   usuario.usuario.trim().toLowerCase() === this.novoUsuario.usuario.trim().toLowerCase()
-    // );
+    if (usuarioExistente) {
+      alert('O nome de usuário já está cadastrado.');
+      return; // Parar a execução da função se o usuário já existir localmente
+    }*/
 
-    // if (usuarioExistente) {
-    //   alert('O nome de usuário já está cadastrado.');
-    //   return; // Parar a execução da função se o usuário já existir localmente
-    // }
-    // this.http.post<Usuario>(`${this.url}/usuario`, this.novoUsuario)
-    //   .subscribe(novoUsuario => {
-    //     this.users.push(novoUsuario);
-    //     this.users.sort((a, b) => a.nome.localeCompare(b.nome));
-    //     this.clear();
-
-    //   }, error => {
-    //     console.error('Erro ao adicionar usuario:', error);
-    //   })
+    this.http.post<Endereco>(`${this.url}/endereco`, this.novoEndereco)
+      .subscribe(novoEndereco => {
+        this.enderecos.push(novoEndereco);
+      }, error => {
+        console.error('Erro ao adicionar endereco:', error);
+      })
   }
-  adicionarFuncionario() {
-    // this.novoUsuario.nome = this.nome;
-    // this.novoUsuario.usuario = this.usuario;
-    // this.novoUsuario.senha = this.senha;
+  adicionarFuncionario(id_contato: string) {
+    this.novoFuncionario.id_pessoa = id_contato;
 
-    // // Verificar se o nome do usuário já existe localmente
-    // const nomeExistente = this.users.find(usuario =>
-    //   usuario.nome.trim().toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
-    // );
+    this.novoFuncionario.data_nascimento = this.data_nascimento;
 
-    // if (nomeExistente) {
-    //   alert('O nome de usuário já está sendo utilizado.');
-    //   return; // Parar a execução da função se o nome já existir localmente
-    // }
+    if(this.setor_ramais.find(setorramal => setorramal.id_setor && setorramal.id_ramal_setor)){
+      
+    }
 
-    // // Verificar se o nome de usuário já existe localmente
-    // const usuarioExistente = this.users.find(usuario =>
-    //   usuario.usuario.trim().toLowerCase() === this.novoUsuario.usuario.trim().toLowerCase()
-    // );
+    /*const nomeExistente = this.users.find(usuario =>
+      usuario.nome.trim().toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
+    );
 
-    // if (usuarioExistente) {
-    //   alert('O nome de usuário já está cadastrado.');
-    //   return; // Parar a execução da função se o usuário já existir localmente
-    // }
-    // this.http.post<Usuario>(`${this.url}/usuario`, this.novoUsuario)
-    //   .subscribe(novoUsuario => {
-    //     this.users.push(novoUsuario);
-    //     this.users.sort((a, b) => a.nome.localeCompare(b.nome));
-    //     this.clear();
+    if (nomeExistente) {
+      alert('O nome de usuário já está sendo utilizado.');
+      return; // Parar a execução da função se o nome já existir localmente
+    }
 
-    //   }, error => {
-    //     console.error('Erro ao adicionar usuario:', error);
-    //   })
+    // Verificar se o nome de usuário já existe localmente
+    const usuarioExistente = this.users.find(usuario =>
+      usuario.usuario.trim().toLowerCase() === this.novoUsuario.usuario.trim().toLowerCase()
+    );
+
+    if (usuarioExistente) {
+      alert('O nome de usuário já está cadastrado.');
+      return; // Parar a execução da função se o usuário já existir localmente
+    }*/
+
+    this.http.post<Funcionario>(`${this.url}/funcionario`, this.novoFuncionario)
+      .subscribe(novoFuncionario => {
+        this.funcionarios.push(novoFuncionario);
+      }, error => {
+        console.error('Erro ao adicionar funcionario:', error);
+      })
   }
 
 }

@@ -14,12 +14,12 @@
 
               <div class="field-group">
                 <div class="field-chekbox">
-                  <input type="checkbox" name="box_private">
+                  <input type="checkbox" name="box_private"  [(ngModel)]="boxPrivate">
                   <label for="box-private">Privado</label>
                 </div>
 
                 <div class="field-chekbox">
-                  <input id="box_fun" type="checkbox" name="box_fun">
+                  <input id="box_fun" type="checkbox" name="box_fun"  [(ngModel)]="box_fun">
                   <label for="box-funcionario">Funcionario</label>
                 </div>
               </div>
@@ -39,7 +39,8 @@
                 </div>
                 <div class="field">
                   <label for="cel-corp">Telefone</label>
-                  <input [(ngModel)]="telefone" name="telefone" type="tel" name="tel" required data-mask="(00) 0000-0000" data-mask-selectonfocus="true">
+                  <input [(ngModel)]="telefone" name="telefone" type="tel" name="tel" required
+                    data-mask="(00) 0000-0000" data-mask-selectonfocus="true">
                 </div>
               </div>
 
@@ -50,7 +51,8 @@
                 </div>
                 <div class="field">
                   <label for="cel-corp">Celular 2</label>
-                  <input data-mask="(00) 0000-0000" data-mask-selectonfocus="true" type="tel" required [(ngModel)]="celular2" name="celular2">
+                  <input data-mask="(00) 0000-0000" data-mask-selectonfocus="true" type="tel" required
+                    [(ngModel)]="celular2" name="celular2">
                 </div>
 
               </div>
@@ -84,7 +86,8 @@
                   <label for="Ramal">Ramal</label>
                   <select name="ramal" required onchange disabled>
                     <option value=""> Selecione o Ramal </option>
-                    <option value="{{ramal.id_ramal_setor}}" *ngFor="let ramal of ramaisFiltrados">{{ramal.id_ramal_setor}}</option>
+                    <option value="{{ramal.id_ramal_setor}}" *ngFor="let ramal of ramaisFiltrados">
+                      {{ramal.id_ramal_setor}}</option>
                   </select>
 
                 </div>
@@ -119,11 +122,11 @@
               <div class="field-group">
                 <div class="field">
                   <label for="cep">CEP</label>
-                  <input type="text" name="cep">
+                  <input type="text" name="cep" [(ngModel)]="cep">
                 </div>
                 <div class="field">
                   <label for="cep">Bairro</label>
-                  <input type="text" name="bairro">
+                  <input type="text" name="bairro" [(ngModel)]="bairro">
                 </div>
               </div>
 
@@ -132,15 +135,13 @@
 
                 <div class="field">
                   <label for="bairro">Logradouro</label>
-                  <input type="text" name="addresss">
+                  <input type="text" name="logradouro" [(ngModel)]="logradouro">
                 </div>
                 <div class="field">
                   <label for="numero">Número</label>
-                  <input type="text" name="numero">
+                  <input type="text" name="numero" [(ngModel)]="numero">
                 </div>
               </div>
-
-
               <button type="submit" value="submit">Salvar</button>
             </fieldset>
 
@@ -150,4 +151,4 @@
         </div>
       </div>
 
-  </div>
+    </div>
