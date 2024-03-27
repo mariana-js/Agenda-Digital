@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
-import { NgFor } from '@angular/common';
+import { DOCUMENT, NgFor } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RamaisComponent } from '../ramais/ramais.component';
 import { Setor } from '../../models/setor';
@@ -29,6 +29,7 @@ export class CadatrarContatoComponent {
   setores: Setor[] = [];
 
   setorSelecionado: Setor | null = null;
+  ramalSelecionado: SetorRamal | null = null;
   ramaisFiltrados: SetorRamal[] = [];
 
   //Contato
@@ -76,6 +77,8 @@ export class CadatrarContatoComponent {
   // Funcionario
   id_setor_ramal: string = '';
   data_nascimento: string = '';
+  setor: string = '';
+  nramal: string = '';
 
   novoFuncionario: Funcionario = {
     id_funcionario: '',
@@ -87,10 +90,12 @@ export class CadatrarContatoComponent {
     dia: '',
     mes: ''
   }
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, @Inject(DOCUMENT) private document: Document) {
     this.url = 'http://localhost:8080';
 
   }
+
+
   ngOnInit() {
     this.checkbox();
     this.estados();
@@ -119,9 +124,13 @@ export class CadatrarContatoComponent {
   }
   selecionarSetor(event: Event) {
     const idSetor = (event.target as HTMLSelectElement).value;
-    console.log('ID do setor selecionado:', idSetor);
-
     this.getRamaisPorSetor(idSetor);
+    this.setor = idSetor;
+  }
+
+  selecionarRamal(event: Event) {
+    const nramal = (event.target as HTMLSelectElement).value;
+    this.nramal = nramal;
   }
   getRamaisPorSetor(idSetor: string) {
     // Filtrar a lista de setor_ramais pelo id_setor selecionado
@@ -134,24 +143,27 @@ export class CadatrarContatoComponent {
       })
   }
   checkbox() {
-    const checkbox = document.getElementById('box_fun') as HTMLInputElement;
-    const sectorSelect = document.querySelector("select[name=sector]") as HTMLSelectElement;
-    const ramalSelect = document.querySelector("select[name=ramal]") as HTMLSelectElement;
-
-    sectorSelect.disabled = true;
-
-    checkbox.addEventListener('change', (event) => {
-      const target = event.currentTarget as HTMLInputElement;
-      if (target.checked) {
-        sectorSelect.disabled = false;
-        ramalSelect.disabled = false;
-      } else {
-        sectorSelect.disabled = true;
-        ramalSelect.disabled = true;
-      }
+      const checkbox = document.getElementById('box_fun') as HTMLInputElement;
+      const sectorSelect = document.querySelector("select[name=sector]") as HTMLSelectElement;
+      const ramalSelect = document.querySelector("select[name=ramal]") as HTMLSelectElement;
+      sectorSelect.disabled = true;
+      checkbox.addEventListener('change', (event) => {
+        const target = event.currentTarget as HTMLInputElement;
+        if (target.checked) {
+          sectorSelect.disabled = false;
+          ramalSelect.disabled = false;
+        } else {
+          sectorSelect.disabled = true;
+          ramalSelect.disabled = true;
+        }
+      });
+    const checkboxPrivate = document.getElementById('boxPrivate') as HTMLInputElement;
+    checkboxPrivate.addEventListener('change', (event) => {
+      this.boxPrivate = checkboxPrivate.checked;
     });
 
   }
+
   estados() {
     // Função para popular as UF
     async function populateUFs() {
@@ -247,16 +259,24 @@ export class CadatrarContatoComponent {
       alert('O nome de usuário já está cadastrado.');
       return; // Parar a execução da função se o usuário já existir localmente
     }*/
-
+    console.log('Logradouro', this.logradouro)
     this.http.post<Contato>(`${this.url}/pessoa`, this.novoContato)
       .subscribe(novoContato => {
         this.contatos.push(novoContato);
-        this.adicionarEndereco(novoContato.id_pessoa);
+        console.log('Logradouro', this.logradouro)
+        if ((this.logradouro || this.numero || this.estado || this.cidade || this.bairro || this.uf || this.cep) === null) {
+          console.log(this.logradouro)
+          this.adicionarEndereco(novoContato.id_pessoa);
+        }
+
+
         if (this.box_fun === true) {
           this.adicionarFuncionario(novoContato.id_pessoa);
         }
       }, error => {
         console.error('Erro ao adicionar contato:', error);
+        alert('Erro ao adicionar contato!');
+
       })
   }
   adicionarEndereco(id_contato: string) {
@@ -268,25 +288,6 @@ export class CadatrarContatoComponent {
     this.novoEndereco.bairro = this.bairro;
     this.novoEndereco.uf = this.uf;
     this.novoEndereco.cep = this.cep;
-    // Verificar se o nome do usuário já existe localmente
-    /*const nomeExistente = this.users.find(usuario =>
-      usuario.nome.trim().toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
-    );
-
-    if (nomeExistente) {
-      alert('O nome de usuário já está sendo utilizado.');
-      return; // Parar a execução da função se o nome já existir localmente
-    }
-
-    // Verificar se o nome de usuário já existe localmente
-    const usuarioExistente = this.users.find(usuario =>
-      usuario.usuario.trim().toLowerCase() === this.novoUsuario.usuario.trim().toLowerCase()
-    );
-
-    if (usuarioExistente) {
-      alert('O nome de usuário já está cadastrado.');
-      return; // Parar a execução da função se o usuário já existir localmente
-    }*/
 
     this.http.post<Endereco>(`${this.url}/endereco`, this.novoEndereco)
       .subscribe(novoEndereco => {
@@ -297,64 +298,27 @@ export class CadatrarContatoComponent {
   }
   adicionarFuncionario(id_contato: string) {
     this.novoFuncionario.id_pessoa = id_contato;
-
     this.novoFuncionario.data_nascimento = this.data_nascimento;
 
-    if(this.setor_ramais.find(setorramal => setorramal.id_setor && setorramal.id_ramal_setor)){
-      
-    }
-
-    /*const nomeExistente = this.users.find(usuario =>
-      usuario.nome.trim().toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
+    const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
+      setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
     );
 
-    if (nomeExistente) {
-      alert('O nome de usuário já está sendo utilizado.');
-      return; // Parar a execução da função se o nome já existir localmente
+    if (setorRamalEncontrado) {
+      this.novoFuncionario.id_setor_ramal = setorRamalEncontrado.id_setor_ramal;
+
+      this.http.post<Funcionario>(`${this.url}/funcionario`, this.novoFuncionario)
+        .subscribe(
+          novoFuncionario => {
+            this.funcionarios.push(novoFuncionario);
+          },
+          error => {
+            console.error('Erro ao adicionar funcionario:', error);
+          }
+        );
+    } else {
+      console.error('Setor ou ramal não encontrados.');
     }
-
-    // Verificar se o nome de usuário já existe localmente
-    const usuarioExistente = this.users.find(usuario =>
-      usuario.usuario.trim().toLowerCase() === this.novoUsuario.usuario.trim().toLowerCase()
-    );
-
-    if (usuarioExistente) {
-      alert('O nome de usuário já está cadastrado.');
-      return; // Parar a execução da função se o usuário já existir localmente
-    }*/
-
-    this.http.post<Funcionario>(`${this.url}/funcionario`, this.novoFuncionario)
-      .subscribe(novoFuncionario => {
-        this.funcionarios.push(novoFuncionario);
-      }, error => {
-        console.error('Erro ao adicionar funcionario:', error);
-      })
   }
 
 }
-
-// selecionarUsuario(user: Usuario) {
-//   this.userSelecionado = { ...user }
-//   this.nome = user.nome;
-//   this.usuario = user.usuario;
-//   this.senha = user.senha;
-// }
-
-// excluirUsuario(user: Usuario) {
-//   if (confirm('Tem certeza de que deseja excluir este usuário?')) {
-//     this.http.delete(`${this.url}/usuario/${user.id_usuario}`)
-//       .subscribe(
-//         () => {
-//           this.users = this.users.filter(s => s.id_usuario !== user.id_usuario);
-//           this.getUsuarios();
-//           alert('Usuário excluído com sucesso!');
-//         },
-//         error => {
-
-//           this.getUsuarios();
-//           console.error('Erro ao excluir usuario:', error);
-//           alert('Erro ao excluir usuario!');
-//         }
-//       );
-//   }
-// }

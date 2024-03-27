@@ -14,11 +14,11 @@ public class PessoaDtos {
     @NotBlank
     private String email;
 
-    @JsonProperty("celular_corporativo")
-    private String celular_corporativo;
+    @JsonProperty("celular1")
+    private String celular1;
 
-    @JsonProperty("celular_pessoal")
-    private String celular_pessoal;
+    @JsonProperty("celular2")
+    private String celular2;
 
     @JsonProperty("telefone")
     private String telefone;
@@ -45,20 +45,20 @@ public class PessoaDtos {
         this.email = email;
     }
 
-    public String getCelular_corporativo() {
-        return celular_corporativo;
+    public String getCelular1() {
+        return celular1;
     }
 
-    public void setCelular_corporativo(String celular_corporativo) {
-        this.celular_corporativo = celular_corporativo;
+    public void setCelular1(String celular1) {
+        this.celular1 = celular1;
     }
 
-    public String getCelular_pessoal() {
-        return celular_pessoal;
+    public String getCelular2() {
+        return celular2;
     }
 
-    public void setCelular_pessoal(String celular_pessoal) {
-        this.celular_pessoal = celular_pessoal;
+    public void setCelular2(String celular2) {
+        this.celular2 = celular2;
     }
 
     public String getTelefone() {
