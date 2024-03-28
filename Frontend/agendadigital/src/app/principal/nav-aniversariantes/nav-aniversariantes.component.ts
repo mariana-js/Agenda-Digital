@@ -38,6 +38,7 @@ export class NavAniversariantesComponent implements OnInit {
       this.setores = setores;
       this.getAniversariantes();
     });
+   
   }
 
   getAniversariantes(): void {
@@ -66,10 +67,13 @@ export class NavAniversariantesComponent implements OnInit {
         };
       });
     });
+    this.getResposta();
+  }
+
+  getResposta(){
     if (this.aniversariantes.length == 0) {
       this.resposta = 'Não há nenhum aniversariante neste mês.'
     }
   }
-
 
 }

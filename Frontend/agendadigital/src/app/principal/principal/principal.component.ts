@@ -24,9 +24,26 @@ export class PrincipalComponent {
 
   contatos: Contato[] = [];
   amount: number = 0;
+  itemsPerPage = 5;
+  currentPage = 1; // Inicialmente, a página atual é a primeira
+  get totalPages(): number {
+    return Math.ceil(this.contatos.length / this.itemsPerPage);
+  }
 
   constructor(private http: HttpClient, private router: Router, private contatoStateService: ContatoStateService) {
     this.url = 'http://localhost:8080';
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
   }
   ngOnInit() {
     this.getContatos();

@@ -26,7 +26,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let contato of contatos" (click)="informacoes(contato)">
+              <tr *ngFor="let contato of contatos.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)" (click)="informacoes(contato)">
                 <td class="image"> <img src="assets/foto/foto.png" alt=""></td>
                 <td>{{ contato.nome_pessoa }} </td>
                 <td>{{ contato.email }}</td>
@@ -35,10 +35,14 @@
             </tbody>
 
           </table>
-          <button>Próxima Página >></button>
+          <button> 
+            <span (click)="previousPage() "  [class.disabled]="currentPage === 1"> << </span> 
+            Próxima Página 
+            <span (click)="nextPage()" [class.disabled]="currentPage === totalPages"> >> </span> 
+          </button>
         </div>
       </div>
 
-</div>
-</nav>
+    </div>
+  </nav>
 </div>
