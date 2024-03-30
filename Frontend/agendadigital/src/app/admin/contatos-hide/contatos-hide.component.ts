@@ -11,7 +11,7 @@ import { ContatoStateService } from '../../services/contato-state.service';
   standalone: true,
   templateUrl: './contatos-hide.component.html',
   styleUrl: './contatos-hide.component.css',
-  imports: [NavAdminComponent, HttpClientModule, NgFor,FormsModule]
+  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule]
 })
 export class ContatosHideComponent {
   readonly url: string;
@@ -20,31 +20,50 @@ export class ContatosHideComponent {
   amount: number = 0;
   searchTerm: string = '';
   retorno: string = "";
+  itemsPerPage = 5;
+  currentPage = 1;
+
+
+  get totalPages(): number {
+    return Math.ceil(this.contatosHide.length / this.itemsPerPage);
+  }
   constructor(private http: HttpClient, private router: Router, private contatoStateService: ContatoStateService) {
     this.url = 'http://localhost:8080';
   }
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
 
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
   ngOnInit() {
     this.getContatosHides()
   }
-
+  navegarParaAddContato() {
+    this.router.navigate(['/cadastrar-contato']);
+  }
   getContatosHides() {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
-    .subscribe(resultados => {
-      this.contatosHide = resultados.filter(contatosHide => contatosHide.flag_privado === true);
-      this.amount = this.contatosHide.length;
-      this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
-      if (this.amount === 0) {
-        console.log("Erro ao trazer os contatos ocultos!")
-      }
-    });
+      .subscribe(resultados => {
+        this.contatosHide = resultados.filter(contatosHide => contatosHide.flag_privado === true);
+        this.amount = this.contatosHide.length;
+        this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
+        if (this.amount === 0) {
+          console.log("Erro ao trazer os contatos ocultos!")
+        }
+      });
   }
   informacoes(contatosHide: Contato) {
     contatosHide.id_contatoSelecionado = contatosHide.id_pessoa;
     this.contatoStateService.contatoSelecionado = contatosHide;
     // this.router.navigate(['/contato']);
 
-      this.router.navigate(['/contato', contatosHide.id_contatoSelecionado]);
+    this.router.navigate(['/contato', contatosHide.id_contatoSelecionado]);
 
 
   }

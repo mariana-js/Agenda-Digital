@@ -4,41 +4,57 @@
   </div>
 
   <DIV>
-    <div class="area">
       <div class="area1">
+        <div class="align-top">
+          <div class="add-contato" (click)="navegarParaAddContato()">
+            <img src="assets/Imagens/adicionar-contato-b.png" alt="add-contato"><a>Adicionar Contato</a>
+            
+            <div class="search">
+              <input type="text" placeholder="Pesquisar..." [(ngModel)]="searchTerm">
+              <button class="search-button" (click)="search()">Buscar</button>
+            </div>
+          </div>
 
-        <div class="search">
-          <input type="text" placeholder="Pesquisar..." [(ngModel)]="searchTerm">
-          <button class="search-button" (click)="search()">Buscar</button>
-        </div>
+        
+      </div>
         <span>{{retorno}}</span>
         <div class="page">
-          <h2><img src="assets/Imagens/privado.png" alt="hide">Contatos Ocultos <span>( {{amount}} )</span></h2>
+          <h2>Contatos<span> ({{amount}})</span></h2>
+        
           <div class="page2">
+
             <table>
               <thead>
                 <tr>
+                  <th></th>
                   <th>Nome</th>
                   <th>Email</th>
                   <th>Telefone</th>
+                  <th></th>
                   <th></th>
                 </tr>
               </thead>
 
               <tbody>
-                <tr *ngFor="let contato of contatosHide" (click)="informacoes(contato)">
+                <tr *ngFor="let contato of contatosHide.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)" (click)="informacoes(contato)">
                   <td class="image"> <img src="assets/foto/foto.png" alt=""></td>
                   <td>{{contato.nome_pessoa}}</td>
                   <td>{{contato.email}}</td>
                   <td>{{contato.telefone}}</td>
+                  <td><img class="up" src="assets/img/editar.png" alt="editar" ></td>
+                  <td><img class="up" src="assets/img/lixo.png" alt="excluir" ></td>
                 </tr>
               </tbody>
 
             </table>
-            <button> Próxima Página >></button>
+            <button> 
+              <span (click)="previousPage() "  [class.disabled]="currentPage === 1"> << </span> 
+              Próxima Página 
+              <span (click)="nextPage()" [class.disabled]="currentPage === totalPages"> >> </span> 
+            </button>
           </div>
         </div>
-      </div>
+ 
 
 
     </div>

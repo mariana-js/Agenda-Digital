@@ -25,7 +25,7 @@ export class PrincipalComponent {
   contatos: Contato[] = [];
   amount: number = 0;
   itemsPerPage = 5;
-  currentPage = 1; // Inicialmente, a página atual é a primeira
+  currentPage = 1; 
   get totalPages(): number {
     return Math.ceil(this.contatos.length / this.itemsPerPage);
   }
