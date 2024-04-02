@@ -95,7 +95,6 @@ export class CadatrarContatoComponent {
 
   }
 
-
   ngOnInit() {
     this.checkbox();
     this.estados();
@@ -166,20 +165,20 @@ export class CadatrarContatoComponent {
   estados() {
     // Salvar uma referência à instância da classe
     const self = this;
-  
+
     // Objeto para mapear o UF de cada estado
     const stateUFs: { [key: string]: string } = {};
-  
+
     // Função para popular as UF
     async function populateUFs() {
       const ufSelect = document.querySelector<HTMLSelectElement>("select[name=uf]") ?? document.createElement("select");
       const states = await (await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados")).json();
-  
+
       states.sort((a: any, b: any) => a.nome.localeCompare(b.nome));
-  
+
       // Adicionando a opção "Selecione o Estado" como a primeira opção
       ufSelect.innerHTML = `<option value="">Selecione o Estado</option>`;
-  
+
       // Adicionando as opções dos estados
       states.forEach((state: any) => {
         ufSelect.innerHTML += `<option value="${state.id}">${state.nome}</option>`;
@@ -187,55 +186,55 @@ export class CadatrarContatoComponent {
         stateUFs[state.nome] = state.sigla;
       });
     }
-  
+
     // Função para obter as cidades
     async function getCities(event: Event) {
       const target = event.target as HTMLSelectElement;
       const ufId = target.value;
       const ufName = target.options[target.selectedIndex].text;
-  
+
       // Obtém o UF correspondente ao estado selecionado
       const uf1 = stateUFs[ufName];
-  
+
       // Agora você pode usar 'uf' conforme necessário
       self.uf = uf1;
       self.estado = ufName;
       // Limpa o valor anterior da cidade
       self.cidade = '';
-  
+
       // Restante do código para obter e mostrar as cidades...
       const stateInput = document.querySelector<HTMLInputElement>("input[name=state]") ?? document.createElement("input");
       const citySelect = document.querySelector<HTMLSelectElement>("select[name=city]") ?? document.createElement("select");
-    
+
       stateInput.value = ufName;
-    
+
       const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${ufId}/municipios`;
-      const response = await fetch(url); 
+      const response = await fetch(url);
       const cities = await response.json();
-    
+
       // Limpa o conteúdo atual do select de cidades
       citySelect.innerHTML = "";
-    
+
       // Adiciona a opção "Selecione a Cidade" como a primeira opção
       citySelect.innerHTML = `<option value="">Selecione a Cidade</option>`;
-    
+
       // Adiciona as opções das cidades
       cities.forEach((city: any) => {
         citySelect.innerHTML += `<option value="${city.nome}">${city.nome}</option>`;
       });
-    
+
       citySelect.disabled = false;
-    
+
       // Adiciona um ouvinte de evento para atualizar o valor da cidade quando o usuário selecionar uma opção na lista de cidades
       citySelect.addEventListener('change', (event) => {
         const selectedCity = (event.target as HTMLSelectElement).value; // Obtém o valor da cidade selecionada pelo usuário
         self.cidade = selectedCity; // Define a cidade com a cidade selecionada pelo usuário
       });
     }
-  
+
     // Adicionando evento de mudança para as UF
     document.querySelector("select[name=uf]")?.addEventListener("change", getCities);
-  
+
     // Populando as UF
     populateUFs();
   }
@@ -247,34 +246,45 @@ export class CadatrarContatoComponent {
     this.novoContato.telefone = this.telefone;
     this.novoContato.flag_privado = this.boxPrivate;
     this.novoContato.flag_funcionario = this.box_fun;
-    // Verificar se o nome do usuário já existe localmente
-    /*const nomeExistente = this.users.find(usuario =>
-      usuario.nome.trim().toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
+
+    // Verificar se o nome do contato já existe localmente
+    const nomeExistente = this.contatos.find(pessoa =>
+      pessoa.nome_pessoa.trim().toLowerCase() === this.novoContato.nome_pessoa.trim().toLowerCase()
     );
 
     if (nomeExistente) {
-      alert('O nome de usuário já está sendo utilizado.');
-      return; // Parar a execução da função se o nome já existir localmente
+      alert('Este nome já está em uso, favor alterar!');
+      return;
     }
 
-    // Verificar se o nome de usuário já existe localmente
-    const usuarioExistente = this.users.find(usuario =>
-      usuario.usuario.trim().toLowerCase() === this.novoUsuario.usuario.trim().toLowerCase()
+    // Verificar se o email já existe localmente
+    const emailExistente = this.contatos.find(pessoa =>
+      pessoa.email.trim().toLowerCase() === this.novoContato.email.trim().toLowerCase()
     );
 
-    if (usuarioExistente) {
-      alert('O nome de usuário já está cadastrado.');
-      return; // Parar a execução da função se o usuário já existir localmente
-    }*/
+    if (emailExistente) {
+      alert('Este email já está em uso, favor alterar!');
+      return;
+    }
+
+    // Verificar se o celular 1 já existe localmente
+    const celular1Existente = this.contatos.find(pessoa =>
+      pessoa.celular1.trim().toLowerCase() === this.novoContato.celular1.trim().toLowerCase()
+    );
+
+    if (celular1Existente) {
+      alert('Celular 1 já está em uso, favor alterar!');
+      return;
+    }
 
     this.http.post<Contato>(`${this.url}/pessoa`, this.novoContato)
       .subscribe(novoContato => {
         this.contatos.push(novoContato);
         const id = novoContato.id_pessoa;
-        
+
         if ((this.logradouro && this.numero && this.estado && this.cidade && this.bairro && this.uf && this.cep)) {
           this.adicionarEndereco(id);
-        } 
+        }
         if (this.box_fun === true) {
           this.adicionarFuncionario(id);
         }
@@ -284,7 +294,7 @@ export class CadatrarContatoComponent {
         alert('Erro ao adicionar contato!');
 
       })
-      
+
   }
   adicionarEndereco(id_contato: string) {
     this.novoEndereco.id_pessoa = id_contato;
