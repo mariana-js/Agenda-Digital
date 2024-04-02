@@ -77,8 +77,8 @@ export class CadatrarContatoComponent {
   // Funcionario
   id_setor_ramal: string = '';
   data_nascimento: string = '';
-  setor: string = '';
-  nramal: string = '';
+  setor: string = 'op';
+  nramal: string = 'op2';
 
   novoFuncionario: Funcionario = {
     id_funcionario: '',
@@ -357,7 +357,10 @@ export class CadatrarContatoComponent {
         .subscribe(
           novoFuncionario => {
             this.funcionarios.push(novoFuncionario);
-            this.id_setor_ramal = 'op2';
+            this.nramal = 'op2';
+            this.setor = 'op';
+            this.data_nascimento = '';
+
           },
           error => {
             console.error('Erro ao adicionar funcionario:', error);
