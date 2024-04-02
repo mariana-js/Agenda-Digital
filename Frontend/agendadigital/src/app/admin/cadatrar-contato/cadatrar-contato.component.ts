@@ -239,6 +239,12 @@ export class CadatrarContatoComponent {
     populateUFs();
   }
   adicionarContato() {
+    // Verificar se algum dos campos obrigatórios está vazio
+    if (!this.nome_pessoa || !this.email || !this.celular1) {
+      alert('Por favor, preencha todos os campos obrigatórios!');
+      return;
+    }
+
     this.novoContato.nome_pessoa = this.nome_pessoa;
     this.novoContato.email = this.email;
     this.novoContato.celular1 = this.celular1;
@@ -288,7 +294,17 @@ export class CadatrarContatoComponent {
         if (this.box_fun === true) {
           this.adicionarFuncionario(id);
         }
+
+        this.nome_pessoa = '';
+        this.email = '';
+        this.celular1 = '';
+        this.celular2 = '';
+        this.telefone = '';
+        this.boxPrivate = false;
+        this.box_fun = false;
+
         alert('Contato adicionado com sucesso!');
+
       }, error => {
         console.error('Erro ao adicionar contato:', error);
         alert('Erro ao adicionar contato!');
@@ -309,17 +325,30 @@ export class CadatrarContatoComponent {
     this.http.post<Endereco>(`${this.url}/endereco`, this.novoEndereco)
       .subscribe(novoEndereco => {
         this.enderecos.push(novoEndereco);
+
+        this.logradouro = '';
+        this.numero = '';
+        this.estado = 'estado';
+        this.cidade = '';
+        this.bairro = '';
+        this.uf = '';
+        this.cep = '';
       }, error => {
         console.error('Erro ao adicionar endereco:', error);
       })
   }
   adicionarFuncionario(id_contato: string) {
-    this.novoFuncionario.id_pessoa = id_contato;
-    this.novoFuncionario.data_nascimento = this.data_nascimento;
-
     const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
       setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
     );
+
+    // Verificar se algum dos campos obrigatórios está vazio
+    if (!this.data_nascimento || !setorRamalEncontrado) {
+      alert('Por favor, preencha todos os campos obrigatórios do funcionário!');
+      return;
+    }
+    this.novoFuncionario.id_pessoa = id_contato;
+    this.novoFuncionario.data_nascimento = this.data_nascimento;
 
     if (setorRamalEncontrado) {
       this.novoFuncionario.id_setor_ramal = setorRamalEncontrado.id_setor_ramal;
@@ -328,9 +357,11 @@ export class CadatrarContatoComponent {
         .subscribe(
           novoFuncionario => {
             this.funcionarios.push(novoFuncionario);
+            this.id_setor_ramal = 'op2';
           },
           error => {
             console.error('Erro ao adicionar funcionario:', error);
+
           }
         );
     } else {

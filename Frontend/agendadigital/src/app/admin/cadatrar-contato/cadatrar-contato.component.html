@@ -26,7 +26,7 @@
 
               <div class="field-group">
                 <div class="field">
-                  <label for="name">Nome</label>
+                  <label for="name">Nome *</label>
                   <input type="text" required [(ngModel)]="nome_pessoa" name="nome_pessoa">
                 </div>
 
@@ -34,26 +34,25 @@
 
               <div class="field-group">
                 <div class="field">
-                  <label for="mail">E-mail</label>
+                  <label for="mail">E-mail *</label>
                   <input type="text" name="email" required [(ngModel)]="email">
                 </div>
                 <div class="field">
-                  <label for="cel-corp">Telefone</label>
-                  <input [(ngModel)]="telefone" name="telefone" type="tel" name="tel" required>
+                  <label for="cel">Celular 1 *</label>
+                  <input type="tel" required [(ngModel)]="celular1" name="celular1">
                 </div>
               </div>
 
               <div class="field-group">
                 <div class="field">
-                  <label for="cel">Celular 1</label>
-                  <input type="tel" required [(ngModel)]="celular1" name="celular1">
-                </div>
-                <div class="field">
                   <label for="cel-corp">Celular 2</label>
                   <input data-mask="(00) 0000-0000" data-mask-selectonfocus="true" type="tel" required
                     [(ngModel)]="celular2" name="celular2">
                 </div>
-
+                <div class="field">
+                  <label for="cel-corp">Telefone </label>
+                  <input [(ngModel)]="telefone" name="telefone" type="tel" name="tel" required>
+                </div>
               </div>
 
               <div class="field-group">
@@ -73,7 +72,7 @@
                 <div class="field">
                   <label for="sector">Setor</label>
                   <select name="sector" required onchange disabled (change)="selecionarSetor($event)">
-                    <option value=""> Selecione o Setor </option>
+                    <option value="op"> Selecione o Setor </option>
                     <option value="{{setor.id_setor}}" *ngFor="let setor of setores">{{setor.nome_setor}}</option>
 
 
@@ -84,7 +83,7 @@
                 <div class="field">
                   <label for="Ramal">Ramal</label>
                   <select name="ramal" required onchange disabled (change)="selecionarRamal($event)">
-                    <option value=""> Selecione o Ramal </option>
+                    <option value="op2"> Selecione o Ramal </option>
                     <option value="{{ramal.id_ramal_setor}}" *ngFor="let ramal of ramaisFiltrados">
                       {{ramal.id_ramal_setor}}</option>
                   </select>
