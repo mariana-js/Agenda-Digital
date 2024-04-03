@@ -7,13 +7,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class PessoaDtos {
 
     @NotBlank
-    
+
     @JsonProperty("nome_pessoa")
     private String nome_pessoa;
 
     @NotBlank
     private String email;
 
+    
+    @NotBlank
     @JsonProperty("celular1")
     private String celular1;
 
@@ -84,7 +86,5 @@ public class PessoaDtos {
     public void setFlag_funcionario(Boolean flag_funcionario) {
         this.flag_funcionario = flag_funcionario;
     }
-    
-
 
 }

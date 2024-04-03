@@ -11,19 +11,15 @@ public class EnderecoDtos {
     @JsonProperty("id_pessoa")
     private UUID id_pessoa;
 
-    @NotBlank
+
     private String logradouro;
 
-    @NotBlank
     private String numero;
 
-    @NotBlank
     private String bairro;
 
-    @NotBlank
     private String cidade;
 
-    @NotBlank
     private String uf;
 
     @Size(max = 9)

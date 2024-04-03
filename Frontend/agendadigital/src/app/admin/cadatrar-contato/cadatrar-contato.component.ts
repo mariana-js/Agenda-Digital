@@ -56,7 +56,7 @@ export class CadatrarContatoComponent {
   id_contato: string = '';
   logradouro: string = '';
   numero: string = '';
-  estado: string = '';
+  estado: string = 'estado';
   cidade: string = '';
   bairro: string = '';
   uf: string = '';
@@ -161,7 +161,6 @@ export class CadatrarContatoComponent {
       }
     });
   }
-
   estados() {
     // Salvar uma referência à instância da classe
     const self = this;
@@ -186,7 +185,6 @@ export class CadatrarContatoComponent {
         stateUFs[state.nome] = state.sigla;
       });
     }
-
     // Função para obter as cidades
     async function getCities(event: Event) {
       const target = event.target as HTMLSelectElement;
@@ -238,10 +236,31 @@ export class CadatrarContatoComponent {
     // Populando as UF
     populateUFs();
   }
+  verificarNumeros(str: any) {
+
+    const num = Number(str);
+    if (!isNaN(num)) {
+
+      return /^\d+$/.test(String(num));
+    }
+
+    return false;
+  }
   adicionarContato() {
     // Verificar se algum dos campos obrigatórios está vazio
     if (!this.nome_pessoa || !this.email || !this.celular1) {
       alert('Por favor, preencha todos os campos obrigatórios!');
+      return;
+    }
+    // Verificar se os campos de telefone contêm apenas números
+    if (!this.verificarNumeros(this.celular1) || !this.verificarNumeros(this.celular2) || !this.verificarNumeros(this.telefone)) {
+      alert('Os campos de telefone devem conter apenas números!');
+      return;
+    }
+
+    // Verificar se o CEP é maior que 9 caracteres
+    if (this.cep && this.cep.length > 9 || !this.verificarNumeros(this.cep)) {
+      alert('CEP inválido!');
       return;
     }
 
@@ -288,9 +307,11 @@ export class CadatrarContatoComponent {
         this.contatos.push(novoContato);
         const id = novoContato.id_pessoa;
 
-        if ((this.logradouro && this.numero && this.estado && this.cidade && this.bairro && this.uf && this.cep)) {
+        if ((this.logradouro || this.numero || this.estado || this.cidade || this.bairro || this.uf || this.cep)) {
+
           this.adicionarEndereco(id);
         }
+
         if (this.box_fun === true) {
           this.adicionarFuncionario(id);
         }
@@ -322,16 +343,15 @@ export class CadatrarContatoComponent {
     this.novoEndereco.uf = this.uf;
     this.novoEndereco.cep = this.cep;
 
+
+
     this.http.post<Endereco>(`${this.url}/endereco`, this.novoEndereco)
       .subscribe(novoEndereco => {
         this.enderecos.push(novoEndereco);
 
         this.logradouro = '';
         this.numero = '';
-        this.estado = 'estado';
-        this.cidade = '';
         this.bairro = '';
-        this.uf = '';
         this.cep = '';
       }, error => {
         console.error('Erro ao adicionar endereco:', error);
