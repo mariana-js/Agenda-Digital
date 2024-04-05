@@ -10,7 +10,7 @@ import { Setor } from '../../models/setor';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { RamaisComponent } from '../ramais/ramais.component';
 import { SetorRamal } from './../../models/setor-ramal';
-
+import { PhoneMaskDirective } from '../../app/phone-mask.directive';
 @Component({
   selector: 'app-cadatrar-contato',
   standalone: true,

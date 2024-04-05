@@ -39,7 +39,7 @@
                 </div>
                 <div class="field">
                   <label for="cel">Celular 1 *</label>
-                  <input type="tel" required [(ngModel)]="celular1" name="celular1">
+                  <input  type="text" name="celular1" [(ngModel)]="celular1" appPhoneMask>
                 </div>
               </div>
 
@@ -47,7 +47,7 @@
                 <div class="field">
                   <label for="cel-corp">Celular 2</label>
                   <input data-mask="(00) 0000-0000" data-mask-selectonfocus="true" type="tel" required
-                    [(ngModel)]="celular2" name="celular2">
+                    [(ngModel)]="celular2" name="celular2" appPhoneMask>
                 </div>
                 <div class="field">
                   <label for="cel-corp">Telefone </label>
