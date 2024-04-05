@@ -7,9 +7,9 @@ import { Contato } from '../../models/contato';
 import { Endereco } from '../../models/endereco';
 import { Funcionario } from '../../models/funcionario';
 import { Setor } from '../../models/setor';
-import { SetorRamal } from '../../models/setor-ramal';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { RamaisComponent } from '../ramais/ramais.component';
+import { SetorRamal } from './../../models/setor-ramal';
 
 @Component({
   selector: 'app-cadatrar-contato',
@@ -56,7 +56,7 @@ export class CadatrarContatoComponent {
   id_contato: string = '';
   logradouro: string = '';
   numero: string = '';
-  estado: string = 'estado';
+  estado: string = '';
   cidade: string = '';
   bairro: string = '';
   uf: string = '';
@@ -247,20 +247,37 @@ export class CadatrarContatoComponent {
     return false;
   }
   adicionarContato() {
-    // Verificar se algum dos campos obrigatórios está vazio
-    if (!this.nome_pessoa || !this.email || !this.celular1) {
-      alert('Por favor, preencha todos os campos obrigatórios!');
+    if (!this.nome_pessoa) {
+      alert('Por favor, preencha o campo Nome!');
+      // document.getElementById('nome_pessoa').focus();
       return;
     }
-    // Verificar se os campos de telefone contêm apenas números
+    if (!this.email) {
+      alert('Por favor, preencha o campo Email!');
+      // document.getElementById('email').focus();
+      return;
+    }
+    if (!this.celular1) {
+      alert('Por favor, preencha o campo Celular 1!');
+      // document.getElementById('celular1').focus();
+      return;
+    }
     if (!this.verificarNumeros(this.celular1) || !this.verificarNumeros(this.celular2) || !this.verificarNumeros(this.telefone)) {
       alert('Os campos de telefone devem conter apenas números!');
       return;
     }
-
-    // Verificar se o CEP é maior que 9 caracteres
-    if (this.cep && this.cep.length > 9 || !this.verificarNumeros(this.cep)) {
+    if (this.cep && (this.cep.length > 9 || !this.verificarNumeros(this.cep))) {
       alert('CEP inválido!');
+      return;
+    }
+    const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
+      setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
+    );
+    if (this.box_fun === true && !this.data_nascimento ) {
+      alert('Por favor, insira a data de nascimento do funcionário!');
+      return;
+    } else if (this.box_fun === true &&  !setorRamalEncontrado) {
+      alert('Por favor, insira o setor e ramal do funcionário!');
       return;
     }
 
@@ -312,9 +329,10 @@ export class CadatrarContatoComponent {
           this.adicionarEndereco(id);
         }
 
-        if (this.box_fun === true) {
-          this.adicionarFuncionario(id);
+        if (this.box_fun === true && setorRamalEncontrado !== undefined) {
+          this.adicionarFuncionario(id, setorRamalEncontrado);
         }
+
 
         this.nome_pessoa = '';
         this.email = '';
@@ -357,22 +375,13 @@ export class CadatrarContatoComponent {
         console.error('Erro ao adicionar endereco:', error);
       })
   }
-  adicionarFuncionario(id_contato: string) {
-    const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
-      setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
-    );
+  adicionarFuncionario(id_contato: string, setorRamalEncontrado: SetorRamal) {
 
-    // Verificar se algum dos campos obrigatórios está vazio
-    if (!this.data_nascimento || !setorRamalEncontrado) {
-      alert('Por favor, preencha todos os campos obrigatórios do funcionário!');
-      return;
-    }
     this.novoFuncionario.id_pessoa = id_contato;
     this.novoFuncionario.data_nascimento = this.data_nascimento;
 
     if (setorRamalEncontrado) {
       this.novoFuncionario.id_setor_ramal = setorRamalEncontrado.id_setor_ramal;
-
       this.http.post<Funcionario>(`${this.url}/funcionario`, this.novoFuncionario)
         .subscribe(
           novoFuncionario => {
@@ -384,12 +393,8 @@ export class CadatrarContatoComponent {
           },
           error => {
             console.error('Erro ao adicionar funcionario:', error);
-
           }
         );
-    } else {
-      console.error('Setor ou ramal não encontrados.');
     }
   }
-
 }
