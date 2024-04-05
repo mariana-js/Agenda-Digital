@@ -251,6 +251,9 @@ export class CadatrarContatoComponent {
       alert('Por favor, preencha o campo Nome!');
       // document.getElementById('nome_pessoa').focus();
       return;
+    } else if (this.nome_pessoa.length > 25){
+      alert('Nome do contato muito grande!');
+      return;
     }
     if (!this.email) {
       alert('Por favor, preencha o campo Email!');
