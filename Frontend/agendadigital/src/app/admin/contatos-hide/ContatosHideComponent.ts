@@ -6,6 +6,7 @@ import { Contato } from './../../models/contato';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ContatoStateService } from '../../services/contato-state.service';
+
 @Component({
   selector: 'app-contatos-hide',
   standalone: true,
@@ -42,10 +43,21 @@ export class ContatosHideComponent {
     }
   }
   ngOnInit() {
-    this.getContatosHides()
+    this.getContatos();
   }
   navegarParaAddContato() {
     this.router.navigate(['/cadastrar-contato']);
+  }
+  getContatos() {
+    this.http.get<Contato[]>(`${this.url}/pessoa`)
+      .subscribe(resultados => {
+        this.contatosHide = resultados;
+        this.amount = this.contatosHide.length;
+        this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
+        if (this.amount === 0) {
+          console.log("Erro ao trazer os contatos!");
+        }
+      });
   }
   getContatosHides() {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
@@ -54,7 +66,7 @@ export class ContatosHideComponent {
         this.amount = this.contatosHide.length;
         this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
         if (this.amount === 0) {
-          console.log("Erro ao trazer os contatos ocultos!")
+          console.log("Erro ao trazer os contatos ocultos!");
         }
       });
   }
@@ -62,7 +74,6 @@ export class ContatosHideComponent {
     contatosHide.id_contatoSelecionado = contatosHide.id_pessoa;
     this.contatoStateService.contatoSelecionado = contatosHide;
     // this.router.navigate(['/contato']);
-
     this.router.navigate(['/contato', contatosHide.id_contatoSelecionado]);
 
 
@@ -74,7 +85,7 @@ export class ContatosHideComponent {
 
   filterContacts(searchTerm: string) {
     if (searchTerm.trim() === '') {
-      this.getContatosHides();
+      this.getContatos();
 
       return;
     } else {
@@ -83,16 +94,69 @@ export class ContatosHideComponent {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
       .subscribe(resultados => {
         this.contatosHide = resultados.filter(contato =>
-          contato.flag_privado === true &&
+          // contato.flag_privado === true &&
           contato.nome_pessoa.toLowerCase().includes(searchTerm.toLowerCase())
         );
 
         this.amount = this.contatosHide.length;
         if (this.amount === 0) {
           this.retorno = "Nenhum contato encontrado.";
-          this.getContatosHides();
+          this.getContatos();
         }
       });
+  }
+  excluir(contato: Contato) {
+    this.excluirEndereco(contato);
+    this.excluirFuncionario(contato);
+    this.excluirContato(contato);
+  }
+  excluirContato(contato: Contato) {
+    if (confirm('Tem certeza de que deseja excluir este contato?')) {
+      this.http.delete(`${this.url}/setor/${contato.id_pessoa}`)
+        .subscribe(
+          () => {
+            this.contatosHide = this.contatosHide.filter(s => s.id_pessoa !== contato.id_pessoa);
+            this.getContatos();
+            alert('Contato excluído com sucesso!');
+          },
+          error => {
+            this.getContatos();
+            console.error('Erro ao excluir contato:', error);
+            alert('Erro ao excluir contato!');
+          }
+        );
+    }
+  }
+  excluirEndereco(contato: Contato) {
+    if (confirm('Tem certeza de que deseja excluir este contato?')) {
+      this.http.delete(`${this.url}/endereco/${contato.id_pessoa}`)
+        .subscribe(
+          () => {
+            this.contatosHide = this.contatosHide.filter(s => s.id_pessoa !== contato.id_pessoa);
+            return 'ok';
+          },
+          error => {
+            this.getContatos();
+            console.error('Erro ao excluir contato:', error);
+            return 'erro';
+          }
+        );
+    }
+
+  }
+  excluirFuncionario(contato: Contato) {
+    this.http.delete(`${this.url}/funcionario/${contato.id_pessoa}`)
+      .subscribe(
+        () => {
+          this.contatosHide = this.contatosHide.filter(s => s.id_pessoa !== contato.id_pessoa);
+        },
+        error => {
+          console.error('Erro ao excluir funcionario:', error);
+        }
+      );
+  }
+
+  alterarContato() {
   }
 
 }

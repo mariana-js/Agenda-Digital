@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { CadatrarContatoComponent } from '../../admin/cadatrar-contato/cadatrar-contato.component';
-import { ContatosHideComponent } from '../../admin/contatos-hide/contatos-hide.component';
+import { ContatosHideComponent } from '../../admin/contatos-hide/ContatosHideComponent';
 import { RamaisComponent } from '../../admin/ramais/ramais.component';
 import { SetoresComponent } from '../../admin/setores/setores.component';
 import { UsuariosComponent } from '../../admin/usuarios/usuarios.component';

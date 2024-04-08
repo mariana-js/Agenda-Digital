@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ContatosHideComponent } from './contatos-hide.component';
+import { ContatosHideComponent } from './ContatosHideComponent';
 
 describe('ContatosHideComponent', () => {
   let component: ContatosHideComponent;
@@ -11,7 +11,7 @@ describe('ContatosHideComponent', () => {
       imports: [ContatosHideComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(ContatosHideComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
