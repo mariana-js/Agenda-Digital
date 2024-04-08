@@ -210,7 +210,6 @@ export class RamaisComponent {
     }
 
   excluirSetorRamal(setorramal: SetorRamal){
-
     const n_ramal = setorramal.id_ramal_setor;
     if (confirm('Tem certeza de que deseja excluir este ramal?')) {
       this.http.delete(`${this.url}/setor_ramal/${setorramal.id_setor_ramal}`)

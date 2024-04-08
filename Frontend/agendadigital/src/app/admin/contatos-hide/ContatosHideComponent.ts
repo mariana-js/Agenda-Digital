@@ -6,6 +6,9 @@ import { Contato } from './../../models/contato';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ContatoStateService } from '../../services/contato-state.service';
+import { Endereco } from '../../models/endereco';
+import { Funcionario } from '../../models/funcionario';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 
 @Component({
   selector: 'app-contatos-hide',
@@ -18,6 +21,8 @@ export class ContatosHideComponent {
   readonly url: string;
   id_contatoSelecionado: string | null = null;
   contatosHide: Contato[] = [];
+  endereco: Endereco[] = [];
+  funcionario: Funcionario[] = [];
   amount: number = 0;
   searchTerm: string = '';
   retorno: string = "";
@@ -43,7 +48,14 @@ export class ContatosHideComponent {
     }
   }
   ngOnInit() {
-    this.getContatos();
+    forkJoin({
+      endereco: this.http.get<Endereco[]>(`${this.url}/endereco`),
+      funcionario: this.http.get<Funcionario[]>(`${this.url}/funcionario/all`),
+    }).subscribe(({ endereco, funcionario }) => {
+      this.endereco = endereco;
+      this.funcionario = funcionario;
+      this.getContatos();
+    });
   }
   navegarParaAddContato() {
     this.router.navigate(['/cadastrar-contato']);
@@ -105,31 +117,34 @@ export class ContatosHideComponent {
       });
   }
   excluir(contato: Contato) {
-    const id_endereco = '0';
-    const id_funcionario = '0';
-    this.excluirEndereco(contato, id_endereco);
-    this.excluirFuncionario(contato, id_funcionario);
-    this.excluirContato(contato);
-  }
+    const id_endereco = this.endereco.find(endereco => endereco.id_pessoa === contato.id_pessoa)?.id_endereco ?? '0';
+    const id_funcionario = this.funcionario.find(funcionario => funcionario.id_pessoa === contato.id_pessoa)?.id_funcionario ?? '0';
+    console.log(id_endereco, id_funcionario)
 
-  excluirEndereco(contato: Contato, id: string) {
     if (confirm('Tem certeza de que deseja excluir este contato?')) {
-      if (id !== '0') {
-        this.http.delete(`${this.url}/endereco/${id}`)
-          .subscribe(
-            () => {
-              this.contatosHide = this.contatosHide.filter(s => s.id_pessoa !== contato.id_pessoa);
-              return 'ok';
-            },
-            error => {
-              console.error('Erro ao excluir contato:', error);
-              return 'erro';
-            }
-          );
-      } else if (id === '0') {
-        console.log('Não há endereco cadastrado relacionado a esse contato!')
-      }
+      this.excluirEndereco(contato, id_endereco);
+      this.excluirFuncionario(contato, id_funcionario);
+      this.excluirContato(contato);
+
+    } else {
+      return;
     }
+  }
+  excluirEndereco(contato: Contato, id: string) {
+    if (id !== '0') {
+      this.http.delete(`${this.url}/endereco/${id}`)
+        .subscribe(
+          () => {
+            this.contatosHide = this.contatosHide.filter(s => s.id_pessoa !== contato.id_pessoa);
+          },
+          error => {
+            console.error('Erro ao excluir contato:', error);
+          }
+        );
+    } else if (id === '0') {
+      console.log('Não há endereco cadastrado relacionado a esse contato!')
+    }
+
 
   }
   excluirFuncionario(contato: Contato, id: string) {
