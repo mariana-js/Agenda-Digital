@@ -7,8 +7,7 @@
     <div class="area1">
       <div class="align-top">
         <div class="add-contato">
-          <a (click)="navegarParaAddContato()"><img src="assets/Imagens/adicionar-contato-b.png" alt="add-contato"
-            >Adicionar Contato</a>
+          <a (click)="navegarParaAddContato()"><img src="assets/Imagens/adicionar-contato-b.png" alt="add-contato">Adicionar Contato</a>
 
           <div class="search">
             <input type="text" placeholder="Pesquisar..." [(ngModel)]="searchTerm">
@@ -34,7 +33,7 @@
                 <th></th>
                 <th>Nome</th>
                 <th>Email</th>
-                <th>Telefone</th>
+                <th>Celular</th>
                 <th></th>
                 <th></th>
               </tr>
@@ -47,7 +46,7 @@
                 <td class="image" (click)="informacoes(contato)"> <img src="assets/foto/foto.png" alt=""></td>
                 <td (click)="informacoes(contato)">{{contato.nome_pessoa}}</td>
                 <td (click)="informacoes(contato)">{{contato.email}}</td>
-                <td (click)="informacoes(contato)">{{contato.telefone}}</td>
+                <td (click)="informacoes(contato)">{{contato.celular1}}</td>
 
                 <td><img class="up" src="assets/img/editar.png" alt="editar" (click)="alterarContato()"></td>
                 <td><img class="up" src="assets/img/lixo.png" alt="excluir" (click)="excluir(contato)"></td>
