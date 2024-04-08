@@ -94,7 +94,6 @@ export class ContatosHideComponent {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
       .subscribe(resultados => {
         this.contatosHide = resultados.filter(contato =>
-          // contato.flag_privado === true &&
           contato.nome_pessoa.toLowerCase().includes(searchTerm.toLowerCase())
         );
 
@@ -106,56 +105,63 @@ export class ContatosHideComponent {
       });
   }
   excluir(contato: Contato) {
-    this.excluirEndereco(contato);
-    this.excluirFuncionario(contato);
+    const id_endereco = '0';
+    const id_funcionario = '0';
+    this.excluirEndereco(contato, id_endereco);
+    this.excluirFuncionario(contato, id_funcionario);
     this.excluirContato(contato);
   }
-  excluirContato(contato: Contato) {
+
+  excluirEndereco(contato: Contato, id: string) {
     if (confirm('Tem certeza de que deseja excluir este contato?')) {
-      this.http.delete(`${this.url}/setor/${contato.id_pessoa}`)
-        .subscribe(
-          () => {
-            this.contatosHide = this.contatosHide.filter(s => s.id_pessoa !== contato.id_pessoa);
-            this.getContatos();
-            alert('Contato excluído com sucesso!');
-          },
-          error => {
-            this.getContatos();
-            console.error('Erro ao excluir contato:', error);
-            alert('Erro ao excluir contato!');
-          }
-        );
-    }
-  }
-  excluirEndereco(contato: Contato) {
-    if (confirm('Tem certeza de que deseja excluir este contato?')) {
-      this.http.delete(`${this.url}/endereco/${contato.id_pessoa}`)
-        .subscribe(
-          () => {
-            this.contatosHide = this.contatosHide.filter(s => s.id_pessoa !== contato.id_pessoa);
-            return 'ok';
-          },
-          error => {
-            this.getContatos();
-            console.error('Erro ao excluir contato:', error);
-            return 'erro';
-          }
-        );
+      if (id !== '0') {
+        this.http.delete(`${this.url}/endereco/${id}`)
+          .subscribe(
+            () => {
+              this.contatosHide = this.contatosHide.filter(s => s.id_pessoa !== contato.id_pessoa);
+              return 'ok';
+            },
+            error => {
+              console.error('Erro ao excluir contato:', error);
+              return 'erro';
+            }
+          );
+      } else if (id === '0') {
+        console.log('Não há endereco cadastrado relacionado a esse contato!')
+      }
     }
 
   }
-  excluirFuncionario(contato: Contato) {
-    this.http.delete(`${this.url}/funcionario/${contato.id_pessoa}`)
+  excluirFuncionario(contato: Contato, id: string) {
+    if (id !== '0') {
+      this.http.delete(`${this.url}/funcionario/${id}`)
+        .subscribe(
+          () => {
+            this.contatosHide = this.contatosHide.filter(s => s.id_pessoa !== contato.id_pessoa);
+          },
+          error => {
+            console.error('Erro ao excluir funcionario:', error);
+          }
+        );
+    } else if (id === '0') {
+      console.log('Não há funcionario cadastrado relacionado a esse contato!')
+    }
+  }
+  excluirContato(contato: Contato) {
+    this.http.delete(`${this.url}/pessoa/${contato.id_pessoa}`)
       .subscribe(
         () => {
           this.contatosHide = this.contatosHide.filter(s => s.id_pessoa !== contato.id_pessoa);
+          this.getContatos();
+          alert('Contato excluído com sucesso!');
         },
         error => {
-          console.error('Erro ao excluir funcionario:', error);
+          this.getContatos();
+          console.error('Erro ao excluir contato:', error);
+          alert('Erro ao excluir contato!');
         }
       );
   }
-
   alterarContato() {
   }
 

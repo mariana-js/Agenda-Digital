@@ -6,8 +6,9 @@
   <DIV>
     <div class="area1">
       <div class="align-top">
-        <div class="add-contato" >
-          <img src="assets/Imagens/adicionar-contato-b.png" alt="add-contato" (click)="navegarParaAddContato()"><a>Adicionar Contato</a>
+        <div class="add-contato">
+          <img src="assets/Imagens/adicionar-contato-b.png" alt="add-contato"
+            (click)="navegarParaAddContato()"><a>Adicionar Contato</a>
 
           <div class="search">
             <input type="text" placeholder="Pesquisar..." [(ngModel)]="searchTerm">
@@ -40,12 +41,14 @@
             </thead>
 
             <tbody>
-              <tr *ngFor="let contato of contatosHide.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)"
-                (click)="informacoes(contato)">
-                <td class="image"> <img src="assets/foto/foto.png" alt=""></td>
-                <td>{{contato.nome_pessoa}}</td>
-                <td>{{contato.email}}</td>
-                <td>{{contato.telefone}}</td>
+              <tr
+                *ngFor="let contato of contatosHide.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)">
+
+                  <td class="image" (click)="informacoes(contato)"> <img src="assets/foto/foto.png" alt=""></td>
+                  <td (click)="informacoes(contato)">{{contato.nome_pessoa}}</td>
+                  <td (click)="informacoes(contato)">{{contato.email}}</td>
+                  <td (click)="informacoes(contato)">{{contato.telefone}}</td>
+
                 <td><img class="up" src="assets/img/editar.png" alt="editar" (click)="alterarContato()"></td>
                 <td><img class="up" src="assets/img/lixo.png" alt="excluir" (click)="excluir(contato)"></td>
               </tr>
