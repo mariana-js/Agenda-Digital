@@ -1,23 +1,23 @@
 import { NgFor } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { NavAdminComponent } from "../nav-admin/nav-admin.component";
-import { Contato } from './../../models/contato';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ContatoStateService } from '../../services/contato-state.service';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { Endereco } from '../../models/endereco';
 import { Funcionario } from '../../models/funcionario';
-import { forkJoin } from 'rxjs/internal/observable/forkJoin';
+import { ContatoStateService } from '../../services/contato-state.service';
+import { NavAdminComponent } from "../nav-admin/nav-admin.component";
+import { Contato } from './../../models/contato';
 
 @Component({
-  selector: 'app-contatos-hide',
+  selector: 'app-admin-contatos',
   standalone: true,
-  templateUrl: './contatos-hide.component.html',
-  styleUrl: './contatos-hide.component.css',
-  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule]
+  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule],
+  templateUrl: './admin-contatos.component.html',
+  styleUrl: './admin-contatos.component.css'
 })
-export class ContatosHideComponent {
+export class AdminContatosComponent {
   readonly url: string;
   id_contatoSelecionado: string | null = null;
   contatosHide: Contato[] = [];

@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'contatos-admin',
-    component: ContatosHideComponent
+    component: AdminContatosComponent
   },
   {
     path: 'ramais',

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ContatosHideComponent } from './ContatosHideComponent';
+import { AdminContatosComponent } from './admin-contatos.component';
 
-describe('ContatosHideComponent', () => {
-  let component: ContatosHideComponent;
-  let fixture: ComponentFixture<ContatosHideComponent>;
+describe('AdminContatosComponent', () => {
+  let component: AdminContatosComponent;
+  let fixture: ComponentFixture<AdminContatosComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ContatosHideComponent]
+      imports: [AdminContatosComponent]
     })
     .compileComponents();
-
-    fixture = TestBed.createComponent(ContatosHideComponent);
+    
+    fixture = TestBed.createComponent(AdminContatosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
