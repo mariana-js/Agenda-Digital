@@ -5,7 +5,8 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.AgendaDigital.dtos.EnderecoDtos;
 import br.com.AgendaDigital.projeto.model.Endereco;
+import br.com.AgendaDigital.projeto.model.Pessoa;
 import br.com.AgendaDigital.projeto.services.EnderecoService;
 
 @RestController
@@ -31,6 +33,7 @@ import br.com.AgendaDigital.projeto.services.EnderecoService;
 
 public class EnderecoController {
 
+	private static final Logger log = LoggerFactory.getLogger(UsuarioController.class);
 	final EnderecoService enderecoService;
 
 	public EnderecoController(EnderecoService enderecoService) {
@@ -65,9 +68,16 @@ public class EnderecoController {
 		if (!enderecoOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Endereco not found.");
 		}
-		enderecoService.delete(enderecoOptional.get());
-		return ResponseEntity.status(HttpStatus.OK).body("Endereco deleted successfully.");
+		try {
+			enderecoService.delete(enderecoOptional.get());
+			return ResponseEntity.noContent().build();
+		} catch (Exception e) {
+			log.error("Erro ao excluir endereco:", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir endereco.");
+		}
 	}
+
+
 
 	@PutMapping("/{id_endereco}")
 	public ResponseEntity<Object> updateEndereco(@PathVariable(value = "id_endereco") UUID id_endereco,

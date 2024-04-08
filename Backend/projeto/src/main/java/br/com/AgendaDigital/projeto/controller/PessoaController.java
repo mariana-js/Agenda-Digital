@@ -27,6 +27,8 @@ import br.com.AgendaDigital.dtos.PessoaDtos;
 import br.com.AgendaDigital.projeto.model.Funcionario;
 import br.com.AgendaDigital.projeto.model.Pessoa;
 import br.com.AgendaDigital.projeto.services.PessoaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -34,6 +36,7 @@ import br.com.AgendaDigital.projeto.services.PessoaService;
 
 public class PessoaController {
 
+	private static final Logger log = LoggerFactory.getLogger(UsuarioController.class);
 	final PessoaService pessoaService;
 
 	public PessoaController(PessoaService pessoaService) {
@@ -81,30 +84,18 @@ public class PessoaController {
 		return ResponseEntity.status(HttpStatus.OK).body(pessoaOptional.get());
 	}
 
-
 	@DeleteMapping("/{id_pessoa}")
 	public ResponseEntity<Object> deletePessoa(@PathVariable(value = "id_pessoa") UUID id_pessoa) {
 		Optional<Pessoa> pessoaOptional = pessoaService.findById(id_pessoa);
 		if (!pessoaOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pessoa not found.");
 		}
-		pessoaService.delete(pessoaOptional.get());
-		return ResponseEntity.status(HttpStatus.OK).body("Pessoa deleted successfully.");
-	}
-	@DeleteMapping("/{id_usuario}")
-	public ResponseEntity<Object> deleteUsuario(@PathVariable(value = "id_usuario") UUID id) {
-		Optional<Usuario> usuarioOptional = usuarioService.findById(id);
-	
-		if (!usuarioOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario not found.");
-		}
-	
 		try {
-			usuarioService.delete(usuarioOptional.get());
-			return ResponseEntity.noContent().build(); // Retorno 204 No Content
+			pessoaService.delete(pessoaOptional.get());
+			return ResponseEntity.noContent().build();
 		} catch (Exception e) {
 			log.error("Erro ao excluir usuario:", e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir usuario.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir pessoa.");
 		}
 	}
 

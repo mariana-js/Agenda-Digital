@@ -7,7 +7,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.validation.Valid;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.AgendaDigital.dtos.FuncionarioDtos;
 import br.com.AgendaDigital.projeto.model.Funcionario;
+import br.com.AgendaDigital.projeto.model.Pessoa;
 import br.com.AgendaDigital.projeto.services.FuncionarioService;
 
 @RestController
@@ -32,6 +34,7 @@ import br.com.AgendaDigital.projeto.services.FuncionarioService;
 
 public class FuncionarioController {
 
+	private static final Logger log = LoggerFactory.getLogger(UsuarioController.class);
 	final FuncionarioService funcionarioService;
 
 	public FuncionarioController(FuncionarioService funcionarioService) {
@@ -72,8 +75,13 @@ public class FuncionarioController {
 		if (!funcionarioOptional.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Funcionario not found.");
 		}
-		funcionarioService.delete(funcionarioOptional.get());
-		return ResponseEntity.status(HttpStatus.OK).body("Funcionario deleted successfully.");
+		try {
+			funcionarioService.delete(funcionarioOptional.get());
+			return ResponseEntity.noContent().build();
+		} catch (Exception e) {
+			log.error("Erro ao excluir funcionario:", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir funcionario.");
+		}
 	}
 
 	@PutMapping("/{id_funcionario}")
