@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminContatosComponent } from '../../admin/admin-contatos/admin-contatos.component';
 import { CadatrarContatoComponent } from '../../admin/cadatrar-contato/cadatrar-contato.component';
-import { ContatosHideComponent } from '../../admin/contatos-hide/ContatosHideComponent';
 import { RamaisComponent } from '../../admin/ramais/ramais.component';
 import { SetoresComponent } from '../../admin/setores/setores.component';
 import { UsuariosComponent } from '../../admin/usuarios/usuarios.component';
@@ -26,6 +26,10 @@ const routes: Routes = [
   {
     path: 'contatos-admin',
     component: AdminContatosComponent
+  },
+  {
+    path: 'contato-admin/:id',
+    component: CadatrarContatoComponent
   },
   {
     path: 'ramais',

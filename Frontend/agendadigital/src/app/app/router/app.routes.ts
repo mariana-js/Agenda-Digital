@@ -31,6 +31,10 @@ export const routes: Routes = [
     component: AdminContatosComponent
   },
   {
+    path: 'contato-admin/:id',
+    component: CadatrarContatoComponent
+  },
+  {
     path: 'ramais',
     component: RamaisComponent
   },

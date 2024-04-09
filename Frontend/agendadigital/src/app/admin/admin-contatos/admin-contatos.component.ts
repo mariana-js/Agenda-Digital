@@ -119,7 +119,7 @@ export class AdminContatosComponent {
   excluir(contato: Contato) {
     const endereco = this.endereco.find(endereco => endereco.id_pessoa === contato.id_pessoa)?.id_endereco ?? '0';
     const funcionario = this.funcionario.find(funcionario => funcionario.id_pessoa === contato.id_pessoa)?.id_funcionario ?? '0';
-    
+
     if (confirm('Tem certeza de que deseja excluir este contato?')) {
       if (endereco !== '0') {
         this.excluirEndereco(endereco);
@@ -173,7 +173,10 @@ export class AdminContatosComponent {
         }
       );
   }
-  alterarContato() {
+  alterarContato(contato: Contato) {
+    contato.id_contatoSelecionado = contato.id_pessoa;
+    this.contatoStateService.contatoSelecionado = contato;
+    this.router.navigate(['/contato-admin', contato.id_contatoSelecionado]);
   }
 
 }

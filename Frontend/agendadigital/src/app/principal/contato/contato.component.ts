@@ -84,7 +84,7 @@ export class ContatoComponent implements OnInit {
       this.telefone = contatoSelecionado.telefone;
 
     } if ((contatoSelecionado && contatoSelecionado.id_contatoSelecionado) === null || undefined) {
-          console.log('O cantato está retornando ', contatoSelecionado)
+          console.log('O contato está retornando ', contatoSelecionado)
     }
     else {
       console.log('Erro ao trazer o id do contato selecionado');

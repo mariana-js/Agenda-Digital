@@ -10,7 +10,6 @@ import { Setor } from '../../models/setor';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { RamaisComponent } from '../ramais/ramais.component';
 import { SetorRamal } from './../../models/setor-ramal';
-import { PhoneMaskDirective } from '../../app/phone-mask.directive';
 @Component({
   selector: 'app-cadatrar-contato',
   standalone: true,
@@ -24,7 +23,7 @@ export class CadatrarContatoComponent {
   contatos: Contato[] = [];
   enderecos: Endereco[] = [];
   funcionarios: Funcionario[] = [];
-
+  contatoSelecionado: Contato | null = null;
   setor_ramais: SetorRamal[] = [];
   setores: Setor[] = [];
 
@@ -90,7 +89,10 @@ export class CadatrarContatoComponent {
     dia: '',
     mes: ''
   }
-  constructor(private http: HttpClient) {
+
+  constructor(
+    private http: HttpClient,
+    private contatoStateService: ContatoStateService) {
     this.url = 'http://localhost:8080';
 
   }
@@ -251,7 +253,7 @@ export class CadatrarContatoComponent {
       alert('Por favor, preencha o campo Nome!');
       // document.getElementById('nome_pessoa').focus();
       return;
-    } else if (this.nome_pessoa.length > 25){
+    } else if (this.nome_pessoa.length > 25) {
       alert('Nome do contato muito grande!');
       return;
     }
@@ -276,10 +278,10 @@ export class CadatrarContatoComponent {
     const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
       setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
     );
-    if (this.box_fun === true && !this.data_nascimento ) {
+    if (this.box_fun === true && !this.data_nascimento) {
       alert('Por favor, insira a data de nascimento do funcionário!');
       return;
-    } else if (this.box_fun === true &&  !setorRamalEncontrado) {
+    } else if (this.box_fun === true && !setorRamalEncontrado) {
       alert('Por favor, insira o setor e ramal do funcionário!');
       return;
     }
@@ -398,6 +400,59 @@ export class CadatrarContatoComponent {
             console.error('Erro ao adicionar funcionario:', error);
           }
         );
+    }
+  }
+
+  getInformacoes() {
+    const contatoSelecionado = this.contatoStateService.contatoSelecionado;
+
+    if (contatoSelecionado && (contatoSelecionado.id_contatoSelecionado)) {
+      const id_contato = contatoSelecionado.id_contatoSelecionado;
+      this.nome = contatoSelecionado.nome_pessoa;
+      this.email = contatoSelecionado.email;
+      this.cel_corp = contatoSelecionado.celular1;
+      this.cel_pes = contatoSelecionado.celular2;
+      this.telefone = contatoSelecionado.telefone;
+
+    } if ((contatoSelecionado && contatoSelecionado.id_contatoSelecionado) === null || undefined) {
+      console.log('O contato está retornando ', contatoSelecionado)
+    }
+    else {
+      console.log('Erro ao trazer o id do contato selecionado');
+    }
+    const id_contato = this.contatoStateService.contatoSelecionado?.id_contatoSelecionado;
+
+    // Dados da pessoa
+    const pessoa = this.contato.find(pessoa => pessoa.id_pessoa === id_contato)
+    if (pessoa !== undefined) {
+      console.log('Informações.');
+    } else {
+      console.log('ERRO: Id do contato não encontrado!')
+    }
+
+    // Dados do endereco da pessoa
+    const endereco = this.endereco.find(endereco => endereco.id_pessoa === pessoa?.id_pessoa);
+    if (endereco !== undefined) {
+      this.logradouro = endereco.logradouro;
+      this.bairro = endereco.bairro;
+      this.cidade = endereco.cidade;
+      this.estado = `${endereco.estado} -`;
+      this.uf = endereco.uf;
+      this.cep = endereco.cep;
+    } else {
+      console.log('ERRO: Contato não possui endereço!')
+    }
+
+    // Dados do funcionario
+    const funcionario = this.funcionario.find(funcionario => funcionario.id_pessoa === id_contato)
+    if (funcionario !== undefined) {
+      const setor_ramal = this.setor_ramais.find(setor_ramal => setor_ramal.id_setor_ramal === funcionario?.id_setor_ramal)
+      const setor = this.setores.find(setor => setor_ramal?.id_setor === setor.id_setor)
+      this.nome_setor = `${setor?.nome_setor} -`;
+      this.sigla = setor?.sigla_setor;
+      this.ramal = `Ramal: ${setor_ramal?.id_ramal_setor}`;
+    } else {
+      console.log('ERRO: Não é funcionario!')
     }
   }
 }
