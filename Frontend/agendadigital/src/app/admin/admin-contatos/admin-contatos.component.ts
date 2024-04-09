@@ -5,10 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { Endereco } from '../../models/endereco';
-import { Funcionario } from '../../models/funcionario';
 import { ContatoStateService } from '../../services/contato-state.service';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { Contato } from './../../models/contato';
+import { Funcionario } from './../../models/funcionario';
 
 @Component({
   selector: 'app-admin-contatos',
@@ -117,51 +117,47 @@ export class AdminContatosComponent {
       });
   }
   excluir(contato: Contato) {
-    const id_endereco = this.endereco.find(endereco => endereco.id_pessoa === contato.id_pessoa)?.id_endereco ?? '0';
-    const id_funcionario = this.funcionario.find(funcionario => funcionario.id_pessoa === contato.id_pessoa)?.id_funcionario ?? '0';
-    console.log(id_endereco, id_funcionario)
-
+    const endereco = this.endereco.find(endereco => endereco.id_pessoa === contato.id_pessoa)?.id_endereco ?? '0';
+    const funcionario = this.funcionario.find(funcionario => funcionario.id_pessoa === contato.id_pessoa)?.id_funcionario ?? '0';
+    
     if (confirm('Tem certeza de que deseja excluir este contato?')) {
-      this.excluirEndereco(contato, id_endereco);
-      this.excluirFuncionario(contato, id_funcionario);
+      if (endereco !== '0') {
+        this.excluirEndereco(endereco);
+      }
+      if (funcionario !== '0') {
+        this.excluirFuncionario(funcionario);
+      }
       this.excluirContato(contato);
 
     } else {
       return;
     }
-  }
-  excluirEndereco(contato: Contato, id: string) {
-    if (id !== '0') {
-      this.http.delete(`${this.url}/endereco/${id}`)
-        .subscribe(
-          () => {
-            this.contatosHide = this.contatosHide.filter(s => s.id_pessoa !== contato.id_pessoa);
-          },
-          error => {
-            console.error('Erro ao excluir contato:', error);
-          }
-        );
-    } else if (id === '0') {
-      console.log('Não há endereco cadastrado relacionado a esse contato!')
-    }
-
 
   }
-  excluirFuncionario(contato: Contato, id: string) {
-    if (id !== '0') {
-      this.http.delete(`${this.url}/funcionario/${id}`)
-        .subscribe(
-          () => {
-            this.contatosHide = this.contatosHide.filter(s => s.id_pessoa !== contato.id_pessoa);
-          },
-          error => {
-            console.error('Erro ao excluir funcionario:', error);
-          }
-        );
-    } else if (id === '0') {
-      console.log('Não há funcionario cadastrado relacionado a esse contato!')
-    }
+  excluirEndereco(id_endereco: string) {
+    this.http.delete(`${this.url}/endereco/${id_endereco}`)
+      .subscribe(
+        () => {
+          this.endereco = this.endereco.filter(s => s.id_endereco !== id_endereco);
+        },
+        error => {
+          console.error('Erro ao excluir contato:', error);
+        }
+      );
   }
+
+  excluirFuncionario(id_funcionario: string) {
+    this.http.delete(`${this.url}/funcionario/${id_funcionario}`)
+      .subscribe(
+        () => {
+          this.funcionario = this.funcionario.filter(s => s.id_funcionario !== id_funcionario);
+        },
+        error => {
+          console.error('Erro ao excluir funcionario:', error);
+        }
+      );
+  }
+
   excluirContato(contato: Contato) {
     this.http.delete(`${this.url}/pessoa/${contato.id_pessoa}`)
       .subscribe(
