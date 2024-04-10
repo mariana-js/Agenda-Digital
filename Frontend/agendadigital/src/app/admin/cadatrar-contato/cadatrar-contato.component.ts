@@ -10,6 +10,7 @@ import { Setor } from '../../models/setor';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { RamaisComponent } from '../ramais/ramais.component';
 import { SetorRamal } from './../../models/setor-ramal';
+import { ContatoStateService } from '../../services/contato-state.service';
 @Component({
   selector: 'app-cadatrar-contato',
   standalone: true,
@@ -113,6 +114,7 @@ export class CadatrarContatoComponent {
       this.enderecos = enderecos;
       this.funcionarios = funcionarios;
       this.setor_ramais = setor_ramais;
+      this.getInformacoes();
     });
     console.log(this.cidade, this.estado, this.uf)
   }
@@ -408,11 +410,14 @@ export class CadatrarContatoComponent {
 
     if (contatoSelecionado && (contatoSelecionado.id_contatoSelecionado)) {
       const id_contato = contatoSelecionado.id_contatoSelecionado;
-      this.nome = contatoSelecionado.nome_pessoa;
+      this.nome_pessoa = contatoSelecionado.nome_pessoa;
       this.email = contatoSelecionado.email;
-      this.cel_corp = contatoSelecionado.celular1;
-      this.cel_pes = contatoSelecionado.celular2;
+      this.celular1 = contatoSelecionado.celular1;
+      this.celular2 = contatoSelecionado.celular2;
       this.telefone = contatoSelecionado.telefone;
+
+      this.box_fun = contatoSelecionado.flag_funcionario;
+      this.boxPrivate = contatoSelecionado.flag_privado;
 
     } if ((contatoSelecionado && contatoSelecionado.id_contatoSelecionado) === null || undefined) {
       console.log('O contato está retornando ', contatoSelecionado)
@@ -423,7 +428,7 @@ export class CadatrarContatoComponent {
     const id_contato = this.contatoStateService.contatoSelecionado?.id_contatoSelecionado;
 
     // Dados da pessoa
-    const pessoa = this.contato.find(pessoa => pessoa.id_pessoa === id_contato)
+    const pessoa = this.contatos.find(pessoa => pessoa.id_pessoa === id_contato)
     if (pessoa !== undefined) {
       console.log('Informações.');
     } else {
@@ -431,12 +436,13 @@ export class CadatrarContatoComponent {
     }
 
     // Dados do endereco da pessoa
-    const endereco = this.endereco.find(endereco => endereco.id_pessoa === pessoa?.id_pessoa);
+    const endereco = this.enderecos.find(endereco => endereco.id_pessoa === pessoa?.id_pessoa);
     if (endereco !== undefined) {
       this.logradouro = endereco.logradouro;
       this.bairro = endereco.bairro;
       this.cidade = endereco.cidade;
-      this.estado = `${endereco.estado} -`;
+      this.estado = endereco.estado;
+      this.numero = endereco.numero;
       this.uf = endereco.uf;
       this.cep = endereco.cep;
     } else {
@@ -444,15 +450,67 @@ export class CadatrarContatoComponent {
     }
 
     // Dados do funcionario
-    const funcionario = this.funcionario.find(funcionario => funcionario.id_pessoa === id_contato)
+    const funcionario = this.funcionarios.find(funcionario => funcionario.id_pessoa === id_contato)
     if (funcionario !== undefined) {
       const setor_ramal = this.setor_ramais.find(setor_ramal => setor_ramal.id_setor_ramal === funcionario?.id_setor_ramal)
       const setor = this.setores.find(setor => setor_ramal?.id_setor === setor.id_setor)
-      this.nome_setor = `${setor?.nome_setor} -`;
-      this.sigla = setor?.sigla_setor;
-      this.ramal = `Ramal: ${setor_ramal?.id_ramal_setor}`;
+      this.data_nascimento = funcionario.data_nascimento;
+      this.setor = `${setor?.nome_setor}`;
+      this.nramal = `${setor_ramal?.id_ramal_setor}`;
     } else {
       console.log('ERRO: Não é funcionario!')
     }
+  }
+
+  update() {
+    if (!this.contatoSelecionado) return;
+    this.contatoSelecionado.nome_pessoa = this.nome_pessoa;
+    this.contatoSelecionado.celular1 = this.celular1;
+    this.contatoSelecionado.celular2 = this.celular2;
+    this.contatoSelecionado.email = this.email;
+    this.contatoSelecionado.telefone = this.telefone;
+    this.contatoSelecionado.flag_funcionario = this.box_fun;
+    this.contatoSelecionado.flag_privado = this.boxPrivate;
+
+    // // Verificar se o nome do setor já existe localmente, excluindo o setor selecionado
+    // const nomeExistente = this.users.some(user =>
+    //   user.nome.trim().toLowerCase() === this.nome.trim().toLowerCase() &&
+    //   user.id_usuario !== this.userSelecionado?.id_usuario
+    // );
+
+    // if (nomeExistente) {
+    //   alert('Este nome já está cadastrado!');
+    //   return;
+    // }
+
+    // // Verificar se a sigla do setor já existe localmente, excluindo o setor selecionado
+    // const usuarioExistente = this.users.some(user =>
+    //   user.usuario.trim().toLowerCase() === this.usuario.trim().toLowerCase() &&
+    //   user.id_usuario !== this.userSelecionado?.id_usuario
+    // );
+
+    // if (usuarioExistente) {
+    //   alert('O nome de usuário já está cadastrado!');
+    //   return;
+    // }
+
+    // // Atualizar o setor apenas se nenhum nome ou sigla existir
+    // this.userSelecionado.nome = this.nome;
+    // this.userSelecionado.usuario = this.usuario;
+    // this.userSelecionado.senha = this.senha;
+
+    // this.http.put<Usuario>(`${this.url}/usuario/${this.userSelecionado.id_usuario}`, this.userSelecionado)
+    //   .subscribe(
+    //     () => {
+    //       alert('Usuário atualizado com sucesso!');
+    //       this.clear();
+    //       this.userSelecionado = null;
+    //       this.getUsuarios(); // Atualiza a lista de setores após a atualização
+    //     },
+    //     error => {
+    //       console.error('Erro ao atualizar usuário:', error);
+    //       alert('Erro ao atualizar usuário!');
+    //     }
+    //   );
   }
 }

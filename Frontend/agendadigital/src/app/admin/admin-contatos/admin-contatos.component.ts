@@ -18,6 +18,17 @@ import { Funcionario } from './../../models/funcionario';
   styleUrl: './admin-contatos.component.css'
 })
 export class AdminContatosComponent {
+getContatosFuncionarios() {
+  this.http.get<Contato[]>(`${this.url}/pessoa`)
+  .subscribe(resultados => {
+    this.contatosHide = resultados.filter(contatosHide => contatosHide.flag_funcionario === true);
+    this.amount = this.contatosHide.length;
+    this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
+    if (this.amount === 0) {
+      console.log("Erro ao trazer os funcionários!");
+    }
+  });
+}
   readonly url: string;
   id_contatoSelecionado: string | null = null;
   contatosHide: Contato[] = [];
