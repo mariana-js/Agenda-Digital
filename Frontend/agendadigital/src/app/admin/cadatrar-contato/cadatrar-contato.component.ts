@@ -287,6 +287,10 @@ export class CadatrarContatoComponent {
       alert('Por favor, insira o setor e ramal do funcionário!');
       return;
     }
+    if (this.numero.length > 0 && !this.verificarNumeros(this.numero)) {
+      alert('Número da inválido!');
+      return;
+    }
 
     this.novoContato.nome_pessoa = this.nome_pessoa;
     this.novoContato.email = this.email;

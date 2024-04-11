@@ -18,17 +18,17 @@ import { Funcionario } from './../../models/funcionario';
   styleUrl: './admin-contatos.component.css'
 })
 export class AdminContatosComponent {
-getContatosFuncionarios() {
-  this.http.get<Contato[]>(`${this.url}/pessoa`)
-  .subscribe(resultados => {
-    this.contatosHide = resultados.filter(contatosHide => contatosHide.flag_funcionario === true);
-    this.amount = this.contatosHide.length;
-    this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
-    if (this.amount === 0) {
-      console.log("Erro ao trazer os funcionários!");
-    }
-  });
-}
+  getContatosFuncionarios() {
+    this.http.get<Contato[]>(`${this.url}/pessoa`)
+      .subscribe(resultados => {
+        this.contatosHide = resultados.filter(contatosHide => contatosHide.flag_funcionario === true);
+        this.amount = this.contatosHide.length;
+        this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
+        if (this.amount === 0) {
+          console.log("Erro ao trazer os funcionários!");
+        }
+      });
+  }
   readonly url: string;
   id_contatoSelecionado: string | null = null;
   contatosHide: Contato[] = [];
@@ -136,15 +136,15 @@ getContatosFuncionarios() {
         this.excluirEndereco(endereco);
       }
       if (funcionario !== '0') {
-        this.excluirFuncionario(funcionario);
+        this.excluirFuncionario(funcionario, contato);
+      } else {
+        this.excluirContato(contato);
       }
-      this.excluirContato(contato);
-
     } else {
       return;
     }
-
   }
+
   excluirEndereco(id_endereco: string) {
     this.http.delete(`${this.url}/endereco/${id_endereco}`)
       .subscribe(
@@ -157,11 +157,12 @@ getContatosFuncionarios() {
       );
   }
 
-  excluirFuncionario(id_funcionario: string) {
+  excluirFuncionario(id_funcionario: string, contato: Contato) {
     this.http.delete(`${this.url}/funcionario/${id_funcionario}`)
       .subscribe(
         () => {
           this.funcionario = this.funcionario.filter(s => s.id_funcionario !== id_funcionario);
+          this.excluirContato(contato);
         },
         error => {
           console.error('Erro ao excluir funcionario:', error);
