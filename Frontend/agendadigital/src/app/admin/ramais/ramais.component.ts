@@ -87,7 +87,7 @@ export class RamaisComponent {
     this.setor = valorSelecionado;
   }
 
-  adicionarRamal(){
+  adicionarRamal() {
     if (this.setorramalSelecionado) {
       // Se setorSelecionado não for nulo, então estamos atualizando um setor existente
       this.atualizarRamal();
@@ -151,8 +151,7 @@ export class RamaisComponent {
     } else {
       console.error('Nome do setor não encontrado.');
     }
-}
-
+  }
 
   adicionarSetorRamal() {
     if (this.setorramalSelecionado) {
@@ -207,9 +206,9 @@ export class RamaisComponent {
         }
       );
 
-    }
+  }
 
-  excluirSetorRamal(setorramal: SetorRamal){
+  excluirSetorRamal(setorramal: SetorRamal) {
     const n_ramal = setorramal.id_ramal_setor;
     if (confirm('Tem certeza de que deseja excluir este ramal?')) {
       this.http.delete(`${this.url}/setor_ramal/${setorramal.id_setor_ramal}`)
@@ -232,15 +231,15 @@ export class RamaisComponent {
     }
   }
 
-  excluirRamal (ramal: string) {
-      this.http.delete(`${this.url}/ramal/${ramal}`)
-        .subscribe(
-          () => {
-            this.numero_ramal = this.numero_ramal.filter(s => s.numero_ramal !== ramal);
-          },
-          error => {
-            console.error('Erro ao excluir o ramal:', error);
-          }
-        );
+  excluirRamal(ramal: string) {
+    this.http.delete(`${this.url}/ramal/${ramal}`)
+      .subscribe(
+        () => {
+          this.numero_ramal = this.numero_ramal.filter(s => s.numero_ramal !== ramal);
+        },
+        error => {
+          console.error('Erro ao excluir o ramal:', error);
+        }
+      );
   }
 }

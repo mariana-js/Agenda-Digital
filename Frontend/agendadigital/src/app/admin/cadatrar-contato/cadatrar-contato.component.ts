@@ -250,6 +250,17 @@ export class CadatrarContatoComponent {
 
     return false;
   }
+  salvar(){
+
+    console.log(this.contatoSelecionado)
+    if (this.contatoSelecionado){
+      console.log('Adicionando o contato')
+      this.adicionarContato();
+    } else {
+      console.log('Atualizando o contato')
+      this.update();
+    }
+  }
   adicionarContato() {
     if (!this.nome_pessoa) {
       alert('Por favor, preencha o campo Nome!');
@@ -408,7 +419,6 @@ export class CadatrarContatoComponent {
         );
     }
   }
-
   getInformacoes() {
     const contatoSelecionado = this.contatoStateService.contatoSelecionado;
 
@@ -456,17 +466,29 @@ export class CadatrarContatoComponent {
     // Dados do funcionario
     const funcionario = this.funcionarios.find(funcionario => funcionario.id_pessoa === id_contato)
     if (funcionario !== undefined) {
-      const setor_ramal = this.setor_ramais.find(setor_ramal => setor_ramal.id_setor_ramal === funcionario?.id_setor_ramal)
-      const setor = this.setores.find(setor => setor_ramal?.id_setor === setor.id_setor)
-      this.data_nascimento = funcionario.data_nascimento;
-      this.setor = `${setor?.nome_setor}`;
-      this.nramal = `${setor_ramal?.id_ramal_setor}`;
+      const setor_ramal = this.setor_ramais.find(setor_ramal => setor_ramal.id_setor_ramal === funcionario.id_setor_ramal);
+      if (setor_ramal !== undefined) {
+        const setor = this.setores.find(setor => setor_ramal.id_setor === setor.id_setor);
+        if (setor !== undefined) {
+          this.data_nascimento = funcionario.data_nascimento;
+          this.setor = setor.id_setor ?? 'op';
+          this.nramal = setor_ramal.id_ramal_setor ?? 'op2'; 
+        } else {
+          console.log('ERRO: Setor não encontrado!');
+        }
+      } else {
+        console.log('ERRO: Setor ramal não encontrado!');
+      }
     } else {
-      console.log('ERRO: Não é funcionario!')
+      console.log('ERRO: Não é funcionario!');
     }
-  }
 
+  }
   update() {
+    this.updateContato();
+
+  }
+  updateContato(){
     if (!this.contatoSelecionado) return;
     this.contatoSelecionado.nome_pessoa = this.nome_pessoa;
     this.contatoSelecionado.celular1 = this.celular1;
@@ -476,45 +498,26 @@ export class CadatrarContatoComponent {
     this.contatoSelecionado.flag_funcionario = this.box_fun;
     this.contatoSelecionado.flag_privado = this.boxPrivate;
 
-    // // Verificar se o nome do setor já existe localmente, excluindo o setor selecionado
-    // const nomeExistente = this.users.some(user =>
-    //   user.nome.trim().toLowerCase() === this.nome.trim().toLowerCase() &&
-    //   user.id_usuario !== this.userSelecionado?.id_usuario
-    // );
+    //Adicionar as validações aqui
+    //...
 
-    // if (nomeExistente) {
-    //   alert('Este nome já está cadastrado!');
-    //   return;
-    // }
-
-    // // Verificar se a sigla do setor já existe localmente, excluindo o setor selecionado
-    // const usuarioExistente = this.users.some(user =>
-    //   user.usuario.trim().toLowerCase() === this.usuario.trim().toLowerCase() &&
-    //   user.id_usuario !== this.userSelecionado?.id_usuario
-    // );
-
-    // if (usuarioExistente) {
-    //   alert('O nome de usuário já está cadastrado!');
-    //   return;
-    // }
-
-    // // Atualizar o setor apenas se nenhum nome ou sigla existir
-    // this.userSelecionado.nome = this.nome;
-    // this.userSelecionado.usuario = this.usuario;
-    // this.userSelecionado.senha = this.senha;
-
-    // this.http.put<Usuario>(`${this.url}/usuario/${this.userSelecionado.id_usuario}`, this.userSelecionado)
-    //   .subscribe(
-    //     () => {
-    //       alert('Usuário atualizado com sucesso!');
-    //       this.clear();
-    //       this.userSelecionado = null;
-    //       this.getUsuarios(); // Atualiza a lista de setores após a atualização
-    //     },
-    //     error => {
-    //       console.error('Erro ao atualizar usuário:', error);
-    //       alert('Erro ao atualizar usuário!');
-    //     }
-    //   );
+    this.http.put<Contato>(`${this.url}/pessoa/${this.contatoSelecionado.id_pessoa}`, this.contatoSelecionado)
+      .subscribe(
+        () => {
+          alert('Contato atualizado com sucesso!');
+          this.contatoSelecionado = null;
+        },
+        error => {
+          console.error('Erro ao atualizar contato:', error);
+          alert('Erro ao atualizar contato!');
+        }
+      );
   }
+  updateEndereco(){
+
+  }
+  updateFuncionario(){
+
+  }
+
 }
