@@ -25,6 +25,8 @@ export class CadatrarContatoComponent {
   enderecos: Endereco[] = [];
   funcionarios: Funcionario[] = [];
   contatoSelecionado: Contato | null = null;
+  funcionarioSelecionado: Funcionario | null = null;
+  enderecoSelecionado: Endereco  | null = null;
   setor_ramais: SetorRamal[] = [];
   setores: Setor[] = [];
 
@@ -250,14 +252,21 @@ export class CadatrarContatoComponent {
 
     return false;
   }
-  salvar(){
+  salvar() {
     const contatoSelecionado = this.contatoStateService.contatoSelecionado;
-    // const id_contato = this.contatoStateService.contatoSelecionado?.id_contatoSelecionado;
+    const enderecoContatoSelecionando = this.enderecos.find(endereco => contatoSelecionado?.id_pessoa === endereco.id_pessoa);
+    const funcionarioSelecionado = this.funcionarios.find(funcionario => contatoSelecionado?.id_pessoa === funcionario.id_pessoa);
 
-    console.log(contatoSelecionado)
-    if (contatoSelecionado){
+    if (contatoSelecionado) {
       console.log('Atualizando o contato')
+      if (enderecoContatoSelecionando) {
+        this.updateEndereco();
+      }
+      if (funcionarioSelecionado) {
+        this.updateFuncionario(funcionarioSelecionado);
+      }
       this.update(contatoSelecionado);
+
     } else {
       console.log('Adicionando o contato')
       this.adicionarContato();
@@ -401,10 +410,8 @@ export class CadatrarContatoComponent {
       })
   }
   adicionarFuncionario(id_contato: string, setorRamalEncontrado: SetorRamal) {
-
     this.novoFuncionario.id_pessoa = id_contato;
     this.novoFuncionario.data_nascimento = this.data_nascimento;
-
     if (setorRamalEncontrado) {
       this.novoFuncionario.id_setor_ramal = setorRamalEncontrado.id_setor_ramal;
       this.http.post<Funcionario>(`${this.url}/funcionario`, this.novoFuncionario)
@@ -491,7 +498,7 @@ export class CadatrarContatoComponent {
     this.updateContato(contatoSelecionado);
   }
 
-  updateContato(contatoSelecionado: Contato){
+  updateContato(contatoSelecionado: Contato) {
     this.contatoSelecionado = contatoSelecionado;
     if (!this.contatoSelecionado) return;
     this.contatoSelecionado.nome_pessoa = this.nome_pessoa;
@@ -517,11 +524,33 @@ export class CadatrarContatoComponent {
         }
       );
   }
-  updateEndereco(){
-
+  updateEndereco() {
+    console.log('Updade Endereco.')
   }
-  updateFuncionario(){
+  updateFuncionario(funcionarioSelecionado: Funcionario) {
+    console.log('Updade funcionario.')
+    this.funcionarioSelecionado = funcionarioSelecionado;
+    if (!this.funcionarioSelecionado) return;
+    this.funcionarioSelecionado.data_nascimento = this.data_nascimento;
 
+    // const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
+    //   setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
+    // );
+    // this.funcionarioSelecionado.id_setor_ramal = setorRamalEncontrado?.id_ramal_setor;
+    //Adicionar as validações aqui
+    //...
+
+    this.http.put<Funcionario>(`${this.url}/funcionario/${this.funcionarioSelecionado.id_funcionario}`, this.funcionarioSelecionado)
+      .subscribe(
+        () => {
+          this.contatoSelecionado = null;
+          alert('Funcionario atualizado com sucesso!');
+        },
+        error => {
+          console.error('Erro ao atualizar funcionario:', error);
+          alert('Erro ao atualizar funcionario!');
+        }
+      );
   }
 
 }
