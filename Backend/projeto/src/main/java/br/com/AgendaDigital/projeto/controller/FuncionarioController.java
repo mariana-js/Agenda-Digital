@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -25,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.AgendaDigital.dtos.FuncionarioDtos;
 import br.com.AgendaDigital.projeto.model.Funcionario;
-import br.com.AgendaDigital.projeto.model.Pessoa;
 import br.com.AgendaDigital.projeto.services.FuncionarioService;
 
 @RestController
@@ -95,6 +95,7 @@ public class FuncionarioController {
 		var funcionario = new Funcionario();
 		BeanUtils.copyProperties(funcionarioDtos, funcionario);
 		funcionario.setId_funcionario(funcionarioOptional.get().getId_funcionario());
-		return ResponseEntity.status(HttpStatus.OK).body("Funcionario deleted successfully.");
+		return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.save(funcionario));
 	}
+
 }

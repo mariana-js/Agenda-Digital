@@ -26,7 +26,7 @@ export class CadatrarContatoComponent {
   funcionarios: Funcionario[] = [];
   contatoSelecionado: Contato | null = null;
   funcionarioSelecionado: Funcionario | null = null;
-  enderecoSelecionado: Endereco  | null = null;
+  enderecoSelecionado: Endereco | null = null;
   setor_ramais: SetorRamal[] = [];
   setores: Setor[] = [];
 
@@ -79,8 +79,8 @@ export class CadatrarContatoComponent {
   // Funcionario
   id_setor_ramal: string = '';
   data_nascimento: string = '';
-  setor: string = 'op';
-  nramal: string = 'op2';
+  setor: string = '';
+  nramal: string = '';
 
   novoFuncionario: Funcionario = {
     id_funcionario: '',
@@ -366,8 +366,6 @@ export class CadatrarContatoComponent {
         if (this.box_fun === true && setorRamalEncontrado !== undefined) {
           this.adicionarFuncionario(id, setorRamalEncontrado);
         }
-
-
         this.nome_pessoa = '';
         this.email = '';
         this.celular1 = '';
@@ -446,19 +444,11 @@ export class CadatrarContatoComponent {
     } if ((contatoSelecionado && contatoSelecionado.id_contatoSelecionado) === null || undefined) {
       console.log('O contato está retornando ', contatoSelecionado)
     }
-    else {
-      console.log('Erro ao trazer o id do contato selecionado');
-    }
     const id_contato = this.contatoStateService.contatoSelecionado?.id_contatoSelecionado;
 
     // Dados da pessoa
     const pessoa = this.contatos.find(pessoa => pessoa.id_pessoa === id_contato)
-    if (pessoa !== undefined) {
-      console.log('Informações.');
-    } else {
-      console.log('ERRO: Id do contato não encontrado!')
-    }
-
+   
     // Dados do endereco da pessoa
     const endereco = this.enderecos.find(endereco => endereco.id_pessoa === pessoa?.id_pessoa);
     if (endereco !== undefined) {
@@ -469,9 +459,7 @@ export class CadatrarContatoComponent {
       this.numero = endereco.numero;
       this.uf = endereco.uf;
       this.cep = endereco.cep;
-    } else {
-      console.log('ERRO: Contato não possui endereço!')
-    }
+    } 
 
     // Dados do funcionario
     const funcionario = this.funcionarios.find(funcionario => funcionario.id_pessoa === id_contato)
@@ -483,11 +471,7 @@ export class CadatrarContatoComponent {
           this.data_nascimento = funcionario.data_nascimento;
           this.setor = setor.id_setor ?? 'op';
           this.nramal = setor_ramal.id_ramal_setor ?? 'op2';
-        } else {
-          console.log('ERRO: Setor não encontrado!');
-        }
-      } else {
-        console.log('ERRO: Setor ramal não encontrado!');
+        } 
       }
     } else {
       console.log('ERRO: Não é funcionario!');
@@ -528,27 +512,24 @@ export class CadatrarContatoComponent {
     console.log('Updade Endereco.')
   }
   updateFuncionario(funcionarioSelecionado: Funcionario) {
-    console.log('Updade funcionario.')
     this.funcionarioSelecionado = funcionarioSelecionado;
     if (!this.funcionarioSelecionado) return;
     this.funcionarioSelecionado.data_nascimento = this.data_nascimento;
 
-    // const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
-    //   setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
-    // );
-    // this.funcionarioSelecionado.id_setor_ramal = setorRamalEncontrado?.id_ramal_setor;
-    //Adicionar as validações aqui
-    //...
-
+    const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
+      setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
+    );
+    
+    if (setorRamalEncontrado) {
+      this.funcionarioSelecionado.id_setor_ramal = setorRamalEncontrado.id_setor_ramal;
+    }
     this.http.put<Funcionario>(`${this.url}/funcionario/${this.funcionarioSelecionado.id_funcionario}`, this.funcionarioSelecionado)
       .subscribe(
         () => {
           this.contatoSelecionado = null;
-          alert('Funcionario atualizado com sucesso!');
         },
         error => {
           console.error('Erro ao atualizar funcionario:', error);
-          alert('Erro ao atualizar funcionario!');
         }
       );
   }
