@@ -251,14 +251,17 @@ export class CadatrarContatoComponent {
     return false;
   }
   salvar(){
+    const contatoSelecionado = this.contatoStateService.contatoSelecionado;
+    // const id_contato = this.contatoStateService.contatoSelecionado?.id_contatoSelecionado;
 
-    console.log(this.contatoSelecionado)
-    if (this.contatoSelecionado){
+    console.log(contatoSelecionado)
+    if (contatoSelecionado){
+      console.log('Atualizando o contato')
+      this.update(contatoSelecionado);
+    } else {
       console.log('Adicionando o contato')
       this.adicionarContato();
-    } else {
-      console.log('Atualizando o contato')
-      this.update();
+
     }
   }
   adicionarContato() {
@@ -472,7 +475,7 @@ export class CadatrarContatoComponent {
         if (setor !== undefined) {
           this.data_nascimento = funcionario.data_nascimento;
           this.setor = setor.id_setor ?? 'op';
-          this.nramal = setor_ramal.id_ramal_setor ?? 'op2'; 
+          this.nramal = setor_ramal.id_ramal_setor ?? 'op2';
         } else {
           console.log('ERRO: Setor não encontrado!');
         }
@@ -484,11 +487,12 @@ export class CadatrarContatoComponent {
     }
 
   }
-  update() {
-    this.updateContato();
-
+  update(contatoSelecionado: Contato) {
+    this.updateContato(contatoSelecionado);
   }
-  updateContato(){
+
+  updateContato(contatoSelecionado: Contato){
+    this.contatoSelecionado = contatoSelecionado;
     if (!this.contatoSelecionado) return;
     this.contatoSelecionado.nome_pessoa = this.nome_pessoa;
     this.contatoSelecionado.celular1 = this.celular1;
