@@ -260,7 +260,7 @@ export class CadatrarContatoComponent {
     if (contatoSelecionado) {
       console.log('Atualizando o contato')
       if (enderecoContatoSelecionando) {
-        this.updateEndereco();
+        this.updateEndereco(enderecoContatoSelecionando);
       }
       if (funcionarioSelecionado) {
         this.updateFuncionario(funcionarioSelecionado);
@@ -508,8 +508,27 @@ export class CadatrarContatoComponent {
         }
       );
   }
-  updateEndereco() {
-    console.log('Updade Endereco.')
+  updateEndereco(enderecoSelecionado: Endereco) {
+    this.enderecoSelecionado = enderecoSelecionado;
+    if (!this.enderecoSelecionado) return;
+    this.enderecoSelecionado.logradouro = this.logradouro;
+    this.enderecoSelecionado.bairro = this.bairro;
+    this.enderecoSelecionado.numero = this.numero;
+    this.enderecoSelecionado.estado = this.estado;
+    this.enderecoSelecionado.uf = this.uf;
+    this.enderecoSelecionado.cidade = this.cidade;
+    this.enderecoSelecionado.cep = this.cep;
+
+    this.http.put<Endereco>(`${this.url}/endereco/${this.enderecoSelecionado.id_endereco}`, this.enderecoSelecionado)
+      .subscribe(
+        () => {
+          this.enderecoSelecionado = null;
+          console.log('Updade Endereco.')
+        },
+        error => {
+          console.error('Erro ao atualizar endereco:', error);
+        }
+      );
   }
   updateFuncionario(funcionarioSelecionado: Funcionario) {
     this.funcionarioSelecionado = funcionarioSelecionado;
