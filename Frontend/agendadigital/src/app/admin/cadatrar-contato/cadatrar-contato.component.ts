@@ -118,7 +118,10 @@ export class CadatrarContatoComponent {
       this.setor_ramais = setor_ramais;
       this.getInformacoes();
     });
-    console.log(this.cidade, this.estado, this.uf)
+
+  }
+  ngOnDestroy() {
+    this.contatoStateService.clearContatoSelecionado();
   }
   getSetores() {
     this.http.get<Setor[]>(`${this.url}/setor`)
