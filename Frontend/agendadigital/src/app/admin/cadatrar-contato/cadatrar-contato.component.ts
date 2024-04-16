@@ -252,28 +252,7 @@ export class CadatrarContatoComponent {
 
     return false;
   }
-  salvar() {
-    const contatoSelecionado = this.contatoStateService.contatoSelecionado;
-    const enderecoContatoSelecionando = this.enderecos.find(endereco => contatoSelecionado?.id_pessoa === endereco.id_pessoa);
-    const funcionarioSelecionado = this.funcionarios.find(funcionario => contatoSelecionado?.id_pessoa === funcionario.id_pessoa);
-
-    if (contatoSelecionado) {
-      console.log('Atualizando o contato')
-      if (enderecoContatoSelecionando) {
-        this.updateEndereco(enderecoContatoSelecionando);
-      }
-      if (funcionarioSelecionado) {
-        this.updateFuncionario(funcionarioSelecionado);
-      }
-      this.update(contatoSelecionado);
-
-    } else {
-      console.log('Adicionando o contato')
-      this.adicionarContato();
-
-    }
-  }
-  adicionarContato() {
+  validation() {
     if (!this.nome_pessoa) {
       alert('Por favor, preencha o campo Nome!');
       // document.getElementById('nome_pessoa').focus();
@@ -352,6 +331,41 @@ export class CadatrarContatoComponent {
       alert('Celular 1 já está em uso, favor alterar!');
       return;
     }
+  }
+  salvar() {
+    const contatoSelecionado = this.contatoStateService.contatoSelecionado;
+    const enderecoContatoSelecionando = this.enderecos.find(endereco => contatoSelecionado?.id_pessoa === endereco.id_pessoa);
+    const funcionarioSelecionado = this.funcionarios.find(funcionario => contatoSelecionado?.id_pessoa === funcionario.id_pessoa);
+
+    if (contatoSelecionado) {
+      console.log('Atualizando o contato')
+      if (enderecoContatoSelecionando) {
+        this.updateEndereco(enderecoContatoSelecionando);
+      }
+      else if ((this.uf || this.cidade || this.estado || this.logradouro || this.cep || this.bairro || this.numero) && (enderecoContatoSelecionando !== undefined)) {
+        this.adicionarEndereco(enderecoContatoSelecionando);
+      }
+      if (funcionarioSelecionado) {
+        this.updateFuncionario(funcionarioSelecionado);
+      }
+      this.update(contatoSelecionado);
+    } else {
+      console.log('Adicionando o contato')
+      this.adicionarContato();
+    }
+  }
+  adicionarContato() {
+    this.validation();
+    const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
+      setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
+    );
+    this.novoContato.nome_pessoa = this.nome_pessoa;
+    this.novoContato.email = this.email;
+    this.novoContato.celular1 = this.celular1;
+    this.novoContato.celular2 = this.celular2;
+    this.novoContato.telefone = this.telefone;
+    this.novoContato.flag_privado = this.boxPrivate;
+    this.novoContato.flag_funcionario = this.box_fun;
 
     this.http.post<Contato>(`${this.url}/pessoa`, this.novoContato)
       .subscribe(novoContato => {
@@ -359,7 +373,6 @@ export class CadatrarContatoComponent {
         const id = novoContato.id_pessoa;
 
         if ((this.logradouro || this.numero || this.estado || this.cidade || this.bairro || this.uf || this.cep)) {
-
           this.adicionarEndereco(id);
         }
 
@@ -392,8 +405,6 @@ export class CadatrarContatoComponent {
     this.novoEndereco.bairro = this.bairro;
     this.novoEndereco.uf = this.uf;
     this.novoEndereco.cep = this.cep;
-
-
 
     this.http.post<Endereco>(`${this.url}/endereco`, this.novoEndereco)
       .subscribe(novoEndereco => {
@@ -448,7 +459,7 @@ export class CadatrarContatoComponent {
 
     // Dados da pessoa
     const pessoa = this.contatos.find(pessoa => pessoa.id_pessoa === id_contato)
-   
+
     // Dados do endereco da pessoa
     const endereco = this.enderecos.find(endereco => endereco.id_pessoa === pessoa?.id_pessoa);
     if (endereco !== undefined) {
@@ -459,7 +470,7 @@ export class CadatrarContatoComponent {
       this.numero = endereco.numero;
       this.uf = endereco.uf;
       this.cep = endereco.cep;
-    } 
+    }
 
     // Dados do funcionario
     const funcionario = this.funcionarios.find(funcionario => funcionario.id_pessoa === id_contato)
@@ -471,7 +482,7 @@ export class CadatrarContatoComponent {
           this.data_nascimento = funcionario.data_nascimento;
           this.setor = setor.id_setor ?? 'op';
           this.nramal = setor_ramal.id_ramal_setor ?? 'op2';
-        } 
+        }
       }
     } else {
       console.log('ERRO: Não é funcionario!');
@@ -481,8 +492,8 @@ export class CadatrarContatoComponent {
   update(contatoSelecionado: Contato) {
     this.updateContato(contatoSelecionado);
   }
-
   updateContato(contatoSelecionado: Contato) {
+    this.validation();
     this.contatoSelecionado = contatoSelecionado;
     if (!this.contatoSelecionado) return;
     this.contatoSelecionado.nome_pessoa = this.nome_pessoa;
@@ -492,9 +503,6 @@ export class CadatrarContatoComponent {
     this.contatoSelecionado.telefone = this.telefone;
     this.contatoSelecionado.flag_funcionario = this.box_fun;
     this.contatoSelecionado.flag_privado = this.boxPrivate;
-
-    //Adicionar as validações aqui
-    //...
 
     this.http.put<Contato>(`${this.url}/pessoa/${this.contatoSelecionado.id_pessoa}`, this.contatoSelecionado)
       .subscribe(
@@ -538,7 +546,7 @@ export class CadatrarContatoComponent {
     const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
       setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
     );
-    
+
     if (setorRamalEncontrado) {
       this.funcionarioSelecionado.id_setor_ramal = setorRamalEncontrado.id_setor_ramal;
     }
