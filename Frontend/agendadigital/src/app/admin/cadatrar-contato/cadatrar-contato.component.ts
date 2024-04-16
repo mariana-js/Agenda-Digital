@@ -132,7 +132,6 @@ export class CadatrarContatoComponent {
     this.getRamaisPorSetor(idSetor);
     this.setor = idSetor;
   }
-
   selecionarRamal(event: Event) {
     const nramal = (event.target as HTMLSelectElement).value;
     this.nramal = nramal;
@@ -301,13 +300,13 @@ export class CadatrarContatoComponent {
     this.novoContato.telefone = this.telefone;
     this.novoContato.flag_privado = this.boxPrivate;
     this.novoContato.flag_funcionario = this.box_fun;
-
+    const contatoSelecionado = this.contatoStateService.contatoSelecionado;
     // Verificar se o nome do contato já existe localmente
     const nomeExistente = this.contatos.find(pessoa =>
       pessoa.nome_pessoa.trim().toLowerCase() === this.novoContato.nome_pessoa.trim().toLowerCase()
     );
 
-    if (nomeExistente) {
+    if (nomeExistente && !this.contatoSelecionado?.nome_pessoa) {
       alert('Este nome já está em uso, favor alterar!');
       return;
     }
@@ -317,7 +316,7 @@ export class CadatrarContatoComponent {
       pessoa.email.trim().toLowerCase() === this.novoContato.email.trim().toLowerCase()
     );
 
-    if (emailExistente) {
+    if (emailExistente && !this.contatoSelecionado?.email) {
       alert('Este email já está em uso, favor alterar!');
       return;
     }
@@ -332,27 +331,54 @@ export class CadatrarContatoComponent {
       return;
     }
   }
+  clear() {
+    this.nome_pessoa = '';
+    this.email = '';
+    this.celular1 = '';
+    this.celular2 = '';
+    this.telefone = '';
+    this.boxPrivate = false;
+    this.box_fun = false;
+
+    this.logradouro = '';
+    this.numero = '';
+    this.bairro = '';
+    this.cep = '';
+
+    this.nramal = 'op2';
+    this.setor = 'op';
+    this.data_nascimento = '';
+  }
   salvar() {
     const contatoSelecionado = this.contatoStateService.contatoSelecionado;
     const enderecoContatoSelecionando = this.enderecos.find(endereco => contatoSelecionado?.id_pessoa === endereco.id_pessoa);
     const funcionarioSelecionado = this.funcionarios.find(funcionario => contatoSelecionado?.id_pessoa === funcionario.id_pessoa);
 
+    this.validation();
     if (contatoSelecionado) {
       console.log('Atualizando o contato')
       if (enderecoContatoSelecionando) {
         this.updateEndereco(enderecoContatoSelecionando);
-      }
-      else if ((this.uf || this.cidade || this.estado || this.logradouro || this.cep || this.bairro || this.numero) && (enderecoContatoSelecionando !== undefined)) {
+      } else if ((this.uf || this.cidade || this.estado || this.logradouro || this.cep || this.bairro || this.numero) && (enderecoContatoSelecionando !== undefined)) {
         this.adicionarEndereco(enderecoContatoSelecionando);
       }
       if (funcionarioSelecionado) {
         this.updateFuncionario(funcionarioSelecionado);
+      } else if (this.box_fun === true) {
+        const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
+          setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
+        );
+        if (setorRamalEncontrado !== undefined) {
+          this.adicionarFuncionario(contatoSelecionado.id_pessoa, setorRamalEncontrado);
+        }
       }
       this.update(contatoSelecionado);
     } else {
       console.log('Adicionando o contato')
       this.adicionarContato();
+      this.clear();
     }
+
   }
   adicionarContato() {
     this.validation();
@@ -379,16 +405,7 @@ export class CadatrarContatoComponent {
         if (this.box_fun === true && setorRamalEncontrado !== undefined) {
           this.adicionarFuncionario(id, setorRamalEncontrado);
         }
-        this.nome_pessoa = '';
-        this.email = '';
-        this.celular1 = '';
-        this.celular2 = '';
-        this.telefone = '';
-        this.boxPrivate = false;
-        this.box_fun = false;
-
         alert('Contato adicionado com sucesso!');
-
       }, error => {
         console.error('Erro ao adicionar contato:', error);
         alert('Erro ao adicionar contato!');
@@ -405,15 +422,9 @@ export class CadatrarContatoComponent {
     this.novoEndereco.bairro = this.bairro;
     this.novoEndereco.uf = this.uf;
     this.novoEndereco.cep = this.cep;
-
     this.http.post<Endereco>(`${this.url}/endereco`, this.novoEndereco)
       .subscribe(novoEndereco => {
         this.enderecos.push(novoEndereco);
-
-        this.logradouro = '';
-        this.numero = '';
-        this.bairro = '';
-        this.cep = '';
       }, error => {
         console.error('Erro ao adicionar endereco:', error);
       })
@@ -427,10 +438,6 @@ export class CadatrarContatoComponent {
         .subscribe(
           novoFuncionario => {
             this.funcionarios.push(novoFuncionario);
-            this.nramal = 'op2';
-            this.setor = 'op';
-            this.data_nascimento = '';
-
           },
           error => {
             console.error('Erro ao adicionar funcionario:', error);
@@ -493,7 +500,6 @@ export class CadatrarContatoComponent {
     this.updateContato(contatoSelecionado);
   }
   updateContato(contatoSelecionado: Contato) {
-    this.validation();
     this.contatoSelecionado = contatoSelecionado;
     if (!this.contatoSelecionado) return;
     this.contatoSelecionado.nome_pessoa = this.nome_pessoa;
