@@ -258,7 +258,7 @@ export class CadatrarContatoComponent {
     if (!this.nome_pessoa) {
       alert('Por favor, preencha o campo Nome!');
       // document.getElementById('nome_pessoa').focus();
-      return;
+      return false;
     } else if (this.nome_pessoa.length > 25) {
       alert('Nome do contato muito grande!');
       return;
@@ -266,34 +266,34 @@ export class CadatrarContatoComponent {
     if (!this.email) {
       alert('Por favor, preencha o campo Email!');
       // document.getElementById('email').focus();
-      return;
+      return false;
     }
     if (!this.celular1) {
       alert('Por favor, preencha o campo Celular 1!');
       // document.getElementById('celular1').focus();
-      return;
+      return false;
     }
     if (!this.verificarNumeros(this.celular1) || !this.verificarNumeros(this.celular2) || !this.verificarNumeros(this.telefone)) {
       alert('Os campos de telefone devem conter apenas números!');
-      return;
+      return false;
     }
     if (this.cep && (this.cep.length > 9 || !this.verificarNumeros(this.cep))) {
       alert('CEP inválido!');
-      return;
+      return false;
     }
     const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
       setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
     );
     if (this.box_fun === true && !this.data_nascimento) {
       alert('Por favor, insira a data de nascimento do funcionário!');
-      return;
+      return false;
     } else if (this.box_fun === true && !setorRamalEncontrado) {
       alert('Por favor, insira o setor e ramal do funcionário!');
-      return;
+      return false;
     }
     if (this.numero.length > 0 && !this.verificarNumeros(this.numero)) {
       alert('Número da inválido!');
-      return;
+      return false;
     }
 
     this.novoContato.nome_pessoa = this.nome_pessoa;
@@ -311,7 +311,7 @@ export class CadatrarContatoComponent {
 
     if (nomeExistente && !this.contatoSelecionado?.nome_pessoa) {
       alert('Este nome já está em uso, favor alterar!');
-      return;
+      return false;
     }
 
     // Verificar se o email já existe localmente
@@ -321,7 +321,7 @@ export class CadatrarContatoComponent {
 
     if (emailExistente && !this.contatoSelecionado?.email) {
       alert('Este email já está em uso, favor alterar!');
-      return;
+      return false;
     }
 
     // Verificar se o celular 1 já existe localmente
@@ -331,8 +331,9 @@ export class CadatrarContatoComponent {
 
     if (celular1Existente) {
       alert('Celular 1 já está em uso, favor alterar!');
-      return;
+      return false;
     }
+    return true;
   }
   clear() {
     this.nome_pessoa = '';
@@ -357,31 +358,31 @@ export class CadatrarContatoComponent {
     const enderecoContatoSelecionando = this.enderecos.find(endereco => contatoSelecionado?.id_pessoa === endereco.id_pessoa);
     const funcionarioSelecionado = this.funcionarios.find(funcionario => contatoSelecionado?.id_pessoa === funcionario.id_pessoa);
 
-    this.validation();
-    if (contatoSelecionado) {
-      console.log('Atualizando o contato')
-      if (enderecoContatoSelecionando) {
-        this.updateEndereco(enderecoContatoSelecionando);
-      } else if ((this.uf || this.cidade || this.estado || this.logradouro || this.cep || this.bairro || this.numero) && (enderecoContatoSelecionando !== undefined)) {
-        this.adicionarEndereco(enderecoContatoSelecionando);
-      }
-      if (funcionarioSelecionado) {
-        this.updateFuncionario(funcionarioSelecionado);
-      } else if (this.box_fun === true) {
-        const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
-          setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
-        );
-        if (setorRamalEncontrado !== undefined) {
-          this.adicionarFuncionario(contatoSelecionado.id_pessoa, setorRamalEncontrado);
+    if (this.validation() === true) {
+      if (contatoSelecionado) {
+        console.log('Atualizando o contato')
+        if (enderecoContatoSelecionando) {
+          this.updateEndereco(enderecoContatoSelecionando);
+        } else if ((this.uf || this.cidade || this.estado || this.logradouro || this.cep || this.bairro || this.numero) && (enderecoContatoSelecionando !== undefined)) {
+          this.adicionarEndereco(enderecoContatoSelecionando);
         }
+        if (funcionarioSelecionado) {
+          this.updateFuncionario(funcionarioSelecionado);
+        } else if (this.box_fun === true) {
+          const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
+            setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
+          );
+          if (setorRamalEncontrado !== undefined) {
+            this.adicionarFuncionario(contatoSelecionado.id_pessoa, setorRamalEncontrado);
+          }
+        }
+        this.update(contatoSelecionado);
+      } else {
+        console.log('Adicionando o contato')
+        this.adicionarContato();
+        this.clear();
       }
-      this.update(contatoSelecionado);
-    } else {
-      console.log('Adicionando o contato')
-      this.adicionarContato();
-      this.clear();
     }
-
   }
   adicionarContato() {
     this.validation();
