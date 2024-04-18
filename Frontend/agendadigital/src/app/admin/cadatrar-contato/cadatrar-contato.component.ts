@@ -295,7 +295,6 @@ export class CadatrarContatoComponent {
       alert('Número da inválido!');
       return false;
     }
-
     this.novoContato.nome_pessoa = this.nome_pessoa;
     this.novoContato.email = this.email;
     this.novoContato.celular1 = this.celular1;
@@ -306,27 +305,30 @@ export class CadatrarContatoComponent {
     const contatoSelecionado = this.contatoStateService.contatoSelecionado;
     // Verificar se o nome do contato já existe localmente
     const nomeExistente = this.contatos.find(pessoa =>
-      pessoa.nome_pessoa.trim().toLowerCase() === this.novoContato.nome_pessoa.trim().toLowerCase()
+      pessoa.nome_pessoa.trim().toLowerCase() === this.novoContato.nome_pessoa.trim().toLowerCase() &&
+      pessoa.id_pessoa !== contatoSelecionado?.id_pessoa
     );
 
-    if (nomeExistente && !this.contatoSelecionado?.nome_pessoa) {
+    if (nomeExistente) {
       alert('Este nome já está em uso, favor alterar!');
       return false;
     }
 
     // Verificar se o email já existe localmente
     const emailExistente = this.contatos.find(pessoa =>
-      pessoa.email.trim().toLowerCase() === this.novoContato.email.trim().toLowerCase()
+      pessoa.email.trim().toLowerCase() === this.novoContato.email.trim().toLowerCase() &&
+      pessoa.email !== contatoSelecionado?.email
     );
 
-    if (emailExistente && !this.contatoSelecionado?.email) {
+    if (emailExistente ) {
       alert('Este email já está em uso, favor alterar!');
       return false;
     }
 
     // Verificar se o celular 1 já existe localmente
     const celular1Existente = this.contatos.find(pessoa =>
-      pessoa.celular1.trim().toLowerCase() === this.novoContato.celular1.trim().toLowerCase()
+      pessoa.celular1.trim().toLowerCase() === this.novoContato.celular1.trim().toLowerCase() &&
+      pessoa.celular1 !== contatoSelecionado?.celular1
     );
 
     if (celular1Existente) {
@@ -570,5 +572,4 @@ export class CadatrarContatoComponent {
         }
       );
   }
-
 }

@@ -54,7 +54,6 @@ export class SetoresComponent {
   }
 
   adicionarNovoSetor() {
-    
     this.novoSetor.nome_setor = this.setor;
     this.novoSetor.sigla_setor = this.sigla;
     // Verificar se o setor já existe localmente
@@ -62,13 +61,13 @@ export class SetoresComponent {
       setor.nome_setor.trim().toLowerCase() === this.novoSetor.nome_setor.trim().toLowerCase() ||
       setor.sigla_setor.trim().toLowerCase() === this.novoSetor.sigla_setor.trim().toLowerCase()
     );
-  
+
     if (setorExistente) {
       // Se setorExistente não for undefined, um setor correspondente foi encontrado na lista
       alert('O setor já está cadastrado.');
       return; // Parar a execução da função se o setor já existir localmente
     }
-  
+
     // Se o setor não existe localmente, enviar a solicitação para adicionar
     this.http.post<Setor>(`${this.url}/setor`, this.novoSetor)
       .subscribe(
@@ -84,7 +83,7 @@ export class SetoresComponent {
         }
       );
   }
-  
+
   selecionarSetor(setor: Setor) {
     this.setorSelecionado = { ...setor };
     this.setor = setor.nome_setor;
@@ -99,32 +98,32 @@ export class SetoresComponent {
       setor.nome_setor.trim().toLowerCase() === this.setor.trim().toLowerCase() &&
       setor.id_setor !== this.setorSelecionado?.id_setor
     );
-  
+
     if (nomeExistente) {
       alert('O nome do setor já está cadastrado.');
       return;
     }
-  
+
     const siglaExistente = this.setores.some(setor =>
       setor.sigla_setor.trim().toLowerCase() === this.sigla.trim().toLowerCase() &&
       setor.id_setor !== this.setorSelecionado?.id_setor
     );
-  
+
     if (siglaExistente) {
       alert('A sigla do setor já está cadastrada.');
       return;
     }
-  
+
     this.setorSelecionado.sigla_setor = this.sigla;
     this.setorSelecionado.nome_setor = this.setor;
-  
+
     this.http.put<Setor>(`${this.url}/setor/${this.setorSelecionado.id_setor}`, this.setorSelecionado)
       .subscribe(
         () => {
           alert('Setor atualizado com sucesso!');
           this.clear();
           this.setorSelecionado = null;
-          this.getSetores(); 
+          this.getSetores();
         },
         error => {
           console.error('Erro ao atualizar setor:', error);
@@ -142,7 +141,7 @@ export class SetoresComponent {
             alert('Setor excluído com sucesso!');
           },
           error => {
-            
+
             this.getSetores();
             console.error('Erro ao excluir setor:', error);
             alert('Erro ao excluir setor!');
