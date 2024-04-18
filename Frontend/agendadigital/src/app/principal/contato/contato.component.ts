@@ -55,20 +55,31 @@ export class ContatoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.activatedRoute.params.subscribe(params => {
+      const id_contato = params['id']; // Supondo que o parâmetro da rota seja chamado 'id'
+      
+      console.log(id_contato)
+      if (id_contato) {
+        // Inicialize contatoStateService.contatoSelecionado com o ID da rota
+        this.contatoStateService.contatoSelecionado = id_contato;
+        // this.contatoStateService.contatoSelecionado = { id_contatoSelecionado: id_contato };
 
-    forkJoin({
-      contato: this.http.get<Contato[]>(`${this.url}/pessoa`),
-      funcionario: this.http.get<Funcionario[]>(`${this.url}/funcionario/all`),
-      setor_ramais: this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`),
-      setores: this.http.get<Setor[]>(`${this.url}/setor`),
-      endereco: this.http.get<Endereco[]>(`${this.url}/endereco`)
-    }).subscribe(({ contato, funcionario, setor_ramais, setores, endereco }) => {
-      this.contato = contato;
-      this.funcionario = funcionario;
-      this.setor_ramais = setor_ramais;
-      this.setores = setores;
-      this.endereco = endereco;
-      this.getInformacoes();
+        // Carregue os dados com base no ID da rota
+        forkJoin({
+          contato: this.http.get<Contato[]>(`${this.url}/pessoa`),
+          funcionario: this.http.get<Funcionario[]>(`${this.url}/funcionario/all`),
+          setor_ramais: this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`),
+          setores: this.http.get<Setor[]>(`${this.url}/setor`),
+          endereco: this.http.get<Endereco[]>(`${this.url}/endereco`)
+        }).subscribe(({ contato, funcionario, setor_ramais, setores, endereco }) => {
+          this.contato = contato;
+          this.funcionario = funcionario;
+          this.setor_ramais = setor_ramais;
+          this.setores = setores;
+          this.endereco = endereco;
+          this.getInformacoes();
+        });
+      }
     });
   }
 
@@ -83,21 +94,21 @@ export class ContatoComponent implements OnInit {
       this.cel_pes = contatoSelecionado.celular2;
       this.telefone = contatoSelecionado.telefone;
 
-    } if ((contatoSelecionado && contatoSelecionado.id_contatoSelecionado) === null || undefined) {
-          console.log('O contato está retornando ', contatoSelecionado)
-    }
-    else {
-      console.log('Erro ao trazer o id do contato selecionado');
-    }
+     } //if ((contatoSelecionado && contatoSelecionado.id_contatoSelecionado) === null || undefined) {
+    //   console.log('O contato está retornando ', contatoSelecionado)
+    // }
+    // else {
+    //   console.log('Erro ao trazer o id do contato selecionado');
+    // }
     const id_contato = this.contatoStateService.contatoSelecionado?.id_contatoSelecionado;
 
     // Dados da pessoa
     const pessoa = this.contato.find(pessoa => pessoa.id_pessoa === id_contato)
-    if (pessoa !== undefined) {
-      console.log('Informações.');
-    } else {
-      console.log('ERRO: Id do contato não encontrado!')
-    }
+    // if (pessoa !== undefined) {
+    //   console.log('Informações.');
+    // } else {
+    //   console.log('ERRO: Id do contato não encontrado!')
+    // }
 
     // Dados do endereco da pessoa
     const endereco = this.endereco.find(endereco => endereco.id_pessoa === pessoa?.id_pessoa);
@@ -108,9 +119,9 @@ export class ContatoComponent implements OnInit {
       this.estado = `${endereco.estado} -`;
       this.uf = endereco.uf;
       this.cep = endereco.cep;
-    } else {
-      console.log('ERRO: Contato não possui endereço!')
-    }
+     }// else {
+    //   console.log('ERRO: Contato não possui endereço!')
+    // }
 
     // Dados do funcionario
     const funcionario = this.funcionario.find(funcionario => funcionario.id_pessoa === id_contato)
@@ -120,8 +131,8 @@ export class ContatoComponent implements OnInit {
       this.nome_setor = `${setor?.nome_setor} -`;
       this.sigla = setor?.sigla_setor;
       this.ramal = `Ramal: ${setor_ramal?.id_ramal_setor}`;
-    } else {
-      console.log('ERRO: Não é funcionario!')
-    }
+     } //else {
+    //   console.log('ERRO: Não é funcionario!')
+    // }
   }
 }

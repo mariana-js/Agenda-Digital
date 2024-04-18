@@ -15,32 +15,29 @@ import { FormsModule } from '@angular/forms';
   imports: [HttpClientModule, NavAniversariantesComponent, NgFor, FormsModule]
 })
 export class PrincipalComponent {
-
   readonly url: string
-
   searchTerm: string = '';
   retorno: string = "";
-
   id_contatoSelecionado: string | null = null;
-
   contatos: Contato[] = [];
   amount: number = 0;
   itemsPerPage = 5;
   currentPage = 1;
+  
   get totalPages(): number {
     return Math.ceil(this.contatos.length / this.itemsPerPage);
   }
-
-  constructor(private http: HttpClient, private router: Router, private contatoStateService: ContatoStateService) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private contatoStateService: ContatoStateService) {
     this.url = 'http://localhost:8080';
   }
-
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
     }
   }
-
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
@@ -49,16 +46,15 @@ export class PrincipalComponent {
   ngOnInit() {
     this.getContatos();
   }
-
   getContatos() {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
       .subscribe(resultados => {
         this.contatos = resultados.filter(contato => contato.flag_privado === false);
         this.contatos.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
         this.amount = this.contatos.length;
-        if (this.amount === 0) {
-          console.log("Erro ao trazer os contatos!")
-        }
+        // if (this.amount === 0) {
+        //   console.log("Erro ao trazer os contatos!")
+        // }
       });
 
   }
@@ -68,25 +64,20 @@ export class PrincipalComponent {
         this.contatos = resultados.filter(contatos => contatos.flag_funcionario === true);
         this.amount = this.contatos.length;
         this.contatos.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
-        if (this.amount === 0) {
-          console.log("Erro ao trazer os funcionários!");
-        }
+        // if (this.amount === 0) {
+        //   console.log("Erro ao trazer os funcionários!");
+        // }
       });
   }
   informacoes(contato: Contato) {
     contato.id_contatoSelecionado = contato.id_pessoa;
     this.contatoStateService.contatoSelecionado = contato;
     this.router.navigate(['/contato', contato.id_contatoSelecionado]);
-
-
   }
-
-
   search() {
     const searchTerm = (document.querySelector('.search input') as HTMLInputElement).value;
     this.filterContacts(searchTerm);
   }
-
   filterContacts(searchTerm: string) {
     if (searchTerm.trim() === '') {
       this.getContatos();
@@ -104,11 +95,9 @@ export class PrincipalComponent {
 
         this.amount = this.contatos.length;
         if (this.amount === 0) {
-          this.retorno = "Nenhum contato encontrado.";
+          // this.retorno = "Nenhum contato encontrado.";
           this.getContatos();
         }
       });
   }
-
-
 }

@@ -18,17 +18,7 @@ import { Funcionario } from './../../models/funcionario';
   styleUrl: './admin-contatos.component.css'
 })
 export class AdminContatosComponent {
-  getContatosFuncionarios() {
-    this.http.get<Contato[]>(`${this.url}/pessoa`)
-      .subscribe(resultados => {
-        this.contatosHide = resultados.filter(contatosHide => contatosHide.flag_funcionario === true);
-        this.amount = this.contatosHide.length;
-        this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
-        if (this.amount === 0) {
-          console.log("Erro ao trazer os funcionários!");
-        }
-      });
-  }
+
   readonly url: string;
   id_contatoSelecionado: string | null = null;
   contatosHide: Contato[] = [];
@@ -40,13 +30,16 @@ export class AdminContatosComponent {
   itemsPerPage = 5;
   currentPage = 1;
 
-
   get totalPages(): number {
     return Math.ceil(this.contatosHide.length / this.itemsPerPage);
   }
-  constructor(private http: HttpClient, private router: Router, private contatoStateService: ContatoStateService) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private contatoStateService: ContatoStateService) {
     this.url = 'http://localhost:8080';
   }
+
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
@@ -79,6 +72,17 @@ export class AdminContatosComponent {
         this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
         if (this.amount === 0) {
           console.log("Erro ao trazer os contatos!");
+        }
+      });
+  }
+  getContatosFuncionarios() {
+    this.http.get<Contato[]>(`${this.url}/pessoa`)
+      .subscribe(resultados => {
+        this.contatosHide = resultados.filter(contatosHide => contatosHide.flag_funcionario === true);
+        this.amount = this.contatosHide.length;
+        this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
+        if (this.amount === 0) {
+          console.log("Erro ao trazer os funcionários!");
         }
       });
   }

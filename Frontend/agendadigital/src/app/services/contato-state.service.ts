@@ -7,13 +7,11 @@ import { Contato } from '../models/contato';
 })
 
 export class ContatoStateService {
-  clearContatoSelecionado() {
-    this.contatoSelecionado = null;
-  }
-
   contatoSelecionado: Contato | null = null;
   constructor() {
 
   }
-
+  clearContatoSelecionado() {
+    this.contatoSelecionado = null;
+  }
 }
