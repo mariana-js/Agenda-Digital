@@ -24,7 +24,7 @@ export class CadatrarContatoComponent {
   contatos: Contato[] = [];
   enderecos: Endereco[] = [];
   funcionarios: Funcionario[] = [];
-  contatoSelecionado: Contato | null = null;
+  contatoSelecionado: Contato | null = null ;
   funcionarioSelecionado: Funcionario | null = null;
   enderecoSelecionado: Endereco | null = null;
   setor_ramais: SetorRamal[] = [];
@@ -360,13 +360,15 @@ export class CadatrarContatoComponent {
     const enderecoContatoSelecionando = this.enderecos.find(endereco => contatoSelecionado?.id_pessoa === endereco.id_pessoa);
     const funcionarioSelecionado = this.funcionarios.find(funcionario => contatoSelecionado?.id_pessoa === funcionario.id_pessoa);
 
+    console.log(enderecoContatoSelecionando, funcionarioSelecionado)
     if (this.validation() === true) {
       if (contatoSelecionado) {
         console.log('Atualizando o contato')
         if (enderecoContatoSelecionando) {
           this.updateEndereco(enderecoContatoSelecionando);
-        } else if ((this.uf || this.cidade || this.estado || this.logradouro || this.cep || this.bairro || this.numero) && (enderecoContatoSelecionando !== undefined)) {
-          this.adicionarEndereco(enderecoContatoSelecionando);
+        } else if ((this.uf || this.cidade || this.estado || this.logradouro || this.cep || this.bairro || this.numero) && (enderecoContatoSelecionando === undefined)) {
+         
+          this.adicionarEndereco(contatoSelecionado.id_pessoa);
         }
         if (funcionarioSelecionado) {
           this.updateFuncionario(funcionarioSelecionado);
