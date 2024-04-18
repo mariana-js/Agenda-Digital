@@ -24,7 +24,7 @@ export class CadatrarContatoComponent {
   contatos: Contato[] = [];
   enderecos: Endereco[] = [];
   funcionarios: Funcionario[] = [];
-  contatoSelecionado: Contato | null = null ;
+  contatoSelecionado: Contato | null = null;
   funcionarioSelecionado: Funcionario | null = null;
   enderecoSelecionado: Endereco | null = null;
   setor_ramais: SetorRamal[] = [];
@@ -320,7 +320,7 @@ export class CadatrarContatoComponent {
       pessoa.email !== contatoSelecionado?.email
     );
 
-    if (emailExistente ) {
+    if (emailExistente) {
       alert('Este email já está em uso, favor alterar!');
       return false;
     }
@@ -367,7 +367,6 @@ export class CadatrarContatoComponent {
         if (enderecoContatoSelecionando) {
           this.updateEndereco(enderecoContatoSelecionando);
         } else if ((this.uf || this.cidade || this.estado || this.logradouro || this.cep || this.bairro || this.numero) && (enderecoContatoSelecionando === undefined)) {
-         
           this.adicionarEndereco(contatoSelecionado.id_pessoa);
         }
         if (funcionarioSelecionado) {
@@ -574,4 +573,5 @@ export class CadatrarContatoComponent {
         }
       );
   }
+
 }

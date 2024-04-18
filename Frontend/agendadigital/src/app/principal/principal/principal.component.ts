@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
   imports: [HttpClientModule, NavAniversariantesComponent, NgFor, FormsModule]
 })
 export class PrincipalComponent {
+
   readonly url: string
 
   searchTerm: string = '';
@@ -25,7 +26,7 @@ export class PrincipalComponent {
   contatos: Contato[] = [];
   amount: number = 0;
   itemsPerPage = 5;
-  currentPage = 1; 
+  currentPage = 1;
   get totalPages(): number {
     return Math.ceil(this.contatos.length / this.itemsPerPage);
   }
@@ -61,7 +62,17 @@ export class PrincipalComponent {
       });
 
   }
-
+  getFuncionarios() {
+    this.http.get<Contato[]>(`${this.url}/pessoa`)
+      .subscribe(resultados => {
+        this.contatos = resultados.filter(contatos => contatos.flag_funcionario === true);
+        this.amount = this.contatos.length;
+        this.contatos.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
+        if (this.amount === 0) {
+          console.log("Erro ao trazer os funcionários!");
+        }
+      });
+  }
   informacoes(contato: Contato) {
     contato.id_contatoSelecionado = contato.id_pessoa;
     this.contatoStateService.contatoSelecionado = contato;
