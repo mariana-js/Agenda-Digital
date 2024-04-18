@@ -11,6 +11,7 @@ import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { RamaisComponent } from '../ramais/ramais.component';
 import { SetorRamal } from './../../models/setor-ramal';
 import { ContatoStateService } from '../../services/contato-state.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-cadatrar-contato',
   standalone: true,
@@ -21,18 +22,20 @@ import { ContatoStateService } from '../../services/contato-state.service';
 export class CadatrarContatoComponent {
 
   readonly url: string;
+  id_rota: string | undefined;
+
+  setores: Setor[] = [];
   contatos: Contato[] = [];
   enderecos: Endereco[] = [];
-  funcionarios: Funcionario[] = [];
-  contatoSelecionado: Contato | null = null;
-  funcionarioSelecionado: Funcionario | null = null;
-  enderecoSelecionado: Endereco | null = null;
   setor_ramais: SetorRamal[] = [];
-  setores: Setor[] = [];
+  funcionarios: Funcionario[] = [];
+  ramaisFiltrados: SetorRamal[] = [];
 
   setorSelecionado: Setor | null = null;
   ramalSelecionado: SetorRamal | null = null;
-  ramaisFiltrados: SetorRamal[] = [];
+  contatoSelecionado: Contato | null = null;
+  enderecoSelecionado: Endereco | null = null;
+  funcionarioSelecionado: Funcionario | null = null;
 
   //Contato
   nome_pessoa: string = '';
@@ -95,30 +98,33 @@ export class CadatrarContatoComponent {
 
   constructor(
     private http: HttpClient,
+    private activatedRoute: ActivatedRoute,
     private contatoStateService: ContatoStateService) {
     this.url = 'http://localhost:8080';
-
   }
-
   ngOnInit() {
-    this.checkbox();
-    this.estados();
-    this.getSetores();
-    this.getSetorRamal();
+    this.activatedRoute.params.subscribe(params => {
+      this.id_rota = params['id'];
+      this.estados();
+      this.checkbox();
+      this.getSetores();
+      this.getSetorRamal();
 
-    forkJoin({
-      contatos: this.http.get<Contato[]>(`${this.url}/pessoa`),
-      enderecos: this.http.get<Endereco[]>(`${this.url}/endereco`),
-      funcionarios: this.http.get<Funcionario[]>(`${this.url}/funcionario/all`),
-      setor_ramais: this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`),
-    }).subscribe(({ contatos, enderecos, funcionarios, setor_ramais }) => {
-      this.contatos = contatos;
-      this.enderecos = enderecos;
-      this.funcionarios = funcionarios;
-      this.setor_ramais = setor_ramais;
-      this.getInformacoes();
+      forkJoin({
+        contatos: this.http.get<Contato[]>(`${this.url}/pessoa`),
+        enderecos: this.http.get<Endereco[]>(`${this.url}/endereco`),
+        funcionarios: this.http.get<Funcionario[]>(`${this.url}/funcionario/all`),
+        setor_ramais: this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`),
+      }).subscribe(({ contatos, enderecos, funcionarios, setor_ramais }) => {
+        this.contatos = contatos;
+        this.enderecos = enderecos;
+        this.funcionarios = funcionarios;
+        this.setor_ramais = setor_ramais;
+        if (this.id_rota) {
+          this.getInformacoes();
+        }
+      });
     });
-
   }
   ngOnDestroy() {
     this.contatoStateService.clearContatoSelecionado();
@@ -453,29 +459,21 @@ export class CadatrarContatoComponent {
     }
   }
   getInformacoes() {
-    const contatoSelecionado = this.contatoStateService.contatoSelecionado;
+    const id_contato = this.id_rota;
 
-    if (contatoSelecionado && (contatoSelecionado.id_contatoSelecionado)) {
-      const id_contato = contatoSelecionado.id_contatoSelecionado;
-      this.nome_pessoa = contatoSelecionado.nome_pessoa;
-      this.email = contatoSelecionado.email;
-      this.celular1 = contatoSelecionado.celular1;
-      this.celular2 = contatoSelecionado.celular2;
-      this.telefone = contatoSelecionado.telefone;
-
-      this.box_fun = contatoSelecionado.flag_funcionario;
-      this.boxPrivate = contatoSelecionado.flag_privado;
-
-    } if ((contatoSelecionado && contatoSelecionado.id_contatoSelecionado) === null || undefined) {
-      console.log('O contato está retornando ', contatoSelecionado)
+    const informacoesContato = this.contatos.find(pessoa => pessoa.id_pessoa === id_contato);
+    if (informacoesContato !== undefined) {
+      this.nome_pessoa = informacoesContato.nome_pessoa;
+      this.email = informacoesContato.email;
+      this.celular1 = informacoesContato.celular1;
+      this.celular2 = informacoesContato.celular2;
+      this.telefone = informacoesContato.telefone;
+      this.box_fun = informacoesContato.flag_funcionario;
+      this.boxPrivate = informacoesContato.flag_privado;
     }
-    const id_contato = this.contatoStateService.contatoSelecionado?.id_contatoSelecionado;
-
-    // Dados da pessoa
-    const pessoa = this.contatos.find(pessoa => pessoa.id_pessoa === id_contato)
 
     // Dados do endereco da pessoa
-    const endereco = this.enderecos.find(endereco => endereco.id_pessoa === pessoa?.id_pessoa);
+    const endereco = this.enderecos.find(endereco => endereco.id_pessoa === id_contato);
     if (endereco !== undefined) {
       this.logradouro = endereco.logradouro;
       this.bairro = endereco.bairro;
@@ -498,15 +496,11 @@ export class CadatrarContatoComponent {
           this.nramal = setor_ramal.id_ramal_setor ?? 'op2';
         }
       }
-    } else {
-      console.log('ERRO: Não é funcionario!');
     }
 
-  }
-  update(contatoSelecionado: Contato) {
+  } update(contatoSelecionado: Contato) {
     this.updateContato(contatoSelecionado);
-  }
-  updateContato(contatoSelecionado: Contato) {
+  } updateContato(contatoSelecionado: Contato) {
     this.contatoSelecionado = contatoSelecionado;
     if (!this.contatoSelecionado) return;
     this.contatoSelecionado.nome_pessoa = this.nome_pessoa;
@@ -528,8 +522,7 @@ export class CadatrarContatoComponent {
           alert('Erro ao atualizar contato!');
         }
       );
-  }
-  updateEndereco(enderecoSelecionado: Endereco) {
+  } updateEndereco(enderecoSelecionado: Endereco) {
     this.enderecoSelecionado = enderecoSelecionado;
     if (!this.enderecoSelecionado) return;
     this.enderecoSelecionado.logradouro = this.logradouro;
@@ -550,8 +543,7 @@ export class CadatrarContatoComponent {
           console.error('Erro ao atualizar endereco:', error);
         }
       );
-  }
-  updateFuncionario(funcionarioSelecionado: Funcionario) {
+  } updateFuncionario(funcionarioSelecionado: Funcionario) {
     this.funcionarioSelecionado = funcionarioSelecionado;
     if (!this.funcionarioSelecionado) return;
     this.funcionarioSelecionado.data_nascimento = this.data_nascimento;
@@ -573,5 +565,4 @@ export class CadatrarContatoComponent {
         }
       );
   }
-
 }

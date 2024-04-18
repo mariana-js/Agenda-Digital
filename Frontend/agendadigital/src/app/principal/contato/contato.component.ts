@@ -45,10 +45,9 @@ export class ContatoComponent implements OnInit {
   ramal: string | undefined;
   contatoSelecionado: Contato | null = null;
 
+  id_rota: string | undefined;
   constructor(
     private http: HttpClient,
-    private contatoStateService: ContatoStateService,
-    private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
     this.url = 'http://localhost:8080';
@@ -56,14 +55,9 @@ export class ContatoComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
-      const id_contato = params['id']; // Supondo que o parâmetro da rota seja chamado 'id'
-      
-      console.log(id_contato)
-      if (id_contato) {
-        // Inicialize contatoStateService.contatoSelecionado com o ID da rota
-        this.contatoStateService.contatoSelecionado = id_contato;
-        // this.contatoStateService.contatoSelecionado = { id_contatoSelecionado: id_contato };
+      this.id_rota = params['id']; // Supondo que o parâmetro da rota seja chamado 'id'
 
+      if (this.id_rota) {
         // Carregue os dados com base no ID da rota
         forkJoin({
           contato: this.http.get<Contato[]>(`${this.url}/pessoa`),
@@ -84,34 +78,19 @@ export class ContatoComponent implements OnInit {
   }
 
   getInformacoes() {
-    const contatoSelecionado = this.contatoStateService.contatoSelecionado;
-
-    if (contatoSelecionado && (contatoSelecionado.id_contatoSelecionado)) {
-      const id_contato = contatoSelecionado.id_contatoSelecionado;
-      this.nome = contatoSelecionado.nome_pessoa;
-      this.email = contatoSelecionado.email;
-      this.cel_corp = contatoSelecionado.celular1;
-      this.cel_pes = contatoSelecionado.celular2;
-      this.telefone = contatoSelecionado.telefone;
-
-     } //if ((contatoSelecionado && contatoSelecionado.id_contatoSelecionado) === null || undefined) {
-    //   console.log('O contato está retornando ', contatoSelecionado)
-    // }
-    // else {
-    //   console.log('Erro ao trazer o id do contato selecionado');
-    // }
-    const id_contato = this.contatoStateService.contatoSelecionado?.id_contatoSelecionado;
-
+    const id_contato = this.id_rota;
     // Dados da pessoa
-    const pessoa = this.contato.find(pessoa => pessoa.id_pessoa === id_contato)
-    // if (pessoa !== undefined) {
-    //   console.log('Informações.');
-    // } else {
-    //   console.log('ERRO: Id do contato não encontrado!')
-    // }
+    const informacoesContato = this.contato.find(pessoa => pessoa.id_pessoa === id_contato);
+    if (informacoesContato !== undefined) {
+      this.nome = informacoesContato.nome_pessoa;
+      this.email = informacoesContato.email;
+      this.cel_corp = informacoesContato.celular1;
+      this.cel_pes = informacoesContato.celular2;
+      this.telefone = informacoesContato.telefone;
+    }
 
     // Dados do endereco da pessoa
-    const endereco = this.endereco.find(endereco => endereco.id_pessoa === pessoa?.id_pessoa);
+    const endereco = this.endereco.find(endereco => endereco.id_pessoa === id_contato);
     if (endereco !== undefined) {
       this.logradouro = endereco.logradouro;
       this.bairro = endereco.bairro;
@@ -119,9 +98,7 @@ export class ContatoComponent implements OnInit {
       this.estado = `${endereco.estado} -`;
       this.uf = endereco.uf;
       this.cep = endereco.cep;
-     }// else {
-    //   console.log('ERRO: Contato não possui endereço!')
-    // }
+    }
 
     // Dados do funcionario
     const funcionario = this.funcionario.find(funcionario => funcionario.id_pessoa === id_contato)
@@ -131,8 +108,6 @@ export class ContatoComponent implements OnInit {
       this.nome_setor = `${setor?.nome_setor} -`;
       this.sigla = setor?.sigla_setor;
       this.ramal = `Ramal: ${setor_ramal?.id_ramal_setor}`;
-     } //else {
-    //   console.log('ERRO: Não é funcionario!')
-    // }
+    }
   }
 }
