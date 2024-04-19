@@ -22,7 +22,7 @@ export class PrincipalComponent implements OnDestroy {
   id_contatoSelecionado: string | null = null;
   contatos: Contato[] = [];
   amount: number = 0;
-  itemsPerPage = 3;
+  itemsPerPage = 2;
   currentPage = 1;
 
   private routerSubscription: Subscription;
@@ -50,18 +50,12 @@ export class PrincipalComponent implements OnDestroy {
       });
   }
   nextPage() {
-    let value = this.currentPage;
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      
-      value = this.currentPage;
-      console.log(this.currentPage);
 
     }
-    this.currentPage = value;
-
-    this.currentPage = this.contatoStateService.getState().currentPage;
-    console.log(this.currentPage)
+    this.contatoStateService.getState().currentPage = this.currentPage ;
+    console.log(this.contatoStateService.getState().currentPage, this.contatoStateService.getState().searchTerm)
 
   }
   previousPage() {
@@ -70,8 +64,8 @@ export class PrincipalComponent implements OnDestroy {
     }
   }
   ngOnInit() {
-    console.log(this.currentPage, this.searchTerm)
-    console.log(this.contatoStateService.getState())
+    // console.log(this.currentPage, this.searchTerm)
+    // console.log(this.contatoStateService.getState())
     // Restaurar o estado ao retornar à página principal
     const savedState = this.contatoStateService.getState();
     if (savedState) {
@@ -82,6 +76,7 @@ export class PrincipalComponent implements OnDestroy {
     this.getContatos();
   }
   ngOnDestroy(): void {
+    this.contatoStateService.getState().currentPage = this.currentPage ;
     this.routerSubscription.unsubscribe();
   }
   getContatos() {

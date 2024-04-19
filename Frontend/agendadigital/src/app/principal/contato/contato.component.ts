@@ -55,10 +55,9 @@ export class ContatoComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
-      this.id_rota = params['id']; // Supondo que o parâmetro da rota seja chamado 'id'
+      this.id_rota = params['id'];
 
       if (this.id_rota) {
-        // Carregue os dados com base no ID da rota
         forkJoin({
           contato: this.http.get<Contato[]>(`${this.url}/pessoa`),
           funcionario: this.http.get<Funcionario[]>(`${this.url}/funcionario/all`),
