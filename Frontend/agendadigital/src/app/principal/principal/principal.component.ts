@@ -1,12 +1,13 @@
 import { NgFor } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { Contato } from '../../models/contato';
 import { ContatoStateService } from '../../services/contato-state.service';
 import { NavAniversariantesComponent } from "../nav-aniversariantes/nav-aniversariantes.component";
-import { FormsModule } from '@angular/forms';
-
 @Component({
   selector: 'app-principal',
   standalone: true,
@@ -14,16 +15,18 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './principal.component.css',
   imports: [HttpClientModule, NavAniversariantesComponent, NgFor, FormsModule]
 })
-export class PrincipalComponent {
+export class PrincipalComponent implements OnDestroy {
   readonly url: string
   searchTerm: string = '';
   retorno: string = "";
   id_contatoSelecionado: string | null = null;
   contatos: Contato[] = [];
   amount: number = 0;
-  itemsPerPage = 5;
+  itemsPerPage = 3;
   currentPage = 1;
-  
+
+  private routerSubscription: Subscription;
+
   get totalPages(): number {
     return Math.ceil(this.contatos.length / this.itemsPerPage);
   }
@@ -32,11 +35,34 @@ export class PrincipalComponent {
     private router: Router,
     private contatoStateService: ContatoStateService) {
     this.url = 'http://localhost:8080';
+    // Assinar eventos de navegação para detectar quando a página principal é deixada
+    this.routerSubscription = this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        filter(() => this.router.url === '/') // Verificar se a rota é a página principal
+      )
+      .subscribe(() => {
+        // Armazenar o estado atual ao sair da página principal
+        this.contatoStateService.saveState({
+          currentPage: this.currentPage,
+          searchTerm: this.searchTerm
+        });
+      });
   }
   nextPage() {
+    let value = this.currentPage;
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+      
+      value = this.currentPage;
+      console.log(this.currentPage);
+
     }
+    this.currentPage = value;
+
+    this.currentPage = this.contatoStateService.getState().currentPage;
+    console.log(this.currentPage)
+
   }
   previousPage() {
     if (this.currentPage > 1) {
@@ -44,7 +70,19 @@ export class PrincipalComponent {
     }
   }
   ngOnInit() {
+    console.log(this.currentPage, this.searchTerm)
+    console.log(this.contatoStateService.getState())
+    // Restaurar o estado ao retornar à página principal
+    const savedState = this.contatoStateService.getState();
+    if (savedState) {
+      this.currentPage = savedState.currentPage;
+      this.searchTerm = savedState.searchTerm;
+    }
+    // Iniciar a recuperação de contatos
     this.getContatos();
+  }
+  ngOnDestroy(): void {
+    this.routerSubscription.unsubscribe();
   }
   getContatos() {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
@@ -52,23 +90,19 @@ export class PrincipalComponent {
         this.contatos = resultados.filter(contato => contato.flag_privado === false);
         this.contatos.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
         this.amount = this.contatos.length;
-        // if (this.amount === 0) {
-        //   console.log("Erro ao trazer os contatos!")
-        // }
-      });
-
+      })
   }
+
   getFuncionarios() {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
       .subscribe(resultados => {
         this.contatos = resultados.filter(contatos => contatos.flag_funcionario === true);
         this.amount = this.contatos.length;
         this.contatos.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
-        // if (this.amount === 0) {
-        //   console.log("Erro ao trazer os funcionários!");
-        // }
+        // Recalcula o número total de páginas
       });
   }
+
   informacoes(contato: Contato) {
     contato.id_contatoSelecionado = contato.id_pessoa;
     this.contatoStateService.contatoSelecionado = contato;
