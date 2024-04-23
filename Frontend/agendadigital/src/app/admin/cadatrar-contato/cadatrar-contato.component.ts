@@ -82,8 +82,8 @@ export class CadatrarContatoComponent {
   // Funcionario
   id_setor_ramal: string = '';
   data_nascimento: string = '';
-  setor: string = '';
-  nramal: string = '';
+  setor: string = 'op';
+  nramal: string = 'op2';
 
   novoFuncionario: Funcionario = {
     id_funcionario: '',
@@ -490,10 +490,12 @@ export class CadatrarContatoComponent {
       const setor_ramal = this.setor_ramais.find(setor_ramal => setor_ramal.id_setor_ramal === funcionario.id_setor_ramal);
       if (setor_ramal !== undefined) {
         const setor = this.setores.find(setor => setor_ramal.id_setor === setor.id_setor);
+        const ramal = this.ramaisFiltrados.find(ramal => setor_ramal.id_ramal_setor === ramal.id_ramal_setor);
         if (setor !== undefined) {
           this.data_nascimento = funcionario.data_nascimento;
           this.setor = setor.id_setor ?? 'op';
-          this.nramal = setor_ramal.id_ramal_setor ?? 'op2';
+          this.nramal = ramal?.id_ramal_setor ?? 'op2';
+          console.log("Numero do ramal: ",this.nramal)
         }
       }
     }
