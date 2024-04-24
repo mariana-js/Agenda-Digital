@@ -298,7 +298,11 @@ export class CadatrarContatoComponent {
     this.novoContato.telefone = this.telefone;
     this.novoContato.flag_privado = this.boxPrivate;
     this.novoContato.flag_funcionario = this.box_fun;
-    const contatoSelecionado = this.contatoStateService.contatoSelecionado;
+    // const contatoSelecionado = this.contatoStateService.contatoSelecionado;
+
+    const contatoSelecionado = this.contatos.find(contato => contato.id_pessoa === this.id_rota);
+
+    console.log(contatoSelecionado)
     // Verificar se o nome do contato já existe localmente
     const nomeExistente = this.contatos.find(pessoa =>
       pessoa.nome_pessoa.trim().toLowerCase() === this.novoContato.nome_pessoa.trim().toLowerCase() &&
@@ -354,6 +358,7 @@ export class CadatrarContatoComponent {
     const enderecoContatoSelecionando = this.enderecos.find(endereco => contatoSelecionado?.id_pessoa === endereco.id_pessoa);
     const funcionarioSelecionado = this.funcionarios.find(funcionario => contatoSelecionado?.id_pessoa === funcionario.id_pessoa);
 
+    console.log(this.validation())
     if (this.validation() === true) {
       if (contatoSelecionado) {
         if (enderecoContatoSelecionando) {
