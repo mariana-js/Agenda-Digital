@@ -22,7 +22,7 @@ export class PrincipalComponent implements OnDestroy {
   id_contatoSelecionado: string | null = null;
   contatos: Contato[] = [];
   amount: number = 0;
-  itemsPerPage = 2;
+  itemsPerPage = 5;
   currentPage = 1;
 
   private routerSubscription: Subscription;

@@ -101,8 +101,7 @@ export class CadatrarContatoComponent {
     private activatedRoute: ActivatedRoute,
     private contatoStateService: ContatoStateService) {
     this.url = 'http://localhost:8080';
-  }
-  ngOnInit() {
+  } ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.id_rota = params['id'];
       this.estados();
@@ -115,6 +114,7 @@ export class CadatrarContatoComponent {
         enderecos: this.http.get<Endereco[]>(`${this.url}/endereco`),
         funcionarios: this.http.get<Funcionario[]>(`${this.url}/funcionario/all`),
         setor_ramais: this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`),
+
       }).subscribe(({ contatos, enderecos, funcionarios, setor_ramais }) => {
         this.contatos = contatos;
         this.enderecos = enderecos;
@@ -125,37 +125,30 @@ export class CadatrarContatoComponent {
         }
       });
     });
-  }
-  ngOnDestroy() {
+
+  } ngOnDestroy() {
     this.contatoStateService.clearContatoSelecionado();
-  }
-  getSetores() {
+  } getSetores() {
     this.http.get<Setor[]>(`${this.url}/setor`)
       .subscribe(resultados => {
         this.setores = resultados;
         this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
       });
-  }
-  selecionarSetor(event: Event) {
+  } selecionarSetor(event: Event) {
     const idSetor = (event.target as HTMLSelectElement).value;
     this.getRamaisPorSetor(idSetor);
     this.setor = idSetor;
-  }
-  selecionarRamal(event: Event) {
+  } selecionarRamal(event: Event) {
     const nramal = (event.target as HTMLSelectElement).value;
     this.nramal = nramal;
-  }
-  getRamaisPorSetor(idSetor: string) {
-    // Filtrar a lista de setor_ramais pelo id_setor selecionado
+  } getRamaisPorSetor(idSetor: string) {
     this.ramaisFiltrados = this.setor_ramais.filter(ramal => ramal.id_setor === idSetor);
-  }
-  getSetorRamal() {
+  } getSetorRamal() {
     this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`)
       .subscribe(resultados => {
         this.setor_ramais = resultados;
       })
-  }
-  checkbox() {
+  } checkbox() {
     const checkbox = document.getElementById('box_fun') as HTMLInputElement;
     const sectorSelect = document.querySelector("select[name=sector]") as HTMLSelectElement;
     const ramalSelect = document.querySelector("select[name=ramal]") as HTMLSelectElement;
@@ -174,8 +167,7 @@ export class CadatrarContatoComponent {
         ramalSelect.disabled = true;
       }
     });
-  }
-  estados() {
+  } estados() {
     // Salvar uma referência à instância da classe
     const self = this;
 
@@ -249,8 +241,7 @@ export class CadatrarContatoComponent {
 
     // Populando as UF
     populateUFs();
-  }
-  verificarNumeros(str: any) {
+  } verificarNumeros(str: any) {
 
     const num = Number(str);
     if (!isNaN(num)) {
@@ -259,8 +250,7 @@ export class CadatrarContatoComponent {
     }
 
     return false;
-  }
-  validation() {
+  } validation() {
     if (!this.nome_pessoa) {
       alert('Por favor, preencha o campo Nome!');
       // document.getElementById('nome_pessoa').focus();
@@ -342,8 +332,7 @@ export class CadatrarContatoComponent {
       return false;
     }
     return true;
-  }
-  clear() {
+  } clear() {
     this.nome_pessoa = '';
     this.email = '';
     this.celular1 = '';
@@ -360,16 +349,13 @@ export class CadatrarContatoComponent {
     this.nramal = 'op2';
     this.setor = 'op';
     this.data_nascimento = '';
-  }
-  salvar() {
+  } salvar() {
     const contatoSelecionado = this.contatoStateService.contatoSelecionado;
     const enderecoContatoSelecionando = this.enderecos.find(endereco => contatoSelecionado?.id_pessoa === endereco.id_pessoa);
     const funcionarioSelecionado = this.funcionarios.find(funcionario => contatoSelecionado?.id_pessoa === funcionario.id_pessoa);
 
-    console.log(enderecoContatoSelecionando, funcionarioSelecionado)
     if (this.validation() === true) {
       if (contatoSelecionado) {
-        console.log('Atualizando o contato')
         if (enderecoContatoSelecionando) {
           this.updateEndereco(enderecoContatoSelecionando);
         } else if ((this.uf || this.cidade || this.estado || this.logradouro || this.cep || this.bairro || this.numero) && (enderecoContatoSelecionando === undefined)) {
@@ -387,13 +373,11 @@ export class CadatrarContatoComponent {
         }
         this.update(contatoSelecionado);
       } else {
-        console.log('Adicionando o contato')
         this.adicionarContato();
         this.clear();
       }
     }
-  }
-  adicionarContato() {
+  } adicionarContato() {
     this.validation();
     const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
       setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
@@ -425,8 +409,7 @@ export class CadatrarContatoComponent {
 
       })
 
-  }
-  adicionarEndereco(id_contato: string) {
+  } adicionarEndereco(id_contato: string) {
     this.novoEndereco.id_pessoa = id_contato;
     this.novoEndereco.logradouro = this.logradouro;
     this.novoEndereco.numero = this.numero;
@@ -441,8 +424,7 @@ export class CadatrarContatoComponent {
       }, error => {
         console.error('Erro ao adicionar endereco:', error);
       })
-  }
-  adicionarFuncionario(id_contato: string, setorRamalEncontrado: SetorRamal) {
+  } adicionarFuncionario(id_contato: string, setorRamalEncontrado: SetorRamal) {
     this.novoFuncionario.id_pessoa = id_contato;
     this.novoFuncionario.data_nascimento = this.data_nascimento;
     if (setorRamalEncontrado) {
@@ -457,10 +439,8 @@ export class CadatrarContatoComponent {
           }
         );
     }
-  }
-  getInformacoes() {
+  } getInformacoes() {
     const id_contato = this.id_rota;
-
     const informacoesContato = this.contatos.find(pessoa => pessoa.id_pessoa === id_contato);
     if (informacoesContato !== undefined) {
       this.nome_pessoa = informacoesContato.nome_pessoa;
@@ -471,7 +451,6 @@ export class CadatrarContatoComponent {
       this.box_fun = informacoesContato.flag_funcionario;
       this.boxPrivate = informacoesContato.flag_privado;
     }
-
     // Dados do endereco da pessoa
     const endereco = this.enderecos.find(endereco => endereco.id_pessoa === id_contato);
     if (endereco !== undefined) {
@@ -483,19 +462,20 @@ export class CadatrarContatoComponent {
       this.uf = endereco.uf;
       this.cep = endereco.cep;
     }
-
     // Dados do funcionario
     const funcionario = this.funcionarios.find(funcionario => funcionario.id_pessoa === id_contato)
     if (funcionario !== undefined) {
       const setor_ramal = this.setor_ramais.find(setor_ramal => setor_ramal.id_setor_ramal === funcionario.id_setor_ramal);
       if (setor_ramal !== undefined) {
         const setor = this.setores.find(setor => setor_ramal.id_setor === setor.id_setor);
-        const ramal = this.ramaisFiltrados.find(ramal => setor_ramal.id_ramal_setor === ramal.id_ramal_setor);
         if (setor !== undefined) {
-          this.data_nascimento = funcionario.data_nascimento;
-          this.setor = setor.id_setor ?? 'op';
-          this.nramal = ramal?.id_ramal_setor ?? 'op2';
-          console.log("Numero do ramal: ",this.nramal)
+          this.getRamaisPorSetor(setor?.id_setor);
+          const ramal = this.ramaisFiltrados.find(ramal => ramal.id_ramal_setor === setor_ramal.id_ramal_setor);
+          if (setor !== undefined) {
+            this.data_nascimento = funcionario.data_nascimento;
+            this.setor = setor.id_setor ?? 'op';
+            this.nramal = ramal?.id_ramal_setor ?? 'op2';
+          }
         }
       }
     }
