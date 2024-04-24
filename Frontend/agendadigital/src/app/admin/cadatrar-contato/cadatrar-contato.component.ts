@@ -354,9 +354,10 @@ export class CadatrarContatoComponent {
     this.setor = 'op';
     this.data_nascimento = '';
   } salvar() {
-    const contatoSelecionado = this.contatoStateService.contatoSelecionado;
-    const enderecoContatoSelecionando = this.enderecos.find(endereco => contatoSelecionado?.id_pessoa === endereco.id_pessoa);
-    const funcionarioSelecionado = this.funcionarios.find(funcionario => contatoSelecionado?.id_pessoa === funcionario.id_pessoa);
+    const contatoSelecionado = this.id_rota;
+    const contato = this.contatos.find(contato => contatoSelecionado === contato.id_pessoa);
+    const enderecoContatoSelecionando = this.enderecos.find(endereco => contatoSelecionado === endereco.id_pessoa);
+    const funcionarioSelecionado = this.funcionarios.find(funcionario => contatoSelecionado === funcionario.id_pessoa);
 
     console.log(this.validation())
     if (this.validation() === true) {
@@ -364,7 +365,7 @@ export class CadatrarContatoComponent {
         if (enderecoContatoSelecionando) {
           this.updateEndereco(enderecoContatoSelecionando);
         } else if ((this.uf || this.cidade || this.estado || this.logradouro || this.cep || this.bairro || this.numero) && (enderecoContatoSelecionando === undefined)) {
-          this.adicionarEndereco(contatoSelecionado.id_pessoa);
+          this.adicionarEndereco(contatoSelecionado);
         }
         if (funcionarioSelecionado) {
           this.updateFuncionario(funcionarioSelecionado);
@@ -373,10 +374,12 @@ export class CadatrarContatoComponent {
             setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
           );
           if (setorRamalEncontrado !== undefined) {
-            this.adicionarFuncionario(contatoSelecionado.id_pessoa, setorRamalEncontrado);
+            this.adicionarFuncionario(contatoSelecionado, setorRamalEncontrado);
           }
         }
-        this.update(contatoSelecionado);
+        if (contato !== undefined) {
+          this.update(contato);
+        }
       } else {
         this.adicionarContato();
         this.clear();
