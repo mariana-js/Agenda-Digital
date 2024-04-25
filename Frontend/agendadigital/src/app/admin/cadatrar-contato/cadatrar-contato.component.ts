@@ -42,6 +42,7 @@ export class CadatrarContatoComponent {
   email: string = '';
   celular1: string = '';
   celular2: string = '';
+  celular3: string = '';
   telefone: string = '';
   boxPrivate: boolean = false;
   box_fun: boolean = false;
@@ -52,6 +53,7 @@ export class CadatrarContatoComponent {
     email: this.email,
     celular1: this.celular1,
     celular2: this.celular2,
+    celular3: this.celular3,
     telefone: this.telefone,
     flag_privado: this.boxPrivate,
     flag_funcionario: this.box_fun
@@ -394,6 +396,7 @@ export class CadatrarContatoComponent {
     this.novoContato.email = this.email;
     this.novoContato.celular1 = this.celular1;
     this.novoContato.celular2 = this.celular2;
+    this.novoContato.celular3 = this.celular3;
     this.novoContato.telefone = this.telefone;
     this.novoContato.flag_privado = this.boxPrivate;
     this.novoContato.flag_funcionario = this.box_fun;
@@ -496,6 +499,7 @@ export class CadatrarContatoComponent {
     this.contatoSelecionado.nome_pessoa = this.nome_pessoa;
     this.contatoSelecionado.celular1 = this.celular1;
     this.contatoSelecionado.celular2 = this.celular2;
+    this.contatoSelecionado.celular3 = this.celular3;
     this.contatoSelecionado.email = this.email;
     this.contatoSelecionado.telefone = this.telefone;
     this.contatoSelecionado.flag_funcionario = this.box_fun;

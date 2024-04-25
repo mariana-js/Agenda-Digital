@@ -33,6 +33,9 @@ public class Pessoa implements Serializable {
 	@Column(name = "celular2", length = 15, nullable = false)
 	private String celular2;
 
+	@Column(name = "celular3", length = 15, nullable = false)
+	private String celular3;
+
 	@Column(name = "telefone", length = 15, nullable = false)
 	private String telefone;
 
@@ -81,6 +84,14 @@ public class Pessoa implements Serializable {
 
 	public void setCelular2(String celular2) {
 		this.celular2 = celular2;
+	}
+
+	public String getCelular3() {
+		return celular3;
+	}
+
+	public void setCelular3(String celular3) {
+		this.celular3 = celular3;
 	}
 
 	public String getTelefone() {

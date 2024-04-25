@@ -27,8 +27,9 @@ export class ContatoComponent implements OnInit {
   // Dados do contato
   nome: string | undefined;
   email: string | undefined;
-  cel_corp: string | undefined;
-  cel_pes: string | undefined;
+  celular1: string | undefined;
+  celular2: string | undefined;
+  celular3: string | undefined;
   telefone: string | undefined;
 
   // Dados do endereco
@@ -83,8 +84,9 @@ export class ContatoComponent implements OnInit {
     if (informacoesContato !== undefined) {
       this.nome = informacoesContato.nome_pessoa;
       this.email = informacoesContato.email;
-      this.cel_corp = informacoesContato.celular1;
-      this.cel_pes = informacoesContato.celular2;
+      this.celular1 = informacoesContato.celular1;
+      this.celular2 = informacoesContato.celular2;
+      this.celular3 = informacoesContato.celular3;
       this.telefone = informacoesContato.telefone;
     }
 

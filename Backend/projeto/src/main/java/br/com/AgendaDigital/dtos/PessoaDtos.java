@@ -14,13 +14,15 @@ public class PessoaDtos {
     @NotBlank
     private String email;
 
-    
     @NotBlank
     @JsonProperty("celular1")
     private String celular1;
 
     @JsonProperty("celular2")
     private String celular2;
+
+    @JsonProperty("celular3")
+    private String celular3;
 
     @JsonProperty("telefone")
     private String telefone;
@@ -61,6 +63,14 @@ public class PessoaDtos {
 
     public void setCelular2(String celular2) {
         this.celular2 = celular2;
+    }
+
+    public String getCelular3() {
+        return celular3;
+    }
+
+    public void setCelular3(String celular3) {
+        this.celular3 = celular3;
     }
 
     public String getTelefone() {

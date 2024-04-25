@@ -11,7 +11,6 @@ public class EnderecoDtos {
     @JsonProperty("id_pessoa")
     private UUID id_pessoa;
 
-
     private String logradouro;
 
     private String numero;

@@ -6,6 +6,7 @@ export interface Contato {
   email: string;
   celular1: string;
   celular2: string;
+  celular3: string;
   telefone: string;
 
   flag_privado:boolean;
