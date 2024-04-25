@@ -2,16 +2,16 @@ import { NgFor } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { Contato } from '../../models/contato';
 import { Endereco } from '../../models/endereco';
 import { Funcionario } from '../../models/funcionario';
 import { Setor } from '../../models/setor';
+import { ContatoStateService } from '../../services/contato-state.service';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { RamaisComponent } from '../ramais/ramais.component';
 import { SetorRamal } from './../../models/setor-ramal';
-import { ContatoStateService } from '../../services/contato-state.service';
-import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-cadatrar-contato',
   standalone: true,
@@ -23,6 +23,8 @@ export class CadatrarContatoComponent {
 
   readonly url: string;
   id_rota: string | undefined;
+  resposta: string = "";
+  validacao: string = "";
 
   setores: Setor[] = [];
   contatos: Contato[] = [];
@@ -101,8 +103,10 @@ export class CadatrarContatoComponent {
   constructor(
     private http: HttpClient,
     private activatedRoute: ActivatedRoute,
-    private contatoStateService: ContatoStateService) {
+    private contatoStateService: ContatoStateService,
+    ) {
     this.url = 'http://localhost:8080';
+ 
   } ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.id_rota = params['id'];
@@ -252,10 +256,22 @@ export class CadatrarContatoComponent {
     }
 
     return false;
-  } validation() {
+  } 
+  teste(event: Event){
+    if (!event){
+
+      this.validacao = "Não"
+      console.log('Teste aqui', event)
+    } else {
+      this.validacao = "Sim"
+      console.log('Teste aqui 2', event)
+    }
+  }
+  validation() {
     if (!this.nome_pessoa) {
       alert('Por favor, preencha o campo Nome!');
-      // document.getElementById('nome_pessoa').focus();
+      this.validacao = "Preencha o campo Nome!";
+      console.log(this.validacao)
       return false;
     } else if (this.nome_pessoa.length > 25) {
       alert('Nome do contato muito grande!');
@@ -263,12 +279,10 @@ export class CadatrarContatoComponent {
     }
     if (!this.email) {
       alert('Por favor, preencha o campo Email!');
-      // document.getElementById('email').focus();
       return false;
     }
     if (!this.celular1) {
       alert('Por favor, preencha o campo Celular 1!');
-      // document.getElementById('celular1').focus();
       return false;
     }
     if (!this.verificarNumeros(this.celular1) || !this.verificarNumeros(this.celular2) || !this.verificarNumeros(this.telefone)) {

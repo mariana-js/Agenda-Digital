@@ -7,8 +7,12 @@
     <div class="area">
       <div class="area1">
         <div class="Inicio">
+          <!-- [formGroup]="meuFormGroup"  -->
           <form action="/pessoa" method="POST" enctype="multipart/form-data">
             <h2> <img src="assets/Imagens/adicionar-contato-b.png" alt="add-contato">Contato</h2>
+
+            <span>{{resposta}}</span>
+
 
             <fieldset>
 
@@ -27,28 +31,29 @@
               <div class="field-group">
                 <div class="field">
                   <label for="name">Nome *</label>
-                  <input type="text" id="nome_pessoa" required [(ngModel)]="nome_pessoa" name="nome_pessoa">
+                  <input type="text" id="nome_pessoa" required name="nome_pessoa" [(ngModel)]="nome_pessoa" (ngModelChange)="teste($event)">
+                  <span>{{validacao}}</span>
                 </div>
-
-              </div>
-
-              <div class="field-group">
                 <div class="field">
                   <label for="mail">E-mail *</label>
                   <input type="text" name="email" required [(ngModel)]="email">
                 </div>
-                <div class="field">
-                  <label for="cel">Celular 1 *</label>
-                  <input  type="text" name="celular1" [(ngModel)]="celular1" appPhoneMask>
-                </div>
+                <!-- formControlName="nome_pessoa"-->
               </div>
 
               <div class="field-group">
+                <div class="field">
+                  <label for="cel">Celular 1 *</label>
+                  <input type="text" name="celular1" [(ngModel)]="celular1" appPhoneMask>
+                </div>
+
                 <div class="field">
                   <label for="cel-corp">Celular 2</label>
                   <input data-mask="(00) 0000-0000" data-mask-selectonfocus="true" type="tel" required
                     [(ngModel)]="celular2" name="celular2" appPhoneMask>
                 </div>
+              </div>
+              <div class="field-group">
                 <div class="field">
                   <label for="cel-corp">Celular 3</label>
                   <input data-mask="(00) 0000-0000" data-mask-selectonfocus="true" type="tel" required
@@ -106,7 +111,7 @@
                 <div class="field">
                   <label for="state">Estado</label>
                   <select name="uf">
-                  <option value="estado">Selecione o Estado</option>
+                    <option value="estado">Selecione o Estado</option>
                   </select>
                   <input type="hidden" name="state">
 
