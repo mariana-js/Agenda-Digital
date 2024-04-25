@@ -18,7 +18,7 @@ import { Setor } from './../../models/setor';
 export class RamaisComponent {
 
   readonly url: string;
-
+  ramalDesabilitado = false;
   setor_ramais: SetorRamal[] = [];
   numero_ramal: Ramal[] = [];
   setores: Setor[] = [];
@@ -49,26 +49,20 @@ export class RamaisComponent {
       this.getRamais();
     });
 
-  }
-
-  getRamais() {
+  } getRamais() {
     this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`)
       .subscribe(resultados => {
         this.setor_ramais = resultados;
         this.getSetores();
       });
-  }
-
-  getSetores() {
+  } getSetores() {
     this.http.get<Setor[]>(`${this.url}/setor`)
       .subscribe(resultados => {
         this.setores = resultados;
         this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
         this.getNomeSetores();
       });
-  }
-
-  getNomeSetores() {
+  } getNomeSetores() {
     this.setor_ramais.forEach(setor_ramal => {
       const setor = this.setores.find(setor => setor.id_setor === setor_ramal.id_setor);
 
@@ -79,15 +73,11 @@ export class RamaisComponent {
       }
     });
     this.setor_ramais.sort((a, b) => a.setor.localeCompare(b.setor));
-  }
-
-  onChange(event: any) {
+  } onChange(event: any) {
     // Obtendo o valor selecionado
     const valorSelecionado = event.target.value;
     this.setor = valorSelecionado;
-  }
-
-  adicionarRamal() {
+  } adicionarRamal() {
     if (this.setorramalSelecionado) {
       // Se setorSelecionado não for nulo, então estamos atualizando um setor existente
       this.atualizarRamal();
@@ -95,8 +85,7 @@ export class RamaisComponent {
       // Caso contrário, estamos adicionando um novo setor
       this.adicionarNovoRamal();
     }
-  }
-  adicionarNovoRamal() {
+  } adicionarNovoRamal() {
     this.novoRamal.numero_ramal = this.ramal;
     const ramalExistente = this.numero_ramal.find(ramal =>
       ramal.numero_ramal.trim().toLowerCase() === this.novoRamal.numero_ramal.trim().toLowerCase()
@@ -115,8 +104,7 @@ export class RamaisComponent {
           this.adicionarNovoSetorRamal(this.resposta, this.novoRamal.numero_ramal);
         }
       );
-  }
-  adicionarNovoSetorRamal(resposta: boolean, ramal: string) {
+  } adicionarNovoSetorRamal(resposta: boolean, ramal: string) {
     this.novoSetorRamal.id_setor = this.setor;
     this.novoSetorRamal.id_ramal_setor = ramal;
     if (resposta == true) {
@@ -132,8 +120,8 @@ export class RamaisComponent {
     } else {
       alert('Erro ao adicionar o ramal!')
     }
-  }
-  selecionarSetorRamal(setorramal: SetorRamal) {
+  } selecionarSetorRamal(setorramal: SetorRamal) {
+    this.ramalDesabilitado = true;
     this.setorramalSelecionado = { ...setorramal };
     this.setor = setorramal.id_setor;
     this.ramal = setorramal.id_ramal_setor;
@@ -151,18 +139,15 @@ export class RamaisComponent {
     } else {
       console.error('Nome do setor não encontrado.');
     }
-  }
-
-  adicionarSetorRamal() {
+  } adicionarSetorRamal() {
     if (this.setorramalSelecionado) {
 
       this.atualizarRamal();
     } else {
       this.adicionarRamal();
     }
-  }
+  } atualizarRamal() {
 
-  atualizarRamal() {
     if (!this.setorramalSelecionado) return;
     this.setorramalSelecionado.id_setor = this.setor;
     this.setorramalSelecionado.id_ramal_setor = this.ramal;
@@ -206,9 +191,7 @@ export class RamaisComponent {
         }
       );
 
-  }
-
-  excluirSetorRamal(setorramal: SetorRamal) {
+  } excluirSetorRamal(setorramal: SetorRamal) {
     const n_ramal = setorramal.id_ramal_setor;
     if (confirm('Tem certeza de que deseja excluir este ramal?')) {
       this.http.delete(`${this.url}/setor_ramal/${setorramal.id_setor_ramal}`)
@@ -229,9 +212,7 @@ export class RamaisComponent {
           }
         );
     }
-  }
-
-  excluirRamal(ramal: string) {
+  } excluirRamal(ramal: string) {
     this.http.delete(`${this.url}/ramal/${ramal}`)
       .subscribe(
         () => {
