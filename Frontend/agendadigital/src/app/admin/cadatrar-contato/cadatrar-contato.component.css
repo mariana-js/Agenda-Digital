@@ -2,6 +2,11 @@
     color: rgb(109, 109, 109);
 }
 
+.invalid-field {
+  color: red;
+  font-size: 0.8rem;
+}
+
 form {
     background-color: white;
     margin: 0;
