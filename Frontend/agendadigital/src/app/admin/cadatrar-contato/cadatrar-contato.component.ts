@@ -24,7 +24,7 @@ export class CadatrarContatoComponent {
   readonly url: string;
   id_rota: string | undefined;
   resposta: string = "";
-  validacao: boolean = false;
+  validacao: boolean = false ;
 
   setores: Setor[] = [];
   contatos: Contato[] = [];
@@ -99,7 +99,6 @@ export class CadatrarContatoComponent {
     dia: '',
     mes: ''
   }
-  v_nome: string = '';
   nomeExistente: Contato | undefined;
   emailExistente: Contato | undefined;
   celular1Existente: any;
@@ -260,72 +259,58 @@ export class CadatrarContatoComponent {
     }
 
     return false;
-  }
-  // teste(event: Event){
-  //   if (!event){
-
-  //     this.validacao = "Não"
-  //     console.log('Teste aqui', event)
-  //   } else {
-  //     this.validacao = "Sim"
-  //     console.log('Teste aqui 2', event)
-  //   }
-  // }
-  validation(fieldName: string): boolean {
+  } validation(fieldName: string) {
     const contatoSelecionado = this.contatos.find(contato => contato.id_pessoa === this.id_rota);
     switch (fieldName) {
       case 'nome_pessoa':
-        if (!this.nome_pessoa) return false;
-        if (this.nome_pessoa.length > 25) return false;
+        if (!this.nome_pessoa) return ;
+        if (this.nome_pessoa.length > 25) return;
         const nomeExistente = this.contatos.find(pessoa =>
           pessoa.nome_pessoa.trim().toLowerCase() === this.nome_pessoa.trim().toLowerCase() &&
           pessoa.id_pessoa !== contatoSelecionado?.id_pessoa
         );
         this.nomeExistente = nomeExistente;
-        if (nomeExistente) return false;
-        this.validacao === true;
-        console.log(this.validacao)
+        if (nomeExistente) return ;
+
         break;
-      // Adicione os outros campos aqui conforme necessário
       case 'email':
-        if (!this.email) return false;
+        if (!this.email) return;
         const emailExistente = this.contatos.find(pessoa =>
           pessoa.email.trim().toLowerCase() === this.email.trim().toLowerCase() &&
           pessoa.email !== contatoSelecionado?.email
         );
         this.emailExistente = emailExistente;
-        if (emailExistente) return false;
-        console.log(this.validacao)
+        if (emailExistente) return ;
+
         break;
       case 'celular1':
-        if (!this.celular1) return false;
-        if (!this.verificarNumeros(this.celular1)) return false;
+        if (!this.celular1) return ;
+        if (!this.verificarNumeros(this.celular1)) return ;
         const celular1Existente = this.contatos.find(pessoa =>
           pessoa.celular1.trim().toLowerCase() === this.celular1.trim().toLowerCase() &&
           pessoa.celular1 !== contatoSelecionado?.celular1
         );
         this.celular1Existente = celular1Existente;
-        if (celular1Existente) return false;
-        console.log(this.validacao)
+        if (celular1Existente) return ;
         break;
       case 'celular2':
-        if (!this.verificarNumeros(this.celular2)) return false;
+        if (!this.verificarNumeros(this.celular2)) return ;
         break;
       case 'celular3':
-        if (!this.verificarNumeros(this.celular3)) return false;
+        if (!this.verificarNumeros(this.celular3)) return ;
         break;
       case 'telefone':
-        if (!this.verificarNumeros(this.telefone)) return false;
+        if (!this.verificarNumeros(this.telefone)) return ;
         break;
       case 'cep':
-        if (this.cep && (this.cep.length > 9 || !this.verificarNumeros(this.cep))) return false;
+        if (this.cep && (this.cep.length > 9 || !this.verificarNumeros(this.cep))) return ;
         break;
       case 'numero':
-        if (this.numero && (this.numero.length>10 || !this.verificarNumeros(this.numero))) return false;
+        if (this.numero && (this.numero.length > 10 || !this.verificarNumeros(this.numero))) return ;
         break;
-
     }
-    return true && this.validacao === true;
+    console.log(this.validacao)
+    return this.validacao = true;
   } clear() {
     this.nome_pessoa = '';
     this.email = '';
@@ -369,13 +354,16 @@ export class CadatrarContatoComponent {
         }
         if (contato !== undefined) {
           this.update(contato);
+          this.resposta = 'Contato de ', contato.nome_pessoa, ' alterado com sucesso!'
         }
       } else {
         this.adicionarContato();
         this.clear();
+        this.resposta = 'Contato de ', this.nome_pessoa, ' adicionado com sucesso!'
       }
     } else {
       alert("Erro ao salvar o contato, verifique as validações!")
+      this.resposta = 'Erro ao salvar o contato!'
     }
   } adicionarContato() {
     const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
@@ -447,6 +435,7 @@ export class CadatrarContatoComponent {
       this.email = informacoesContato.email;
       this.celular1 = informacoesContato.celular1;
       this.celular2 = informacoesContato.celular2;
+      this.celular3 = informacoesContato.celular3;
       this.telefone = informacoesContato.telefone;
       this.box_fun = informacoesContato.flag_funcionario;
       this.boxPrivate = informacoesContato.flag_privado;
@@ -549,120 +538,30 @@ export class CadatrarContatoComponent {
       );
   }
 }
-
-//validation2() {
-//   if (!this.nome_pessoa) {
-//     alert('Por favor, preencha o campo Nome!');
-//     return false;
-//   } else if (this.nome_pessoa.length > 25) {
-//     alert('Nome do contato muito grande!');
-//     return;
-//   }
-//   if (!this.email) {
-//     alert('Por favor, preencha o campo Email!');
-//     return false;
-//   }
-//   if (!this.celular1) {
-//     alert('Por favor, preencha o campo Celular 1!');
-//     return false;
-//   }
-//   if (!this.verificarNumeros(this.celular1) || !this.verificarNumeros(this.celular2) || !this.verificarNumeros(this.telefone)) {
-//     alert('Os campos de telefone devem conter apenas números!');
-//     return false;
-//   }
-//   if (this.cep && (this.cep.length > 9 || !this.verificarNumeros(this.cep))) {
-//     alert('CEP inválido!');
-//     return false;
-//   }
-//   const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
-//     setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
-//   );
-//   if (this.box_fun === true && !this.data_nascimento) {
-//     alert('Por favor, insira a data de nascimento do funcionário!');
-//     return false;
-//   } else if (this.box_fun === true && !setorRamalEncontrado) {
-//     alert('Por favor, insira o setor e ramal do funcionário!');
-//     return false;
-//   }
-//   if (this.numero.length > 0 && !this.verificarNumeros(this.numero)) {
-//     alert('Número da inválido!');
-//     return false;
-//   }
-//   this.novoContato.nome_pessoa = this.nome_pessoa;
-//   this.novoContato.email = this.email;
-//   this.novoContato.celular1 = this.celular1;
-//   this.novoContato.celular2 = this.celular2;
-//   this.novoContato.telefone = this.telefone;
-//   this.novoContato.flag_privado = this.boxPrivate;
-//   this.novoContato.flag_funcionario = this.box_fun;
-//   // const contatoSelecionado = this.contatoStateService.contatoSelecionado;
-
-//   const contatoSelecionado = this.contatos.find(contato => contato.id_pessoa === this.id_rota);
-//   // Verificar se o nome do contato já existe localmente
-//   const nomeExistente = this.contatos.find(pessoa =>
-//     pessoa.nome_pessoa.trim().toLowerCase() === this.novoContato.nome_pessoa.trim().toLowerCase() &&
-//     pessoa.id_pessoa !== contatoSelecionado?.id_pessoa
-//   );
-
-//   if (nomeExistente) {
-//     alert('Este nome já está em uso, favor alterar!');
-//     return false;
-//   }
-
-//   // Verificar se o email já existe localmente
-//   const emailExistente = this.contatos.find(pessoa =>
-//     pessoa.email.trim().toLowerCase() === this.novoContato.email.trim().toLowerCase() &&
-//     pessoa.email !== contatoSelecionado?.email
-//   );
-
-//   if (emailExistente) {
-//     alert('Este email já está em uso, favor alterar!');
-//     return false;
-//   }
-
-//   // Verificar se o celular 1 já existe localmente
-//   const celular1Existente = this.contatos.find(pessoa =>
-//     pessoa.celular1.trim().toLowerCase() === this.novoContato.celular1.trim().toLowerCase() &&
-//     pessoa.celular1 !== contatoSelecionado?.celular1
-//   );
-
-//   if (celular1Existente) {
-//     alert('Celular 1 já está em uso, favor alterar!');
-//     return false;
-//   }
-//   return true;
 // } validation() {
 //   if (!this.nome_pessoa) {
-//     alert('Por favor, preencha o campo Nome!');
 //     return false;
 //   } else if (this.nome_pessoa.length > 25) {
-//     alert('Nome do contato muito grande!');
 //     return;
 //   }
 //   if (!this.email) {
-//     alert('Por favor, preencha o campo Email!');
 //     return false;
 //   }
 //   if (!this.celular1) {
-//     alert('Por favor, preencha o campo Celular 1!');
 //     return false;
 //   }
 //   if (!this.verificarNumeros(this.celular1) || !this.verificarNumeros(this.celular2) || !this.verificarNumeros(this.telefone)) {
-//     alert('Os campos de telefone devem conter apenas números!');
 //     return false;
 //   }
 //   if (this.cep && (this.cep.length > 9 || !this.verificarNumeros(this.cep))) {
-//     alert('CEP inválido!');
 //     return false;
 //   }
 //   const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
 //     setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
 //   );
 //   if (this.box_fun === true && !this.data_nascimento) {
-//     alert('Por favor, insira a data de nascimento do funcionário!');
 //     return false;
 //   } else if (this.box_fun === true && !setorRamalEncontrado) {
-//     alert('Por favor, insira o setor e ramal do funcionário!');
 //     return false;
 //   }
 //   if (this.numero.length > 0 && !this.verificarNumeros(this.numero)) {
@@ -686,7 +585,6 @@ export class CadatrarContatoComponent {
 //   );
 
 //   if (nomeExistente) {
-//     alert('Este nome já está em uso, favor alterar!');
 //     return false;
 //   }
 
@@ -697,7 +595,6 @@ export class CadatrarContatoComponent {
 //   );
 
 //   if (emailExistente) {
-//     alert('Este email já está em uso, favor alterar!');
 //     return false;
 //   }
 
@@ -708,7 +605,6 @@ export class CadatrarContatoComponent {
 //   );
 
 //   if (celular1Existente) {
-//     alert('Celular 1 já está em uso, favor alterar!');
 //     return false;
 //   }
 //   return true;
