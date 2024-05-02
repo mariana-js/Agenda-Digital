@@ -36,7 +36,7 @@
                 </div>
                 <div class="field">
                   <label for="mail">E-mail *</label>
-                  <input type="text" name="email" required [(ngModel)]="email" id="email" required name="email"
+                  <input type="text" name="email" required  #emailInput [(ngModel)]="email" id="email" required
                   (blur)="validation('email')" [ngClass]="{'invalid-field': !email}">
                   <span *ngIf="!email" class="invalid-field">Campo obrigatório!</span>
                   <span *ngIf="emailExistente" class="invalid-field">Email já cadastrado!</span>
@@ -46,7 +46,7 @@
               <div class="field-group">
                 <div class="field">
                   <label for="celular1">Celular 1 *</label>
-                  <input type="text" [(ngModel)]="celular1" appPhoneMask id="celular1" required
+                  <input type="text" #celular1Input  [(ngModel)]="celular1" appPhoneMask id="celular1" required
                     name="celular1" (blur)="validation('celular1')" [ngClass]="{'invalid-field': !celular1}">
                   <span *ngIf="!celular1" class="invalid-field">Campo obrigatório!</span>
                   <span *ngIf="celular1Existente" class="invalid-field">Número já cadastrado!</span>
@@ -55,7 +55,7 @@
 
                 <div class="field">
                   <label for="celular2">Celular 2</label>
-                  <input type="tel" required
+                  <input type="tel" required  #celular2Input
                     [(ngModel)]="celular2" appPhoneMask id="celular2" required name="celular2"
                     (blur)="validation('celular2')" [ngClass]="{'invalid-field': !celular2}">
                   <span *ngIf="!this.verificarNumeros(this.celular2)" class="invalid-field">Apenas números!</span>
@@ -64,7 +64,7 @@
               <div class="field-group">
                 <div class="field">
                   <label for="celular3">Celular 3</label>
-                  <input type="tel" required
+                  <input type="tel" required #celular3Input
                     [(ngModel)]="celular3" name="celular3" appPhoneMask id="celular3" required name="celular3"
                     (blur)="validation('celular3')" [ngClass]="{'invalid-field': !celular3}">
                   <span *ngIf="!this.verificarNumeros(this.celular3)" class="invalid-field">Apenas números!</span>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="field">
                   <label for="cel-corp">Telefone </label>
-                  <input [(ngModel)]="telefone" name="telefone" type="tel" required  id="telefone" required name="telefone"
+                  <input [(ngModel)]="telefone"  #telefoneInput name="telefone" type="tel" required  id="telefone" required name="telefone"
                   (blur)="validation('telefone')" [ngClass]="{'invalid-field': !telefone}">
                 <span *ngIf="!this.verificarNumeros(this.telefone)" class="invalid-field"> Apenas números! </span>
 

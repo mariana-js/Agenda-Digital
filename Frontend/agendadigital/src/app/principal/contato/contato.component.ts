@@ -1,5 +1,5 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { Endereco } from '../../models/endereco';
@@ -8,7 +8,7 @@ import { Setor } from '../../models/setor';
 import { SetorRamal } from '../../models/setor-ramal';
 import { ContatoStateService } from '../../services/contato-state.service';
 import { Contato } from './../../models/contato';
-
+import Inputmask from 'inputmask';
 @Component({
   selector: 'app-contato',
   standalone: true,
@@ -17,6 +17,23 @@ import { Contato } from './../../models/contato';
   imports: [HttpClientModule],
 })
 export class ContatoComponent implements OnInit {
+
+  @ViewChild('celular1Input') celular1Input!: ElementRef;
+  @ViewChild('celular2Input') celular2Input!: ElementRef;
+  @ViewChild('celular3Input') celular3Input!: ElementRef;
+  @ViewChild('telefoneInput') telefoneInput!: ElementRef;
+
+  ngAfterViewInit() {
+    if (typeof window !== 'undefined') {
+      import('inputmask').then(Inputmask => {
+        Inputmask.default({ mask: '(99) 99999-9999' }).mask(this.celular1Input.nativeElement);
+        Inputmask.default({ mask: '(99) 99999-9999' }).mask(this.celular2Input.nativeElement);
+        Inputmask.default({ mask: '(99) 99999-9999' }).mask(this.celular3Input.nativeElement);
+        Inputmask.default({ mask: '(99) 9999-9999' }).mask(this.telefoneInput.nativeElement);
+      });
+    }
+  }
+
   readonly url: string;
   contato: Contato[] = [];
   funcionario: Funcionario[] = [];

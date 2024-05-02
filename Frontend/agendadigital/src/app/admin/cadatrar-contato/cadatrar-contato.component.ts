@@ -12,6 +12,9 @@ import { ContatoStateService } from '../../services/contato-state.service';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { RamaisComponent } from '../ramais/ramais.component';
 import { SetorRamal } from './../../models/setor-ramal';
+import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import Inputmask from 'inputmask';
+
 @Component({
   selector: 'app-cadatrar-contato',
   standalone: true,
@@ -21,6 +24,28 @@ import { SetorRamal } from './../../models/setor-ramal';
 })
 export class CadatrarContatoComponent {
 
+  @ViewChild('celular1Input') celular1Input!: ElementRef;
+  @ViewChild('celular2Input') celular2Input!: ElementRef;
+  @ViewChild('celular3Input') celular3Input!: ElementRef;
+  @ViewChild('telefoneInput') telefoneInput!: ElementRef;
+  @ViewChild('emailInput') emailInput!: ElementRef;
+
+  ngAfterViewInit() {
+    if (typeof window !== 'undefined') {
+      import('inputmask').then(Inputmask => {
+        Inputmask.default({
+          mask: ['(99) 99999-9999', '(99) 9999-9999'],
+          showMaskOnHover: false,
+          clearMaskOnLostFocus: true,
+          numericInput: true // Aceita apenas números
+        })..mask(this.celular1Input.nativeElement);
+        Inputmask.default({ mask: '(99) 99999-9999' }).mask(this.celular2Input.nativeElement);
+        Inputmask.default({ mask: '(99) 99999-9999' }).mask(this.celular3Input.nativeElement);
+        Inputmask.default({ mask: '(99) 9999-9999' }).mask(this.telefoneInput.nativeElement);
+        Inputmask.default({ regex: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" }).mask(this.emailInput.nativeElement);
+      });
+    }
+  }
   readonly url: string;
   id_rota: string | undefined;
   resposta: string = "";
@@ -296,8 +321,7 @@ export class CadatrarContatoComponent {
     );
     if (celular1Existente) return false;
     return true;
-  }
-  validation(fieldName: string) {
+  } validation(fieldName: string) {
     const contatoSelecionado = this.contatos.find(contato => contato.id_pessoa === this.id_rota);
     switch (fieldName) {
       case 'nome_pessoa':
@@ -573,4 +597,6 @@ export class CadatrarContatoComponent {
         }
       );
   }
+
+
 }
