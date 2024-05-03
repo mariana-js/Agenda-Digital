@@ -41,7 +41,6 @@
                   <input type="text" name="email" required #emailInput [(ngModel)]="email" id="email" required
                     (blur)="validation('email')" [ngClass]="{'invalid-field': !validation('email')}"
                     placeholder="Ex.: email@gmail.com">
-                  <span *ngIf="!email" class="invalid-field">Campo obrigatório!</span>
                   <span *ngIf="emailExistente" class="invalid-field">Email já cadastrado!</span>
                   <span *ngIf="this.email && (!this.email.includes('@') || this.email.split('@')[1].length === 1)"
                     class="invalid-field">Formato incorreto!</span>
@@ -100,8 +99,8 @@
                 </div>
 
                 <div class="field">
-                  <label for="Imagem">Foto</label>
-                  <input type="file" name="photo_image" alt="submit">
+                  <label for="foto">Foto</label>
+                  <input type="file" name="foto" id="foto" [(ngModel)]="foto" alt="submit">
                 </div>
               </div>
 

@@ -11,7 +11,7 @@ public class PessoaDtos {
     @JsonProperty("nome_pessoa")
     private String nome_pessoa;
 
-    @NotBlank
+    @JsonProperty("email")
     private String email;
 
     @NotBlank

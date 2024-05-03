@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -29,8 +30,18 @@ public class Funcionario implements Serializable {
 
 	@Column(name = "data_nascimento", nullable = true)
 	private LocalDate data_nascimento;
+
+	@Lob
+	private byte[] foto;
 	
 	// Getters and setters
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
 	public UUID getId_setor_ramal() {
 		return id_setor_ramal;
 	}
@@ -38,7 +49,7 @@ public class Funcionario implements Serializable {
 	public void setId_setor_ramal(UUID id_setor_ramal) {
 		this.id_setor_ramal = id_setor_ramal;
 	}
-	
+
 	public void setRegistrationDate(LocalDateTime now) {
 	}
 

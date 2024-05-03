@@ -101,6 +101,7 @@ export class CadatrarContatoComponent {
   data_nascimento: string = '';
   setor: string = 'op';
   nramal: string = 'op2';
+  foto: File | null = null;
 
   novoFuncionario: Funcionario = {
     id_funcionario: '',
@@ -110,8 +111,10 @@ export class CadatrarContatoComponent {
     setor: '',
     data_nascimento: this.data_nascimento,
     dia: '',
-    mes: ''
+    mes: '',
+    foto: this.foto
   }
+
   constructor(
     private http: HttpClient,
     private activatedRoute: ActivatedRoute,
@@ -307,7 +310,6 @@ export class CadatrarContatoComponent {
   } validation2() {
     if (!this.nome_pessoa) return false;
     else if (this.nome_pessoa.length > 25) return;
-    if (!this.email) return false;
     if (!this.celular1) return false;
     if (!this.verificarNumeros(this.celular1) || !this.verificarNumeros(this.celular2) || !this.verificarNumeros(this.telefone)) return false;
     if (this.cep && (this.removerCaracteresEspeciais(this.cep).length !== 8 || !this.verificarNumeros(this.removerCaracteresEspeciais(this.cep)))) return false;
@@ -438,6 +440,7 @@ export class CadatrarContatoComponent {
     const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
       setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
     );
+    console.log(this.foto)
     this.novoContato.nome_pessoa = this.nome_pessoa;
     this.novoContato.email = this.email;
     this.novoContato.celular1 = this.removerCaracteresEspeciais(this.celular1);
@@ -474,7 +477,7 @@ export class CadatrarContatoComponent {
     this.novoEndereco.cidade = this.cidade;
     this.novoEndereco.bairro = this.bairro;
     this.novoEndereco.uf = this.uf;
-    this.novoEndereco.cep =  this.removerCaracteresEspeciais(this.cep);
+    this.novoEndereco.cep = this.removerCaracteresEspeciais(this.cep);
     this.http.post<Endereco>(`${this.url}/endereco`, this.novoEndereco)
       .subscribe(novoEndereco => {
         this.enderecos.push(novoEndereco);
@@ -484,6 +487,16 @@ export class CadatrarContatoComponent {
   } adicionarFuncionario(id_contato: string, setorRamalEncontrado: SetorRamal) {
     this.novoFuncionario.id_pessoa = id_contato;
     this.novoFuncionario.data_nascimento = this.data_nascimento;
+    console.log(this.foto)
+    // Construir um objeto FormData
+    const formData = new FormData();
+    formData.append('funcionarioDtos', JSON.stringify(this.novoFuncionario));
+    if (this.foto !== null) {
+      formData.append('foto', this.foto);
+      console.log(this.foto)
+    } else {
+      console.error('A imagem não está definida.');
+    }
     if (setorRamalEncontrado) {
       this.novoFuncionario.id_setor_ramal = setorRamalEncontrado.id_setor_ramal;
       this.http.post<Funcionario>(`${this.url}/funcionario`, this.novoFuncionario)

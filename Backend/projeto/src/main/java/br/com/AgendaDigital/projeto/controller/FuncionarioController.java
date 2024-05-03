@@ -48,7 +48,21 @@ public class FuncionarioController {
 		funcionario.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
 		return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.save(funcionario));
 	}
-
+	// @PostMapping
+	// public ResponseEntity<Object> saveFuncionario(@RequestBody @Valid FuncionarioDtos funcionarioDtos,
+	// 		@RequestParam("foto") MultipartFile foto) {
+	// 	try {
+	// 		var funcionario = new Funcionario();
+	// 		BeanUtils.copyProperties(funcionarioDtos, funcionario);
+	// 		funcionario.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
+	// 		funcionario.setFoto(foto.getBytes());
+	// 		return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.save(funcionario));
+	// 	} catch (IOException e) {
+	// 		log.error("Erro ao salvar imagem do funcionario:", e);
+	// 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	// 				.body("Erro ao salvar imagem do funcionario.");
+	// 	}
+	// }
 	@GetMapping
 	public List<Funcionario> getFuncionariosPorMes(@RequestParam("mes") int mes) {
 		// Chame o serviço para obter os funcionários filtrados pelo mês
