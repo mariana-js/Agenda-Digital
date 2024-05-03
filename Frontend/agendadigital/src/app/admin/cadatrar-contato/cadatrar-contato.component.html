@@ -29,64 +29,74 @@
                 <div class="field">
                   <label for="name">Nome *</label>
                   <input type="text" id="nome_pessoa" required name="nome_pessoa" [(ngModel)]="nome_pessoa"
-                  (blur)="validation('nome_pessoa')" [ngClass]="{'invalid-field': !nome_pessoa}">
+                    (blur)="validation('nome_pessoa')"
+                    [ngClass]="{'invalid-field': nomeExistente || nome_pessoa.length>25 }"
+                    placeholder="Ex.: Jaqueline Souza.">
                   <span *ngIf="!nome_pessoa" class="invalid-field">Preencha o campo nome!</span>
                   <span *ngIf="nome_pessoa.length>25" class="invalid-field">Nome muito longo!</span>
                   <span *ngIf="nomeExistente" class="invalid-field">Nome já cadastrado!</span>
                 </div>
                 <div class="field">
                   <label for="mail">E-mail *</label>
-                  <input type="text" name="email" required  #emailInput [(ngModel)]="email" id="email" required
-                  (blur)="validation('email')" [ngClass]="{'invalid-field': !email}">
+                  <input type="text" name="email" required #emailInput [(ngModel)]="email" id="email" required
+                    (blur)="validation('email')" [ngClass]="{'invalid-field': !validation('email')}"
+                    placeholder="Ex.: email@gmail.com">
                   <span *ngIf="!email" class="invalid-field">Campo obrigatório!</span>
                   <span *ngIf="emailExistente" class="invalid-field">Email já cadastrado!</span>
+                  <span *ngIf="this.email && (!this.email.includes('@') || this.email.split('@')[1].length === 1)"
+                    class="invalid-field">Formato incorreto!</span>
                 </div>
               </div>
 
               <div class="field-group">
                 <div class="field">
                   <label for="celular1">Celular 1 *</label>
-                  <input type="text" #celular1Input  [(ngModel)]="celular1" appPhoneMask id="celular1" required
-                    name="celular1" (blur)="validation('celular1')" [ngClass]="{'invalid-field': !celular1}">
+                  <input type="text" #celular1Input [(ngModel)]="celular1" appPhoneMask id="celular1" required
+                    name="celular1" (blur)="validation('celular1')" placeholder="(99) 99999 - 9999"
+                    [ngClass]="{'invalid-field': !validation('celular1') }">
                   <span *ngIf="!celular1" class="invalid-field">Campo obrigatório!</span>
-                  <span *ngIf="celular1Existente" class="invalid-field">Número já cadastrado!</span>
-                  <span *ngIf="!this.verificarNumeros(this.celular1)" class="invalid-field">Apenas números!</span>
+                  <span *ngIf="!validation('celular1')" class="invalid-field">Número já cadastrado!</span>
                 </div>
 
                 <div class="field">
                   <label for="celular2">Celular 2</label>
-                  <input type="tel" required  #celular2Input
-                    [(ngModel)]="celular2" appPhoneMask id="celular2" required name="celular2"
-                    (blur)="validation('celular2')" [ngClass]="{'invalid-field': !celular2}">
+                  <input type="tel" required #celular2Input [(ngModel)]="celular2" appPhoneMask id="celular2" required
+                    name="celular2" (blur)="validation('celular2')"
+                    [ngClass]="{'invalid-field': !this.verificarNumeros(this.celular2) }"
+                    placeholder="(99) 99999 - 9999">
                   <span *ngIf="!this.verificarNumeros(this.celular2)" class="invalid-field">Apenas números!</span>
                 </div>
               </div>
               <div class="field-group">
                 <div class="field">
                   <label for="celular3">Celular 3</label>
-                  <input type="tel" required #celular3Input
-                    [(ngModel)]="celular3" name="celular3" appPhoneMask id="celular3" required name="celular3"
-                    (blur)="validation('celular3')" [ngClass]="{'invalid-field': !celular3}">
+                  <input type="tel" required #celular3Input [(ngModel)]="celular3" name="celular3" appPhoneMask
+                    id="celular3" required name="celular3" (blur)="validation('celular3')"
+                    placeholder="(99) 99999 - 9999"
+                    [ngClass]="{'invalid-field': !this.verificarNumeros(this.celular3) }">
                   <span *ngIf="!this.verificarNumeros(this.celular3)" class="invalid-field">Apenas números!</span>
 
                 </div>
                 <div class="field">
                   <label for="cel-corp">Telefone </label>
-                  <input [(ngModel)]="telefone"  #telefoneInput name="telefone" type="tel" required  id="telefone" required name="telefone"
-                  (blur)="validation('telefone')" [ngClass]="{'invalid-field': !telefone}">
-                <span *ngIf="!this.verificarNumeros(this.telefone)" class="invalid-field"> Apenas números! </span>
+                  <input [(ngModel)]="telefone" #telefoneInput name="telefone" type="tel" required id="telefone"
+                    required name="telefone" (blur)="validation('telefone')"
+                    [ngClass]="{'invalid-field': !this.verificarNumeros(this.telefone) }"
+                    placeholder="(99) 99999 - 9999">
+                  <span *ngIf="!this.verificarNumeros(this.telefone)" class="invalid-field"> Apenas números! </span>
 
                 </div>
               </div>
-
+              <fieldset>
+                <legend>
+                  <h2>Funcionário</h2>
+                </legend>
+              </fieldset>
               <div class="field-group">
 
                 <div class="field">
                   <label for="date">Data de Nascimento</label>
-                  <input type="date" [(ngModel)]="data_nascimento" id="data_nascimento" required name="data_nascimento"
-                  (blur)="validation('data_nascimento')" >
-                <span *ngIf="!data_nascimento && box_fun===true" class="invalid-field">Campo de funcionário obrigatório!</span>
-
+                  <input type="date" [(ngModel)]="data_nascimento" id="data_nascimento" required name="data_nascimento">
                 </div>
 
                 <div class="field">
@@ -99,12 +109,10 @@
                 <div class="field">
                   <label for="sector">Setor</label>
                   <select name="sector" required onchange disabled (change)="selecionarSetor($event)"
-                    [(ngModel)]="setor" id="setor" (blur)="validation('setor')" >
+                    [(ngModel)]="setor" id="setor">
                     <option value="op"> Selecione o Setor </option>
                     <option value="{{setor.id_setor}}" *ngFor="let setor of setores">{{setor.nome_setor}}</option>
-                    <span *ngIf="!setor && box_fun===true" class="invalid-field">Selecione um setor</span>
                   </select>
-
                 </div>
 
                 <div class="field">
@@ -146,15 +154,15 @@
               <div class="field-group">
                 <div class="field">
                   <label for="cep">CEP</label>
-                  <input type="text" name="cep" [(ngModel)]="cep"
-                  id="cep" required name="cep"
-                  (blur)="validation('cep')" [ngClass]="{'invalid-field': !cep}">
-                <span *ngIf="this.cep && (this.cep.length > 9 || !this.verificarNumeros(this.cep))" class="invalid-field">CEP inválido!</span>
+                  <input type="text" name="cep" [(ngModel)]="cep" id="cep" required
+                    [ngClass]="{'invalid-field': !validation('cep')}" (blur)="validation('cep')" placeholder="99999-999"
+                    #cepInput>
+                  <span *ngIf="!validation('cep')" class="invalid-field">CEP inválido!</span>
 
                 </div>
                 <div class="field">
                   <label for="cep">Bairro</label>
-                  <input type="text" name="bairro" [(ngModel)]="bairro">
+                  <input type="text" name="bairro" [(ngModel)]="bairro" placeholder="Ex.: Bairro América.">
                 </div>
               </div>
 
@@ -163,14 +171,16 @@
 
                 <div class="field">
                   <label for="bairro">Logradouro</label>
-                  <input type="text" name="logradouro" [(ngModel)]="logradouro">
+                  <input type="text" name="logradouro" [(ngModel)]="logradouro" placeholder="Ex.: Rua Alameda.">
                 </div>
                 <div class="field">
                   <label for="numero">Número</label>
-                  <input type="text" [(ngModel)]="numero"  id="cep" required name="numero"
-                  (blur)="validation('numero')" [ngClass]="{'invalid-field': !numero}">
-                <span *ngIf="this.numero && (this.numero.length > 10 || !this.verificarNumeros(this.numero))" class="invalid-field">Número inválido!</span>
+                  <input type="text" [(ngModel)]="numero" id="numero" required name="numero"
+                    (blur)="!validation('numero')" placeholder="Ex.: 123"
+                    [ngClass]="{'invalid-field':!validation('numero')}">
+                  <span *ngIf="!validation('numero')" class="invalid-field">Número inválido!</span>
                 </div>
+
               </div>
               <button type="submit" value="submit" (click)="salvar()">Salvar</button>
             </fieldset>

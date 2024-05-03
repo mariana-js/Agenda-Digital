@@ -29,23 +29,8 @@ export class CadatrarContatoComponent {
   @ViewChild('celular3Input') celular3Input!: ElementRef;
   @ViewChild('telefoneInput') telefoneInput!: ElementRef;
   @ViewChild('emailInput') emailInput!: ElementRef;
+  @ViewChild('cepInput') cepInput!: ElementRef;
 
-  ngAfterViewInit() {
-    if (typeof window !== 'undefined') {
-      import('inputmask').then(Inputmask => {
-        Inputmask.default({
-          mask: ['(99) 99999-9999', '(99) 9999-9999'],
-          showMaskOnHover: false,
-          clearMaskOnLostFocus: true,
-          numericInput: true // Aceita apenas números
-        })..mask(this.celular1Input.nativeElement);
-        Inputmask.default({ mask: '(99) 99999-9999' }).mask(this.celular2Input.nativeElement);
-        Inputmask.default({ mask: '(99) 99999-9999' }).mask(this.celular3Input.nativeElement);
-        Inputmask.default({ mask: '(99) 9999-9999' }).mask(this.telefoneInput.nativeElement);
-        Inputmask.default({ regex: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" }).mask(this.emailInput.nativeElement);
-      });
-    }
-  }
   readonly url: string;
   id_rota: string | undefined;
   resposta: string = "";
@@ -57,6 +42,10 @@ export class CadatrarContatoComponent {
   setor_ramais: SetorRamal[] = [];
   funcionarios: Funcionario[] = [];
   ramaisFiltrados: SetorRamal[] = [];
+
+  celular1Existente: any;
+  nomeExistente: Contato | undefined;
+  emailExistente: Contato | undefined;
 
   setorSelecionado: Setor | null = null;
   ramalSelecionado: SetorRamal | null = null;
@@ -107,7 +96,6 @@ export class CadatrarContatoComponent {
     uf: this.uf,
     cep: this.cep
   }
-
   // Funcionario
   id_setor_ramal: string = '';
   data_nascimento: string = '';
@@ -124,10 +112,6 @@ export class CadatrarContatoComponent {
     dia: '',
     mes: ''
   }
-  nomeExistente: Contato | undefined;
-  emailExistente: Contato | undefined;
-  celular1Existente: any;
-
   constructor(
     private http: HttpClient,
     private activatedRoute: ActivatedRoute,
@@ -160,6 +144,42 @@ export class CadatrarContatoComponent {
       });
     });
 
+  } ngAfterViewInit() {
+    if (typeof window !== 'undefined') {
+      import('inputmask').then(Inputmask => {
+        Inputmask.default({
+          mask: ['(99) 9999-9999', '(99) 99999-9999'],
+          showMaskOnHover: false,
+          clearMaskOnLostFocus: true,
+          numericInput: true // Aceita apenas números
+        }).mask(this.celular1Input.nativeElement);
+        Inputmask.default({
+          mask: ['(99) 9999-9999', '(99) 99999-9999'],
+          showMaskOnHover: false,
+          clearMaskOnLostFocus: true,
+          // Aceita apenas números
+        }).mask(this.celular2Input.nativeElement);
+        Inputmask.default({
+          mask: ['(99) 9999-9999', '(99) 99999-9999'],
+          showMaskOnHover: false,
+          clearMaskOnLostFocus: true,
+          numericInput: true // Aceita apenas números
+        }).mask(this.celular3Input.nativeElement);
+        Inputmask.default({
+          mask: ['(99) 9999-9999', '(99) 99999-9999'],
+          showMaskOnHover: false,
+          clearMaskOnLostFocus: true,
+          numericInput: true // Aceita apenas números
+        }).mask(this.telefoneInput.nativeElement);
+        Inputmask.default({ regex: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+" }).mask(this.emailInput.nativeElement);
+        Inputmask.default({
+          mask: '99999-999',
+          showMaskOnHover: false,
+          clearMaskOnLostFocus: true,
+          numericInput: true
+        }).mask(this.cepInput.nativeElement);
+      });
+    }
   } ngOnDestroy() {
     this.contatoStateService.clearContatoSelecionado();
   } getSetores() {
@@ -275,11 +295,11 @@ export class CadatrarContatoComponent {
 
     // Populando as UF
     populateUFs();
+  } removerCaracteresEspeciais(str: string): string {
+    return str.replace(/[^0-9]/g, '');// Remove todos os caracteres que não são letras, números, espaços ou sublinhados
   } verificarNumeros(str: any) {
-
-    const num = Number(str);
+    const num = Number(str.replace(/\D/g, ''));
     if (!isNaN(num)) {
-
       return /^\d+$/.test(String(num));
     }
 
@@ -290,12 +310,14 @@ export class CadatrarContatoComponent {
     if (!this.email) return false;
     if (!this.celular1) return false;
     if (!this.verificarNumeros(this.celular1) || !this.verificarNumeros(this.celular2) || !this.verificarNumeros(this.telefone)) return false;
-    if (this.cep && (this.cep.length > 9 || !this.verificarNumeros(this.cep))) return false;
+    if (this.cep && (this.removerCaracteresEspeciais(this.cep).length !== 8 || !this.verificarNumeros(this.removerCaracteresEspeciais(this.cep)))) return false;
     const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
       setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
     );
-    if (this.box_fun === true && !this.data_nascimento) return false;
-    else if (this.box_fun === true && !setorRamalEncontrado) return false;
+    if (this.box_fun === true && !setorRamalEncontrado) {
+      alert('Por favor, selecione o setor e o ramal do(a) funcionário(a)!')
+      return false;
+    }
     if (this.numero.length > 0 && !this.verificarNumeros(this.numero)) return false;
     this.novoContato.nome_pessoa = this.nome_pessoa;
     this.novoContato.email = this.email;
@@ -336,43 +358,30 @@ export class CadatrarContatoComponent {
 
         break;
       case 'email':
-        if (!this.email) return;
+        if (this.email && (!this.email.includes('@') || this.email.split('@')[1].length === 1)) return false;
         const emailExistente = this.contatos.find(pessoa =>
           pessoa.email.trim().toLowerCase() === this.email.trim().toLowerCase() &&
           pessoa.email !== contatoSelecionado?.email
         );
         this.emailExistente = emailExistente;
         if (emailExistente) return;
-
         break;
       case 'celular1':
-        if (!this.celular1) return;
-        if (!this.verificarNumeros(this.celular1)) return;
         const celular1Existente = this.contatos.find(pessoa =>
-          pessoa.celular1.trim().toLowerCase() === this.celular1.trim().toLowerCase() &&
+          pessoa.celular1.trim().toLowerCase() === this.removerCaracteresEspeciais(this.celular1).trim().toLowerCase() &&
           pessoa.celular1 !== contatoSelecionado?.celular1
         );
         this.celular1Existente = celular1Existente;
         if (celular1Existente) return;
         break;
-      case 'celular2':
-        if (!this.verificarNumeros(this.celular2)) return;
-        break;
-      case 'celular3':
-        if (!this.verificarNumeros(this.celular3)) return;
-        break;
-      case 'telefone':
-        if (!this.verificarNumeros(this.telefone)) return;
-        break;
       case 'cep':
-        if (this.cep && (this.cep.length > 9 || !this.verificarNumeros(this.cep))) return;
+        if (this.cep && (this.removerCaracteresEspeciais(this.cep).length !== 8 || !this.verificarNumeros(this.cep))) return;
         break;
       case 'numero':
-        if (this.numero && (this.numero.length > 10 || !this.verificarNumeros(this.numero))) return;
+        if (this.numero && this.numero.length > 5) return;
         break;
     }
-    console.log(this.validacao)
-    return this.validacao = true;
+    return true;
   } clear() {
     this.nome_pessoa = '';
     this.email = '';
@@ -414,12 +423,12 @@ export class CadatrarContatoComponent {
         }
         if (contato !== undefined) {
           this.update(contato);
-          this.resposta = 'Contato de ', contato.nome_pessoa, ' alterado com sucesso!'
+          this.resposta = `Contato de ${contato?.nome_pessoa} alterado com sucesso!`;
         }
       } else {
         this.adicionarContato();
         this.clear();
-        this.resposta = 'Contato de ', this.nome_pessoa, ' adicionado com sucesso!'
+        this.resposta = `Contato de  ${contato?.nome_pessoa} adicionado com sucesso!`;
       }
     } else {
       alert("Erro ao salvar o contato, verifique as validações!")
@@ -431,10 +440,10 @@ export class CadatrarContatoComponent {
     );
     this.novoContato.nome_pessoa = this.nome_pessoa;
     this.novoContato.email = this.email;
-    this.novoContato.celular1 = this.celular1;
-    this.novoContato.celular2 = this.celular2;
-    this.novoContato.celular3 = this.celular3;
-    this.novoContato.telefone = this.telefone;
+    this.novoContato.celular1 = this.removerCaracteresEspeciais(this.celular1);
+    this.novoContato.celular2 = this.removerCaracteresEspeciais(this.celular2);
+    this.novoContato.celular3 = this.removerCaracteresEspeciais(this.celular3);
+    this.novoContato.telefone = this.removerCaracteresEspeciais(this.telefone);
     this.novoContato.flag_privado = this.boxPrivate;
     this.novoContato.flag_funcionario = this.box_fun;
 
@@ -465,7 +474,7 @@ export class CadatrarContatoComponent {
     this.novoEndereco.cidade = this.cidade;
     this.novoEndereco.bairro = this.bairro;
     this.novoEndereco.uf = this.uf;
-    this.novoEndereco.cep = this.cep;
+    this.novoEndereco.cep =  this.removerCaracteresEspeciais(this.cep);
     this.http.post<Endereco>(`${this.url}/endereco`, this.novoEndereco)
       .subscribe(novoEndereco => {
         this.enderecos.push(novoEndereco);
@@ -535,11 +544,11 @@ export class CadatrarContatoComponent {
     this.contatoSelecionado = contatoSelecionado;
     if (!this.contatoSelecionado) return;
     this.contatoSelecionado.nome_pessoa = this.nome_pessoa;
-    this.contatoSelecionado.celular1 = this.celular1;
-    this.contatoSelecionado.celular2 = this.celular2;
-    this.contatoSelecionado.celular3 = this.celular3;
+    this.contatoSelecionado.celular1 = this.removerCaracteresEspeciais(this.celular1);
+    this.contatoSelecionado.celular2 = this.removerCaracteresEspeciais(this.celular2);
+    this.contatoSelecionado.celular3 = this.removerCaracteresEspeciais(this.celular3);
     this.contatoSelecionado.email = this.email;
-    this.contatoSelecionado.telefone = this.telefone;
+    this.contatoSelecionado.telefone = this.removerCaracteresEspeciais(this.telefone);
     this.contatoSelecionado.flag_funcionario = this.box_fun;
     this.contatoSelecionado.flag_privado = this.boxPrivate;
 
@@ -563,7 +572,7 @@ export class CadatrarContatoComponent {
     this.enderecoSelecionado.estado = this.estado;
     this.enderecoSelecionado.uf = this.uf;
     this.enderecoSelecionado.cidade = this.cidade;
-    this.enderecoSelecionado.cep = this.cep;
+    this.enderecoSelecionado.cep = this.removerCaracteresEspeciais(this.cep);
 
     this.http.put<Endereco>(`${this.url}/endereco/${this.enderecoSelecionado.id_endereco}`, this.enderecoSelecionado)
       .subscribe(
@@ -597,6 +606,4 @@ export class CadatrarContatoComponent {
         }
       );
   }
-
-
 }
