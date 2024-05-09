@@ -1,0 +1,83 @@
+Importação dos dados de um banco Acess para o Postgresql
+
+
+1 - Analisar banco de dados existente;
+2 - Adequadar a formatação do antigo bd ao novo banco de dados;
+3 - No novo banco de dados criar um as tabelas de acordo com as especificações das tabelas do antigo banco;
+CREATE TABLE cadastro (
+ nome varchar(50) null,
+ fone1 varchar(11) null,
+ celular varchar(11) null,
+ fone2 varchar(11) null,
+ fone3 varchar(11) null,
+ 
+  endereco varchar(50) null,
+  bairro varchar(25) null,
+  cidade varchar(15) null,
+  estado varchar(2) null,
+  cep varchar(8) null,
+);
+
+4 - Importar os dados do banco antigo para o atual (exportar arquivo bd para .txt ou .csv e tratar os erros e inconsitencias durante a importação);
+5 - Realizar o mapeamento dos dados do antigo banco já importados para o atual: 
+
+5.1 - Instalar essa extenção para gerar o uuid automatico na hora da copia dos dados para as novas tabelas;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+5.2 - Ajeitar as tabelas em caso de inconsistencias: 
+CREATE TABLE PESSOA (
+	ID_PESSOA UUID NOT NULL UNIQUE CONSTRAINT PK_ID_PESSOA PRIMARY KEY,
+	NOME_PESSOA VARCHAR(50),
+	EMAIL VARCHAR(50),
+	CELULAR1 VARCHAR(16),
+	CELULAR2 VARCHAR(16),
+	CELULAR3 VARCHAR(16),
+	TELEFONE VARCHAR(16),
+	FLAG_PRIVADO BOOLEAN,
+	FLAG_FUNCIONARIO BOOLEAN
+);
+
+
+CREATE TABLE ENDERECO (
+    ID_ENDERECO UUID NOT NULL CONSTRAINT PK_ID_ENDERECO PRIMARY KEY,
+    ID_PESSOA UUID NOT NULL,
+    CONSTRAINT FK_ID_PESSOA FOREIGN KEY (ID_PESSOA) REFERENCES PESSOA(ID_PESSOA),
+    ESTADO VARCHAR(20),
+    LOGRADOURO VARCHAR(70),
+	NUMERO VARCHAR(10),
+    CIDADE VARCHAR(30),
+    CEP VARCHAR(12),
+    BAIRRO VARCHAR(30),
+    UF VARCHAR(2)
+);
+
+5.3 - Copiar os dados da tabela antiga para nova e gerar o uuid automatico:
+-- Inserir dados na tabela PESSOA
+INSERT INTO PESSOA (ID_PESSOA, NOME_PESSOA, CELULAR1, CELULAR2, CELULAR3, TELEFONE)
+SELECT
+    uuid_generate_v4(),
+    nome,
+    celular,
+    fone2,
+    fone3,
+    fone1
+FROM
+    cadastro;
+
+-- Inserir dados na tabela ENDERECO
+INSERT INTO ENDERECO (ID_ENDERECO, ID_PESSOA, ESTADO, LOGRADOURO, NUMERO, CIDADE, CEP, BAIRRO, UF)
+SELECT
+    uuid_generate_v4(),
+    p.ID_PESSOA,
+    cadastro.estado,
+    cadastro.endereco,
+    '0', -- Insira o número correto aqui, pois na tabela cadastro não há essa informação
+    cadastro.cidade,
+    cadastro.cep,
+    cadastro.bairro,
+    cadastro.estado
+FROM
+    cadastro
+    INNER JOIN PESSOA p ON cadastro.nome = p.NOME_PESSOA;
+
+select *from endereco
