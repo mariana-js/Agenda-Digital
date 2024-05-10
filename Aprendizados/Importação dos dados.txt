@@ -1,15 +1,14 @@
 Importação dos dados de um banco Acess para o Postgresql
 
-
 1 - Analisar banco de dados existente;
 2 - Adequadar a formatação do antigo bd ao novo banco de dados;
 3 - No novo banco de dados criar um as tabelas de acordo com as especificações das tabelas do antigo banco;
 CREATE TABLE cadastro (
- nome varchar(50) null,
- fone1 varchar(11) null,
- celular varchar(11) null,
- fone2 varchar(11) null,
- fone3 varchar(11) null,
+  nome varchar(50) null,
+  fone1 varchar(11) null,
+  celular varchar(11) null,
+  fone2 varchar(11) null,
+  fone3 varchar(11) null,
  
   endereco varchar(50) null,
   bairro varchar(25) null,
@@ -18,7 +17,7 @@ CREATE TABLE cadastro (
   cep varchar(8) null,
 );
 
-4 - Importar os dados do banco antigo para o atual (exportar arquivo bd para .txt ou .csv e tratar os erros e inconsitencias durante a importação);
+4 - Importar os dados do banco antigo para o atual (exportar arquivo bd para .txt ou .csv, o arquivo deve ter a criptografia UTF-8 e tratar os erros e inconsitencias durante a importação);
 5 - Realizar o mapeamento dos dados do antigo banco já importados para o atual: 
 
 5.1 - Instalar essa extenção para gerar o uuid automatico na hora da copia dos dados para as novas tabelas;
