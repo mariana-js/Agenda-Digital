@@ -119,7 +119,7 @@ export class PrincipalComponent implements OnDestroy {
           );
           this.amount = this.contatos.length;
           if (this.amount === 0) {
-            // this.retorno = "Nenhum contato encontrado.";
+            this.retorno = "Nenhum contato encontrado.";
             this.getContatos();
           }
         });

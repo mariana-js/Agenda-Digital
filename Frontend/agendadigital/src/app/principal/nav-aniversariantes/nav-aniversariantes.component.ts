@@ -66,7 +66,7 @@ export class NavAniversariantesComponent implements OnInit {
       }
       );
       if(this.aniversariantes.length === 0){       
-        this.resposta = 'Não há nenhum aniversariante neste mês.'
+        this.resposta = 'Sem aniversariantes neste mês.'
       }
     });
     

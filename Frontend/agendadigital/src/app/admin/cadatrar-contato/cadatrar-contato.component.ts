@@ -546,6 +546,9 @@ export class CadatrarContatoComponent {
             this.data_nascimento = funcionario.data_nascimento;
             this.setor = setor.id_setor ?? 'op';
             this.nramal = ramal?.id_ramal_setor ?? 'op2';
+            console.log(this.nramal)
+          } else {
+            console.log("Setor nao encontrado")
           }
         }
       }

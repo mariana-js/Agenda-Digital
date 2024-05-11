@@ -7,47 +7,52 @@
 
     <div class="principal">
 
-      <div class="search">
-        <input type="text" placeholder="Pesquisar..." [(ngModel)]="searchTerm">
-        <button class="search-button" (click)="search()">Buscar</button>
-      </div>
-      <div class="contactos-options-view">
-        <button (click)="getContatos()">Todos</button>
-        <button (click)="getFuncionarios()">Funcionários</button>
-      </div>
-      <span>{{retorno}}</span>
-      <div class="page">
+      <span class="retorno">{{retorno}}</span>
+      <div>
+        <div class="nav-options">
+          <div class="options">
+            <button (click)="getContatos()">Todos</button>
+            <button (click)="getFuncionarios()">Funcionários</button>
+          </div>
+            <div class="search">
+              <input type="text" placeholder="Pesquisar..." [(ngModel)]="searchTerm">
+              <button class="search-button" (click)="search()">Buscar</button>
+          
+          </div>
+        </div>
+        <div class="page">
 
-        <h2>Contatos <span>({{amount}})</span> </h2>
-        <div class="page2">
-          <table>
-            <thead>
+          <h2>Contatos <span>({{amount}})</span> </h2>
+          <div class="page2">
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Celular</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let contato of contatos.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)"
+                  (click)="informacoes(contato)">
+                  <td class="image"> <img src="assets/foto/foto.png" alt=""></td>
+                  <td>{{ contato.nome_pessoa }} </td>
+                  <td>{{ contato.email }}</td>
+                  <td #celular1Input>{{ contato.celular1}}</td>
+                </tr>
+              </tbody>
 
-              <tr>
-                <th></th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Celular</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let contato of contatos.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)" (click)="informacoes(contato)">
-                <td class="image"> <img src="assets/foto/foto.png" alt=""></td>
-                <td>{{ contato.nome_pessoa }} </td>
-                <td>{{ contato.email }}</td>
-                <td #celular1Input >{{ contato.celular1}}</td>
-              </tr>
-            </tbody>
-
-          </table>
-          <button>
-            <span (click)="previousPage() "  [class.disabled]="currentPage === 1"> << </span>
-            Próxima Página
-            <span (click)="nextPage()" [class.disabled]="currentPage === totalPages"> >> </span>
-          </button>
+            </table>
+            <button>
+              <span (click)="previousPage() " [class.disabled]="currentPage === 1">
+                << </span>
+                  Próxima Página
+                  <span (click)="nextPage()" [class.disabled]="currentPage === totalPages"> >> </span>
+            </button>
+          </div>
         </div>
       </div>
-
     </div>
   </nav>
 </div>

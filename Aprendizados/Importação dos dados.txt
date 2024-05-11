@@ -1,7 +1,7 @@
 Importação dos dados de um banco Acess para o Postgresql
 
 1 - Analisar banco de dados existente;
-2 - Adequadar a formatação do antigo bd ao novo banco de dados;
+2 - Adequar a formatação do antigo bd ao novo banco de dados;
 3 - No novo banco de dados criar um as tabelas de acordo com as especificações das tabelas do antigo banco;
 CREATE TABLE cadastro (
   nome varchar(50) null,
