@@ -5,13 +5,7 @@
 
   <DIV>
     <div class="area1">
-
       <div class="top-options">
-        <div class="add-contato" >
-          <img src="assets/Imagens/adicionar-contato-b.png" alt="add-contato" (click)="navegarParaAddContato()">
-          <a (click)="navegarParaAddContato()">Adicionar Contato</a>
-        </div>
-
         <div class="nav-options">
           <div class="options">
             <button (click)="getContatos()">Todos</button>
@@ -28,10 +22,15 @@
       </div>
       <span class="retorno">{{retorno}}</span>
       <div class="page">
-        <h2>Contatos<span> ({{amount}})</span></h2>
+        <div class="top">
+
+          <h2>Contatos<span> ({{amount}})</span></h2>
+          <div class="add-contato">
+            <img src="assets/Imagens/adicionar-contato-b.png" alt="add-contato" (click)="navegarParaAddContato()">
+          </div>
+        </div>
 
         <div class="page2">
-
           <table>
             <thead>
               <tr>
@@ -49,8 +48,8 @@
                 *ngFor="let contato of contatosHide.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)">
 
                 <td class="image" (click)="informacoes(contato)"> <img src="assets/foto/foto.png" alt=""></td>
-                <td (click)="informacoes(contato)">{{contato.nome_pessoa}}</td>
-                <td (click)="informacoes(contato)">{{contato.email}}</td>
+                <td (click)="informacoes(contato)"  class="truncate">{{contato.nome_pessoa}}</td>
+                <td (click)="informacoes(contato)"  class="truncate">{{contato.email}}</td>
                 <td (click)="informacoes(contato)">{{contato.celular1}}</td>
 
                 <td><img class="up" src="assets/img/editar.png" alt="editar" (click)="alterarContato(contato)"></td>

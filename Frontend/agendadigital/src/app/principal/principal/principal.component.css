@@ -1,6 +1,5 @@
 .container {
   display: flex;
-  /* Torna os elementos filhos flexíveis */
   position: relative;
 }
 
@@ -28,7 +27,7 @@ h2 {
   color: rgb(109, 109, 109);
 }
 button:hover {
-  background-color: rgb(12, 37, 92);
+  background-color: rgb(57, 91, 163);
   transition: background-color 400ms;
 }
 .principal {
@@ -93,7 +92,12 @@ button {
   color: rgb(253, 253, 253);
   cursor: pointer;
 }
-
+.truncate {
+  max-width: 10rem; /* Define a largura máxima da célula */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 /* Campo de busca */
 .search-button {
   cursor: pointer;
@@ -103,16 +107,15 @@ button {
   position: relative;
   display: flex;
   justify-content: space-between;
+  margin-top: 2rem;
 }
 
 .options{
-  display: flex;
   justify-content: left;
 
 }
 
 .search{
-  display: flex;
   justify-content: right;
 }
 

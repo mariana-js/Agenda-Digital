@@ -309,7 +309,7 @@ export class CadatrarContatoComponent {
     return false;
   } validation2() {
     if (!this.nome_pessoa) return false;
-    else if (this.nome_pessoa.length > 25) return;
+    // else if (this.nome_pessoa.length > 20) return;
     if (!this.celular1) return false;
     if (!this.verificarNumeros(this.celular1) || !this.verificarNumeros(this.celular2) || !this.verificarNumeros(this.telefone)) return false;
     if (this.cep && (this.removerCaracteresEspeciais(this.cep).length !== 8 || !this.verificarNumeros(this.removerCaracteresEspeciais(this.cep)))) return false;
@@ -350,7 +350,7 @@ export class CadatrarContatoComponent {
     switch (fieldName) {
       case 'nome_pessoa':
         if (!this.nome_pessoa) return;
-        if (this.nome_pessoa.length > 25) return;
+        // if (this.nome_pessoa.length > 20) return;
         const nomeExistente = this.contatos.find(pessoa =>
           pessoa.nome_pessoa.trim().toLowerCase() === this.nome_pessoa.trim().toLowerCase() &&
           pessoa.id_pessoa !== contatoSelecionado?.id_pessoa

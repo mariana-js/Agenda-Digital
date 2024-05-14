@@ -30,10 +30,10 @@
                   <label for="name">Nome *</label>
                   <input type="text" id="nome_pessoa" required name="nome_pessoa" [(ngModel)]="nome_pessoa"
                     (blur)="validation('nome_pessoa')"
-                    [ngClass]="{'invalid-field': nomeExistente || nome_pessoa.length>25 }"
+                    [ngClass]="{'invalid-field': nomeExistente }"
                     placeholder="Ex.: Jaqueline Souza.">
                   <span *ngIf="!nome_pessoa" class="invalid-field">Preencha o campo nome!</span>
-                  <span *ngIf="nome_pessoa.length>25" class="invalid-field">Nome muito longo!</span>
+                  <!-- <span *ngIf="nome_pessoa.length>25" class="invalid-field">Nome muito longo!</span> -->
                   <span *ngIf="nomeExistente" class="invalid-field">Nome já cadastrado!</span>
                 </div>
                 <div class="field">

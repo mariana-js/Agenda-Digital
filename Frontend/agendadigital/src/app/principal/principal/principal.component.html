@@ -35,8 +35,8 @@
                 <tr *ngFor="let contato of contatos.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)"
                   (click)="informacoes(contato)">
                   <td class="image"> <img src="assets/foto/foto.png" alt=""></td>
-                  <td>{{ contato.nome_pessoa }} </td>
-                  <td>{{ contato.email }}</td>
+                  <td class="truncate">{{ contato.nome_pessoa }} </td>
+                  <td class="truncate">{{ contato.email }}</td>
                   <td #celular1Input>{{ contato.celular1}}</td>
                 </tr>
               </tbody>
