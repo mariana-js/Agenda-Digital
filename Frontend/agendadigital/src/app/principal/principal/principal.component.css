@@ -7,9 +7,10 @@
   display: flex;
   justify-content: right;
   align-items: right;
-  font-size: 14px;
+  font-size: 15px;
   color: rgb(167, 31, 22);
-  margin: 1rem 0;
+  margin-bottom: -1.5rem;
+  margin-right: 1.7rem;
 }
 
 .nav-aniversariantes,
@@ -148,4 +149,5 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-bottom: 0.8rem;
 }
