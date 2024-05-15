@@ -5,8 +5,8 @@
 
   <DIV>
     <div class="area">
-      <div class="area1">
-        <h2><img src="assets/Imagens/setor.png" alt="setor">Setores</h2>
+      <h2><img src="assets/Imagens/setor.png" alt="setor">Setores</h2>
+
         <div class="container">
 
           <div class="tabela">
@@ -15,17 +15,17 @@
 
               <thead>
                 <tr>
-                  <th>Sigla</th>
+                  <th class="sigla">Sigla</th>
                   <th>Setor</th>
-                  <th></th>
+                  <th class="lixeira"></th>
                 </tr>
               </thead>
 
               <tbody>
                 <tr *ngFor="let setor of setores" (click)="selecionarSetor(setor)">
-                  <td>{{setor.sigla_setor}}</td>
+                  <td class="sigla">{{setor.sigla_setor}}</td>
                   <td>{{setor.nome_setor}}</td>
-                  <td><img src="assets/img/lixo.png" alt="setor" (click)="excluirSetor(setor)"></td>
+                  <td  class="lixeira"><img src="assets/img/lixo.png" alt="setor" (click)="excluirSetor(setor)"></td>
                 </tr>
               </tbody>
 
@@ -50,7 +50,7 @@
 
         </div>
       </div>
-    </div>
+  
 
   </DIV>
 

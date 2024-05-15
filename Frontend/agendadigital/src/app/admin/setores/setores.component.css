@@ -5,12 +5,13 @@
   justify-content: center;
 
 }
+.tabela{
 
+}
 h2, h3, .add {
   text-align: left;
   font-size: 16px;
   color: rgb(109, 109, 109);
-  margin-top: 0rem;
   display: flex;
   justify-items: start;
   align-items: center;
@@ -20,44 +21,42 @@ img{
 
 }
 
-.tabela {
-  margin-right: 1rem;
-  display: grid;
-}
-
 table {
-  margin: 0rem;
-  padding: 0rem;
   background-color: white;
   color: rgb(44, 43, 43);
   border-radius: 0rem;
-  text-align: center;
-  border-spacing: 0.8rem;
   border-collapse: collapse;
-  width: max-content;
+  width:65%;
+  table-layout: fixed;
 
 }
 
 th,td {
   border-top: solid 0.1rem rgb(224, 224, 224);
-  /* border-bottom: solid 0.1rem rgb(224, 224, 224); */
   padding: 0.5rem;
-  padding-right: 4rem;
-  width: 100%;
-}
+  width: 10%;
 
+}
+th{
+  text-align: center;
+}
 td {
   border-bottom: solid 0.1rem rgb(224, 224, 224);
-
+  text-align: left;
 }
-
+.sigla{
+  width: 2%;
+}
+.lixeira{
+  width: 2%;
+  text-align: center;
+}
 tr:first-child {
   border-top: 2px;
 }
 
 tr:hover {
   background-color: #f5f5f5;
-  /* Altera a cor de fundo ao passar o mouse sobre a linha */
 }
 
 h3 {
@@ -67,15 +66,12 @@ h3 {
 
 
 .add {
-  margin: 0;
-  padding: 1rem;
   border: solid 0.1rem rgb(224, 224, 224);
-  display: block;
+
 }
 
 form {
   display: grid;
-  padding: 1rem 0.1rem 1rem 0.1rem;
 }
 
 input {
