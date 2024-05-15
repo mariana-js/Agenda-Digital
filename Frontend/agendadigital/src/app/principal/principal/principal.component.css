@@ -23,6 +23,7 @@
 }
 
 h2 {
+  padding: 1rem;
   text-align: left;
   font-size: 16px;
   color: rgb(109, 109, 109);
@@ -35,23 +36,15 @@ button:hover {
 
 .principal {
   margin: 1rem 3rem;
-  display: block;
   flex: 1;
   position: relative;
 }
 
-.page2 {
-  display: inline-flex;
-}
-
 table {
   margin: 1rem;
-  padding: 0.2rem;
   background-color: white;
   color: rgb(44, 43, 43);
-  display: inline-table;
   border-radius: 0.2rem;
-  border-spacing: 20px;
   border-collapse: collapse;
   width: 95%;
   table-layout: fixed;
@@ -97,16 +90,16 @@ button {
 }
 
 .truncate {
-  max-width: 25%;
+  max-width: 10rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* .truncate td img{
-  display: inline-flex;
-  align-items: center;
-} */
+.foto{
+  width: 2%;
+  text-align: center;
+}
 
 /* Campo de busca */
 .search-button {
@@ -149,4 +142,10 @@ img {
   height: 2rem;
   object-fit: cover;
   padding: 0rem;
+}
+.next
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

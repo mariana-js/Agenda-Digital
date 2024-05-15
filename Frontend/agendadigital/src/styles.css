@@ -11,16 +11,11 @@ body {
 }
 
 .page {
-  margin: 1rem 0 8rem 0 ;
-  padding: 0.1rem 0.7rem 0.5rem 0.5rem;
-  display: block;
   background-color: rgb(244, 244, 247);
   border-radius: 0.3rem;
-  text-align: center;
   width: 38rem;
   font-size: 14px;
   position: relative;
-  align-items: center;
 }
 
 a {
@@ -37,12 +32,10 @@ a {
 .area {
   margin: 2rem;
   padding: 0.9rem;
-  display: flex;
   background-color: rgb(243, 243, 243);
   border-radius: 0.3rem;
   width: 50rem;
   position: relative;
-  justify-content: center;
 }
 
 .area1 {

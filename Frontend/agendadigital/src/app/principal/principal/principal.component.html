@@ -21,10 +21,11 @@
         <div class="page">
 
           <h2>Contatos <span>({{amount}})</span> </h2>
-          <div class="page2">
+
             <table>
               <thead>
                 <tr>
+                  <th class="foto"></th>
                   <th>Nome</th>
                   <th>Email</th>
                   <th>Celular</th>
@@ -34,8 +35,10 @@
                 <tr *ngFor="let contato of contatos.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)"
                   (click)="informacoes(contato)">
 
-                  <td class="truncate">
+                  <td class="foto">
                     <img src="assets/foto/foto.png" alt="contato">
+                  </td>
+                  <td class="truncate">
                     {{ contato.nome_pessoa }}
                   </td>
                   <td class="truncate">{{ contato.email }}</td>
@@ -44,14 +47,15 @@
               </tbody>
 
             </table>
-            <button>
-              <span (click)="previousPage() " [class.disabled]="currentPage === 1">
-                << </span>
-                  Próxima Página
-                  <span (click)="nextPage()" [class.disabled]="currentPage === totalPages"> >> </span>
-            </button>
+            <div class="next">
+              <button>
+                <span (click)="previousPage() " [class.disabled]="currentPage === 1">
+                  << </span>
+                    Próxima Página
+                    <span (click)="nextPage()" [class.disabled]="currentPage === totalPages"> >> </span>
+              </button>
+            </div>
           </div>
-        </div>
       </div>
     </div>
   </nav>
