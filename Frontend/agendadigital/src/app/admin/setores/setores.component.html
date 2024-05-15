@@ -7,50 +7,54 @@
     <div class="area">
       <h2><img src="assets/Imagens/setor.png" alt="setor">Setores</h2>
 
-        <div class="container">
+      <div class="container">
 
-          <div class="tabela">
+        <div class="tabela">       
+          <table>
 
-            <table>
+            <thead>
+              <tr>
+                <th class="sigla">Sigla</th>
+                <th>Setor</th>
+                <th class="lixeira"></th>
+              </tr>
+            </thead>
 
-              <thead>
-                <tr>
-                  <th class="sigla">Sigla</th>
-                  <th>Setor</th>
-                  <th class="lixeira"></th>
-                </tr>
-              </thead>
+            <tbody>
+              <tr *ngFor="let setor of setores" (click)="selecionarSetor(setor)">
+                <td class="sigla">{{setor.sigla_setor}}</td>
+                <td class="truncate">{{setor.nome_setor}}</td>
+                <td class="lixeira"><img src="assets/img/lixo.png" alt="setor" (click)="excluirSetor(setor)"></td>
+              </tr>
+            </tbody>
 
-              <tbody>
-                <tr *ngFor="let setor of setores" (click)="selecionarSetor(setor)">
-                  <td class="sigla">{{setor.sigla_setor}}</td>
-                  <td>{{setor.nome_setor}}</td>
-                  <td  class="lixeira"><img src="assets/img/lixo.png" alt="setor" (click)="excluirSetor(setor)"></td>
-                </tr>
-              </tbody>
-
-            </table>
-          </div>
-
+          </table>
           <div class="add">
-            <h3>Setor</h3>
-
             <form>
-              <fieldset>
+              <div class="setor">
                 <label for="name">Setor</label>
                 <input type="text" placeholder="Ex.: Orçamento" [(ngModel)]="setor" name="setor"> <br>
-                <label for="sigla">Sigla</label>
+              </div>
+
+              <div class="setor">
+                <label for="sigla" style="padding-right: 1rem;">Sigla</label>
                 <input type="text" placeholder="Ex.: OR" [(ngModel)]="sigla" name="sigla">
-                <br>
+              </div>
+
+              <div class="button-add">
+                <img class="clear" src="assets/img/borracha.png" alt="limpar" (click)="clear()">
                 <button (click)="adicionarSetor()"> Salvar </button>
-              </fieldset>
+              </div>
             </form>
 
           </div>
-
         </div>
+
+
+
       </div>
-  
+    </div>
+
 
   </DIV>
 

@@ -4,11 +4,6 @@ body {
   margin: 0;
 
 }
-.admin{
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-}
 
 .page {
   background-color: rgb(244, 244, 247);
@@ -26,7 +21,7 @@ a {
 
 /* Styles admin */
 .pag {
-  display: flex;
+  display: inline-flex;
 }
 
 .area {
@@ -34,7 +29,7 @@ a {
   padding: 0.9rem;
   background-color: rgb(243, 243, 243);
   border-radius: 0.3rem;
-  width: 50rem;
+  width: 38rem;
   position: relative;
 }
 
@@ -42,4 +37,10 @@ a {
   background-color: white;
   padding: 1rem;
   margin: 1rem;
+}
+.truncate {
+  max-width: 10rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -140,12 +140,7 @@ button {
   justify-content: space-between;
   padding: 0 0 1rem 0;
 }
-.truncate {
-  max-width: 10rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+
 .search {
   justify-content: right;
 }

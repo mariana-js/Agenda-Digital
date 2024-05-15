@@ -39,6 +39,7 @@ export class SetoresComponent {
   }
 
   clear() {
+    this.setorSelecionado = null;
     this.setor = '';
     this.sigla = '';
   }
@@ -56,6 +57,14 @@ export class SetoresComponent {
   adicionarNovoSetor() {
     this.novoSetor.nome_setor = this.setor;
     this.novoSetor.sigla_setor = this.sigla;
+    if (this.sigla.length > 5) {
+      alert('Sigla muito grande!')
+        return;
+      } 
+      if (this.setor.length > 40) {
+        alert('Nome do setor muito grande!')
+          return;
+        } 
     // Verificar se o setor já existe localmente
     const setorExistente = this.setores.find(setor =>
       setor.nome_setor.trim().toLowerCase() === this.novoSetor.nome_setor.trim().toLowerCase() ||
@@ -64,7 +73,7 @@ export class SetoresComponent {
 
     if (setorExistente) {
       // Se setorExistente não for undefined, um setor correspondente foi encontrado na lista
-      alert('O setor já está cadastrado.');
+      alert('O setor ou sigla já está cadastrado.');
       return; // Parar a execução da função se o setor já existir localmente
     }
 
@@ -94,6 +103,14 @@ export class SetoresComponent {
     if (!this.setorSelecionado) return;
     this.setorSelecionado.sigla_setor = this.sigla;
     this.setorSelecionado.nome_setor = this.setor;
+    if (this.sigla.length > 5) {
+    alert('Sigla muito grande!')
+      return;
+    } 
+    if (this.setor.length > 40) {
+      alert('Nome do setor muito grande!')
+        return;
+      } 
     const nomeExistente = this.setores.some(setor =>
       setor.nome_setor.trim().toLowerCase() === this.setor.trim().toLowerCase() &&
       setor.id_setor !== this.setorSelecionado?.id_setor

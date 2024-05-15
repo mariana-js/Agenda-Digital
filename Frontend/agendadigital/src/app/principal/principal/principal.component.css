@@ -90,13 +90,6 @@ button {
   cursor: pointer;
 }
 
-.truncate {
-  max-width: 10rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .foto{
   width: 2%;
   text-align: center;

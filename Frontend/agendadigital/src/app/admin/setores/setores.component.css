@@ -1,22 +1,28 @@
 .container {
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: contents;
+}
+
+.tabela {
+  display: inline-flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
 
 }
-.tabela{
-
+.tab{
+/
 }
-h2, h3, .add {
+h2 {
   text-align: left;
   font-size: 16px;
   color: rgb(109, 109, 109);
   display: flex;
   justify-items: start;
   align-items: center;
+  margin-top: -0.3rem;
 }
-img{
+
+img {
   padding-right: 0.4rem;
 
 }
@@ -24,33 +30,44 @@ img{
 table {
   background-color: white;
   color: rgb(44, 43, 43);
-  border-radius: 0rem;
+  border-radius: 0.5rem;
   border-collapse: collapse;
-  width:65%;
-  table-layout: fixed;
-
+  width: 80%;
+  table-layout: fixed; 
 }
 
-th,td {
+td {
   border-top: solid 0.1rem rgb(224, 224, 224);
-  padding: 0.5rem;
-  width: 10%;
 
 }
-th{
+
+td,
+th {
+  width: 15%;
+  padding: 0.5rem;
+
+}
+
+th {
+  height: 0.5rem;
   text-align: center;
 }
+
 td {
   border-bottom: solid 0.1rem rgb(224, 224, 224);
   text-align: left;
 }
-.sigla{
-  width: 2%;
+
+.sigla {
+  width: 0.1%;
+  padding-left: 1rem;
 }
-.lixeira{
-  width: 2%;
+
+.lixeira {
+  width: 0.1%;
   text-align: center;
 }
+
 tr:first-child {
   border-top: 2px;
 }
@@ -64,14 +81,27 @@ h3 {
   margin: 0;
 }
 
-
 .add {
   border: solid 0.1rem rgb(224, 224, 224);
+  display: flex;
+  background-color: #ffffff;
+  color: rgb(109, 109, 109);
+  width: 12rem;
+  padding: 0.5rem;
+  margin: 0rem 0 0rem 1.4rem;
+  flex-direction: column;
+  align-items: center;
+}
 
+.setor {
+  display: inline-flex;
+  align-items: left;
+  margin: 0.2rem;
 }
 
 form {
-  display: grid;
+  width: 100%;
+  padding: 0.7rem;
 }
 
 input {
@@ -79,34 +109,43 @@ input {
   border-radius: 0.5rem;
   margin: 0.2rem 0;
   border-radius: 0.4rem;
-  width: 100%;
+  width: 70%;
+  height: 1rem;
   outline: none;
 
+}
+
+label {
+  font-weight: 300;
+  padding-right: 0.6rem;
 }
 
 input:focus {
   border: 1px solid blue;
 }
-fieldset{
-  border: none;
-}
-fieldset:hover{
-  border: none;
-}
+
 button {
+  margin-top: 0.5rem;
   border: none;
   border-radius: 0.2rem;
   background-color: rgb(95, 127, 185);
   color: white;
   cursor: pointer;
   padding: 0.2rem;
-  margin-top: 0.5rem;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
+  width: 85%;
   transition: background-color 400ms;
 }
 
-button:hover{
+.button-add {
+  display: flow-root;
+  align-items: center;
+
+}
+
+.clear {
+  cursor: pointer;
+}
+
+button:hover {
   background-color: rgb(12, 37, 92);
 }
