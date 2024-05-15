@@ -12,9 +12,9 @@
             <button (click)="getContatos()">Todos</button>
             <button (click)="getFuncionarios()">Funcionários</button>
           </div>
-            <div class="search">
-              <input type="text" placeholder="Pesquisar..." [(ngModel)]="searchTerm">
-              <button class="search-button" (click)="search()">Buscar</button>
+          <div class="search">
+            <input type="text" placeholder="Pesquisar..." [(ngModel)]="searchTerm">
+            <button class="search-button" (click)="search()">Buscar</button>
 
           </div>
         </div>
@@ -25,7 +25,6 @@
             <table>
               <thead>
                 <tr>
-                  <th></th>
                   <th>Nome</th>
                   <th>Email</th>
                   <th>Celular</th>
@@ -34,8 +33,11 @@
               <tbody>
                 <tr *ngFor="let contato of contatos.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)"
                   (click)="informacoes(contato)">
-                  <td class="image"> <img src="assets/foto/foto.png" alt=""></td>
-                  <td class="truncate">{{ contato.nome_pessoa }} </td>
+
+                  <td class="truncate">
+                    <img src="assets/foto/foto.png" alt="contato">
+                    {{ contato.nome_pessoa }}
+                  </td>
                   <td class="truncate">{{ contato.email }}</td>
                   <td #celular1Input>{{ contato.celular1}}</td>
                 </tr>
