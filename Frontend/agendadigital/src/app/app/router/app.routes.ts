@@ -8,6 +8,7 @@ import { ContatoComponent } from '../../principal/contato/contato.component';
 import { PrincipalComponent } from '../../principal/principal/principal.component';
 import { LoginComponent } from '../../views/login/login.component';
 import { SobreComponent } from '../../views/sobre/sobre.component';
+import { RamaisPrincipalComponent } from '../../principal/ramais-principal/ramais-principal.component';
 
 export const routes: Routes = [
 
@@ -22,6 +23,9 @@ export const routes: Routes = [
     path: 'contato/:id', component: ContatoComponent
   },
 
+  {
+    path: 'ramal', component: RamaisPrincipalComponent
+  },
   {
     path: 'cadastrar-contato',
     component: CadatrarContatoComponent

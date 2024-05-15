@@ -15,6 +15,10 @@ export class HeadComponent {
     this.router.navigate(['/']);
   }
 
+  navegarParaRamais() {
+    this.router.navigate(['/ramal']);
+  }
+  
   navegarParaAdmin() {
     this.router.navigate(['/login']);
   }

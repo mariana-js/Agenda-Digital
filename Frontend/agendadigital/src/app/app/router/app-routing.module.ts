@@ -9,13 +9,16 @@ import { UsuariosComponent } from '../../admin/usuarios/usuarios.component';
 import { PrincipalComponent } from '../../principal/principal/principal.component';
 import { LoginComponent } from '../../views/login/login.component';
 import { SobreComponent } from '../../views/sobre/sobre.component';
+import { RamaisPrincipalComponent } from '../../principal/ramais-principal/ramais-principal.component';
 
 
 const routes: Routes = [
   {
     path: '', component: PrincipalComponent
   },
-
+  {
+    path: 'ramal', component: RamaisPrincipalComponent
+  },
   {
     path: 'home', component: PrincipalComponent
   },
