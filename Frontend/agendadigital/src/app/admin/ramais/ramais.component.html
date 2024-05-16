@@ -5,45 +5,57 @@
 
   <DIV>
     <div class="area">
-      <div class="area1">
-
         <h2 id="ramal"><img src="assets/Imagens/ramal-b.png" alt="ramal">Ramais</h2>
         <div class="container">
+
+          <div class="tabela">
 
           <table>
             <thead>
 
               <tr>
-                <th>Ramal</th>
+                <th class="ramal">Ramal</th>
                 <th>Setor</th>
-                <th></th>
+                <th class="lixeira"></th>
               </tr>
             </thead>
             <tbody>
 
               <tr *ngFor="let setorramal of setor_ramais" (click)="selecionarSetorRamal(setorramal)">
-                <td>{{setorramal.id_ramal_setor}}</td>
-                <td>{{setorramal.setor}}</td>
-                <td><img src="assets/img/lixo.png" alt="setor" (click)="excluirSetorRamal(setorramal)"></td>
+                <td class="ramal">{{setorramal.id_ramal_setor}}</td>
+                <td class="truncate">{{setorramal.setor}}</td>
+                <td class="lixeira lix"><img src="assets/img/lixo.png" alt="setor" (click)="excluirSetorRamal(setorramal)"></td>
               </tr>
 
             </tbody>
           </table>
 
           <div class="add">
-            <h3>Ramal</h3>
 
             <form>
-              <label for="name">Setor</label>
 
-              <select id="setores" name="setor" (change)="onChange($event)" name="setor" [(ngModel)]="setor">
-                <option value="opcao1">Selecionar</option>
-                <option *ngFor="let setor of setores" value={{setor.id_setor}}>{{ setor.nome_setor }}</option>
-              </select>
+              <div class="caixa">
 
-              <label for="ramal">Número</label>
-              <input type="text" placeholder="Ex.: 9090"  [(ngModel)]="ramal" name="ramal" [disabled]="ramalDesabilitado">
-              <button (click)="adicionarRamal()"> Salvar </button>
+                <label for="name" >Setor</label>
+
+                <select id="setores" name="setor" (change)="onChange($event)" name="setor" [(ngModel)]="setor" >
+                  <option value="opcao1">Selecionar</option>
+                  <option *ngFor="let setor of setores" value={{setor.id_setor}}>{{ setor.nome_setor }}</option>
+                </select>
+              </div>
+
+
+              <div class="caixa">
+
+                <label for="ramal">Ramal</label>
+                <input type="text" placeholder="Ex.: 9090"  [(ngModel)]="ramal" name="ramal" [disabled]="ramalDesabilitado">
+              </div>
+
+              <div class="button-add">
+                <img class="clear" src="assets/img/borracha.png" alt="limpar" (click)="clear()">
+                <button (click)="adicionarRamal()"> Salvar </button>
+              </div>
+
 
             </form>
 

@@ -9,7 +9,7 @@
 
       <div class="container">
 
-        <div class="tabela">       
+        <div class="tabela">
           <table>
 
             <thead>
@@ -24,19 +24,19 @@
               <tr *ngFor="let setor of setores" (click)="selecionarSetor(setor)">
                 <td class="sigla">{{setor.sigla_setor}}</td>
                 <td class="truncate">{{setor.nome_setor}}</td>
-                <td class="lixeira"><img src="assets/img/lixo.png" alt="setor" (click)="excluirSetor(setor)"></td>
+                <td class="lixeira lix"><img src="assets/img/lixo.png" alt="setor" (click)="excluirSetor(setor)"></td>
               </tr>
             </tbody>
 
           </table>
           <div class="add">
             <form>
-              <div class="setor">
+              <div class="caixa">
                 <label for="name">Setor</label>
-                <input type="text" placeholder="Ex.: Orçamento" [(ngModel)]="setor" name="setor"> <br>
+                <input type="text" placeholder="Ex.: Orçamento" [(ngModel)]="setor" name="setor">
               </div>
 
-              <div class="setor">
+              <div class="caixa">
                 <label for="sigla" style="padding-right: 1rem;">Sigla</label>
                 <input type="text" placeholder="Ex.: OR" [(ngModel)]="sigla" name="sigla">
               </div>

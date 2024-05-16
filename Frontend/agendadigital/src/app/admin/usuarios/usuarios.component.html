@@ -5,50 +5,61 @@
 
   <DIV>
     <div class="area">
-      <div class="area1">
+      <h2 id="usuarios"><img src="assets/Imagens/user-b.png" alt="usuario">Usuários</h2>
 
-        <h2 id="usuarios"><img src="assets/Imagens/user-b.png" alt="usuario">Usuários</h2>
-        <div class="container">
+      <div class="container">
 
-          <table>
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Usuário</th>
-                <th></th>
-              </tr>
-            </thead>
+        <div class="tabela">
 
-            <tbody>
-              <tr *ngFor="let user of users" (click)="selecionarUsuario(user)">
-                <td>{{user.nome}}</td>
-                <td>{{user.usuario}}</td>
-                <td><img src="assets/img/lixo.png" alt="setor" (click)="excluirUsuario(user)"></td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Usuário</th>
+                  <th class="lixeira"></th>
+                </tr>
+              </thead>
 
-          <div class="add">
-            <h3>Usuário</h3>
+              <tbody>
+                <tr *ngFor="let user of users" (click)="selecionarUsuario(user)">
+                  <td>{{user.nome}}</td>
+                  <td>{{user.usuario}}</td>
+                  <td class="lixeira lix"><img src="assets/img/lixo.png" alt="setor" (click)="excluirUsuario(user)">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
-            <form>
-              <label for="usuario">Usuário</label>
-              <input type="text" placeholder="Ex.: marianasilva" [(ngModel)]="usuario" name="usuario">
+            <div class="add">
+              <form>
 
-              <label for="nome">Nome</label>
-              <input type="text" placeholder="Ex.: Mariana Silva"[(ngModel)]="nome" name="nome">
+                <div class="caixa">
+                  <label for="nome" style="padding-right: 1.1rem;">Nome</label>
+                  <input type="text" placeholder="Ex.: Mariana Silva" [(ngModel)]="nome" name="nome">
+                </div>
 
-              <label for="senha">Senha</label>
-              <input type="password" [(ngModel)]="senha" name="senha">
-              <button (click)="adicionarUsuario()"> Salvar </button>
+                <div class="caixa">
+                  <label for="usuario">Usuário</label>
+                  <input type="text" placeholder="Ex.: marianasilva" [(ngModel)]="usuario" name="usuario">
+                </div>
 
-            </form>
+                <div class="caixa">
+                  <label for="senha" style="padding-right: 1.3rem;">Senha</label>
+                  <input type="password" [(ngModel)]="senha" name="senha" placeholder="Ex.: 123Senha">
+                </div>
 
+                <div class="button-add">
+                  <img class="clear" src="assets/img/borracha.png" alt="limpar" (click)="clear()">
+                  <button (click)="adicionarUsuario()"> Salvar </button>
+                </div>
+              </form>
+
+            </div>
           </div>
         </div>
       </div>
     </div>
-
   </DIV>
 
 </div>

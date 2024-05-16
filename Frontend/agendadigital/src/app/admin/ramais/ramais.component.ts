@@ -77,6 +77,10 @@ export class RamaisComponent {
     // Obtendo o valor selecionado
     const valorSelecionado = event.target.value;
     this.setor = valorSelecionado;
+  } clear() {
+    this.setor = 'opcao1';
+    this.ramal = '';
+    this.setorramalSelecionado = null;
   } adicionarRamal() {
     if (this.setorramalSelecionado) {
       // Se setorSelecionado não for nulo, então estamos atualizando um setor existente
@@ -112,8 +116,7 @@ export class RamaisComponent {
         .subscribe(
           novoSetorRamal => {
             this.setor_ramais.push(novoSetorRamal);
-            this.setor = 'opcao1';
-            this.ramal = '';
+            this.clear();
             this.getRamais();
           }
         );
@@ -180,9 +183,7 @@ export class RamaisComponent {
       .subscribe(
         () => {
           alert('Setor do ramal atualizado com sucesso!');
-          this.setor = 'opcao1';
-          this.ramal = '';
-          this.setorramalSelecionado = null;
+          this.clear();
           this.getRamais();
         },
         error => {
@@ -199,9 +200,7 @@ export class RamaisComponent {
           () => {
             this.setor_ramais = this.setor_ramais.filter(s => s.id_setor_ramal !== setorramal.id_setor_ramal);
             this.excluirRamal(n_ramal);
-            this.setor = 'opcao1';
-            this.ramal = '';
-            this.setorramalSelecionado = null;
+            this.clear();
             this.getRamais();
             alert('Ramal excluído com sucesso!');
           },

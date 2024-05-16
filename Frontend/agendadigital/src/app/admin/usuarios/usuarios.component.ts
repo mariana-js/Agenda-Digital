@@ -42,14 +42,15 @@ export class UsuariosComponent {
     this.nome = '';
     this.usuario = '';
     this.senha = '';
+    this.userSelecionado = null;
   }
 
   adicionarUsuario() {
     if (this.userSelecionado) {
-      // Se setorSelecionado não for nulo, então estamos atualizando um setor existente
+
       this.atualizarUsuario();
     } else {
-      // Caso contrário, estamos adicionando um novo setor
+      
       this.adicionarNovoUsuario();
     }
   }
