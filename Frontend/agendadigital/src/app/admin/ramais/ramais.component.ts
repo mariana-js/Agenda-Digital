@@ -74,19 +74,17 @@ export class RamaisComponent {
     });
     this.setor_ramais.sort((a, b) => a.setor.localeCompare(b.setor));
   } onChange(event: any) {
-    // Obtendo o valor selecionado
     const valorSelecionado = event.target.value;
     this.setor = valorSelecionado;
   } clear() {
     this.setor = 'opcao1';
     this.ramal = '';
     this.setorramalSelecionado = null;
+    this.ramalDesabilitado = false;
   } adicionarRamal() {
     if (this.setorramalSelecionado) {
-      // Se setorSelecionado não for nulo, então estamos atualizando um setor existente
       this.atualizarRamal();
     } else {
-      // Caso contrário, estamos adicionando um novo setor
       this.adicionarNovoRamal();
     }
   } adicionarNovoRamal() {

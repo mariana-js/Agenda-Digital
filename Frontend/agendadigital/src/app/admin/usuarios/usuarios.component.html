@@ -4,7 +4,7 @@
   </div>
 
   <DIV>
-    <div class="area">
+    <div class="area admin">
       <h2 id="usuarios"><img src="assets/Imagens/user-b.png" alt="usuario">Usuários</h2>
 
       <div class="container">
@@ -23,7 +23,7 @@
 
               <tbody>
                 <tr *ngFor="let user of users" (click)="selecionarUsuario(user)">
-                  <td>{{user.nome}}</td>
+                  <td class="truncate">{{user.nome}}</td>
                   <td>{{user.usuario}}</td>
                   <td class="lixeira lix"><img src="assets/img/lixo.png" alt="setor" (click)="excluirUsuario(user)">
                   </td>

@@ -4,6 +4,9 @@
   justify-content: center;
 
 }
+.area .login{
+  min-height: min-content;
+}
 
 .title {
   position: relative;
