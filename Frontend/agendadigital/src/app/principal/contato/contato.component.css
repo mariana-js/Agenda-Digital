@@ -1,47 +1,57 @@
 nav {
-  display:flex;
+  display: flex;
   justify-content: center;
   position: relative;
 }
+
 .container {
   display: flex;
   justify-content: center;
   flex-direction: row;
 }
+
 .pagina-pessoa {
-  margin: 1.5rem 5rem 4rem 4rem;
+  margin: 1.5rem 4rem 4rem 4rem;
   display: flex;
   position: relative;
-  width: max-content;
+  width: 35rem;
   height: min-content;
-
+  border-radius: 0.5rem;
   padding: 1rem;
-  background-color: #d0d3e4;
-
-  flex-direction: column;
+  background-color: #e7e8ee;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.nome {
+  font-size: 17px;
+  margin: 0;
+  padding: 0;
 }
 
 /* Mantenha suas outras regras CSS */
 
 .title-contact.custom-color {
-  background-color: #5a4915; /* Cor de fundo personalizada para a tabela */
+  background-color: #5a4915;
 }
 
 .title-contact {
   display: inline-table;
+
 }
 
 .title-contact table {
   width: max-content;
   height: min-content;
   display: table;
+
 }
 
 .title-contact td, .title-contact th {
   border: none;
-  background-color:  #d0d3e4;
-  padding: 0 1rem;
+  background-color:#e7e8ee;
+  padding: 0.5rem 0rem;
 
 }
 
@@ -56,24 +66,24 @@ nav {
   align-content: center;
 
 }
+.informacoes span{
+ padding: 0.2rem 0;
+}
 
 .title-contact h1 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  color: #2c3257;  white-space: nowrap;
+  color: #2c3257;
+  white-space: normal;
 }
 
 .image-container img {
   width: 5.5rem;
   height: 5.5rem;
-  margin-left: 14rem;
+  margin-left: 3rem;
   border: 1px solid #6876b6;
-  /* Borda vermelha de 2px */
   border-radius: 50%;
-  /* Define as bordas como redondas (círculo) */
   overflow: hidden;
-  /* Oculta qualquer parte da imagem que exceda o contêiner */
   object-fit: cover;
-  /* Faz a imagem preencher o contêiner sem distorcer */
 }
 
 img {
@@ -95,20 +105,16 @@ td, th {
 
 th {
   background-color: #6876b6;
-  /* Cor de fundo do cabeçalho */
   color: white;
-  /* Cor do texto do cabeçalho */
   font-size: 14px;
 }
 
 tr:nth-child(even) {
   background-color: #f2f2f2;
-  /* Cor de fundo das linhas pares */
 }
 
 tr:nth-child(odd) {
   background-color: #ffffff;
-  /* Cor de fundo das linhas ímpares */
 }
 
 h6 {
