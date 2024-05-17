@@ -18,10 +18,15 @@ nav {
   height: min-content;
   border-radius: 0.5rem;
   padding: 1rem;
-  background-color: #e7e8ee;
+  background-color: #e7e8f1;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.tab {
+  background: #ffffff;
+  padding: 1rem;
 }
 
 .title-contact {
@@ -29,7 +34,7 @@ nav {
 }
 
 .title-contact td,
-.title-contact th, 
+.title-contact th,
 .title-contact tr {
   border: none;
   background-color: #e7e8ee;
@@ -55,9 +60,11 @@ nav {
   white-space: normal;
   font-size: 17px;
 }
+
 .image-container {
   text-align: right;
 }
+
 .image-container img {
   width: 5.5rem;
   height: 5.5rem;
@@ -66,9 +73,7 @@ nav {
   border-radius: 50%;
   overflow: hidden;
   object-fit: cover;
-
 }
-
 
 img {
   width: 100%;
@@ -86,16 +91,16 @@ th {
   padding: 0.25rem;
 }
 
-tr{
+/* tr{
   background:#f8f7f7;
-}
-
+} */
+/*
 td {
   border-bottom: 0.5px solid rgb(190, 205, 238);
-}
+} */
 
 th {
-  background-color: #e7e8ee;
+  /* background-color: #e7e8ee; */
   border: none;
   text-align: left;
   padding: 0.5rem 0rem;
