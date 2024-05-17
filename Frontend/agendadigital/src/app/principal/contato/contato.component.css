@@ -24,67 +24,51 @@ nav {
   flex-direction: column;
 }
 
-.nome {
-  font-size: 17px;
-  margin: 0;
-  padding: 0;
-}
-
-/* Mantenha suas outras regras CSS */
-
-.title-contact.custom-color {
-  background-color: #5a4915;
-}
-
 .title-contact {
-  display: inline-table;
-
-}
-
-.title-contact table {
-  width: max-content;
-  height: min-content;
   display: table;
-
 }
 
-.title-contact td, .title-contact th {
+.title-contact td,
+.title-contact th, 
+.title-contact tr {
   border: none;
-  background-color:#e7e8ee;
-  padding: 0.5rem 0rem;
-
+  background-color: #e7e8ee;
 }
 
 .informacoes {
   display: grid;
   font-size: 0.9rem;
-
   font-family: 'Times New Roman', Times, serif;
   color: rgb(121, 121, 158);
-
   justify-items: start;
   align-content: center;
 
 }
-.informacoes span{
- padding: 0.2rem 0;
+
+.informacoes span {
+  padding: 0.2rem 0;
 }
 
 .title-contact h1 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: #2c3257;
   white-space: normal;
+  font-size: 17px;
 }
-
+.image-container {
+  text-align: right;
+}
 .image-container img {
   width: 5.5rem;
   height: 5.5rem;
-  margin-left: 3rem;
+  margin-left: 5rem;
   border: 1px solid #6876b6;
   border-radius: 50%;
   overflow: hidden;
   object-fit: cover;
+
 }
+
 
 img {
   width: 100%;
@@ -92,29 +76,31 @@ img {
 }
 
 table {
-  margin-bottom: 1rem;
   width: 32rem;
   height: min-content;
   border-collapse: collapse;
 }
 
-td, th {
-  border: 0.5px solid rgb(190, 205, 238);
+td,
+th {
   padding: 0.25rem;
 }
 
+tr{
+  background:#f8f7f7;
+}
+
+td {
+  border-bottom: 0.5px solid rgb(190, 205, 238);
+}
+
 th {
-  background-color: #6876b6;
-  color: white;
+  background-color: #e7e8ee;
+  border: none;
+  text-align: left;
+  padding: 0.5rem 0rem;
+  color: rgb(48, 48, 51);
   font-size: 14px;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-tr:nth-child(odd) {
-  background-color: #ffffff;
 }
 
 h6 {
