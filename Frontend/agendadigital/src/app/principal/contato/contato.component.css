@@ -18,7 +18,7 @@ nav {
   height: min-content;
   border-radius: 0.5rem;
   padding: 1rem;
-  background-color: #e7e8f1;
+  background-color: #f5f5f5;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -26,7 +26,10 @@ nav {
 
 .tab {
   background: #ffffff;
-  padding: 1rem;
+  padding: 0.4rem 1rem;
+  margin: 0.5rem;
+  border-radius: 0.4rem;
+  border: 1px solid #e5e5e7;
 }
 
 .title-contact {
@@ -37,7 +40,7 @@ nav {
 .title-contact th,
 .title-contact tr {
   border: none;
-  background-color: #e7e8ee;
+  background-color: #f5f5f5;
 }
 
 .informacoes {
@@ -47,7 +50,6 @@ nav {
   color: rgb(121, 121, 158);
   justify-items: start;
   align-content: center;
-
 }
 
 .informacoes span {
@@ -86,29 +88,33 @@ table {
   border-collapse: collapse;
 }
 
-td,
-th {
+.tab table {
+  table-layout: fixed;
+}
+
+.centered-th {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.5rem 0rem 0.3rem 0rem;
+  color: #3d404e;
+  font-weight: bold;
+  margin-bottom: -1rem;
+  font-size: 15px;
+}
+
+td{
   padding: 0.25rem;
 }
 
-/* tr{
-  background:#f8f7f7;
-} */
-/*
-td {
-  border-bottom: 0.5px solid rgb(190, 205, 238);
-} */
-
 th {
-  /* background-color: #e7e8ee; */
   border: none;
   text-align: left;
-  padding: 0.5rem 0rem;
   color: rgb(48, 48, 51);
   font-size: 14px;
 }
-
-h6 {
+.coluna {
   font-size: 0.9rem;
-  margin: 0;
+  font-weight: bold;
+  color: #3d404e;
+  width: 2%;
 }
