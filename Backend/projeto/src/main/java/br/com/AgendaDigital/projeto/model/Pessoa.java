@@ -21,22 +21,22 @@ public class Pessoa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id_pessoa;
 
-	@Column(name = "nome_pessoa", length = 50, nullable = true)
+	@Column(name = "nome_pessoa", length = 50, nullable = false)
 	private String nome_pessoa;
 
-	@Column(name = "email", length = 50, nullable = true)
+	@Column(name = "email", length = 50, nullable = false)
 	private String email;
 
-	@Column(name = "celular1", length = 15, nullable = true)
+	@Column(name = "celular1", length = 16, nullable = false)
 	private String celular1;
 
-	@Column(name = "celular2", length = 15, nullable = false)
+	@Column(name = "celular2", length = 16, nullable = false)
 	private String celular2;
 
-	@Column(name = "celular3", length = 15, nullable = false)
+	@Column(name = "celular3", length = 16, nullable = false)
 	private String celular3;
 
-	@Column(name = "telefone", length = 15, nullable = false)
+	@Column(name = "telefone", length = 16, nullable = false)
 	private String telefone;
 
 	@Column(name = "flag_privado", nullable = false)

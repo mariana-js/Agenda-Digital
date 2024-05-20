@@ -338,7 +338,7 @@ export class CadatrarContatoComponent {
       pessoa.email.trim().toLowerCase() === this.novoContato.email.trim().toLowerCase() &&
       pessoa.email !== contatoSelecionado?.email
     );
-    if (emailExistente) return false;
+    if (emailExistente && this.email) return false;
     const celular1Existente = this.contatos.find(pessoa =>
       pessoa.celular1.trim().toLowerCase() === this.novoContato.celular1.trim().toLowerCase() &&
       pessoa.celular1 !== contatoSelecionado?.celular1
@@ -366,7 +366,7 @@ export class CadatrarContatoComponent {
           pessoa.email !== contatoSelecionado?.email
         );
         this.emailExistente = emailExistente;
-        if (emailExistente) return;
+        if (this.email && emailExistente) return;
         break;
       case 'celular1':
         const celular1Existente = this.contatos.find(pessoa =>

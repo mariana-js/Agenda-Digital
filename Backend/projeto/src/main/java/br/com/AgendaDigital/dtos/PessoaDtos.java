@@ -1,12 +1,8 @@
 package br.com.AgendaDigital.dtos;
 
-import javax.validation.constraints.NotBlank;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PessoaDtos {
-
-    @NotBlank
 
     @JsonProperty("nome_pessoa")
     private String nome_pessoa;
@@ -14,7 +10,6 @@ public class PessoaDtos {
     @JsonProperty("email")
     private String email;
 
-    @NotBlank
     @JsonProperty("celular1")
     private String celular1;
 
