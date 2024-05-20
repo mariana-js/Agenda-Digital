@@ -68,7 +68,7 @@ tr:first-child {
   border-top: 2px;
 }
 
-tr:hover {
+tr:hover td{
   background-color: #f3f5ff;
 }
 

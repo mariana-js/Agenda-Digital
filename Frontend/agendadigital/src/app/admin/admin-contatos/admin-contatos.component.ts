@@ -27,7 +27,7 @@ export class AdminContatosComponent {
   amount: number = 0;
   searchTerm: string = '';
   retorno: string = "";
-  itemsPerPage = 5;
+  itemsPerPage = 15;
   currentPage = 1;
 
   get totalPages(): number {

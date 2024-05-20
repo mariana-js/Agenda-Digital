@@ -23,10 +23,9 @@ export class PrincipalComponent implements OnDestroy {
   id_contatoSelecionado: string | null = null;
   contatos: Contato[] = [];
   amount: number = 0;
-  itemsPerPage = 5;
+  itemsPerPage = 15;
   currentPage = 1;
   private routerSubscription: Subscription;
-
 
   get totalPages(): number {
         return Math.ceil(this.contatos.length / this.itemsPerPage);
