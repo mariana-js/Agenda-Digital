@@ -1,1 +1,31 @@
-<p>ramais-principal works!</p>
+<div class="area">
+
+    <div class="title">
+        <img src="assets/Imagens/ramal-b.png" alt="ramais">
+        <h1>Ramais</h1>
+    </div>
+
+    <h3>Setores</h3>
+    <div *ngFor="let setor of setor">
+        <button (click)="filterRamaisBySetor(setor.nome_setor)">{{setor.nome_setor}}</button>
+    </div>
+    <button (click)="showAllRamais()">Mostrar Todos os Ramais</button>
+    <div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Usuário</th>
+                        <th>Ramal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ramais of filteredRamais">
+                        <td>{{ramais.usuario}}</td>
+                        <td>{{ramais.ramal}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>

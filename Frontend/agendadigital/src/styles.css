@@ -11,6 +11,8 @@ body {
   width: 38rem;
   font-size: 14px;
   position: relative;
+  box-shadow: 1px 5px 6px 2px #e5e5e5;
+  margin-bottom: 12rem;
 }
 
 a {
@@ -32,6 +34,7 @@ a {
   border-radius: 0.3rem;
   width: 38rem;
   position: relative;
+  box-shadow: 1px 2px 6px 2px #e5e5e5;
 }
 
 .truncate {
