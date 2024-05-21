@@ -100,7 +100,6 @@ export class AdminContatosComponent {
   informacoes(contatosHide: Contato) {
     contatosHide.id_contatoSelecionado = contatosHide.id_pessoa;
     this.contatoStateService.contatoSelecionado = contatosHide;
-    // this.router.navigate(['/contato']);
     this.router.navigate(['/contato', contatosHide.id_contatoSelecionado]);
 
 

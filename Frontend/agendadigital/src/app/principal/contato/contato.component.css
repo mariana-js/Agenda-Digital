@@ -24,7 +24,7 @@ nav {
   flex-direction: column;
 }
 
-.tab {
+fieldset {
   background: #ffffff;
   padding: 0.4rem 1rem;
   margin: 0.5rem;
@@ -54,8 +54,16 @@ nav {
 
 .informacoes span {
   padding: 0.2rem 0;
+
 }
 
+.info span{
+  font-size: 15px;
+  color: rgb(109, 109, 109);
+  display: flex;
+  justify-items: start;
+  align-items: center;
+}
 .title-contact h1 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: #2c3257;
@@ -88,20 +96,10 @@ table {
   border-collapse: collapse;
 }
 
-.tab table {
+.info table {
   table-layout: fixed;
+  margin-top: -1rem;
 }
-
-.centered-th {
-  display: flex;
-  align-items: flex-start;
-  padding: 0.5rem 0rem 0.3rem 0rem;
-  color: #3d404e;
-  font-weight: bold;
-  margin-bottom: -1rem;
-  font-size: 15px;
-}
-
 td{
   padding: 0.25rem;
 }

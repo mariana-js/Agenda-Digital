@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Contato } from '../../models/contato';
 import { ContatoStateService } from '../../services/contato-state.service';
 import { NavAniversariantesComponent } from "../nav-aniversariantes/nav-aniversariantes.component";
+import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-principal',
   standalone: true,
@@ -14,7 +15,6 @@ import { NavAniversariantesComponent } from "../nav-aniversariantes/nav-aniversa
   imports: [HttpClientModule, NavAniversariantesComponent, NgFor, FormsModule]
 })
 export class PrincipalComponent {
-  // @ViewChild('celular1Input') celular1Input!: ElementRef;
   readonly url: string
 
   contatos: Contato[] = [];
@@ -24,11 +24,11 @@ export class PrincipalComponent {
   amount: number = 0;
   itemsPerPage = 15;
   currentPage = 1;
-  // private routerSubscription: Subscription;
 
   get totalPages(): number {
     return Math.ceil(this.contatos.length / this.itemsPerPage);
-  } constructor(
+  }
+   constructor(
     private http: HttpClient,
     private router: Router,
     private contatoStateService: ContatoStateService) {
@@ -38,24 +38,30 @@ export class PrincipalComponent {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
     }
-  } previousPage() {
+  }
+
+  previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
     }
-  } ngOnInit() {
+  }
+  ngOnInit() {
+
     this.getContatos();
+
   }
   getContatos() {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
       .subscribe(resultados => {
-        this.contatos = resultados.filter(contato => contato.flag_privado === true);
+        this.contatos = resultados.filter(contato => contato.flag_privado === false);
         this.contatos.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
         this.amount = this.contatos.length;
         if (this.amount === 0) {
           console.log("Erro ao trazer os contatos!");
         }
       })
-  } getFuncionarios() {
+  }
+  getFuncionarios() {
     this.http.get<Contato[]>(`${this.url}/pessoa`)
       .subscribe(resultados => {
         this.contatos = resultados.filter(contatos => contatos.flag_funcionario === true);
