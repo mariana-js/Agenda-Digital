@@ -51,7 +51,8 @@
                 *ngFor="let contato of contatosHide.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)">
 
                 <td class="foto" (click)="informacoes(contato)"> <img src="assets/foto/foto.png" alt=""></td>
-                <td (click)="informacoes(contato)" class="truncate">{{contato.nome_pessoa}}</td>
+                <td (click)="informacoes(contato)" class="truncate" >
+                  {{contato.nome_pessoa}}</td>
                 <td (click)="informacoes(contato)" class="truncate">{{contato.email}}</td>
                 <td (click)="informacoes(contato)">{{contato.celular1}}</td>
                 <td class="foto2"><img class="up" src="assets/img/editar.png" alt="editar"

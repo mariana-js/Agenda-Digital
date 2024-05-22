@@ -9,4 +9,5 @@ export interface Funcionario {
     data_nascimento: string;
     dia: string;
     mes: string;
+    sigla: string;
 }

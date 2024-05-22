@@ -7,7 +7,7 @@
     <div class="area">
 
       <h2 class="top"> <img src="assets/Imagens/adicionar-contato-b.png" alt="add-contato">Gerenciar contato</h2>
-      <span>{{resposta}}</span>
+      <span [ngClass]="{'alt_add': resposta === 'Contato salvo com sucesso!', 'erro': resposta === 'Erro ao salvar o contato!'}">{{resposta}}</span>
 
       <form action="/pessoa" method="POST" enctype="multipart/form-data">
 
@@ -15,7 +15,6 @@
           <legend>
             <h2>Contato</h2>
           </legend>
-
 
           <div class="field-group">
             <div class="field-chekbox">

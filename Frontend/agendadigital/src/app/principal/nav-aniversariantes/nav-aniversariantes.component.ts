@@ -55,10 +55,12 @@ export class NavAniversariantesComponent implements OnInit {
         const dia = dataNascimento.getUTCDate().toString().padStart(2, '0');
         const mes = (dataNascimento.getUTCMonth() + 1).toString().padStart(2, '0');
 
+        console.log(setor?.sigla_setor)
         return {
           ...aniversariante,
           nome: contato?.nome_pessoa || 'Nome não encontrado',
           setor: setor?.nome_setor || 'Setor não encontrado',
+          sigla: setor?.sigla_setor || 'Sigla não encontrada',
           dia: dia,
           mes: mes
 

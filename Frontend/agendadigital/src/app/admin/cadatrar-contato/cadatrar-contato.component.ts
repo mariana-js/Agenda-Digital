@@ -114,7 +114,9 @@ export class CadatrarContatoComponent {
     mes: '',
     foto: this.foto
   }
-
+capitalize(text: string): string {
+  return text.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+}
   constructor(
     private http: HttpClient,
     private activatedRoute: ActivatedRoute,
@@ -309,7 +311,6 @@ export class CadatrarContatoComponent {
     return false;
   } validation2() {
     if (!this.nome_pessoa) return false;
-    // else if (this.nome_pessoa.length > 20) return;
     if (!this.celular1) return false;
     if (!this.verificarNumeros(this.celular1) || !this.verificarNumeros(this.celular2) || !this.verificarNumeros(this.telefone)) return false;
     if (this.cep && (this.removerCaracteresEspeciais(this.cep).length !== 8 || !this.verificarNumeros(this.removerCaracteresEspeciais(this.cep)))) return false;
@@ -350,7 +351,6 @@ export class CadatrarContatoComponent {
     switch (fieldName) {
       case 'nome_pessoa':
         if (!this.nome_pessoa) return;
-        // if (this.nome_pessoa.length > 20) return;
         const nomeExistente = this.contatos.find(pessoa =>
           pessoa.nome_pessoa.trim().toLowerCase() === this.nome_pessoa.trim().toLowerCase() &&
           pessoa.id_pessoa !== contatoSelecionado?.id_pessoa
@@ -425,12 +425,12 @@ export class CadatrarContatoComponent {
         }
         if (contato !== undefined) {
           this.update(contato);
-          this.resposta = `Contato de ${contato?.nome_pessoa} alterado com sucesso!`;
+          this.resposta = `Contato salvo com sucesso!`;
         }
       } else {
         this.adicionarContato();
         this.clear();
-        this.resposta = `Contato de  ${contato?.nome_pessoa} adicionado com sucesso!`;
+        this.resposta = `Contato salvo com sucesso!`;
       }
     } else {
       alert("Erro ao salvar o contato, verifique as validações!")
@@ -440,7 +440,6 @@ export class CadatrarContatoComponent {
     const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
       setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
     );
-    console.log(this.foto)
     this.novoContato.nome_pessoa = this.nome_pessoa;
     this.novoContato.email = this.email;
     this.novoContato.celular1 = this.removerCaracteresEspeciais(this.celular1);
@@ -487,16 +486,16 @@ export class CadatrarContatoComponent {
   } adicionarFuncionario(id_contato: string, setorRamalEncontrado: SetorRamal) {
     this.novoFuncionario.id_pessoa = id_contato;
     this.novoFuncionario.data_nascimento = this.data_nascimento;
-    console.log(this.foto)
+    // console.log(this.foto)
     // Construir um objeto FormData
-    const formData = new FormData();
-    formData.append('funcionarioDtos', JSON.stringify(this.novoFuncionario));
-    if (this.foto !== null) {
-      formData.append('foto', this.foto);
-      console.log(this.foto)
-    } else {
-      console.error('A imagem não está definida.');
-    }
+    // const formData = new FormData();
+    // formData.append('funcionarioDtos', JSON.stringify(this.novoFuncionario));
+    // if (this.foto !== null) {
+    //   formData.append('foto', this.foto);
+    //   console.log(this.foto)
+    // } else {
+    //   console.error('A imagem não está definida.');
+    // }
     if (setorRamalEncontrado) {
       this.novoFuncionario.id_setor_ramal = setorRamalEncontrado.id_setor_ramal;
       this.http.post<Funcionario>(`${this.url}/funcionario`, this.novoFuncionario)

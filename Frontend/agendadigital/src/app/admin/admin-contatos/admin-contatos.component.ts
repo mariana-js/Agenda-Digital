@@ -51,6 +51,11 @@ export class AdminContatosComponent {
       this.currentPage--;
     }
   }
+
+  capitalize(text: string): string {
+    return text.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+  }
+  
   ngOnInit() {
     forkJoin({
       endereco: this.http.get<Endereco[]>(`${this.url}/endereco`),
