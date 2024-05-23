@@ -112,7 +112,8 @@ export class CadatrarContatoComponent {
     data_nascimento: this.data_nascimento,
     dia: '',
     mes: '',
-    foto: this.foto
+    foto: this.foto,
+    sigla: ''
   }
 capitalize(text: string): string {
   return text.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());

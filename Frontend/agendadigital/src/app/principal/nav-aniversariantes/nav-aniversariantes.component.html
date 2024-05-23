@@ -1,26 +1,34 @@
 <nav>
   <div class="container">
     <h1>Aniversariantes do Mês</h1>
-    <span>{{resposta}}</span> <!-- Exibe resposta para cada aniversariante -->
-    <table>
-      <tbody>
-        <tr class="aniversariante" *ngFor="let aniversariante of aniversariantes">
-          <td>
-            <div class="date">
-              <span class="dt-aniversario">{{aniversariante.dia}} - {{aniversariante.mes}} </span>
-            </div>
-            <div class="image-container">
-              <img src="assets/foto/foto.png" alt="foto-aniversariante">
-            </div>
+    <span>{{resposta}}</span>
 
-            <div class="aniversariante-descricao">
-              <span class="nome">{{aniversariante.nome}}</span>
-              <span class="descricao">{{aniversariante.sigla}}</span>
-            </div>
-          </td>
-        </tr>
 
-      </tbody>
-    </table>
+      <table>
+        <tbody>
+          <tr class="aniversariante" *ngFor="let aniversariante of aniversariantes">
+            <td>
+              <fieldset>
+              <div class="image-container">
+                <img src="assets/foto/foto.png" alt="foto-aniversariante">
+              </div>
+              <div class="info">
+
+                <div class="date">
+                  <span class="dt-aniversario">{{aniversariante.dia}} - {{aniversariante.mes}} </span>
+                </div>
+
+                <div class="aniversariante-descricao">
+                  <span class="nome">{{aniversariante.nome}} - <span class="descricao">{{aniversariante.sigla}}</span>
+                  </span>
+
+                </div>
+              </div>
+            </fieldset>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
   </div>
 </nav>
