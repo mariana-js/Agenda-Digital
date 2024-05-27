@@ -1,7 +1,5 @@
 <div class="p">
 
-
-
   <div class="area page-ramais">
 
     <div class="title">
@@ -9,39 +7,43 @@
       <h1>Ramais</h1>
     </div>
 
-    <div class="c">
 
+    <div class="container">
+      <div class="setores">
 
-      <div class="container">
-
-        <div class="setores">
-
-          <h3>Setores</h3>
-          <button (click)="showAllRamais()">Todos</button>
-          <div *ngFor="let setor of setor">
-            <button (click)="filterRamaisBySetor(setor.nome_setor)">{{setor.nome_setor}}</button>
-          </div>
+        <h3>Setores</h3>
+        <button (click)="showAllRamais()" [ngClass]="{'selected-sector-button': selectedSectorButton === 'Todos'}">{{'Todos'}}</button>
+        <div *ngFor="let setor of setor">
+          <button [ngClass]="{'selected-sector-button': setor.id_setor === selectedSectorButton}" (click)="filterRamaisBySetor(setor.nome_setor, setor.id_setor)">{{setor.nome_setor}}</button>
         </div>
+      </div>
 
-        <div class="tabela-ramais">
 
-          <table>
-            <thead>
-              <tr>
-                <th>Usuário</th>
-                <th>Ramal</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let ramais of filteredRamais">
-                <td>{{ramais.usuario}}</td>
-                <td>{{ramais.ramal}}</td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="tabela-ramais">
 
-        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Usuário</th>
+              <th>Ramal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ramais of filteredRamais">
+              <td>{{ramais.usuario}}</td>
+              <td class="td-ramal">{{ramais.ramal}}</td>
+            </tr>
+            <tr *ngIf="filteredRamais.length === 0" class="no-data">
+              <td colspan="2">Não há ramais neste setor.</td>
+            </tr>
+            <tr *ngIf="filteredRamais.length < 5 && filteredRamais.length !== 0">
+              <td colspan="2" [ngStyle]="{'height': getTdHeight(filteredRamais.length)}"></td>
+            </tr>
+          </tbody>
+        </table>
+
       </div>
     </div>
   </div>
+
 </div>

@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
@@ -11,7 +11,7 @@ import { SetorRamal } from '../../models/setor-ramal';
 @Component({
   selector: 'app-ramais-principal',
   standalone: true,
-  imports: [NgFor, HttpClientModule],
+  imports: [NgFor, HttpClientModule, NgIf, NgStyle,NgClass],
   templateUrl: './ramais-principal.component.html',
   styleUrl: './ramais-principal.component.css'
 })
@@ -23,6 +23,9 @@ export class RamaisPrincipalComponent {
   setor: Setor[] = [];
   contato: Contato[] = [];
   filteredRamais: Ramais[] = [];
+  selectedSectorButton: string = 'Todos'; // Store the ID of the selected sector button
+
+
 
   constructor(
     private http: HttpClient) {
@@ -41,13 +44,23 @@ export class RamaisPrincipalComponent {
       this.usuarios = usuarios;
       this.str = str;
       this.setor = setor;
+      this.setor.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
       this.getRamais();
     });
   }
   findSetorById(setores: Setor[], id: string): Setor | undefined {
     return setores.find(setor => setor.id_setor === id);
   }
-
+  getTdHeight(numRows: number): string {
+    if (numRows >= 1 && numRows <= 4) {
+      const dataRows = numRows - 1;
+      const remainingSpace = 18 - (dataRows * 4);
+      return `${remainingSpace}rem`;
+    } else {
+      return 'auto';
+    }
+  } 
+  
   getRamais() {
     this.ramais = this.usuarios.map(usuario => {
       const setorRamal = this.str.find(sr => sr.id_setor_ramal === usuario.id_setor_ramal);
@@ -71,14 +84,23 @@ export class RamaisPrincipalComponent {
         setor: ''
       };
     });
+    this.ramais.sort((a, b) => a.usuario.localeCompare(b.usuario));
     this.filteredRamais = [...this.ramais];  // Inicialmente mostrar todos os ramais
   }
 
-  filterRamaisBySetor(setorNome: string) {
+  filterRamaisBySetor(setorNome: string,  buttonId: string) {
+    if (setorNome === 'Todos') {
+      this.selectedSectorButton = 'Todos';
+    } else {
+      this.selectedSectorButton = buttonId;
+    }
+
     this.filteredRamais = this.ramais.filter(ramal => ramal.setor === setorNome);
   }
+  
 
   showAllRamais() {
+    this.selectedSectorButton = 'Todos';
     this.filteredRamais = [...this.ramais];
   }
 }
