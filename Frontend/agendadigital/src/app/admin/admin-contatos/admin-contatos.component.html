@@ -1,9 +1,9 @@
-<div class="pag">
-  <div>
-    <app-nav-admin></app-nav-admin>
-  </div>
+<div>
+  <app-nav-admin></app-nav-admin>
+</div>
 
-  <DIV>
+<DIV class="main-content">
+  <div class="pag">
     <div class="area1">
       <span class="retorno">{{retorno}}</span>
       <div>
@@ -51,7 +51,7 @@
                 *ngFor="let contato of contatosHide.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)">
 
                 <td class="foto" (click)="informacoes(contato)"> <img src="assets/foto/foto.png" alt=""></td>
-                <td (click)="informacoes(contato)" class="truncate" >
+                <td (click)="informacoes(contato)" class="truncate">
                   {{contato.nome_pessoa}}</td>
                 <td (click)="informacoes(contato)" class="truncate">{{contato.email}}</td>
                 <td (click)="informacoes(contato)">{{contato.celular1}}</td>

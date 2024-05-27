@@ -13,6 +13,12 @@ body {
   position: relative;
   box-shadow: 1px 5px 6px 2px #e5e5e5;
   margin-bottom: 4rem;
+
+  /* margin-top: 4rem; Ajuste para garantir espaço para o header fixo */
+}
+.main-content {
+  margin-left: 13.8rem; /* Ajuste conforme a largura da barra lateral */
+  padding-top: 3.5rem; /* Ajuste conforme a altura do cabeçalho fixo */
 }
 
 a {

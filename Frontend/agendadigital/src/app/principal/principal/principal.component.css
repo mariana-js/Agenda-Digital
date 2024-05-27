@@ -16,6 +16,7 @@
 .nav-aniversariantes,
 .nav-principal {
   flex: 0;
+  margin-top: 4rem;
 }
 
 .disabled {

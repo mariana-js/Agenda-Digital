@@ -2,7 +2,7 @@
   display: flex;
   position: relative;
   justify-content: center;
-
+  margin-top: 5rem;
 }
 .area .login{
   min-height: min-content;
@@ -32,6 +32,7 @@
 
 .container {
   margin: 5rem;  
+ 
   padding: 2rem;
 
   display: flex;

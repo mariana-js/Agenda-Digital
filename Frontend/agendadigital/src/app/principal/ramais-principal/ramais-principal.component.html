@@ -34,7 +34,7 @@
               <td class="td-ramal">{{ramais.ramal}}</td>
             </tr>
             <tr *ngIf="filteredRamais.length === 0" class="no-data">
-              <td colspan="2">Não há ramais neste setor.</td>
+              <td colspan="2">Não há usuários com ramais neste setor.</td>
             </tr>
             <tr *ngIf="filteredRamais.length < 5 && filteredRamais.length !== 0">
               <td colspan="2" [ngStyle]="{'height': getTdHeight(filteredRamais.length)}"></td>

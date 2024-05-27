@@ -1,12 +1,14 @@
 .head {
   box-shadow: 0px 3px 3px rgb(125, 125, 126);
   width: 100%;
-  position: relative;
+  /* position: relative; */
+  position: fixed; /* Alterado para fixed */
   /* Posicione o menu como referência */
   z-index: 1;
   height: 3.5rem;
   display: flex;
   flex: 1;
+  top: 0; /* Para garantir que fique no topo da página */
 }
 
 .head, p {

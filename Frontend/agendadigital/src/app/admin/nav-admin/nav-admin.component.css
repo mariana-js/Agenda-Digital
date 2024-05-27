@@ -4,14 +4,16 @@
   display: block;
   width: 13.8rem;
   text-align: left;
-  height: 70rem;
+  height: calc(100vh - 3.5rem); /* Altura da barra lateral para cobrir toda a altura da tela */
   z-index: 2;
+  position: fixed; /* Faz a barra lateral ficar fixa */
+  top: 4.49rem; 
+  left: 0;
+  overflow-y: auto; /* Adiciona scroll se o conteúdo ultrapassar a altura da tela */
 }
 
-a {
-  text-transform: capitalize;
-  font-size: 1rem;
-  padding-left: 0.5rem;
+.nav-admin a{
+  margin-left: 0.3rem;
 }
 
 table tr {
@@ -20,12 +22,10 @@ table tr {
   display: grid;
   padding: 0.3rem;
   margin: 0rem;
-
 }
 
 table tr:hover {
   background-color: #c0d2ec;
-  /* color: #ffffff; */
   transition: background-color 0.5s;
   width: 13rem;
   font-weight: 600;
