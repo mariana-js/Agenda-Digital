@@ -38,13 +38,13 @@ export class NavAniversariantesComponent implements OnInit {
       this.setores = setores;
       this.getAniversariantes();
     });
-   
+
   }
 
   getAniversariantes(): void {
     const dataAtual = new Date();
     const mesAtual = dataAtual.getMonth() + 1;
-   this.http.get<Funcionario[]>(`${this.url}/funcionario?mes=${mesAtual}`).subscribe(aniversariantes => {
+    this.http.get<Funcionario[]>(`${this.url}/funcionario?mes=${mesAtual}`).subscribe(aniversariantes => {
       this.aniversariantes = aniversariantes.map(aniversariante => {
         const contato = this.contatos.find(contato => contato.id_pessoa === aniversariante.id_pessoa);
         const setorRamal = this.setor_ramais.find(setorRamal => setorRamal.id_setor_ramal === aniversariante.id_setor_ramal);
@@ -55,10 +55,22 @@ export class NavAniversariantesComponent implements OnInit {
         const dia = dataNascimento.getUTCDate().toString().padStart(2, '0');
         const mes = (dataNascimento.getUTCMonth() + 1).toString().padStart(2, '0');
 
-        console.log(setor?.sigla_setor)
+      // Garantindo que o nome tenha no máximo duas palavras ou apenas a primeira se a segunda for uma das palavras específicas
+      let nomeCompleto = contato?.nome_pessoa || 'Nome não encontrado';
+      let nomeArray = nomeCompleto.split(' ');
+      let palavrasEspecificas = ['de', 'dos', 'da', 'do'];
+
+      let nomeDuasPalavras;
+      if (nomeArray.length > 1 && palavrasEspecificas.includes(nomeArray[1].toLowerCase())) {
+        nomeDuasPalavras = nomeArray[0];
+      } else {
+        nomeDuasPalavras = nomeArray.slice(0, 2).join(' ');
+      }
+
         return {
+
           ...aniversariante,
-          nome: contato?.nome_pessoa || 'Nome não encontrado',
+          nome: nomeDuasPalavras,
           setor: setor?.nome_setor || 'Setor não encontrado',
           sigla: setor?.sigla_setor || 'Sigla não encontrada',
           dia: dia,
@@ -67,11 +79,11 @@ export class NavAniversariantesComponent implements OnInit {
         };
       }
       );
-      if(this.aniversariantes.length === 0){       
+      if (this.aniversariantes.length === 0) {
         this.resposta = 'Sem aniversariantes neste mês.'
       }
     });
-    
+
   }
 
 }

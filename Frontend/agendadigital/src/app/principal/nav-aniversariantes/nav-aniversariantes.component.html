@@ -1,14 +1,13 @@
 <nav>
   <div class="container">
-    <h1>Aniversariantes do Mês</h1>
+    <h1>Aniversariantes</h1>
     <span>{{resposta}}</span>
 
-
-      <table>
-        <tbody>
-          <tr class="aniversariante" *ngFor="let aniversariante of aniversariantes">
-            <td>
-              <fieldset>
+    <table>
+      <tbody>
+        <tr class="aniversariante" *ngFor="let aniversariante of aniversariantes">
+          <td>
+            <fieldset>
               <div class="image-container">
                 <img src="assets/foto/foto.png" alt="foto-aniversariante">
               </div>
@@ -25,10 +24,10 @@
                 </div>
               </div>
             </fieldset>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
   </div>
 </nav>

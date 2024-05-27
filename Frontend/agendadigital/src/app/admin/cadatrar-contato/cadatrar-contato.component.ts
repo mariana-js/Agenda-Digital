@@ -367,7 +367,8 @@ capitalize(text: string): string {
           pessoa.email !== contatoSelecionado?.email
         );
         this.emailExistente = emailExistente;
-        if (this.email && emailExistente) return;
+        
+        if (this.email && emailExistente && (emailExistente !== undefined)) return;
         break;
       case 'celular1':
         const celular1Existente = this.contatos.find(pessoa =>
@@ -456,6 +457,7 @@ capitalize(text: string): string {
         const id = novoContato.id_pessoa;
 
         if ((this.logradouro || this.numero || this.estado || this.cidade || this.bairro || this.uf || this.cep)) {
+          console.log(this.box_fun)
           this.adicionarEndereco(id);
         }
 
