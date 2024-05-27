@@ -14,7 +14,11 @@
     margin-left: 2rem;
     color:red;
 }
-
+form{
+  width:95%;
+  justify-content: center;
+  align-items: center;
+}
 fieldset{
     background: #ffffff;
     padding: 0.4rem 1rem;

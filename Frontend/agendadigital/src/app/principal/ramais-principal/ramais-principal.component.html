@@ -1,31 +1,47 @@
-<div class="area">
+<div class="p">
+
+
+
+  <div class="area page-ramais">
 
     <div class="title">
-        <img src="assets/Imagens/ramal-b.png" alt="ramais">
-        <h1>Ramais</h1>
+      <img src="assets/Imagens/ramal-b.png" alt="ramais">
+      <h1>Ramais</h1>
     </div>
 
-    <h3>Setores</h3>
-    <div *ngFor="let setor of setor">
-        <button (click)="filterRamaisBySetor(setor.nome_setor)">{{setor.nome_setor}}</button>
-    </div>
-    <button (click)="showAllRamais()">Mostrar Todos os Ramais</button>
-    <div>
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Usuário</th>
-                        <th>Ramal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let ramais of filteredRamais">
-                        <td>{{ramais.usuario}}</td>
-                        <td>{{ramais.ramal}}</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="c">
+
+
+      <div class="container">
+
+        <div class="setores">
+
+          <h3>Setores</h3>
+          <button (click)="showAllRamais()">Todos</button>
+          <div *ngFor="let setor of setor">
+            <button (click)="filterRamaisBySetor(setor.nome_setor)">{{setor.nome_setor}}</button>
+          </div>
         </div>
 
+        <div class="tabela-ramais">
+
+          <table>
+            <thead>
+              <tr>
+                <th>Usuário</th>
+                <th>Ramal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ramais of filteredRamais">
+                <td>{{ramais.usuario}}</td>
+                <td>{{ramais.ramal}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
     </div>
+  </div>
+</div>

@@ -36,6 +36,8 @@ a {
   min-height: 27rem;
   position: relative;
   box-shadow: 1px 2px 6px 2px #e5e5e5;
+  justify-content: center;
+
 }
 
 .truncate {
