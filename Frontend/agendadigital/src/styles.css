@@ -13,12 +13,15 @@ body {
   position: relative;
   box-shadow: 1px 5px 6px 2px #e5e5e5;
   margin-bottom: 4rem;
-
+  min-height: 28rem;
   /* margin-top: 4rem; Ajuste para garantir espaço para o header fixo */
 }
+
 .main-content {
-  margin-left: 13.8rem; /* Ajuste conforme a largura da barra lateral */
-  padding-top: 3.5rem; /* Ajuste conforme a altura do cabeçalho fixo */
+  margin-left: 13.8rem;
+  /* Ajuste conforme a largura da barra lateral */
+  padding-top: 3.5rem;
+  /* Ajuste conforme a altura do cabeçalho fixo */
 }
 
 a {
@@ -34,15 +37,15 @@ a {
 
 .area {
   margin: 2rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 5rem;
   padding: 0.9rem;
-  background-color: rgb(243, 243, 243);
+  background-color:rgb(244, 244, 247);
   border-radius: 0.3rem;
   width: 90%;
-  min-height: 27rem;
+  min-height: 29rem;
   position: relative;
   box-shadow: 1px 2px 6px 2px #e5e5e5;
-  justify-content: center;
+  /* justify-content: center; */
 
 }
 
@@ -98,7 +101,7 @@ a {
   border-collapse: collapse;
   width: 20rem;
   table-layout: fixed;
-  margin: 0rem 1rem 1rem 1rem ;
+  margin: 0rem 1rem 1rem 1rem;
 }
 
 .admin td {

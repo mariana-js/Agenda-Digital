@@ -19,7 +19,7 @@ nav {
   height: min-content;
   border-radius: 0.5rem;
   padding: 1rem;
-  background-color: #f5f5f5;
+  background-color: rgb(244, 244, 247);
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -42,7 +42,7 @@ fieldset {
 .title-contact th,
 .title-contact tr {
   border: none;
-  background-color: #f5f5f5;
+  background-color:rgb(244, 244, 247);
 }
 
 .informacoes {
@@ -56,7 +56,7 @@ fieldset {
 
 .informacoes span {
   padding: 0.2rem 0;
-
+  font-family: monospace;
 }
 
 .info span{

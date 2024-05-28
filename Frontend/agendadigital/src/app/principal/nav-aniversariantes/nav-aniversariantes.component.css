@@ -1,96 +1,73 @@
 nav {
   display: flex;
-  position: relative;
-  margin: 4.4rem 3rem 0rem 3rem;
-  width: min-content;
-  height: min-content;
+  margin: 2rem 0 0 2rem;
 }
 
 .container {
-  width: 15rem;
-  height: max-content;
-  min-height: 20rem;
-  background-color: rgb(250 250 251);
-  position: relative;
-  border-radius: 0.4rem;
-  padding: 0.6rem;
-  box-shadow: -1px 5px 7px 2px #DFDFCE;
+  width: 12rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 h1 {
-  text-align: center;
-  font-size: 1rem;
-  color: #8a9cff;
-  margin: 0.1rem;
+  font-size: 1.2rem;
+  color: #343a40;
+  margin-bottom: 1rem;
 }
 
 table {
-  width: max-content;
-  height: max-content;
-  margin: 1rem 0rem;
+  width: 100%;
 }
 
 .aniversariante fieldset {
-  border: none;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  border-radius: 2rem;
-  background-color: rgb(242 242 251);
-  width: 100%;
-
-  box-shadow: inset 1px 1px 2px 0px #bebeff;
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.info {
-  display: grid;
-  width: 80%;
-
+.date {
+  margin-bottom: 0.5rem;
 }
 
 .dt-aniversario {
-  background-color: #eff2f7;
-  color: #1536f0;
-  font-size: 0.7rem;
-  font-weight: bold;
-  padding: 0.1rem;
-  border-radius: 0.5rem;
-}
-
-.date{
-  display: flex;
-  justify-content: right;
-}
-
-.aniversariante .nome {
-  color: #8997e9;
-  font-size: 0.8rem;
-  font-weight: bold;
-  margin-left: 0.5rem;
-}
-
-.aniversariante .descricao {
   font-size: 0.9rem;
-  color: rgb(65, 67, 71);
-  font-weight: 300;
-}
-
-.aniversariante .aniversariante-descricao {
-  display: grid;
-  align-items: center;
-  text-align: left;
+  font-weight: 600;
+  color: #495057;
 }
 
 .image-container {
-  border: 1px solid #0026ff;
-  width: 3rem;
-  height: 3rem;
+  width: 4rem;
+  height: 4rem;
   border-radius: 50%;
   overflow: hidden;
+  margin: 0 auto 1rem;
+  border: 2px solid #6c757d;
 }
 
 .image-container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.aniversariante-descricao {
+  font-size: 0.9rem;
+  color: #343a40;
+}
+
+.nome {
+  font-weight: 600;
+  color: #007bff;
+}
+
+.descricao {
+  font-weight: 400;
+  color: #6c757d;
 }

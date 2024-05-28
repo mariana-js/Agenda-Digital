@@ -1,142 +1,161 @@
 * {
-    color: rgb(109, 109, 109);
+  color: rgb(109, 109, 109);
+}
+
+.a {
+  width: 41rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .invalid-field {
   color: red;
   font-size: 0.8rem;
 }
-.alt_add{
-    margin-left: 2rem;
-    color:green;
+
+.alt_add {
+  font-size: 1rem;
+  color: green;
 }
-.erro{
-    margin-left: 2rem;
-    color:red;
+
+.erro {
+  margin-left: 2rem;
+  color: red;
 }
-form{
-  width:95%;
+
+form {
+  width: 95%;
   justify-content: center;
   align-items: center;
 }
-fieldset{
-    background: #ffffff;
-    padding: 0.4rem 1rem;
-    margin: 0.5rem;
-    border-radius: 0.4rem;
-    border: 1px solid #e5e5e7;
+
+fieldset {
+  background: #ffffff;
+  padding: 0.4rem 1rem;
+  margin: 0.5rem;
+  border-radius: 0.4rem;
+  border: 1px solid #e5e5e7;
 }
 
-.divisao{
-    background: #ffffff;
-    padding: 0.4rem 1rem;
-    margin: 0.5rem;
-    border-radius: 0.4rem;
-    border: 1px solid #e5e5e7;
+.divisao {
+  background: #ffffff;
+  padding: 0.4rem 1rem;
+  margin: 0.5rem;
+  border-radius: 0.4rem;
+  border: 1px solid #e5e5e7;
 }
-.top{
-    margin: 0.5rem 0.3rem;
+
+.top {
+  margin: 0.5rem 0.3rem;
 }
+
 h2 {
-    font-size: 18px;
-    color: rgb(109, 109, 109);
-    display: flex;
-    justify-items: start;
-    align-items: center;
+  font-size: 18px;
+  color: rgb(109, 109, 109);
+  display: flex;
+  justify-items: start;
+  align-items: center;
 }
 
 img {
-    padding-right: 0.4rem;
+  padding-right: 0.4rem;
 }
 
 form h1 {
-    font-size: 10rem;
+  font-size: 10rem;
 }
 
 form legend {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 form .field {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
 }
 
 form .field-group {
-    display: flex;
+  display: flex;
 }
+
 form input,
 form select {
-    background-color: #f0f0f5;
-    border: 0;
-    padding: 0.5rem;
-    font-size: 13px;
-    border-radius: 8px;
-    outline: none;
+  background-color: #f0f0f5;
+  border: 0;
+  padding: 0.5rem;
+  font-size: 13px;
+  border-radius: 8px;
+  outline: none;
 }
 
 form select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 form label {
-    font-size: 14px;
-    margin-bottom: 1rem;
-    font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 1rem;
+  font-weight: bold;
 }
 
 form .field-chekbox label {
-    font-size: 14px;
-    display: flex;
-    margin-top: -20px;
-    margin-left: 1.2rem;
-    padding-right: 1rem;
+  font-size: 14px;
+  display: flex;
+  margin-top: -20px;
+  margin-left: 1.2rem;
+  padding-right: 1rem;
 }
 
 form .field-chekbox input {
-    margin-left: 0.1rem;
+  margin-left: 0.1rem;
 }
 
 form .field-group .field+.field {
-    margin-left: 2rem;
+  margin-left: 2rem;
 }
 
 form button {
-    width: 10rem;
-    height: 2rem;
+  width: 10rem;
+  height: 2rem;
 
-    background-color: rgb(98, 131, 190);
-    border-radius: 8px;
+  background-color: rgb(98, 131, 190);
+  border-radius: 8px;
 
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
 
-    border: 0;
+  border: 0;
 
-    margin-top: 1rem;
+  margin-top: 1rem;
 
-    transition: background-color 400ms;
+  transition: background-color 400ms;
 
-    cursor: pointer;
+  cursor: pointer;
 }
-.botao{
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 1rem;
+
+.botao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 1rem;
 }
+
 .botao .limpar {
-    background-color:rgb(157 157 118);
-    margin-right: 1rem;
+  background-color: rgb(157 157 118);
+  margin-right: 1rem;
 }
-.botao .limpar:hover{
-    background-color:rgb(161, 161, 54);
+
+.botao .limpar:hover {
+  background-color: rgb(161, 161, 54);
 }
+
 form button:hover {
-    background-color: rgb(12, 37, 92);
+  background-color: rgb(12, 37, 92);
 }

@@ -8,19 +8,16 @@
         <tr class="aniversariante" *ngFor="let aniversariante of aniversariantes">
           <td>
             <fieldset>
+              <div class="date">
+                <span class="dt-aniversario">{{aniversariante.dia}} - {{aniversariante.mes}} </span>
+              </div>
+
               <div class="image-container">
                 <img src="assets/foto/foto.png" alt="foto-aniversariante">
               </div>
               <div class="info">
-
-                <div class="date">
-                  <span class="dt-aniversario">{{aniversariante.dia}} - {{aniversariante.mes}} </span>
-                </div>
-
                 <div class="aniversariante-descricao">
-                  <span class="nome">{{aniversariante.nome}} - <span class="descricao">{{aniversariante.sigla}}</span>
-                  </span>
-
+                  <span class="nome">{{aniversariante.nome}} - <span class="descricao">{{aniversariante.sigla}}</span></span>
                 </div>
               </div>
             </fieldset>

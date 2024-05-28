@@ -13,7 +13,7 @@
 
 .page-ramais {
   width:45rem;
-  min-height: 25rem; 
+  min-height: 25rem;
 }
 
 .title {
@@ -47,7 +47,7 @@
 .setores h3 {
   font-size: 13px;
   margin-top: 0;
-  color: #858585;
+  color: #57697b;
 }
 
 .setores button {
@@ -58,7 +58,7 @@
   padding: 0.2rem 0.5rem;
   border-radius: 1rem;
   cursor: pointer;
-  background-color: #e9e9e9;
+  background-color:#e1e0e0;
 }
 
 .setores .selected-sector-button {
