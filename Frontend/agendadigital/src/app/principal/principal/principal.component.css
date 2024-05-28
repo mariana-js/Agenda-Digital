@@ -3,6 +3,16 @@
   position: relative;
 }
 
+.no-data, .no-data td{
+  height: 18rem;
+  text-align: center;
+  color: rgb(100, 14, 14);
+}
+
+.no-data td:hover{
+  background-color: #fff;
+}
+
 .retorno {
   display: flex;
   justify-content: right;
@@ -37,7 +47,7 @@ button:hover {
 }
 
 .principal {
-  margin: 1rem 3rem;
+  margin: 1rem 8rem;
   flex: 1;
   position: relative;
 }

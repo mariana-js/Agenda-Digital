@@ -26,6 +26,12 @@
                 <td class="truncate">{{setor.nome_setor}}</td>
                 <td class="lixeira lix"><img src="assets/img/lixo.png" alt="setor" (click)="excluirSetor(setor)"></td>
               </tr>
+              <tr *ngIf="setores.length === 0" class="no-data">
+                <td colspan="3">Não há setores cadastrados.</td>
+              </tr>
+              <tr *ngIf="setores.length < 5 && setores.length !== 0">
+                <td colspan="3" [ngStyle]="{'height': getTdHeight(setores.length)}"></td>
+              </tr>
             </tbody>
 
           </table>

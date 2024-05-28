@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -12,7 +12,7 @@ import { forkJoin } from 'rxjs';
   standalone: true,
   templateUrl: './principal.component.html',
   styleUrl: './principal.component.css',
-  imports: [HttpClientModule, NavAniversariantesComponent, NgFor, FormsModule]
+  imports: [HttpClientModule, NavAniversariantesComponent, NgFor, FormsModule, NgIf, NgStyle,NgClass]
 })
 export class PrincipalComponent {
   readonly url: string
@@ -37,6 +37,15 @@ export class PrincipalComponent {
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+    }
+  }
+  getTdHeight(numRows: number): string {
+    if (numRows >= 1 && numRows <= 8) {
+      const dataRows = numRows - 1;
+      const remainingSpace = 25 - (dataRows * 8);
+      return `${remainingSpace}rem`;
+    } else {
+      return 'auto';
     }
   }
 

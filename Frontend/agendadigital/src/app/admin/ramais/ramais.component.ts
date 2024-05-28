@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ import { Setor } from './../../models/setor';
   standalone: true,
   templateUrl: './ramais.component.html',
   styleUrl: './ramais.component.css',
-  imports: [HttpClientModule, NavAdminComponent, NgFor, FormsModule]
+  imports: [HttpClientModule, NavAdminComponent, NgFor, FormsModule, NgIf, NgStyle,NgClass]
 })
 export class RamaisComponent {
 
@@ -39,6 +39,15 @@ export class RamaisComponent {
 
   constructor(private http: HttpClient, private ngZone: NgZone) {
     this.url = 'http://localhost:8080';
+  }
+  getTdHeight(numRows: number): string {
+    if (numRows >= 1 && numRows <= 4) {
+      const dataRows = numRows - 1;
+      const remainingSpace = 18 - (dataRows * 4);
+      return `${remainingSpace}rem`;
+    } else {
+      return 'auto';
+    }
   }
   ngOnInit() {
 

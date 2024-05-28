@@ -59,6 +59,12 @@
                     (click)="alterarContato(contato)"><img class="up" src="assets/img/lixo.png" alt="excluir"
                     (click)="excluir(contato)"></td>
               </tr>
+              <tr *ngIf="contatosHide.length === 0" class="no-data">
+                <td colspan="5">Não há contatos.</td>
+              </tr>
+              <tr *ngIf="contatosHide.length < 8 && contatosHide.length !== 0">
+                <td colspan="5" [ngStyle]="{'height': getTdHeight(contatosHide.length)}"></td>
+              </tr>
             </tbody>
 
           </table>
@@ -70,7 +76,8 @@
                   <span (click)="nextPage()" [class.disabled]="currentPage === totalPages"> >> </span>
             </button>
           </div>
-        </div>
+        </
+div>
       </div>
 
 

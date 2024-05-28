@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ import { NavAdminComponent } from "../nav-admin/nav-admin.component";
   standalone: true,
   templateUrl: './setores.component.html',
   styleUrl: './setores.component.css',
-  imports: [NavAdminComponent, NgFor, HttpClientModule, FormsModule]
+  imports: [NavAdminComponent, NgFor, HttpClientModule, FormsModule, NgIf, NgStyle, NgClass]
 })
 export class SetoresComponent {
   readonly url: string;
@@ -28,7 +28,15 @@ export class SetoresComponent {
     this.getSetores();
 
   }
-
+  getTdHeight(numRows: number): string {
+    if (numRows >= 1 && numRows <= 4) {
+      const dataRows = numRows - 1;
+      const remainingSpace = 18 - (dataRows * 4);
+      return `${remainingSpace}rem`;
+    } else {
+      return 'auto';
+    }
+  }
   getSetores() {
     this.http.get<Setor[]>(`${this.url}/setor`)
       .subscribe(resultados => {
@@ -59,12 +67,12 @@ export class SetoresComponent {
     this.novoSetor.sigla_setor = this.sigla;
     if (this.sigla.length > 5) {
       alert('Sigla muito grande!')
-        return;
-      } 
-      if (this.setor.length > 40) {
-        alert('Nome do setor muito grande!')
-          return;
-        } 
+      return;
+    }
+    if (this.setor.length > 40) {
+      alert('Nome do setor muito grande!')
+      return;
+    }
     // Verificar se o setor já existe localmente
     const setorExistente = this.setores.find(setor =>
       setor.nome_setor.trim().toLowerCase() === this.novoSetor.nome_setor.trim().toLowerCase() ||
@@ -104,13 +112,13 @@ export class SetoresComponent {
     this.setorSelecionado.sigla_setor = this.sigla;
     this.setorSelecionado.nome_setor = this.setor;
     if (this.sigla.length > 5) {
-    alert('Sigla muito grande!')
+      alert('Sigla muito grande!')
       return;
-    } 
+    }
     if (this.setor.length > 40) {
       alert('Nome do setor muito grande!')
-        return;
-      } 
+      return;
+    }
     const nomeExistente = this.setores.some(setor =>
       setor.nome_setor.trim().toLowerCase() === this.setor.trim().toLowerCase() &&
       setor.id_setor !== this.setorSelecionado?.id_setor

@@ -44,7 +44,12 @@
                   </td>
                   <td class="truncate">{{ contato.email }}</td>
                   <td>{{ contato.celular1}}</td>
-                  <!-- #celular1Input -->
+                </tr>
+                <tr *ngIf="contatos.length === 0" class="no-data">
+                  <td colspan="4">Não há contatos.</td>
+                </tr>
+                <tr *ngIf="contatos.length < 8 && contatos.length !== 0">
+                  <td colspan="2" [ngStyle]="{'height': getTdHeight(contatos.length)}"></td>
                 </tr>
               </tbody>
 

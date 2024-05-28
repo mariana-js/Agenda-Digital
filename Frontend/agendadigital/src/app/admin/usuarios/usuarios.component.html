@@ -28,6 +28,12 @@
                   <td class="lixeira lix"><img src="assets/img/lixo.png" alt="setor" (click)="excluirUsuario(user)">
                   </td>
                 </tr>
+                <tr *ngIf="users.length === 0" class="no-data">
+                  <td colspan="3">Não há setores cadastrados.</td>
+                </tr>
+                <tr *ngIf="users.length < 5 && users.length !== 0">
+                  <td colspan="3" [ngStyle]="{'height': getTdHeight(users.length)}"></td>
+                </tr>
               </tbody>
             </table>
 

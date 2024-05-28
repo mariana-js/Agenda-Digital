@@ -26,7 +26,12 @@
                   <td class="lixeira lix"><img src="assets/img/lixo.png" alt="setor"
                       (click)="excluirSetorRamal(setorramal)"></td>
                 </tr>
-
+                <tr *ngIf="setor_ramais.length === 0" class="no-data">
+                  <td colspan="3">Não há setores cadastrados.</td>
+                </tr>
+                <tr *ngIf="setor_ramais.length < 5 && setor_ramais.length !== 0">
+                  <td colspan="3" [ngStyle]="{'height': getTdHeight(setor_ramais.length)}"></td>
+                </tr>
               </tbody>
             </table>
 

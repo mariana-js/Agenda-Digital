@@ -9,6 +9,7 @@ select {
     border: 1px solid #ccc;
     border-radius: 0.5rem;
     width: 72%;
+    min-width: 10.5rem;
     height: 1.25rem;
     margin-left: 0.3rem;
     cursor: pointer;
@@ -25,4 +26,12 @@ option {
     background-color: #f8f8f8;
     color: #333;
     cursor: pointer;
+}
+.no-data td{
+  height: 18rem;
+  text-align: center;
+  color: rgb(100, 14, 14);
+}
+.no-data td:hover{
+  background-color: white;
 }

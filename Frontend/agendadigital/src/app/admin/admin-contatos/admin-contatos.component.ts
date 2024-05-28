@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ import { Funcionario } from './../../models/funcionario';
 @Component({
   selector: 'app-admin-contatos',
   standalone: true,
-  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule],
+  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule, NgIf, NgStyle, NgClass],
   templateUrl: './admin-contatos.component.html',
   styleUrl: './admin-contatos.component.css'
 })
@@ -39,7 +39,15 @@ export class AdminContatosComponent {
     private contatoStateService: ContatoStateService) {
     this.url = 'http://localhost:8080';
   }
-
+  getTdHeight(numRows: number): string {
+    if (numRows >= 1 && numRows <= 8) {
+      const dataRows = numRows - 1;
+      const remainingSpace = 25 - (dataRows * 8);
+      return `${remainingSpace}rem`;
+    } else {
+      return 'auto';
+    }
+  }
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
@@ -55,7 +63,7 @@ export class AdminContatosComponent {
   capitalize(text: string): string {
     return text.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
   }
-  
+
   ngOnInit() {
     forkJoin({
       endereco: this.http.get<Endereco[]>(`${this.url}/endereco`),

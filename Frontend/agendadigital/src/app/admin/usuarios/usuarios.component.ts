@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Usuario } from '../../models/usuario';
@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css',
-  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule]
+  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule, NgIf, NgStyle,NgClass]
 })
 export class UsuariosComponent {
 
@@ -29,7 +29,15 @@ export class UsuariosComponent {
   ngOnInit() {
     this.getUsuarios();
   }
-
+  getTdHeight(numRows: number): string {
+    if (numRows >= 1 && numRows <= 4) {
+      const dataRows = numRows - 1;
+      const remainingSpace = 18 - (dataRows * 4);
+      return `${remainingSpace}rem`;
+    } else {
+      return 'auto';
+    }
+  }
   getUsuarios() {
     this.http.get<Usuario[]>(`${this.url}/usuario`)
       .subscribe(resultados => {
@@ -50,7 +58,7 @@ export class UsuariosComponent {
 
       this.atualizarUsuario();
     } else {
-      
+
       this.adicionarNovoUsuario();
     }
   }

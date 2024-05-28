@@ -24,9 +24,6 @@ export class RamaisPrincipalComponent {
   contato: Contato[] = [];
   filteredRamais: Ramais[] = [];
   selectedSectorButton: string = 'Todos'; // Store the ID of the selected sector button
-
-
-
   constructor(
     private http: HttpClient) {
     this.url = 'http://localhost:8080';
@@ -59,8 +56,8 @@ export class RamaisPrincipalComponent {
     } else {
       return 'auto';
     }
-  } 
-  
+  }
+
   getRamais() {
     this.ramais = this.usuarios.map(usuario => {
       const setorRamal = this.str.find(sr => sr.id_setor_ramal === usuario.id_setor_ramal);
@@ -97,7 +94,7 @@ export class RamaisPrincipalComponent {
 
     this.filteredRamais = this.ramais.filter(ramal => ramal.setor === setorNome);
   }
-  
+
 
   showAllRamais() {
     this.selectedSectorButton = 'Todos';

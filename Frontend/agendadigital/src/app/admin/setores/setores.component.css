@@ -1,5 +1,12 @@
-
 .sigla {
   width: 0.1%;
   padding-left: 1rem;
+}
+.no-data td{
+  height: 18rem;
+  text-align: center;
+  color: rgb(100, 14, 14);
+}
+.no-data td:hover{
+  background-color: white;
 }

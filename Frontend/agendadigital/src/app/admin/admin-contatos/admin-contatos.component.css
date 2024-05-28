@@ -7,7 +7,15 @@
   display: flex;
   position: relative;
 }
+.no-data, .no-data td{
+  height: 18rem;
+  text-align: center;
+  color: rgb(100, 14, 14);
+}
 
+.no-data td:hover{
+  background-color: #fff;
+}
 .disabled {
   opacity: 0.5;
   pointer-events: none;
@@ -62,7 +70,7 @@ table {
   justify-items: left;
   display: flex;
   justify-content: center;
-  
+
 }
 
 th {
