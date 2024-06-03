@@ -1,5 +1,6 @@
 package br.com.AgendaDigital.projeto.controller;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.AgendaDigital.dtos.FuncionarioDtos;
 import br.com.AgendaDigital.projeto.model.Funcionario;
@@ -48,21 +50,22 @@ public class FuncionarioController {
 		funcionario.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
 		return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.save(funcionario));
 	}
-	// @PostMapping
-	// public ResponseEntity<Object> saveFuncionario(@RequestBody @Valid FuncionarioDtos funcionarioDtos,
-	// 		@RequestParam("foto") MultipartFile foto) {
-	// 	try {
-	// 		var funcionario = new Funcionario();
-	// 		BeanUtils.copyProperties(funcionarioDtos, funcionario);
-	// 		funcionario.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
-	// 		funcionario.setFoto(foto.getBytes());
-	// 		return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.save(funcionario));
-	// 	} catch (IOException e) {
-	// 		log.error("Erro ao salvar imagem do funcionario:", e);
-	// 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	// 				.body("Erro ao salvar imagem do funcionario.");
-	// 	}
-	// }
+
+    // @PostMapping
+    // public ResponseEntity<Object> saveFuncionario(@RequestBody @Valid FuncionarioDtos funcionarioDtos,
+    //         @RequestParam("foto") MultipartFile foto) {
+    //     try {
+    //         var funcionario = new Funcionario();
+    //         BeanUtils.copyProperties(funcionarioDtos, funcionario);
+    //         funcionario.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
+    //         funcionario.setFoto(foto.getBytes());
+    //         return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.save(funcionario));
+    //     } catch (IOException e) {
+    //         log.error("Erro ao salvar imagem do funcionario:", e);
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    //                 .body("Erro ao salvar imagem do funcionario.");
+    //     }
+    // }
 	@GetMapping
 	public List<Funcionario> getFuncionariosPorMes(@RequestParam("mes") int mes) {
 		// Chame o serviço para obter os funcionários filtrados pelo mês
