@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import br.com.AgendaDigital.projeto.model.Funcionario;
 import br.com.AgendaDigital.projeto.model.Pessoa;
 import br.com.AgendaDigital.projeto.repositories.PessoaRepository;
 

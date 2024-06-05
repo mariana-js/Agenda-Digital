@@ -1,7 +1,5 @@
 package br.com.AgendaDigital.dtos;
 
-import java.util.UUID;
-
 import javax.validation.constraints.NotBlank;
 
 public class UsuarioDtos {

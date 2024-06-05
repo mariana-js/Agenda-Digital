@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.AgendaDigital.dtos.Setor_RamalDtos;
 import br.com.AgendaDigital.projeto.model.Setor_Ramal;
-import br.com.AgendaDigital.projeto.model.Usuario;
 import br.com.AgendaDigital.projeto.services.Setor_RamalService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/setor_ramal")
@@ -51,6 +50,7 @@ public class Setor_RamalController {
 		return ResponseEntity.status(HttpStatus.OK).body(setor_RamalService.findAll());
 	}
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping("/{id_setor_ramal}")
 	public ResponseEntity getOneUsuario(@PathVariable(value = "id_setor_ramal") UUID id_setor_ramal) {
 		Optional<Setor_Ramal> setor_ramalOptional = setor_RamalService.findById(id_setor_ramal);

@@ -48,6 +48,7 @@ public class UsuarioController {
 		return ResponseEntity.status(HttpStatus.OK).body(usuarioService.findAll());
 	}
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping("/{id}")
 	public ResponseEntity getOneUsuario(@PathVariable(value = "id") UUID id) {
 		Optional<Usuario> usuarioOptional = usuarioService.findById(id);

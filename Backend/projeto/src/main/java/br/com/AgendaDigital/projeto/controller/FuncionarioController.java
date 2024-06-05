@@ -1,6 +1,5 @@
 package br.com.AgendaDigital.projeto.controller;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import br.com.AgendaDigital.dtos.FuncionarioDtos;
 import br.com.AgendaDigital.projeto.model.Funcionario;
@@ -77,6 +75,7 @@ public class FuncionarioController {
 		return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.findAll());
 	}
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping("/{id_funcionario}")
 	public ResponseEntity getOneUsuario(@PathVariable(value = "id_funcionario") UUID id_funcionario) {
 		Optional<Funcionario> funcionarioOptional = funcionarioService.findById(id_funcionario);

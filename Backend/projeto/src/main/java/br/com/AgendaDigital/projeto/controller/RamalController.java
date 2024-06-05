@@ -4,10 +4,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.AgendaDigital.dtos.RamalDtos;
 import br.com.AgendaDigital.projeto.model.Ramal;
-import br.com.AgendaDigital.projeto.model.Usuario;
 import br.com.AgendaDigital.projeto.services.RamalService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -53,6 +51,7 @@ public class RamalController {
 		return ResponseEntity.status(HttpStatus.OK).body(ramalService.findAll());
 	}
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping("/{id_ramal}")
 	public ResponseEntity getOneUsuario(@PathVariable(value = "id_ramal") String id_ramal) {
 		Optional<Ramal> ramalOptional = ramalService.findById(id_ramal);

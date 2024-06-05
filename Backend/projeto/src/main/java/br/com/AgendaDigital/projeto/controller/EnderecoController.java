@@ -53,6 +53,7 @@ public class EnderecoController {
 		return ResponseEntity.status(HttpStatus.OK).body(enderecoService.findAll());
 	}
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping("/{id_endereco}")
 	public ResponseEntity getOneUsuario(@PathVariable(value = "id_endereco") UUID id_endereco) {
 		Optional<Endereco> enderecoOptional = enderecoService.findById(id_endereco);

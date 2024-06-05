@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
                 body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
                 body.put("error", "Unauthorized");
 
+                
                 final ObjectMapper mapper = new ObjectMapper();
                 mapper.writeValue(response.getOutputStream(),body);
     }

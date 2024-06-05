@@ -51,6 +51,7 @@ public class SetorController {
 		return ResponseEntity.status(HttpStatus.OK).body(setorService.findAll());
 	}
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping("/{id_setor}")
 	public ResponseEntity getOneUsuario(@PathVariable(value = "id_setor") UUID id_setor) {
 		Optional<Setor> setorOptional = setorService.findById(id_setor);

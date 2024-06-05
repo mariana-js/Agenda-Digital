@@ -3,12 +3,13 @@ package br.com.AgendaDigital.projeto.controller;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.AgendaDigital.dtos.PessoaDtos;
-import br.com.AgendaDigital.projeto.model.Funcionario;
 import br.com.AgendaDigital.projeto.model.Pessoa;
 import br.com.AgendaDigital.projeto.services.PessoaService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -75,6 +72,7 @@ public class PessoaController {
 		return ResponseEntity.status(HttpStatus.OK).body(pessoaService.findAll());
 	}
 
+	@SuppressWarnings("rawtypes")
 	@GetMapping("/{id_pessoa}")
 	public ResponseEntity getOneUsuario(@PathVariable(value = "id_pessoa") UUID id_pessoa) {
 		Optional<Pessoa> pessoaOptional = pessoaService.findById(id_pessoa);
