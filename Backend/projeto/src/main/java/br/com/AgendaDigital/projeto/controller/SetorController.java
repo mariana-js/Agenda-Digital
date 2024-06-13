@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.AgendaDigital.dtos.SetorDtos;
+import br.com.AgendaDigital.projeto.dtos.SetorDtos;
 import br.com.AgendaDigital.projeto.model.Setor;
 import br.com.AgendaDigital.projeto.services.SetorService;
 import org.slf4j.Logger;

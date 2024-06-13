@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.AgendaDigital.dtos.FuncionarioDtos;
+import br.com.AgendaDigital.projeto.dtos.FuncionarioDtos;
 import br.com.AgendaDigital.projeto.model.Funcionario;
 import br.com.AgendaDigital.projeto.services.FuncionarioService;
 

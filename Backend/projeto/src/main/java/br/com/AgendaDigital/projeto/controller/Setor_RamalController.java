@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.AgendaDigital.dtos.Setor_RamalDtos;
+import br.com.AgendaDigital.projeto.dtos.Setor_RamalDtos;
 import br.com.AgendaDigital.projeto.model.Setor_Ramal;
 import br.com.AgendaDigital.projeto.services.Setor_RamalService;
 @RestController

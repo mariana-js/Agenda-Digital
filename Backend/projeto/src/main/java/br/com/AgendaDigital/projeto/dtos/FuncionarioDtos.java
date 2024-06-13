@@ -1,4 +1,4 @@
-package br.com.AgendaDigital.dtos;
+package br.com.AgendaDigital.projeto.dtos;
 
 import java.time.LocalDate;
 import java.util.UUID;

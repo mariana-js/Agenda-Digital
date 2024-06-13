@@ -1,4 +1,4 @@
-package br.com.AgendaDigital.dtos;
+package br.com.AgendaDigital.projeto.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
