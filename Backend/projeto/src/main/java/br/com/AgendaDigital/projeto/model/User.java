@@ -26,13 +26,19 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id_usuario;
-    
+
     private String usuario;
     private String senha;
     private UserRole role;
 
     public User(UUID id_usuario, String usuario, String senha, UserRole role) {
-         this.id_usuario = id_usuario;
+        this.id_usuario = id_usuario;
+        this.usuario = usuario;
+        this.senha = senha;
+        this.role = role;
+    }
+
+    public User ( String usuario, String senha, UserRole role){
         this.usuario = usuario;
         this.senha = senha;
         this.role = role;
