@@ -1,5 +1,6 @@
 package br.com.AgendaDigital.projeto.infra.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
+
+    @Autowired
+    SecurityFilter securityFilter;
+
     /**
      * @param httpSecurity
      * @return
@@ -27,42 +32,24 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-
-                        .antMatchers(HttpMethod.GET, "/auth/login").permitAll()
-                        .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .antMatchers(HttpMethod.POST, "/auth/register").permitAll()
-
-                        .antMatchers(HttpMethod.GET, "/pessoa").permitAll()
-                        .antMatchers(HttpMethod.GET, "/setor").permitAll()
-                        .antMatchers(HttpMethod.GET, "/setor_ramal").permitAll()
-                        .antMatchers(HttpMethod.GET, "/ramal").permitAll()
-                        .antMatchers(HttpMethod.GET, "/funcionario").permitAll()
-                        .antMatchers(HttpMethod.GET, "/endereco").permitAll()
+                        .antMatchers(HttpMethod.GET, "/auth/login", "/auth/register").permitAll()
+                        .antMatchers(HttpMethod.GET, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario",
+                                "/endereco")
+                        .permitAll()
                         .antMatchers(HttpMethod.GET, "/usuario").hasRole("ADMIN")
 
-                        .antMatchers(HttpMethod.POST, "/pessoa").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.POST, "/setor").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.POST, "/setor_ramal").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.POST, "/ramal").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.POST, "/funcionario").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.POST, "/endereco").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.POST, "/usuario").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.POST, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario",
+                                "/endereco", "/usuario")
+                        .hasRole("ADMIN")
+                        .antMatchers(HttpMethod.PUT, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario",
+                                "/endereco", "/usuario")
+                        .hasRole("ADMIN")
+                        .antMatchers(HttpMethod.DELETE, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario",
+                                "/endereco", "/usuario")
+                        .hasRole("ADMIN")
 
-                        .antMatchers(HttpMethod.PUT, "/pessoa").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.PUT, "/setor").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.PUT, "/setor_ramal").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.PUT, "/ramal").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.PUT, "/funcionario").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.PUT, "/endereco").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.PUT, "/usuario").hasRole("ADMIN")
-
-                        .antMatchers(HttpMethod.DELETE, "/pessoa").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/setor").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/setor_ramal").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/ramal").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/funcionario").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/endereco").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/usuario").hasRole("ADMIN"))
+                        .anyRequest().authenticated())
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
