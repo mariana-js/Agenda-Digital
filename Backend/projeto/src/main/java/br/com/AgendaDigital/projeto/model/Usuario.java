@@ -17,53 +17,55 @@ import org.springframework.stereotype.Repository;
 @Table(name = "usuario")
 public class Usuario implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id_usuario;
-	
-	@Column(name = "usuario", length = 10, nullable = true)
-	private String usuario;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id_usuario;
 
-	@Column(name = "nome", length = 10, nullable = true)
-	private String nome;
+    @Column(name = "usuario", length = 10, nullable = true)
+    private String usuario;
 
-	@Column(name = "senha", columnDefinition = "TEXT", nullable = true)
-	private String senha;
+    @Column(name = "nome", length = 10, nullable = true)
+    private String nome;
 
-	// Getters and setters
+    @Column(name = "senha", columnDefinition = "TEXT", nullable = true)
+    private String senha;
 
-	public String getUsuario() {
-		return usuario;
-	}
+    // @Column(name = "role", columnDefinition = "TEXT", nullable = true)
+    // private String role;
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
+    // Getters and setters
+    public String getUsuario() {
+        return usuario;
+    }
 
-	public UUID getId_usuario() {
-		return id_usuario;
-	}
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
-	public void setId_usuario(UUID id_usuario) {
-		this.id_usuario = id_usuario;
-	}
+    public UUID getId_usuario() {
+        return id_usuario;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public void setId_usuario(UUID id_usuario) {
+        this.id_usuario = id_usuario;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public String getSenha() {
-		return senha;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
 
 }
