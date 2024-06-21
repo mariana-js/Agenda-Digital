@@ -1,4 +1,4 @@
-package br.com.AgendaDigital.projeto.infra.security;
+package br.com.AgendaDigital.projeto.security;
 
 import java.io.IOException;
 
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import br.com.AgendaDigital.projeto.repositories.UserRepository;
+import br.com.AgendaDigital.projeto.services.TokenService;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {

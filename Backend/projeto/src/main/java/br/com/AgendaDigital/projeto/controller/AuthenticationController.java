@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.AgendaDigital.projeto.dtos.AuthenticationDtos;
 import br.com.AgendaDigital.projeto.dtos.LoginResponseDtos;
 import br.com.AgendaDigital.projeto.dtos.RegisterDtos;
-import br.com.AgendaDigital.projeto.infra.security.TokenService;
 import br.com.AgendaDigital.projeto.repositories.UserRepository;
+import br.com.AgendaDigital.projeto.services.TokenService;
 import br.com.AgendaDigital.projeto.model.User;
 
 @RestController

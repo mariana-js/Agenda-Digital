@@ -1,0 +1,3 @@
+Limpe e Recompile o Projeto:
+
+Execute mvn clean install para limpar e recompilar o projeto. Isso pode resolver problemas de cache ou arquivos antigos que não foram atualizados corretamente.
