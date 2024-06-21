@@ -8,31 +8,31 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import br.com.AgendaDigital.projeto.model.Usuario;
-import br.com.AgendaDigital.projeto.repositories.UsuarioRepository;
+import br.com.AgendaDigital.projeto.model.User;
+import br.com.AgendaDigital.projeto.repositories.UserRepository;
 
 @Service
 public class UsuarioService {
-    final UsuarioRepository usuarioRepository;
+    final UserRepository usuarioRepository;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UserRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
 
     @Transactional
-    public Usuario save(Usuario usuario) {
+    public User save(User usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    public List<Usuario> findAll() {
+    public List<User> findAll() {
         return usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> findById(UUID id) {
+    public Optional<User> findById(UUID id) {
         return usuarioRepository.findById(id);
     }
 
-    public void delete(Usuario usuario) {
+    public void delete(User usuario) {
         usuarioRepository.delete(usuario);
     }
 

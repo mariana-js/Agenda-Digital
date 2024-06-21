@@ -19,8 +19,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author mariana
  */
 
-@Table(name = "usuarios")
-@Entity(name = "usuarios")
+@Table(name = "usuario")
+@Entity(name = "usuario")
 public class User implements UserDetails {
 
     @Id
@@ -38,10 +38,14 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public User ( String usuario, String senha, UserRole role){
+    public User(String usuario, String senha, UserRole role) {
         this.usuario = usuario;
         this.senha = senha;
         this.role = role;
+    }
+
+    public User() {
+       
     }
 
     @Override
@@ -80,6 +84,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+    // Getters and Setters
 
     public UUID getId_usuario() {
         return id_usuario;
@@ -112,7 +117,5 @@ public class User implements UserDetails {
     public void setRole(UserRole role) {
         this.role = role;
     }
-
-    // Getters and Setters
 
 }

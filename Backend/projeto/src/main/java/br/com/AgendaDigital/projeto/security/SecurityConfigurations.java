@@ -33,20 +33,15 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.GET, "/auth/login", "/auth/register").permitAll()
-                        .antMatchers(HttpMethod.GET, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario",
-                                "/endereco")
-                        .permitAll()
+                                                
+                        .antMatchers(HttpMethod.GET, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all", "/endereco").permitAll()
                         .antMatchers(HttpMethod.GET, "/usuario").hasRole("ADMIN")
 
-                        .antMatchers(HttpMethod.POST, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario",
-                                "/endereco", "/usuario")
-                        .hasRole("ADMIN")
-                        .antMatchers(HttpMethod.PUT, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario",
-                                "/endereco", "/usuario")
-                        .hasRole("ADMIN")
-                        .antMatchers(HttpMethod.DELETE, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario",
-                                "/endereco", "/usuario")
-                        .hasRole("ADMIN")
+                        .antMatchers(HttpMethod.POST, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all",
+                                "/endereco").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.POST, "/usuario").permitAll()
+                        .antMatchers(HttpMethod.PUT, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all","/endereco", "/usuario").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.DELETE, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all","/endereco", "/usuario").hasRole("ADMIN")
 
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
