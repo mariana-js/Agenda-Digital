@@ -32,7 +32,7 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.GET, "/auth/login", "/auth/register").permitAll()
+                        .antMatchers(HttpMethod.POST, "/auth/login", "/auth/register").permitAll()
                                                 
                         .antMatchers(HttpMethod.GET, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all", "/endereco").permitAll()
                         .antMatchers(HttpMethod.GET, "/usuario").hasRole("ADMIN")
