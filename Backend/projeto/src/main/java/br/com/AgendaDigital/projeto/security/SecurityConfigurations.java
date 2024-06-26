@@ -34,7 +34,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/auth/login", "/auth/register").permitAll()
                                                 
-                        .antMatchers(HttpMethod.GET, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all", "/endereco").permitAll()
+                        .antMatchers(HttpMethod.GET, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/**", "/endereco").permitAll()
                         .antMatchers(HttpMethod.GET, "/usuario").hasRole("ADMIN")
 
                         .antMatchers(HttpMethod.POST, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all",
