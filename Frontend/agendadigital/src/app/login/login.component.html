@@ -12,8 +12,8 @@
           <input type="password" name="senha" placeholder="Senha" [(ngModel)]="senha">
 
           <br>
-          <label for="rememberpassword">Esqueceu a senha?</label>
-          <br><button (click)="logar()">Entrar</button>
+          <label for="rememberpassword" (click)="rememberPassword()">Esqueceu a senha?</label>
+          <br><button (click)="login()">Entrar</button>
         </fieldset>
 
       </form>

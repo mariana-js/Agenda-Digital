@@ -1,12 +1,11 @@
-import { PhoneMaskDirective } from './phone-mask.directive';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './router/app-routing.module';
-
+import { AuthInterceptor } from '../login/auth.interceptor';
 @NgModule({
   declarations: [
 
@@ -17,11 +16,10 @@ import { AppRoutingModule } from './router/app-routing.module';
     HttpClientModule,
     RouterModule,
     AppRoutingModule,
-    FormsModule,
-    PhoneMaskDirective
+    FormsModule
   ],
 
-  providers: [],
+  providers: [ { provide: HTTP_INTERCEPTORS, useValue: AuthInterceptor, multi: true }],
   bootstrap: []
 
 })

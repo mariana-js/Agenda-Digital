@@ -6,9 +6,9 @@ import { SetoresComponent } from '../../admin/setores/setores.component';
 import { UsuariosComponent } from '../../admin/usuarios/usuarios.component';
 import { ContatoComponent } from '../../principal/contato/contato.component';
 import { PrincipalComponent } from '../../principal/principal/principal.component';
-import { LoginComponent } from '../../views/login/login.component';
 import { SobreComponent } from '../../views/sobre/sobre.component';
 import { RamaisPrincipalComponent } from '../../principal/ramais-principal/ramais-principal.component';
+import { LoginComponent } from '../../login/login.component';
 
 export const routes: Routes = [
 
