@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
+// @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/setor")
 public class SetorController {
 	private static final Logger log = LoggerFactory.getLogger(SetorController.class);

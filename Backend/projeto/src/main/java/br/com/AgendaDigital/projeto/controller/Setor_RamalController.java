@@ -27,7 +27,7 @@ import br.com.AgendaDigital.projeto.dtos.Setor_RamalDtos;
 import br.com.AgendaDigital.projeto.model.Setor_Ramal;
 import br.com.AgendaDigital.projeto.services.Setor_RamalService;
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
+// @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/setor_ramal")
 public class Setor_RamalController {
 	private static final Logger log = LoggerFactory.getLogger(UsuarioController.class);

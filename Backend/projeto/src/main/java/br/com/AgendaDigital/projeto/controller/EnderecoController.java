@@ -28,7 +28,7 @@ import br.com.AgendaDigital.projeto.model.Endereco;
 import br.com.AgendaDigital.projeto.services.EnderecoService;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
+// @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/endereco")
 
 public class EnderecoController {

@@ -29,7 +29,7 @@ import br.com.AgendaDigital.projeto.model.Funcionario;
 import br.com.AgendaDigital.projeto.services.FuncionarioService;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
+// @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/funcionario")
 
 public class FuncionarioController {

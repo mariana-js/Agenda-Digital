@@ -28,7 +28,7 @@ import br.com.AgendaDigital.projeto.model.Pessoa;
 import br.com.AgendaDigital.projeto.services.PessoaService;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
+// @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/pessoa")
 
 public class PessoaController {

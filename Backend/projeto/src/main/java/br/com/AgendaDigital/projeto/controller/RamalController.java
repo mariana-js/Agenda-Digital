@@ -27,7 +27,7 @@ import br.com.AgendaDigital.projeto.model.Ramal;
 import br.com.AgendaDigital.projeto.services.RamalService;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
+// @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/ramal")
 
 public class RamalController {
