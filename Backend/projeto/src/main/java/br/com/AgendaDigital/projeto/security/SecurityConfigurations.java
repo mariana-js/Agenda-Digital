@@ -41,7 +41,7 @@ public class SecurityConfigurations {
                         .antMatchers(HttpMethod.PUT, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all","/endereco", "/usuario").hasRole("ADMIN")
                         
                         .antMatchers(HttpMethod.DELETE, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all","/endereco", "/usuario").hasRole("ADMIN")
-
+                        .anyRequest().permitAll()
                         )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
