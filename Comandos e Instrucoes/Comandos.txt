@@ -1,0 +1,8 @@
+Iniciar a aplicação via linha de comando
+	1 - Entrar na pasta raiz da aplicação spring
+	2 - Executar o comando mvn spring-boot:run
+
+Limpe e Recompile o Projeto:
+
+Execute mvn clean install para limpar e recompilar o projeto. Isso pode resolver problemas de cache ou arquivos antigos que não foram atualizados corretamente.
+
