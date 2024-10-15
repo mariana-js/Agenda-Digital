@@ -1,0 +1,69 @@
+<div class="container">
+  <nav class="nav-aniversariantes">
+    <app-nav-aniversariantes></app-nav-aniversariantes>
+  </nav>
+
+  <nav class="nav-principal">
+
+    <div class="principal">
+      <span class="retorno">{{retorno}}</span>
+      <div>
+        <div class="nav-options">
+          <div class="options">
+            <button (click)="getContatos()">Todos</button>
+            <button (click)="getFuncionarios()">Funcionários</button>
+          </div>
+          <div class="search">
+            <input type="text" placeholder="Pesquisar..." [(ngModel)]="searchTerm">
+            <button class="search-button" (click)="search()">Buscar</button>
+
+
+          </div>
+        </div>
+        <div class="page">
+          <h2>Contatos <span>({{amount}})</span> </h2>
+
+            <table>
+              <thead>
+                <tr>
+                  <th class="foto"></th>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Celular</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let contato of contatos.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)"
+                  (click)="informacoes(contato)">
+
+                  <td class="foto">
+                    <img src="assets/foto/foto.png" alt="contato">
+                  </td>
+                  <td class="truncate">
+                    {{ contato.nome_pessoa }}
+                  </td>
+                  <td class="truncate">{{ contato.email }}</td>
+                  <td>{{ contato.celular1}}</td>
+                </tr>
+                <tr *ngIf="contatos.length === 0" class="no-data">
+                  <td colspan="4">Não há contatos.</td>
+                </tr>
+                <tr *ngIf="contatos.length < 8 && contatos.length !== 0">
+                  <td colspan="2" [ngStyle]="{'height': getTdHeight(contatos.length)}"></td>
+                </tr>
+              </tbody>
+
+            </table>
+            <div class="next">
+              <button>
+                <span (click)="previousPage() " [class.disabled]="currentPage === 1">
+                  << </span>
+                    Próxima Página
+                    <span (click)="nextPage()" [class.disabled]="currentPage === totalPages"> >> </span>
+              </button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </nav>
+</div>

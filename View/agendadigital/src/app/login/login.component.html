@@ -1,0 +1,22 @@
+<div class="page-login">
+  <div class="container">
+    <div class="title">
+      <img src="assets/Imagens/login.png" alt="login">
+      <h1>Login</h1>
+    </div>
+
+    <div >
+      <form>
+        <fieldset>
+          <input type="text" name="usuario" placeholder="Usuário" [(ngModel)]="usuario"><br>
+          <input type="password" name="senha" placeholder="Senha" [(ngModel)]="senha">
+
+          <br>
+          <label for="rememberpassword" (click)="rememberPassword()">Esqueceu a senha?</label>
+          <br><button (click)="login()">Entrar</button>
+        </fieldset>
+
+      </form>
+    </div>
+  </div>
+</div>

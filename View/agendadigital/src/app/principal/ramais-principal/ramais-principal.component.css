@@ -1,0 +1,118 @@
+.p {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  margin: 4rem 0rem;
+}
+
+.no-data{
+  height: 18rem;
+  text-align: center;
+  color: rgb(100, 14, 14);
+}
+
+
+.page-ramais {
+  width:45rem;
+  min-height: 25rem;
+}
+
+.title {
+  display: inline-flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.title h1 {
+  font-size: 18px;
+  margin-left: 0.4rem;
+  color: #345572;
+}
+
+.title img {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  padding:2rem 2rem 2rem 0.8rem;
+}
+
+.setores {
+  margin-right: 0.4rem;
+  width: 12rem;
+}
+
+.setores h3 {
+  font-size: 13px;
+  margin-top: 0;
+  color: #57697b;
+}
+
+.setores button {
+  border: none;
+  margin: 0.2rem;
+  font-size: 12px;
+  text-align: left;
+  padding: 0.2rem 0.5rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  background-color:#e1e0e0;
+}
+
+.setores .selected-sector-button {
+  background-color:#6377f5;
+  color: #fff;
+}
+
+.setores button:hover{
+  background-color:#98999c;
+  color: #fff;
+}
+
+.tabela-ramais {
+  width: 30rem;
+}
+
+.tabela-ramais th{
+  font-size: 14px;
+}
+
+.tabela-ramais td{
+  font-size: 18px;
+}
+
+.tabela-ramais table {
+  background-color: white;
+  color: rgb(44, 43, 43);
+  border-radius: 0.5rem;
+  border-collapse: collapse;
+  width: 30rem;
+  table-layout: fixed;
+  margin: 0rem 1rem 1rem 1rem ;
+}
+
+.tabela-ramais td,
+th {
+  width: 15%;
+  padding: 0.5rem;
+}
+
+.tabela-ramais td {
+  font-size: 15px;
+  border-top: solid 0.1rem rgb(224, 224, 224);
+  border-bottom: solid 0.1rem rgb(224, 224, 224);
+}
+
+.tabela-ramais th {
+  height: 0.5rem;
+  text-align: center;
+  padding: 0.3rem;
+  color: #313131;
+  font-size: 14px;
+}
+.td-ramal{
+  text-align: center;
+}

@@ -1,0 +1,73 @@
+nav {
+  display: flex;
+  margin: 2rem 0 0 2rem;
+}
+
+.container {
+  width: 12rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.2rem;
+  color: #343a40;
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+}
+
+.aniversariante fieldset {
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.date {
+  margin-bottom: 0.5rem;
+}
+
+.dt-aniversario {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.image-container {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 1rem;
+  border: 2px solid #6c757d;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.aniversariante-descricao {
+  font-size: 0.9rem;
+  color: #343a40;
+}
+
+.nome {
+  font-weight: 600;
+  color: #007bff;
+}
+
+.descricao {
+  font-weight: 400;
+  color: #6c757d;
+}

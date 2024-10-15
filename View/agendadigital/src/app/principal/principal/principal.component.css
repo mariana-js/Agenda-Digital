@@ -1,0 +1,157 @@
+.container {
+  display: flex;
+  position: relative;
+}
+
+.no-data, .no-data td{
+  height: 18rem;
+  text-align: center;
+  color: rgb(100, 14, 14);
+}
+
+.no-data td:hover{
+  background-color: #fff;
+}
+
+.retorno {
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  font-size: 15px;
+  color: rgb(167, 31, 22);
+  margin-bottom: -1.5rem;
+  margin-right: 1.7rem;
+}
+
+.nav-aniversariantes,
+.nav-principal {
+  flex: 0;
+  margin-top: 4rem;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+h2 {
+  padding: 1rem;
+  text-align: left;
+  font-size: 16px;
+  color: rgb(109, 109, 109);
+}
+
+button:hover {
+  background-color: rgb(57, 91, 163);
+  transition: background-color 400ms;
+}
+
+.principal {
+  margin: 1rem 8rem;
+  flex: 1;
+  position: relative;
+}
+
+table {
+  margin: 1rem;
+  background-color: white;
+  color: rgb(44, 43, 43);
+  border-radius: 0.2rem;
+  border-collapse: collapse;
+  width: 95%;
+  table-layout: fixed;
+}
+
+.nome {
+  justify-items: left;
+  display: flex;
+  justify-content: center;
+}
+
+th {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  padding: 0.3rem;
+  width: 10%;
+  text-align: center;
+}
+
+tr:first-child {
+  border-top: 2px;
+}
+
+tr:hover td{
+  background-color: #f3f5ff;
+}
+
+td {
+  font-size: 12px;
+  font-family: 'Roboto Serif', serif;
+  padding: 0.5rem;
+  border-top: solid 0.1rem rgb(224, 224, 224);
+  width: 10%;
+  text-align: left;
+}
+
+button {
+  border: none;
+  border-radius: 1rem;
+  padding: 0.17rem 0.5rem;
+  background-color: rgb(143, 174, 236);
+  color: rgb(253, 253, 253);
+  cursor: pointer;
+}
+
+.foto{
+  width: 2%;
+  text-align: center;
+}
+
+/* Campo de busca */
+.search-button {
+  cursor: pointer;
+}
+
+.nav-options {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.options {
+  justify-content: left;
+
+}
+
+.search {
+  justify-content: right;
+}
+
+input {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: rgb(235, 237, 243);
+  border-radius: 0.8rem;
+  padding: 0.2rem 0.8rem;
+  width: 8rem;
+  border: none;
+  outline: none;
+
+}
+
+input:focus {
+  border: 1px solid blue;
+}
+
+img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
+  padding: 0rem;
+}
+.next
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 0.8rem;
+}
