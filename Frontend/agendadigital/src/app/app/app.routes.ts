@@ -1,14 +1,16 @@
+
+import { PrincipalComponent } from '../principal/principal/principal.component';
+import { AdminContatosComponent } from '../admin/admin-contatos/admin-contatos.component';
+import { CadatrarContatoComponent } from '../admin/cadatrar-contato/cadatrar-contato.component';
+import { RamaisComponent } from '../admin/ramais/ramais.component';
+import { SetoresComponent } from '../admin/setores/setores.component';
+import { UsuariosComponent } from '../admin/usuarios/usuarios.component';
+import { LoginComponent } from '../login/login.component';
+import { ContatoComponent } from '../principal/contato/contato.component';
+import { RamaisPrincipalComponent } from '../principal/ramais-principal/ramais-principal.component';
+import { SobreComponent } from '../views/sobre/sobre.component';
 import { Routes } from '@angular/router';
-import { AdminContatosComponent } from '../../admin/admin-contatos/admin-contatos.component';
-import { CadatrarContatoComponent } from '../../admin/cadatrar-contato/cadatrar-contato.component';
-import { RamaisComponent } from '../../admin/ramais/ramais.component';
-import { SetoresComponent } from '../../admin/setores/setores.component';
-import { UsuariosComponent } from '../../admin/usuarios/usuarios.component';
-import { ContatoComponent } from '../../principal/contato/contato.component';
-import { PrincipalComponent } from '../../principal/principal/principal.component';
-import { SobreComponent } from '../../views/sobre/sobre.component';
-import { RamaisPrincipalComponent } from '../../principal/ramais-principal/ramais-principal.component';
-import { LoginComponent } from '../../login/login.component';
+
 
 export const routes: Routes = [
 

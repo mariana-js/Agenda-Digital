@@ -1,4 +1,4 @@
-import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
+import { CommonModule, NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ import { Funcionario } from './../../models/funcionario';
 @Component({
   selector: 'app-admin-contatos',
   standalone: true,
-  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule, NgIf, NgStyle, NgClass],
+  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule, CommonModule ],
   templateUrl: './admin-contatos.component.html',
   styleUrl: './admin-contatos.component.css'
 })
