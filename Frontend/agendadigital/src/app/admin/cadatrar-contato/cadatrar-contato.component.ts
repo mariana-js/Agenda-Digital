@@ -1,4 +1,3 @@
-import { NgClass, NgFor, NgIf } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -20,7 +19,7 @@ import Inputmask from 'inputmask';
   standalone: true,
   templateUrl: './cadatrar-contato.component.html',
   styleUrl: './cadatrar-contato.component.css',
-  imports: [NavAdminComponent, NgFor, HttpClientModule, FormsModule, RamaisComponent, NgClass, NgIf]
+  imports: [NavAdminComponent, NgFor, HttpClientModule, FormsModule, RamaisComponent, CommonModule]
 })
 export class CadatrarContatoComponent {
 

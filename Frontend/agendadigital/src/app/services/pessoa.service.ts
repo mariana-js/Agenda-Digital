@@ -9,9 +9,7 @@ export class PessoaService {
   url = 'http://localhost:8080';
   constructor(private http: HttpClient) {
 
-
-   }
-
+  }
 
    getInformacoes() {
     const id_contato = this.id_rota;
