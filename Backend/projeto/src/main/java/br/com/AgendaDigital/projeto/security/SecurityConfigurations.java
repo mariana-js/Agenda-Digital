@@ -32,15 +32,15 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.GET, "/auth/login", "/auth/register","/usuario").permitAll()
-                        .antMatchers(HttpMethod.GET, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/**", "/endereco").permitAll()
+                        // .antMatchers(HttpMethod.GET, "/auth/login", "/auth/register","/usuario").permitAll()
+                        // .antMatchers(HttpMethod.GET, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/**", "/endereco").permitAll()
                         
-                        .antMatchers(HttpMethod.POST, "/auth/login", "/auth/register").permitAll()
-                        .antMatchers(HttpMethod.POST, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all","/endereco", "/usuario").hasRole("ADMIN")
+                        // .antMatchers(HttpMethod.POST, "/auth/login", "/auth/register").permitAll()
+                        // .antMatchers(HttpMethod.POST, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all","/endereco", "/usuario").hasRole("ADMIN")
 
-                        .antMatchers(HttpMethod.PUT, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all","/endereco", "/usuario").hasRole("ADMIN")
+                        // .antMatchers(HttpMethod.PUT, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all","/endereco", "/usuario").hasRole("ADMIN")
                         
-                        .antMatchers(HttpMethod.DELETE, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all","/endereco", "/usuario").hasRole("ADMIN")
+                        // .antMatchers(HttpMethod.DELETE, "/pessoa", "/setor", "/setor_ramal", "/ramal", "/funcionario/all","/endereco", "/usuario").hasRole("ADMIN")
                         .anyRequest().permitAll()
                         )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

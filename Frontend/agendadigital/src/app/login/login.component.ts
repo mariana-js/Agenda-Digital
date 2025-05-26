@@ -33,19 +33,20 @@ export class LoginComponent {
   }
 
   login() {
-    if (this.usuario && this.senha) {
-      const acc = this.acesso.find(acesso => acesso.usuario === this.usuario && acesso.senha == this.senha);
-      if (acc !== undefined) {
-        console.log("Resultado:", acc)
-        if (acc) {
-          this.router.navigate(['/contatos-admin']);
-        } else {
-          alert('Usuário ou senha inválidos');
-        }
-      }
-    } else {
-      alert('Por favor, insira usuário e senha');
-    }
+      this.router.navigate(['/contatos-admin']);
+    // if (this.usuario && this.senha) {
+    //   const acc = this.acesso.find(acesso => acesso.usuario === this.usuario && acesso.senha == this.senha);
+    //   if (acc !== undefined) {
+    //     console.log("Resultado:", acc)
+    //     if (acc) {
+    //       this.router.navigate(['/contatos-admin']);
+    //     } else {
+    //       alert('Usuário ou senha inválidos');
+    //     }
+    //   }
+    // } else {
+    //   alert('Por favor, insira usuário e senha');
+    // }
 
   }
   rememberPassword() {

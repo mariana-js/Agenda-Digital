@@ -20,7 +20,7 @@ import br.com.AgendaDigital.projeto.services.TokenService;
 import br.com.AgendaDigital.projeto.model.User;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("/auth")
 public class AuthenticationController {
 
   @Autowired

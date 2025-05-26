@@ -13,6 +13,7 @@ import { RamaisComponent } from '../ramais/ramais.component';
 import { SetorRamal } from './../../models/setor-ramal';
 import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import Inputmask from 'inputmask';
+import { CommonModule, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-cadatrar-contato',
@@ -366,7 +367,7 @@ capitalize(text: string): string {
           pessoa.email !== contatoSelecionado?.email
         );
         this.emailExistente = emailExistente;
-        
+
         if (this.email && emailExistente && (emailExistente !== undefined)) return;
         break;
       case 'celular1':
