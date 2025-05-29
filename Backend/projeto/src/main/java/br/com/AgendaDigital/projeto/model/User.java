@@ -27,6 +27,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id_usuario;
 
+    private String nome;
+
     private String usuario;
     private String senha;
     private UserRole role;
@@ -45,7 +47,7 @@ public class User implements UserDetails {
     }
 
     public User() {
-       
+
     }
 
     @Override
@@ -108,6 +110,14 @@ public class User implements UserDetails {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public UserRole getRole() {

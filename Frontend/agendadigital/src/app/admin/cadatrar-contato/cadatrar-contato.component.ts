@@ -12,7 +12,6 @@ import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { RamaisComponent } from '../ramais/ramais.component';
 import { SetorRamal } from './../../models/setor-ramal';
 import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import Inputmask from 'inputmask';
 import { CommonModule, NgFor } from '@angular/common';
 
 @Component({
@@ -115,9 +114,9 @@ export class CadatrarContatoComponent {
     foto: this.foto,
     sigla: ''
   }
-capitalize(text: string): string {
-  return text.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
-}
+  capitalize(text: string): string {
+    return text.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+  }
   constructor(
     private http: HttpClient,
     private activatedRoute: ActivatedRoute,
@@ -194,6 +193,51 @@ capitalize(text: string): string {
         this.setores = resultados;
         this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
       });
+  } getInformacoes() {
+    const id_contato = this.id_rota;
+    const informacoesContato = this.contatos.find(pessoa => pessoa.id_pessoa === id_contato);
+    if (informacoesContato !== undefined) {
+      this.nome_pessoa = informacoesContato.nome_pessoa;
+      this.email = informacoesContato.email;
+      this.celular1 = informacoesContato.celular1;
+      this.celular2 = informacoesContato.celular2;
+      this.celular3 = informacoesContato.celular3;
+      this.telefone = informacoesContato.telefone;
+      this.box_fun = informacoesContato.flag_funcionario;
+      this.boxPrivate = informacoesContato.flag_privado;
+    }
+    // Dados do endereco da pessoa
+    const endereco = this.enderecos.find(endereco => endereco.id_pessoa === id_contato);
+    if (endereco !== undefined) {
+      this.logradouro = endereco.logradouro;
+      this.bairro = endereco.bairro;
+      this.cidade = endereco.cidade;
+      this.estado = endereco.estado;
+      this.numero = endereco.numero;
+      this.uf = endereco.uf;
+      this.cep = endereco.cep;
+    }
+    // Dados do funcionario
+    const funcionario = this.funcionarios.find(funcionario => funcionario.id_pessoa === id_contato)
+    if (funcionario !== undefined) {
+      const setor_ramal = this.setor_ramais.find(setor_ramal => setor_ramal.id_setor_ramal === funcionario.id_setor_ramal);
+      if (setor_ramal !== undefined) {
+        const setor = this.setores.find(setor => setor_ramal.id_setor === setor.id_setor);
+        if (setor !== undefined) {
+          this.getRamaisPorSetor(setor?.id_setor);
+          const ramal = this.ramaisFiltrados.find(ramal => ramal.id_ramal_setor === setor_ramal.id_ramal_setor);
+          if (setor !== undefined) {
+            this.data_nascimento = funcionario.data_nascimento;
+            this.setor = setor.id_setor ?? 'op';
+            this.nramal = ramal?.id_ramal_setor ?? 'op2';
+            console.log(this.nramal)
+          } else {
+            console.log("Setor nao encontrado")
+          }
+        }
+      }
+    }
+
   } selecionarSetor(event: Event) {
     const idSetor = (event.target as HTMLSelectElement).value;
     this.getRamaisPorSetor(idSetor);
@@ -301,91 +345,6 @@ capitalize(text: string): string {
 
     // Populando as UF
     populateUFs();
-  } removerCaracteresEspeciais(str: string): string {
-    return str.replace(/[^0-9]/g, '');// Remove todos os caracteres que não são letras, números, espaços ou sublinhados
-  } verificarNumeros(str: any) {
-    const num = Number(str.replace(/\D/g, ''));
-    if (!isNaN(num)) {
-      return /^\d+$/.test(String(num));
-    }
-
-    return false;
-  } validation2() {
-    if (!this.nome_pessoa) return false;
-    if (!this.celular1) return false;
-    if (!this.verificarNumeros(this.celular1) || !this.verificarNumeros(this.celular2) || !this.verificarNumeros(this.telefone)) return false;
-    if (this.cep && (this.removerCaracteresEspeciais(this.cep).length !== 8 || !this.verificarNumeros(this.removerCaracteresEspeciais(this.cep)))) return false;
-    const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
-      setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
-    );
-    if (this.box_fun === true && !setorRamalEncontrado) {
-      alert('Por favor, selecione o setor e o ramal do(a) funcionário(a)!')
-      return false;
-    }
-    if (this.numero.length > 0 && !this.verificarNumeros(this.numero)) return false;
-    this.novoContato.nome_pessoa = this.nome_pessoa;
-    this.novoContato.email = this.email;
-    this.novoContato.celular1 = this.celular1;
-    this.novoContato.celular2 = this.celular2;
-    this.novoContato.telefone = this.telefone;
-    this.novoContato.flag_privado = this.boxPrivate;
-    this.novoContato.flag_funcionario = this.box_fun;
-    const contatoSelecionado = this.contatos.find(contato => contato.id_pessoa === this.id_rota);
-    const nomeExistente = this.contatos.find(pessoa =>
-      pessoa.nome_pessoa.trim().toLowerCase() === this.novoContato.nome_pessoa.trim().toLowerCase() &&
-      pessoa.id_pessoa !== contatoSelecionado?.id_pessoa
-    );
-    if (nomeExistente) return false;
-    const emailExistente = this.contatos.find(pessoa =>
-      pessoa.email.trim().toLowerCase() === this.novoContato.email.trim().toLowerCase() &&
-      pessoa.email !== contatoSelecionado?.email
-    );
-    if (emailExistente && this.email) return false;
-    const celular1Existente = this.contatos.find(pessoa =>
-      pessoa.celular1.trim().toLowerCase() === this.novoContato.celular1.trim().toLowerCase() &&
-      pessoa.celular1 !== contatoSelecionado?.celular1
-    );
-    if (celular1Existente) return false;
-    return true;
-  } validation(fieldName: string) {
-    const contatoSelecionado = this.contatos.find(contato => contato.id_pessoa === this.id_rota);
-    switch (fieldName) {
-      case 'nome_pessoa':
-        if (!this.nome_pessoa) return;
-        const nomeExistente = this.contatos.find(pessoa =>
-          pessoa.nome_pessoa.trim().toLowerCase() === this.nome_pessoa.trim().toLowerCase() &&
-          pessoa.id_pessoa !== contatoSelecionado?.id_pessoa
-        );
-        this.nomeExistente = nomeExistente;
-        if (nomeExistente) return;
-
-        break;
-      case 'email':
-        if (this.email && (!this.email.includes('@') || this.email.split('@')[1].length === 1)) return false;
-        const emailExistente = this.contatos.find(pessoa =>
-          pessoa.email.trim().toLowerCase() === this.email.trim().toLowerCase() &&
-          pessoa.email !== contatoSelecionado?.email
-        );
-        this.emailExistente = emailExistente;
-
-        if (this.email && emailExistente && (emailExistente !== undefined)) return;
-        break;
-      case 'celular1':
-        const celular1Existente = this.contatos.find(pessoa =>
-          pessoa.celular1.trim().toLowerCase() === this.removerCaracteresEspeciais(this.celular1).trim().toLowerCase() &&
-          pessoa.celular1 !== contatoSelecionado?.celular1
-        );
-        this.celular1Existente = celular1Existente;
-        if (celular1Existente) return;
-        break;
-      case 'cep':
-        if (this.cep && (this.removerCaracteresEspeciais(this.cep).length !== 8 || !this.verificarNumeros(this.cep))) return;
-        break;
-      case 'numero':
-        if (this.numero && this.numero.length > 5) return;
-        break;
-    }
-    return true;
   } clear() {
     this.nome_pessoa = '';
     this.email = '';
@@ -511,51 +470,6 @@ capitalize(text: string): string {
           }
         );
     }
-  } getInformacoes() {
-    const id_contato = this.id_rota;
-    const informacoesContato = this.contatos.find(pessoa => pessoa.id_pessoa === id_contato);
-    if (informacoesContato !== undefined) {
-      this.nome_pessoa = informacoesContato.nome_pessoa;
-      this.email = informacoesContato.email;
-      this.celular1 = informacoesContato.celular1;
-      this.celular2 = informacoesContato.celular2;
-      this.celular3 = informacoesContato.celular3;
-      this.telefone = informacoesContato.telefone;
-      this.box_fun = informacoesContato.flag_funcionario;
-      this.boxPrivate = informacoesContato.flag_privado;
-    }
-    // Dados do endereco da pessoa
-    const endereco = this.enderecos.find(endereco => endereco.id_pessoa === id_contato);
-    if (endereco !== undefined) {
-      this.logradouro = endereco.logradouro;
-      this.bairro = endereco.bairro;
-      this.cidade = endereco.cidade;
-      this.estado = endereco.estado;
-      this.numero = endereco.numero;
-      this.uf = endereco.uf;
-      this.cep = endereco.cep;
-    }
-    // Dados do funcionario
-    const funcionario = this.funcionarios.find(funcionario => funcionario.id_pessoa === id_contato)
-    if (funcionario !== undefined) {
-      const setor_ramal = this.setor_ramais.find(setor_ramal => setor_ramal.id_setor_ramal === funcionario.id_setor_ramal);
-      if (setor_ramal !== undefined) {
-        const setor = this.setores.find(setor => setor_ramal.id_setor === setor.id_setor);
-        if (setor !== undefined) {
-          this.getRamaisPorSetor(setor?.id_setor);
-          const ramal = this.ramaisFiltrados.find(ramal => ramal.id_ramal_setor === setor_ramal.id_ramal_setor);
-          if (setor !== undefined) {
-            this.data_nascimento = funcionario.data_nascimento;
-            this.setor = setor.id_setor ?? 'op';
-            this.nramal = ramal?.id_ramal_setor ?? 'op2';
-            console.log(this.nramal)
-          } else {
-            console.log("Setor nao encontrado")
-          }
-        }
-      }
-    }
-
   } update(contatoSelecionado: Contato) {
     this.updateContato(contatoSelecionado);
   } updateContato(contatoSelecionado: Contato) {
@@ -623,5 +537,94 @@ capitalize(text: string): string {
           console.error('Erro ao atualizar funcionario:', error);
         }
       );
+  }
+
+
+  // Validações
+  validation2() {
+    if (!this.nome_pessoa) return false;
+    if (!this.celular1) return false;
+    if (!this.verificarNumeros(this.celular1) || !this.verificarNumeros(this.celular2) || !this.verificarNumeros(this.telefone)) return false;
+    if (this.cep && (this.removerCaracteresEspeciais(this.cep).length !== 8 || !this.verificarNumeros(this.removerCaracteresEspeciais(this.cep)))) return false;
+    const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
+      setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
+    );
+    if (this.box_fun === true && !setorRamalEncontrado) {
+      alert('Por favor, selecione o setor e o ramal do(a) funcionário(a)!')
+      return false;
+    }
+    if (this.numero.length > 0 && !this.verificarNumeros(this.numero)) return false;
+    this.novoContato.nome_pessoa = this.nome_pessoa;
+    this.novoContato.email = this.email;
+    this.novoContato.celular1 = this.celular1;
+    this.novoContato.celular2 = this.celular2;
+    this.novoContato.telefone = this.telefone;
+    this.novoContato.flag_privado = this.boxPrivate;
+    this.novoContato.flag_funcionario = this.box_fun;
+    const contatoSelecionado = this.contatos.find(contato => contato.id_pessoa === this.id_rota);
+    const nomeExistente = this.contatos.find(pessoa =>
+      pessoa.nome_pessoa.trim().toLowerCase() === this.novoContato.nome_pessoa.trim().toLowerCase() &&
+      pessoa.id_pessoa !== contatoSelecionado?.id_pessoa
+    );
+    if (nomeExistente) return false;
+    const emailExistente = this.contatos.find(pessoa =>
+      pessoa.email.trim().toLowerCase() === this.novoContato.email.trim().toLowerCase() &&
+      pessoa.email !== contatoSelecionado?.email
+    );
+    if (emailExistente && this.email) return false;
+    const celular1Existente = this.contatos.find(pessoa =>
+      pessoa.celular1.trim().toLowerCase() === this.novoContato.celular1.trim().toLowerCase() &&
+      pessoa.celular1 !== contatoSelecionado?.celular1
+    );
+    if (celular1Existente) return false;
+    return true;
+  } validation(fieldName: string) {
+    const contatoSelecionado = this.contatos.find(contato => contato.id_pessoa === this.id_rota);
+    switch (fieldName) {
+      case 'nome_pessoa':
+        if (!this.nome_pessoa) return;
+        const nomeExistente = this.contatos.find(pessoa =>
+          pessoa.nome_pessoa.trim().toLowerCase() === this.nome_pessoa.trim().toLowerCase() &&
+          pessoa.id_pessoa !== contatoSelecionado?.id_pessoa
+        );
+        this.nomeExistente = nomeExistente;
+        if (nomeExistente) return;
+
+        break;
+      case 'email':
+        if (this.email && (!this.email.includes('@') || this.email.split('@')[1].length === 1)) return false;
+        const emailExistente = this.contatos.find(pessoa =>
+          pessoa.email.trim().toLowerCase() === this.email.trim().toLowerCase() &&
+          pessoa.email !== contatoSelecionado?.email
+        );
+        this.emailExistente = emailExistente;
+
+        if (this.email && emailExistente && (emailExistente !== undefined)) return;
+        break;
+      case 'celular1':
+        const celular1Existente = this.contatos.find(pessoa =>
+          pessoa.celular1.trim().toLowerCase() === this.removerCaracteresEspeciais(this.celular1).trim().toLowerCase() &&
+          pessoa.celular1 !== contatoSelecionado?.celular1
+        );
+        this.celular1Existente = celular1Existente;
+        if (celular1Existente) return;
+        break;
+      case 'cep':
+        if (this.cep && (this.removerCaracteresEspeciais(this.cep).length !== 8 || !this.verificarNumeros(this.cep))) return;
+        break;
+      case 'numero':
+        if (this.numero && this.numero.length > 5) return;
+        break;
+    }
+    return true;
+  } removerCaracteresEspeciais(str: string): string {
+    return str.replace(/[^0-9]/g, '');// Remove todos os caracteres que não são letras, números, espaços ou sublinhados
+  } verificarNumeros(str: any) {
+    const num = Number(str.replace(/\D/g, ''));
+    if (!isNaN(num)) {
+      return /^\d+$/.test(String(num));
+    }
+
+    return false;
   }
 }

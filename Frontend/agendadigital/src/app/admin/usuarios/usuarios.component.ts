@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css',
-  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule, NgIf, NgStyle,NgClass]
+  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule, NgIf, NgStyle, NgClass]
 })
 export class UsuariosComponent {
 
@@ -69,7 +69,7 @@ export class UsuariosComponent {
 
     // Verificar se o nome do usuário já existe localmente
     const nomeExistente = this.users.find(usuario =>
-      usuario.nome.trim().toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
+      usuario.nome.trim()?.toLowerCase() === this.novoUsuario.nome.trim().toLowerCase()
     );
 
     if (nomeExistente) {
@@ -93,6 +93,7 @@ export class UsuariosComponent {
         this.clear();
 
       }, error => {
+        alert('Erro ao adicionar usuário!')
         console.error('Erro ao adicionar usuario:', error);
       })
   }
@@ -107,11 +108,12 @@ export class UsuariosComponent {
   atualizarUsuario() {
     if (!this.userSelecionado) return;
     this.userSelecionado.nome = this.nome;
+    console.log(this.nome, this.userSelecionado.nome)
     this.userSelecionado.usuario = this.usuario;
 
     // Verificar se o nome do setor já existe localmente, excluindo o setor selecionado
     const nomeExistente = this.users.some(user =>
-      user.nome.trim().toLowerCase() === this.nome.trim().toLowerCase() &&
+      (user.nome?.trim().toLowerCase() || '') === (this.nome?.trim().toLowerCase() || '') &&
       user.id_usuario !== this.userSelecionado?.id_usuario
     );
 
@@ -135,6 +137,7 @@ export class UsuariosComponent {
     this.userSelecionado.nome = this.nome;
     this.userSelecionado.usuario = this.usuario;
     this.userSelecionado.senha = this.senha;
+    console.log(this.nome, this.userSelecionado.nome)
 
     this.http.put<Usuario>(`${this.url}/usuario/${this.userSelecionado.id_usuario}`, this.userSelecionado)
       .subscribe(

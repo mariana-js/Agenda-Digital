@@ -1,3 +1,3 @@
 export interface Ramal {
-  numero_ramal: string;
+    numero_ramal: string;
 }
