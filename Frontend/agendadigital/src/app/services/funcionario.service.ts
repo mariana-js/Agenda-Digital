@@ -7,13 +7,18 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class FuncionarioService {
-  private api = 'https://localhost:8080/funcionario';
+  private api = 'http://localhost:8080/funcionario';
   funcionario: Funcionario[] = [];
 
   constructor(private readonly http: HttpClient) { }
 
   getFuncionario(): Observable<Funcionario[]> {
-    return this.http.get<Funcionario[]>(`${this.api}`);
+    return this.http.get<Funcionario[]>(`${this.api}/all`);
+  }
+  getAniversariantes(): Observable<Funcionario[]> {
+    const dataAtual = new Date();
+    const mesAtual = dataAtual.getMonth() + 1;
+    return this.http.get<Funcionario[]>(`${this.api}?mes=${mesAtual}`);
   }
 
   addFuncionario(funcionario: Funcionario): Observable<Funcionario> {

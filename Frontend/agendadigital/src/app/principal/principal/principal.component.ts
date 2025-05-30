@@ -15,30 +15,55 @@ import { PessoaService } from './../../services/pessoa.service';
   imports: [CommonModule, HttpClientModule, NavAniversariantesComponent, NgFor, FormsModule, NgIf, NgStyle]
 })
 export class PrincipalComponent {
-  // readonly url: string
-
   contatos: Contato[] = [];
   id_contatoSelecionado: string | null = null;
   searchTerm: string = '';
   retorno: string = "";
   amount: number = 0;
-  itemsPerPage = 8;
+  itemsPerPage = 5;
   currentPage = 1;
-
-  get totalPages(): number {
-    return Math.ceil(this.contatos.length / this.itemsPerPage);
-  }
+  filtroAtual: 'todos' | 'funcionarios' = 'todos';
+  private restaurarEstado = true;
+  
   constructor(
     private readonly router: Router,
     private readonly contatoStateService: ContatoStateService,
     private readonly pessoaService: PessoaService) {
-  }
-  nextPage() {
+  } ngOnInit() {
+    if (this.restaurarEstado) {
+      const savedState = this.contatoStateService.getState();
+
+      if (savedState) {
+        this.currentPage = savedState.currentPage || 1;
+        this.searchTerm = savedState.searchTerm || '';
+        this.filtroAtual = savedState.filtro || 'todos';
+
+        const callback = () => {
+          if (this.searchTerm) {
+            this.filterContacts(this.searchTerm);
+          }
+          setTimeout(() => window.scrollTo(0, savedState.scrollY || 0), 0);
+        };
+
+        if (this.filtroAtual === 'funcionarios') {
+          this.getFuncionarios(callback);
+        } else {
+          this.getContatos(callback);
+        }
+
+        return;
+      }
+    }
+
+    // carregamento padrão
+    this.getContatos();
+  } get totalPages(): number {
+    return Math.ceil(this.contatos.length / this.itemsPerPage);
+  } nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
     }
-  }
-  getTdHeight(numRows: number): string {
+  } getTdHeight(numRows: number): string {
     if (numRows >= 1 && numRows <= 8) {
       const dataRows = numRows - 1;
       const remainingSpace = 25 - (dataRows * 8);
@@ -46,32 +71,10 @@ export class PrincipalComponent {
     } else {
       return 'auto';
     }
-  }
-
-  previousPage() {
+  } previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
     }
-  }
-  ngOnInit() {
-    const savedState = this.contatoStateService.getState();
-
-    if (savedState) {
-      this.currentPage = savedState.currentPage || 1;
-      this.searchTerm = savedState.searchTerm || '';
-      this.getContatos(() => {
-        if (this.searchTerm) {
-          this.filterContacts(this.searchTerm);
-        }
-        setTimeout(() => window.scrollTo(0, savedState.scrollY || 0), 0);
-      });
-    } else {
-      this.getContatos();
-    }
-
-    this.contatoStateService.clearContatoSelecionado();
-    this.contatoStateService.saveState(null);
-
   } getContatos(callback?: () => void) {
     this.pessoaService.getPessoa().subscribe(r => {
       this.contatos = r.filter(r => r.flag_privado === false);
@@ -85,7 +88,8 @@ export class PrincipalComponent {
         callback();
       }
     });
-  } getFuncionarios() {
+  } getFuncionarios(callback?: () => void) {
+    this.filtroAtual = 'funcionarios';
     this.pessoaService.getPessoa().subscribe(r => {
       this.contatos = r.filter(contatos => contatos.flag_funcionario === true);
       this.contatos.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
@@ -93,13 +97,18 @@ export class PrincipalComponent {
       if (this.amount === 0) {
         console.log("Erro ao trazer os contatos!");
       }
+      if (callback) {
+        callback();
+      }
     });
   } informacoes(contato: Contato) {
     // Salvando o estado atual da página e do scrolly:
+
     this.contatoStateService.saveState({
       currentPage: this.currentPage,
       searchTerm: this.searchTerm,
-      scrollY: window.scrollY
+      scrollY: window.scrollY,
+      filtro: this.filtroAtual
     });
 
     contato.id_contatoSelecionado = contato.id_pessoa;
@@ -126,6 +135,13 @@ export class PrincipalComponent {
       this.retorno = "Nenhum contato encontrado.";
       this.getContatos();
     }
+  } limparEstados() {
+    this.restaurarEstado = false;
+    this.currentPage = 1;
+    this.searchTerm = '';
+    this.filtroAtual = 'todos';
+    this.contatoStateService.clearContatoSelecionado();
+    this.contatoStateService.saveState(null);
   }
 }
 

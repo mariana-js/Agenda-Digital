@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -7,6 +7,11 @@ import { Funcionario } from '../../models/funcionario';
 import { Setor } from '../../models/setor';
 import { SetorRamal } from '../../models/setor-ramal';
 import { Contato } from './../../models/contato';
+import { FuncionarioService } from '../../services/funcionario.service';
+import { PessoaService } from '../../services/pessoa.service';
+import { SetorRamalService } from '../../services/setor-ramal.service';
+import { SetorService } from '../../services/setor.service';
+import { EnderecoService } from '../../services/endereco.service';
 @Component({
   selector: 'app-contato',
   standalone: true,
@@ -22,9 +27,6 @@ export class ContatoComponent implements OnInit {
   @ViewChild('telefoneInput') telefoneInput!: ElementRef;
   @ViewChild('cepInput') cepInput!: ElementRef;
 
-
-
-  readonly url: string;
   contato: Contato[] = [];
   funcionario: Funcionario[] = [];
   setor_ramais: SetorRamal[] = [];
@@ -55,10 +57,14 @@ export class ContatoComponent implements OnInit {
 
   id_rota: string | undefined;
   constructor(
-    private http: HttpClient,
-    private activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly pessoaService: PessoaService,
+    private readonly setorRamalService: SetorRamalService,
+    private readonly setorService: SetorService,
+    private readonly funcionarioService: FuncionarioService,
+    private readonly enderecoService: EnderecoService
   ) {
-    this.url = 'http://localhost:8080';
+
   }
 
   ngOnInit() {
@@ -67,11 +73,11 @@ export class ContatoComponent implements OnInit {
 
       if (this.id_rota) {
         forkJoin({
-          contato: this.http.get<Contato[]>(`${this.url}/pessoa`),
-          funcionario: this.http.get<Funcionario[]>(`${this.url}/funcionario/all`),
-          setor_ramais: this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`),
-          setores: this.http.get<Setor[]>(`${this.url}/setor`),
-          endereco: this.http.get<Endereco[]>(`${this.url}/endereco`)
+          contato: this.pessoaService.getPessoa(),
+          funcionario: this.funcionarioService.getFuncionario(),
+          setor_ramais: this.setorRamalService.getSetorRamal(),
+          setores: this.setorService.getSetor(),
+          endereco: this.enderecoService.getEndereco()
         }).subscribe(({ contato, funcionario, setor_ramais, setores, endereco }) => {
           this.contato = contato;
           this.funcionario = funcionario;

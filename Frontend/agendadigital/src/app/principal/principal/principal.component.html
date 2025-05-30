@@ -10,8 +10,8 @@
       <div>
         <div class="nav-options">
           <div class="options">
-            <button (click)="getContatos()">Todos</button>
-            <button (click)="getFuncionarios()">Funcionários</button>
+            <button (click)="limparEstados();getContatos()">Todos</button>
+            <button (click)="limparEstados();getFuncionarios()">Funcionários</button>
           </div>
           <div class="search">
             <input type="text" placeholder="Pesquisar..." [(ngModel)]="searchTerm">

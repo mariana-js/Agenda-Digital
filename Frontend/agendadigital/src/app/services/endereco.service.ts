@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class EnderecoService {
-  private api = 'https://localhost:8080/endereco';
+  private api = 'http://localhost:8080/endereco';
 
   endereco: Endereco[] = [];
 

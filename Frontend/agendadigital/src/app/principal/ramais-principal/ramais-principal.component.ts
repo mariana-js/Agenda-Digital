@@ -1,49 +1,59 @@
 import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
-
 import { Contato } from '../../models/contato';
 import { Funcionario } from '../../models/funcionario';
+import { Ramal } from '../../models/ramal';
 import { Setor } from '../../models/setor';
 import { SetorRamal } from '../../models/setor-ramal';
-import { Ramal } from '../../models/ramal';
-
+import { FuncionarioService } from '../../services/funcionario.service';
+import { PessoaService } from '../../services/pessoa.service';
+import { SetorRamalService } from '../../services/setor-ramal.service';
+import { SetorService } from '../../services/setor.service';
+  interface Ramais  {
+  usuario: string;
+  setor: string;
+  ramal: string;
+  }
 @Component({
   selector: 'app-ramais-principal',
   standalone: true,
-  imports: [NgFor, HttpClientModule, NgIf, NgStyle,NgClass],
+  imports: [NgFor, HttpClientModule, NgIf, NgStyle, NgClass],
   templateUrl: './ramais-principal.component.html',
   styleUrl: './ramais-principal.component.css'
 })
+
 export class RamaisPrincipalComponent {
-  readonly url: string;
-  ramais: Ramal[] = [];
+  ramais: Ramais[] = [];
   usuarios: Funcionario[] = [];
   str: SetorRamal[] = [];
   setor: Setor[] = [];
   contato: Contato[] = [];
-  filteredRamais: Ramal[] = [];
-  selectedSectorButton: string = 'Todos'; // Store the ID of the selected sector button
+  filteredRamais: Ramais[] = [];
+  selectedSectorButton: string = 'Todos';
+
   constructor(
-    private http: HttpClient) {
-    this.url = 'http://localhost:8080';
+    private readonly pessoaService: PessoaService,
+    private readonly setorRamalService: SetorRamalService,
+    private readonly setorService: SetorService,
+    private readonly funcionarioService: FuncionarioService,
+  ) {
   }
 
   ngOnInit() {
-
     forkJoin({
-      contato: this.http.get<Contato[]>(`${this.url}/pessoa`),
-      usuarios: this.http.get<Funcionario[]>(`${this.url}/funcionario/all`),
-      str: this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`),
-      setor: this.http.get<Setor[]>(`${this.url}/setor`),
+      contato: this.pessoaService.getPessoa(),
+      usuarios: this.funcionarioService.getFuncionario(),
+      str: this.setorRamalService.getSetorRamal(),
+      setor: this.setorService.getSetor(),
     }).subscribe(({ contato, usuarios, str, setor }) => {
       this.contato = contato;
       this.usuarios = usuarios;
       this.str = str;
       this.setor = setor;
       this.setor.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
-      // this.getRamais();
+      this.getRamais();
     });
   }
   findSetorById(setores: Setor[], id: string): Setor | undefined {
@@ -59,43 +69,42 @@ export class RamaisPrincipalComponent {
     }
   }
 
-  // getRamais() {
-  //   this.ramais = this.usuarios.map(usuario => {
-  //     const setorRamal = this.str.find(sr => sr.id_setor_ramal === usuario.id_setor_ramal);
+  getRamais() {
+    this.ramais = this.usuarios.map(usuario => {
+      const setorRamal = this.str.find(sr => sr.id_setor_ramal === usuario.id_setor_ramal);
 
-  //     const contato = this.contato.find(c => c.id_pessoa === usuario.id_pessoa);
+      const contato = this.contato.find(c => c.id_pessoa === usuario.id_pessoa);
 
-  //     if (setorRamal && contato) {
-  //       const setor = this.findSetorById(this.setor, setorRamal.id_setor);
+      if (setorRamal && contato) {
+        const setor = this.findSetorById(this.setor, setorRamal.id_setor);
 
-  //       if (setor) {
-  //         return {
-  //           usuario: contato?.nome_pessoa,
-  //           ramal: setorRamal.id_ramal_setor,
-  //           setor: setor.nome_setor
-  //         };
-  //       }
-  //     }
-  //     return {
-  //       usuario: '',
-  //       ramal: '',
-  //       setor: ''
-  //     };
-  //   });
-  //   this.ramais.sort((a, b) => a.usuario.localeCompare(b.usuario));
-  //   this.filteredRamais = [...this.ramais];  // Inicialmente mostrar todos os ramais
-  // }
+        if (setor) {
+          return {
+            usuario: contato?.nome_pessoa,
+            ramal: setorRamal.id_ramal_setor,
+            setor: setor.nome_setor
+          };
+        }
+      }
+      return {
+        usuario: '',
+        ramal: '',
+        setor: ''
+      };
+    });
+    this.ramais.sort((a, b) => a.usuario.localeCompare(b.usuario));
+    this.filteredRamais = [...this.ramais];
+  }
 
-  // filterRamaisBySetor(setorNome: string,  buttonId: string) {
-  //   if (setorNome === 'Todos') {
-  //     this.selectedSectorButton = 'Todos';
-  //   } else {
-  //     this.selectedSectorButton = buttonId;
-  //   }
+  filterRamaisBySetor(setorNome: string, buttonId: string) {
+    if (setorNome === 'Todos') {
+      this.selectedSectorButton = 'Todos';
+    } else {
+      this.selectedSectorButton = buttonId;
+    }
 
-  //   this.filteredRamais = this.ramais.filter(ramal => ramal.setor === setorNome);
-  // }
-
+    this.filteredRamais = this.ramais.filter(ramal => ramal.setor === setorNome);
+  }
 
   showAllRamais() {
     this.selectedSectorButton = 'Todos';
