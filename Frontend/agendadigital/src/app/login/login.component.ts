@@ -1,9 +1,10 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { Usuario } from '../models/usuario';
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -16,17 +17,15 @@ export class LoginComponent {
   usuario: string | undefined;
   senha: string | undefined;
   acesso: Usuario[] = [];
-  readonly url: string;
-  private apiUrl = 'http://localhost:8080/auth/login';
 
   constructor(
-    private router: Router,
-    private http: HttpClient
-  ) { this.url = 'http://localhost:8080'; }
+    private readonly router: Router,
+    private readonly usuarioService: UsuarioService
+  ) { }
 
   ngOnInit() {
     forkJoin({
-      acesso: this.http.get<Usuario[]>(`${this.url}/usuario`),
+      acesso: this.usuarioService.getUsuario(),
     }).subscribe(({ acesso }) => {
       this.acesso = acesso;
     });

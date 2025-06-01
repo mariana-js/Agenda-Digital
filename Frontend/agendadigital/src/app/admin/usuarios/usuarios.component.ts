@@ -1,19 +1,19 @@
-import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NgFor, NgIf, NgStyle } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Usuario } from '../../models/usuario';
-import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { FormsModule } from '@angular/forms';
+import { Usuario } from '../../models/usuario';
+import { UsuarioService } from '../../services/usuario.service';
+import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 @Component({
   selector: 'app-usuarios',
   standalone: true,
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css',
-  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule, NgIf, NgStyle, NgClass]
+  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule, NgIf, NgStyle]
 })
 export class UsuariosComponent {
 
-  readonly url: string;
   users: Usuario[] = [];
 
   nome: string = '';
@@ -22,8 +22,7 @@ export class UsuariosComponent {
   userSelecionado: Usuario | null = null;
   novoUsuario: Usuario = { id_usuario: '', nome: this.nome, usuario: this.usuario, senha: this.senha };
 
-  constructor(private http: HttpClient) {
-    this.url = 'http://localhost:8080';
+  constructor(private readonly usuarioService: UsuarioService) {
   }
 
   ngOnInit() {
@@ -39,7 +38,7 @@ export class UsuariosComponent {
     }
   }
   getUsuarios() {
-    this.http.get<Usuario[]>(`${this.url}/usuario`)
+    this.usuarioService.getUsuario()
       .subscribe(resultados => {
         this.users = resultados;
         this.users.sort((a, b) => a.nome.localeCompare(b.nome));
@@ -86,9 +85,10 @@ export class UsuariosComponent {
       alert('O nome de usuário já está cadastrado.');
       return; // Parar a execução da função se o usuário já existir localmente
     }
-    this.http.post<Usuario>(`${this.url}/usuario`, this.novoUsuario)
+    this.usuarioService.addUsuario(this.novoUsuario)
       .subscribe(novoUsuario => {
         this.users.push(novoUsuario);
+        alert('Usuário adicionado com sucesso!')
         this.users.sort((a, b) => a.nome.localeCompare(b.nome));
         this.clear();
 
@@ -139,7 +139,7 @@ export class UsuariosComponent {
     this.userSelecionado.senha = this.senha;
     console.log(this.nome, this.userSelecionado.nome)
 
-    this.http.put<Usuario>(`${this.url}/usuario/${this.userSelecionado.id_usuario}`, this.userSelecionado)
+    this.usuarioService.updateUsuario(this.userSelecionado)
       .subscribe(
         () => {
           alert('Usuário atualizado com sucesso!');
@@ -156,7 +156,7 @@ export class UsuariosComponent {
 
   excluirUsuario(user: Usuario) {
     if (confirm('Tem certeza de que deseja excluir este usuário?')) {
-      this.http.delete(`${this.url}/usuario/${user.id_usuario}`)
+      this.usuarioService.deleteUsuario(user.id_usuario)
         .subscribe(
           () => {
             this.users = this.users.filter(s => s.id_usuario !== user.id_usuario);

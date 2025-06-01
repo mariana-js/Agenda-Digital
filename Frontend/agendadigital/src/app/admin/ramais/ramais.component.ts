@@ -1,10 +1,13 @@
-import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NgFor, NgIf, NgStyle } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { Component, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { Ramal } from '../../models/ramal';
 import { SetorRamal } from '../../models/setor-ramal';
+import { RamalService } from '../../services/ramal.service';
+import { SetorRamalService } from '../../services/setor-ramal.service';
+import { SetorService } from '../../services/setor.service';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { Setor } from './../../models/setor';
 
@@ -13,11 +16,10 @@ import { Setor } from './../../models/setor';
   standalone: true,
   templateUrl: './ramais.component.html',
   styleUrl: './ramais.component.css',
-  imports: [HttpClientModule, NavAdminComponent, NgFor, FormsModule, NgIf, NgStyle,NgClass]
+  imports: [HttpClientModule, NavAdminComponent, NgFor, FormsModule, NgIf, NgStyle]
 })
 export class RamaisComponent {
 
-  readonly url: string;
   ramalDesabilitado = false;
   setor_ramais: SetorRamal[] = [];
   numero_ramal: Ramal[] = [];
@@ -37,8 +39,12 @@ export class RamaisComponent {
     setor: ''
   };
 
-  constructor(private http: HttpClient, private ngZone: NgZone) {
-    this.url = 'http://localhost:8080';
+  constructor(
+    private readonly ngZone: NgZone,
+    private readonly ramalService: RamalService,
+    private readonly setorService: SetorService,
+    private readonly setorRamalService: SetorRamalService
+  ) {
   }
   getTdHeight(numRows: number): string {
     if (numRows >= 1 && numRows <= 4) {
@@ -52,20 +58,20 @@ export class RamaisComponent {
   ngOnInit() {
 
     forkJoin({
-      numero_ramal: this.http.get<Ramal[]>(`${this.url}/ramal`),
+      numero_ramal: this.ramalService.getRamal(),
     }).subscribe(({ numero_ramal }) => {
       this.numero_ramal = numero_ramal;
       this.getRamais();
     });
 
   } getRamais() {
-    this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`)
+    this.setorRamalService.getSetorRamal()
       .subscribe(resultados => {
         this.setor_ramais = resultados;
         this.getSetores();
       });
   } getSetores() {
-    this.http.get<Setor[]>(`${this.url}/setor`)
+    this.setorService.getSetor()
       .subscribe(resultados => {
         this.setores = resultados;
         this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
@@ -106,7 +112,7 @@ export class RamaisComponent {
       this.resposta = false;
       return;
     }
-    this.http.post<Ramal>(`${this.url}/ramal`, this.novoRamal)
+    this.ramalService.addRamal(this.novoRamal)
       .subscribe(
         novoRamal => {
           this.numero_ramal.push(novoRamal);
@@ -119,10 +125,11 @@ export class RamaisComponent {
     this.novoSetorRamal.id_setor = this.setor;
     this.novoSetorRamal.id_ramal_setor = ramal;
     if (resposta == true) {
-      this.http.post<SetorRamal>(`${this.url}/setor_ramal`, this.novoSetorRamal)
+      this.setorRamalService.addSetorRamal(this.novoSetorRamal)
         .subscribe(
           novoSetorRamal => {
             this.setor_ramais.push(novoSetorRamal);
+            alert('Ramal adicionado com sucesso!')
             this.clear();
             this.getRamais();
           }
@@ -184,9 +191,8 @@ export class RamaisComponent {
     this.setorramalSelecionado.id_setor = this.setor;
     this.setorramalSelecionado.id_ramal_setor = this.ramal;
 
-    this.http.put<Ramal>(`${this.url}/ramal/${this.setorramalSelecionado.id_ramal_setor}`, this.setorramalSelecionado)
-
-    this.http.put<SetorRamal>(`${this.url}/setor_ramal/${this.setorramalSelecionado.id_setor_ramal}`, this.setorramalSelecionado)
+    // this.http.put<Ramal>(`${this.url}/ramal/${this.setorramalSelecionado.id_ramal_setor}`, this.setorramalSelecionado)
+    this.setorRamalService.updateSetorRamal(this.setorramalSelecionado)
       .subscribe(
         () => {
           alert('Setor do ramal atualizado com sucesso!');
@@ -202,7 +208,7 @@ export class RamaisComponent {
   } excluirSetorRamal(setorramal: SetorRamal) {
     const n_ramal = setorramal.id_ramal_setor;
     if (confirm('Tem certeza de que deseja excluir este ramal?')) {
-      this.http.delete(`${this.url}/setor_ramal/${setorramal.id_setor_ramal}`)
+      this.setorRamalService.deleteSetorRamal(setorramal.id_setor_ramal)
         .subscribe(
           () => {
             this.setor_ramais = this.setor_ramais.filter(s => s.id_setor_ramal !== setorramal.id_setor_ramal);
@@ -219,7 +225,7 @@ export class RamaisComponent {
         );
     }
   } excluirRamal(ramal: string) {
-    this.http.delete(`${this.url}/ramal/${ramal}`)
+    this.ramalService.deleteRamal(ramal)
       .subscribe(
         () => {
           this.numero_ramal = this.numero_ramal.filter(s => s.numero_ramal !== ramal);

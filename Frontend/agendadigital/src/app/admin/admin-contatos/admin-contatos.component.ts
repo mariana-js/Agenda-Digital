@@ -1,25 +1,28 @@
-import { CommonModule, NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CommonModule, NgFor } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { Endereco } from '../../models/endereco';
 import { ContatoStateService } from '../../services/contato-state.service';
+import { EnderecoService } from '../../services/endereco.service';
+import { FuncionarioService } from '../../services/funcionario.service';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { Contato } from './../../models/contato';
 import { Funcionario } from './../../models/funcionario';
+import { PessoaService } from '../../services/pessoa.service';
 
 @Component({
   selector: 'app-admin-contatos',
   standalone: true,
-  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule, CommonModule ],
+  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule, CommonModule],
   templateUrl: './admin-contatos.component.html',
   styleUrl: './admin-contatos.component.css'
 })
+
 export class AdminContatosComponent {
 
-  readonly url: string;
   id_contatoSelecionado: string | null = null;
   contatosHide: Contato[] = [];
   endereco: Endereco[] = [];
@@ -34,10 +37,11 @@ export class AdminContatosComponent {
     return Math.ceil(this.contatosHide.length / this.itemsPerPage);
   }
   constructor(
-    private http: HttpClient,
-    private router: Router,
-    private contatoStateService: ContatoStateService) {
-    this.url = 'http://localhost:8080';
+    private readonly router: Router,
+    private readonly contatoStateService: ContatoStateService,
+    private readonly enderecoService: EnderecoService,
+    private readonly funcionarioService: FuncionarioService,
+    private readonly contatoService: PessoaService) {
   }
   getTdHeight(numRows: number): string {
     if (numRows >= 1 && numRows <= 8) {
@@ -66,8 +70,8 @@ export class AdminContatosComponent {
 
   ngOnInit() {
     forkJoin({
-      endereco: this.http.get<Endereco[]>(`${this.url}/endereco`),
-      funcionario: this.http.get<Funcionario[]>(`${this.url}/funcionario/all`),
+      endereco: this.enderecoService.getEndereco(),
+      funcionario: this.funcionarioService.getFuncionario()
     }).subscribe(({ endereco, funcionario }) => {
       this.endereco = endereco;
       this.funcionario = funcionario;
@@ -78,8 +82,8 @@ export class AdminContatosComponent {
     this.router.navigate(['/cadastrar-contato']);
   }
   getContatos() {
-    this.http.get<Contato[]>(`${this.url}/pessoa`)
-      .subscribe(resultados => {
+    this.contatoService.getPessoa()
+      .subscribe((resultados: Contato[]) => {
         this.contatosHide = resultados;
         this.amount = this.contatosHide.length;
         this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
@@ -89,9 +93,9 @@ export class AdminContatosComponent {
       });
   }
   getContatosFuncionarios() {
-    this.http.get<Contato[]>(`${this.url}/pessoa`)
-      .subscribe(resultados => {
-        this.contatosHide = resultados.filter(contatosHide => contatosHide.flag_funcionario === true);
+    this.contatoService.getPessoa()
+      .subscribe((resultados: any[]) => {
+        this.contatosHide = resultados.filter((contatosHide: { flag_funcionario: boolean; }) => contatosHide.flag_funcionario === true);
         this.amount = this.contatosHide.length;
         this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
         if (this.amount === 0) {
@@ -100,9 +104,9 @@ export class AdminContatosComponent {
       });
   }
   getContatosHides() {
-    this.http.get<Contato[]>(`${this.url}/pessoa`)
-      .subscribe(resultados => {
-        this.contatosHide = resultados.filter(contatosHide => contatosHide.flag_privado === true);
+    this.contatoService.getPessoa()
+      .subscribe((resultados: any[]) => {
+        this.contatosHide = resultados.filter((contatosHide: { flag_privado: boolean; }) => contatosHide.flag_privado === true);
         this.amount = this.contatosHide.length;
         this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
         if (this.amount === 0) {
@@ -130,9 +134,9 @@ export class AdminContatosComponent {
     } else {
       this.retorno = "";
     }
-    this.http.get<Contato[]>(`${this.url}/pessoa`)
-      .subscribe(resultados => {
-        this.contatosHide = resultados.filter(contato =>
+    this.contatoService.getPessoa()
+      .subscribe((resultados: any[]) => {
+        this.contatosHide = resultados.filter((contato: { nome_pessoa: string; }) =>
           contato.nome_pessoa.toLowerCase().includes(searchTerm.toLowerCase())
         );
 
@@ -162,39 +166,39 @@ export class AdminContatosComponent {
   }
 
   excluirEndereco(id_endereco: string) {
-    this.http.delete(`${this.url}/endereco/${id_endereco}`)
+    this.enderecoService.deleteEndereco(id_endereco)
       .subscribe(
         () => {
           this.endereco = this.endereco.filter(s => s.id_endereco !== id_endereco);
         },
-        error => {
+        (error: any) => {
           console.error('Erro ao excluir contato:', error);
         }
       );
   }
 
   excluirFuncionario(id_funcionario: string, contato: Contato) {
-    this.http.delete(`${this.url}/funcionario/${id_funcionario}`)
+    this.funcionarioService.deleteFuncionario(id_funcionario)
       .subscribe(
         () => {
           this.funcionario = this.funcionario.filter(s => s.id_funcionario !== id_funcionario);
           this.excluirContato(contato);
         },
-        error => {
+        (error: any) => {
           console.error('Erro ao excluir funcionario:', error);
         }
       );
   }
 
   excluirContato(contato: Contato) {
-    this.http.delete(`${this.url}/pessoa/${contato.id_pessoa}`)
+    this.contatoService.deletePessoa(contato.id_pessoa)
       .subscribe(
         () => {
           this.contatosHide = this.contatosHide.filter(s => s.id_pessoa !== contato.id_pessoa);
           this.getContatos();
           alert('Contato excluído com sucesso!');
         },
-        error => {
+        (error: any) => {
           this.getContatos();
           console.error('Erro ao excluir contato:', error);
           alert('Erro ao excluir contato!');

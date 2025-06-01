@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class NavAdminComponent {
 
-  constructor(private router: Router) { }
+  constructor(private readonly router: Router) { }
 
   navegarParaHome() {
     this.router.navigate(['/']);

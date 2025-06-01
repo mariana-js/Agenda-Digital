@@ -1,28 +1,33 @@
-import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NgFor, NgIf, NgStyle } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Setor } from '../../models/setor';
+import { SetorService } from '../../services/setor.service';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
+import { ValidationSRUService } from '../../services/validation-sru.service';
 @Component({
   selector: 'app-setores',
   standalone: true,
   templateUrl: './setores.component.html',
   styleUrl: './setores.component.css',
-  imports: [NavAdminComponent, NgFor, HttpClientModule, FormsModule, NgIf, NgStyle, NgClass]
+  imports: [NavAdminComponent, NgFor, HttpClientModule, FormsModule, NgIf, NgStyle]
 })
 export class SetoresComponent {
-  readonly url: string;
   id: string = '';
   setor: string = '';
   sigla: string = '';
+  mensagem: string = '';
 
   setores: Setor[] = [];
   setorSelecionado: Setor | null = null;
   novoSetor: Setor = { id_setor: '', nome_setor: this.setor, sigla_setor: this.sigla };
 
-  constructor(private http: HttpClient) {
-    this.url = 'http://localhost:8080';
+  constructor(
+    private readonly setorService: SetorService,
+    private readonly validation: ValidationSRUService
+
+  ) {
   }
   ngOnInit() {
     this.getSetores();
@@ -38,7 +43,7 @@ export class SetoresComponent {
     }
   }
   getSetores() {
-    this.http.get<Setor[]>(`${this.url}/setor`)
+    this.setorService.getSetor()
       .subscribe(resultados => {
         this.setores = resultados;
         this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
@@ -52,14 +57,22 @@ export class SetoresComponent {
     this.sigla = '';
   }
 
-  adicionarSetor() {
-    if (this.setorSelecionado) {
-      // Se setorSelecionado não for nulo, então estamos atualizando um setor existente
-      this.atualizarSetor();
-    } else {
-      // Caso contrário, estamos adicionando um novo setor
-      this.adicionarNovoSetor();
-    }
+  salvar() {
+    // await validacao = this.validation.authSetor(this.setor, this.sigla);
+
+    // if (validacao !== []) {
+
+
+      if (this.setorSelecionado) {
+        // Se setorSelecionado não for nulo, então estamos atualizando um setor existente
+        this.atualizarSetor();
+      } else {
+        // Caso contrário, estamos adicionando um novo setor
+        this.adicionarNovoSetor();
+      }
+    // } else {
+    //   alert(validacao)
+    // }
   }
 
   adicionarNovoSetor() {
@@ -86,10 +99,11 @@ export class SetoresComponent {
     }
 
     // Se o setor não existe localmente, enviar a solicitação para adicionar
-    this.http.post<Setor>(`${this.url}/setor`, this.novoSetor)
+    this.setorService.addSetor(this.novoSetor)
       .subscribe(
         novoSetor => {
           this.setores.push(novoSetor);
+          alert('Setor adicionado com sucesso!')
           this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
           this.clear();
           this.getSetores();
@@ -142,7 +156,7 @@ export class SetoresComponent {
     this.setorSelecionado.sigla_setor = this.sigla;
     this.setorSelecionado.nome_setor = this.setor;
 
-    this.http.put<Setor>(`${this.url}/setor/${this.setorSelecionado.id_setor}`, this.setorSelecionado)
+    this.setorService.updateSetor(this.setorSelecionado)
       .subscribe(
         () => {
           alert('Setor atualizado com sucesso!');
@@ -158,7 +172,7 @@ export class SetoresComponent {
   }
   excluirSetor(setor: Setor) {
     if (confirm('Tem certeza de que deseja excluir este setor?')) {
-      this.http.delete(`${this.url}/setor/${setor.id_setor}`)
+      this.setorService.deleteSetor(setor.id_setor)
         .subscribe(
           () => {
             this.setores = this.setores.filter(s => s.id_setor !== setor.id_setor);

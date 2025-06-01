@@ -10,9 +10,9 @@ import { PessoaService } from './../../services/pessoa.service';
 @Component({
   selector: 'app-principal',
   standalone: true,
+  imports: [CommonModule, HttpClientModule, NavAniversariantesComponent, NgFor, FormsModule, NgIf, NgStyle],
   templateUrl: './principal.component.html',
-  styleUrl: './principal.component.css',
-  imports: [CommonModule, HttpClientModule, NavAniversariantesComponent, NgFor, FormsModule, NgIf, NgStyle]
+  styleUrl: './principal.component.css'
 })
 export class PrincipalComponent {
   contatos: Contato[] = [];

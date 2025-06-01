@@ -1,5 +1,6 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { CommonModule, NgFor } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
@@ -8,18 +9,20 @@ import { Endereco } from '../../models/endereco';
 import { Funcionario } from '../../models/funcionario';
 import { Setor } from '../../models/setor';
 import { ContatoStateService } from '../../services/contato-state.service';
+import { EnderecoService } from '../../services/endereco.service';
+import { FuncionarioService } from '../../services/funcionario.service';
+import { PessoaService } from '../../services/pessoa.service';
+import { SetorRamalService } from '../../services/setor-ramal.service';
+import { SetorService } from '../../services/setor.service';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
-import { RamaisComponent } from '../ramais/ramais.component';
 import { SetorRamal } from './../../models/setor-ramal';
-import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { CommonModule, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-cadatrar-contato',
   standalone: true,
   templateUrl: './cadatrar-contato.component.html',
   styleUrl: './cadatrar-contato.component.css',
-  imports: [NavAdminComponent, NgFor, HttpClientModule, FormsModule, RamaisComponent, CommonModule]
+  imports: [NavAdminComponent, NgFor, HttpClientModule, FormsModule, CommonModule]
 })
 export class CadatrarContatoComponent {
 
@@ -30,7 +33,6 @@ export class CadatrarContatoComponent {
   @ViewChild('emailInput') emailInput!: ElementRef;
   @ViewChild('cepInput') cepInput!: ElementRef;
 
-  readonly url: string;
   id_rota: string | undefined;
   resposta: string = "";
   validacao: boolean = false;
@@ -118,11 +120,14 @@ export class CadatrarContatoComponent {
     return text.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
   }
   constructor(
-    private http: HttpClient,
-    private activatedRoute: ActivatedRoute,
-    private contatoStateService: ContatoStateService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly contatoStateService: ContatoStateService,
+    private readonly contatoService: PessoaService,
+    private readonly enderecoService: EnderecoService,
+    private readonly funcionarioService: FuncionarioService,
+    private readonly setorRamalService: SetorRamalService,
+    private readonly setorService: SetorService
   ) {
-    this.url = 'http://localhost:8080';
 
   } ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
@@ -133,10 +138,10 @@ export class CadatrarContatoComponent {
       this.getSetorRamal();
 
       forkJoin({
-        contatos: this.http.get<Contato[]>(`${this.url}/pessoa`),
-        enderecos: this.http.get<Endereco[]>(`${this.url}/endereco`),
-        funcionarios: this.http.get<Funcionario[]>(`${this.url}/funcionario/all`),
-        setor_ramais: this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`),
+        contatos: this.contatoService.getPessoa(),
+        enderecos: this.enderecoService.getEndereco(),
+        funcionarios: this.funcionarioService.getFuncionario(),
+        setor_ramais: this.setorRamalService.getSetorRamal(),
 
       }).subscribe(({ contatos, enderecos, funcionarios, setor_ramais }) => {
         this.contatos = contatos;
@@ -188,7 +193,7 @@ export class CadatrarContatoComponent {
   } ngOnDestroy() {
     this.contatoStateService.clearContatoSelecionado();
   } getSetores() {
-    this.http.get<Setor[]>(`${this.url}/setor`)
+    this.setorService.getSetor()
       .subscribe(resultados => {
         this.setores = resultados;
         this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
@@ -248,7 +253,7 @@ export class CadatrarContatoComponent {
   } getRamaisPorSetor(idSetor: string) {
     this.ramaisFiltrados = this.setor_ramais.filter(ramal => ramal.id_setor === idSetor);
   } getSetorRamal() {
-    this.http.get<SetorRamal[]>(`${this.url}/setor_ramal`)
+    this.setorRamalService.getSetorRamal()
       .subscribe(resultados => {
         this.setor_ramais = resultados;
       })
@@ -410,7 +415,7 @@ export class CadatrarContatoComponent {
     this.novoContato.flag_privado = this.boxPrivate;
     this.novoContato.flag_funcionario = this.box_fun;
 
-    this.http.post<Contato>(`${this.url}/pessoa`, this.novoContato)
+    this.contatoService.addPessoa(this.novoContato)
       .subscribe(novoContato => {
         this.contatos.push(novoContato);
         const id = novoContato.id_pessoa;
@@ -439,7 +444,7 @@ export class CadatrarContatoComponent {
     this.novoEndereco.bairro = this.bairro;
     this.novoEndereco.uf = this.uf;
     this.novoEndereco.cep = this.removerCaracteresEspeciais(this.cep);
-    this.http.post<Endereco>(`${this.url}/endereco`, this.novoEndereco)
+    this.enderecoService.addEndereco(this.novoEndereco)
       .subscribe(novoEndereco => {
         this.enderecos.push(novoEndereco);
       }, error => {
@@ -460,7 +465,7 @@ export class CadatrarContatoComponent {
     // }
     if (setorRamalEncontrado) {
       this.novoFuncionario.id_setor_ramal = setorRamalEncontrado.id_setor_ramal;
-      this.http.post<Funcionario>(`${this.url}/funcionario`, this.novoFuncionario)
+      this.funcionarioService.addFuncionario(this.novoFuncionario)
         .subscribe(
           novoFuncionario => {
             this.funcionarios.push(novoFuncionario);
@@ -484,7 +489,7 @@ export class CadatrarContatoComponent {
     this.contatoSelecionado.flag_funcionario = this.box_fun;
     this.contatoSelecionado.flag_privado = this.boxPrivate;
 
-    this.http.put<Contato>(`${this.url}/pessoa/${this.contatoSelecionado.id_pessoa}`, this.contatoSelecionado)
+    this.contatoService.updatePessoa(this.contatoSelecionado)
       .subscribe(
         () => {
           alert('Contato atualizado com sucesso!');
@@ -506,7 +511,7 @@ export class CadatrarContatoComponent {
     this.enderecoSelecionado.cidade = this.cidade;
     this.enderecoSelecionado.cep = this.removerCaracteresEspeciais(this.cep);
 
-    this.http.put<Endereco>(`${this.url}/endereco/${this.enderecoSelecionado.id_endereco}`, this.enderecoSelecionado)
+    this.enderecoService.updateEndereco(this.enderecoSelecionado)
       .subscribe(
         () => {
           this.enderecoSelecionado = null;
@@ -528,7 +533,7 @@ export class CadatrarContatoComponent {
     if (setorRamalEncontrado) {
       this.funcionarioSelecionado.id_setor_ramal = setorRamalEncontrado.id_setor_ramal;
     }
-    this.http.put<Funcionario>(`${this.url}/funcionario/${this.funcionarioSelecionado.id_funcionario}`, this.funcionarioSelecionado)
+    this.funcionarioService.updateFuncionario(this.funcionarioSelecionado)
       .subscribe(
         () => {
           this.contatoSelecionado = null;
@@ -580,6 +585,7 @@ export class CadatrarContatoComponent {
     return true;
   } validation(fieldName: string) {
     const contatoSelecionado = this.contatos.find(contato => contato.id_pessoa === this.id_rota);
+
     switch (fieldName) {
       case 'nome_pessoa':
         if (!this.nome_pessoa) return;
