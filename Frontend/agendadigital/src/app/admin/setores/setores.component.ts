@@ -1,23 +1,23 @@
 import { NgFor, NgIf, NgStyle } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Setor } from '../../models/setor';
 import { SetorService } from '../../services/setor.service';
-import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { ValidationSRUService } from '../../services/validation-sru.service';
+import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 @Component({
   selector: 'app-setores',
   standalone: true,
   templateUrl: './setores.component.html',
   styleUrl: './setores.component.css',
-  imports: [NavAdminComponent, NgFor, HttpClientModule, FormsModule, NgIf, NgStyle]
+  imports: [NavAdminComponent, NgFor, FormsModule, NgIf, NgStyle]
 })
 export class SetoresComponent {
   id: string = '';
   setor: string = '';
   sigla: string = '';
   mensagem: string = '';
+  validacao: string[] = [];
 
   setores: Setor[] = [];
   setorSelecionado: Setor | null = null;
@@ -25,15 +25,13 @@ export class SetoresComponent {
 
   constructor(
     private readonly setorService: SetorService,
-    private readonly validation: ValidationSRUService
+    private readonly validationService: ValidationSRUService
 
   ) {
-  }
-  ngOnInit() {
+  } ngOnInit() {
     this.getSetores();
 
-  }
-  getTdHeight(numRows: number): string {
+  } getTdHeight(numRows: number): string {
     if (numRows >= 1 && numRows <= 4) {
       const dataRows = numRows - 1;
       const remainingSpace = 18 - (dataRows * 4);
@@ -41,64 +39,37 @@ export class SetoresComponent {
     } else {
       return 'auto';
     }
-  }
-  getSetores() {
+  } getSetores() {
     this.setorService.getSetor()
       .subscribe(resultados => {
         this.setores = resultados;
         this.setores.sort((a, b) => a.nome_setor.localeCompare(b.nome_setor));
         this.clear();
       });
-  }
-
-  clear() {
+  } clear() {
     this.setorSelecionado = null;
     this.setor = '';
     this.sigla = '';
-  }
+  } async salvar() {
+    const v = await this.validationService.authSetor(this.setor, this.sigla)
 
-  salvar() {
-    // await validacao = this.validation.authSetor(this.setor, this.sigla);
-
-    // if (validacao !== []) {
+    this.validacao = v;
+    if ((v).length === 0) {
 
 
       if (this.setorSelecionado) {
-        // Se setorSelecionado não for nulo, então estamos atualizando um setor existente
         this.atualizarSetor();
       } else {
-        // Caso contrário, estamos adicionando um novo setor
         this.adicionarNovoSetor();
       }
-    // } else {
-    //   alert(validacao)
-    // }
-  }
 
-  adicionarNovoSetor() {
+    } else {
+      alert(this.validacao)
+    }
+  } adicionarNovoSetor() {
     this.novoSetor.nome_setor = this.setor;
     this.novoSetor.sigla_setor = this.sigla;
-    if (this.sigla.length > 5) {
-      alert('Sigla muito grande!')
-      return;
-    }
-    if (this.setor.length > 40) {
-      alert('Nome do setor muito grande!')
-      return;
-    }
-    // Verificar se o setor já existe localmente
-    const setorExistente = this.setores.find(setor =>
-      setor.nome_setor.trim().toLowerCase() === this.novoSetor.nome_setor.trim().toLowerCase() ||
-      setor.sigla_setor.trim().toLowerCase() === this.novoSetor.sigla_setor.trim().toLowerCase()
-    );
 
-    if (setorExistente) {
-      // Se setorExistente não for undefined, um setor correspondente foi encontrado na lista
-      alert('O setor ou sigla já está cadastrado.');
-      return; // Parar a execução da função se o setor já existir localmente
-    }
-
-    // Se o setor não existe localmente, enviar a solicitação para adicionar
     this.setorService.addSetor(this.novoSetor)
       .subscribe(
         novoSetor => {
@@ -109,50 +80,15 @@ export class SetoresComponent {
           this.getSetores();
         },
         error => {
-          // Lidar com erros de HTTP, se necessário
           console.error('Erro ao adicionar setor:', error);
         }
       );
-  }
-
-  selecionarSetor(setor: Setor) {
+  } selecionarSetor(setor: Setor) {
     this.setorSelecionado = { ...setor };
     this.setor = setor.nome_setor;
     this.sigla = setor.sigla_setor;
-  }
-
-  atualizarSetor() {
+  } atualizarSetor() {
     if (!this.setorSelecionado) return;
-    this.setorSelecionado.sigla_setor = this.sigla;
-    this.setorSelecionado.nome_setor = this.setor;
-    if (this.sigla.length > 5) {
-      alert('Sigla muito grande!')
-      return;
-    }
-    if (this.setor.length > 40) {
-      alert('Nome do setor muito grande!')
-      return;
-    }
-    const nomeExistente = this.setores.some(setor =>
-      setor.nome_setor.trim().toLowerCase() === this.setor.trim().toLowerCase() &&
-      setor.id_setor !== this.setorSelecionado?.id_setor
-    );
-
-    if (nomeExistente) {
-      alert('O nome do setor já está cadastrado.');
-      return;
-    }
-
-    const siglaExistente = this.setores.some(setor =>
-      setor.sigla_setor.trim().toLowerCase() === this.sigla.trim().toLowerCase() &&
-      setor.id_setor !== this.setorSelecionado?.id_setor
-    );
-
-    if (siglaExistente) {
-      alert('A sigla do setor já está cadastrada.');
-      return;
-    }
-
     this.setorSelecionado.sigla_setor = this.sigla;
     this.setorSelecionado.nome_setor = this.setor;
 
@@ -169,8 +105,7 @@ export class SetoresComponent {
           alert('Erro ao atualizar setor!');
         }
       );
-  }
-  excluirSetor(setor: Setor) {
+  } excluirSetor(setor: Setor) {
     if (confirm('Tem certeza de que deseja excluir este setor?')) {
       this.setorService.deleteSetor(setor.id_setor)
         .subscribe(

@@ -1,4 +1,3 @@
-import { HttpClientModule } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -6,18 +5,18 @@ import { Endereco } from '../../models/endereco';
 import { Funcionario } from '../../models/funcionario';
 import { Setor } from '../../models/setor';
 import { SetorRamal } from '../../models/setor-ramal';
-import { Contato } from './../../models/contato';
+import { EnderecoService } from '../../services/endereco.service';
 import { FuncionarioService } from '../../services/funcionario.service';
 import { PessoaService } from '../../services/pessoa.service';
 import { SetorRamalService } from '../../services/setor-ramal.service';
 import { SetorService } from '../../services/setor.service';
-import { EnderecoService } from '../../services/endereco.service';
+import { Contato } from './../../models/contato';
 @Component({
   selector: 'app-contato',
   standalone: true,
   templateUrl: './contato.component.html',
   styleUrls: ['./contato.component.css'],
-  imports: [HttpClientModule],
+  imports: [],
 })
 export class ContatoComponent implements OnInit {
 

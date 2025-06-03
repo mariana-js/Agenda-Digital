@@ -1,5 +1,4 @@
 import { CommonModule, NgFor, NgIf, NgStyle } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,7 +9,7 @@ import { PessoaService } from './../../services/pessoa.service';
 @Component({
   selector: 'app-principal',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, NavAniversariantesComponent, NgFor, FormsModule, NgIf, NgStyle],
+  imports: [CommonModule, NavAniversariantesComponent, NgFor, FormsModule, NgIf, NgStyle],
   templateUrl: './principal.component.html',
   styleUrl: './principal.component.css'
 })
@@ -20,11 +19,11 @@ export class PrincipalComponent {
   searchTerm: string = '';
   retorno: string = "";
   amount: number = 0;
-  itemsPerPage = 5;
+  itemsPerPage = 15;
   currentPage = 1;
   filtroAtual: 'todos' | 'funcionarios' = 'todos';
   private restaurarEstado = true;
-  
+
   constructor(
     private readonly router: Router,
     private readonly contatoStateService: ContatoStateService,
@@ -62,6 +61,7 @@ export class PrincipalComponent {
   } nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+      window.scrollTo(0, 0);
     }
   } getTdHeight(numRows: number): string {
     if (numRows >= 1 && numRows <= 8) {

@@ -5,6 +5,7 @@ import { Usuario } from '../models/usuario';
 import { RamalService } from './ramal.service';
 import { SetorService } from './setor.service';
 import { UsuarioService } from './usuario.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,53 +27,59 @@ export class ValidationSRUService {
 
   async authSetor(nomesetor: string, sigla: string): Promise<string[]> {
     this.mensagem = [];
-    if ((nomesetor || sigla) === '') this.mensagem.push('Campo(s) em branco!');
+    if (nomesetor.trim() === '' || sigla.trim() === '') this.mensagem.push('Campo(s) em branco!');
     if (sigla.length > 5) this.mensagem.push('Sigla muito grande!');
     if (nomesetor.length > 40) this.mensagem.push('Nome do setor muito grande!');
-    else {
-      this.setorService.getSetor().subscribe(r => {
-        this.setores = r;
+    if (this.mensagem.length > 0) return this.mensagem;
+    try {
+      this.setores = await firstValueFrom(this.setorService.getSetor());
 
-        if (this.setores.find(setor => setor.nome_setor === nomesetor)) this.mensagem.push('Nome do setor já cadastrado no sistema!');
-
-        else if (this.setores.find(setor => setor.sigla_setor === sigla)) this.mensagem.push('Sigla já cadastrada no sistema!');
+      if (this.setores.find(setor => setor.nome_setor === nomesetor)) {
+        this.mensagem.push('Nome do setor já cadastrado no sistema!');
       }
-      );
-    }
 
+      if (this.setores.find(setor => setor.sigla_setor === sigla)) {
+        this.mensagem.push('Sigla já cadastrada no sistema!');
+      }
+    } catch (error) {
+      this.mensagem.push('Erro ao buscar setores!');
+    }
     this.resposta = [...this.mensagem];
     return this.resposta;
   }
 
   async authUsuario(nome: string, usuario: string, senha: string): Promise<string[]> {
     this.mensagem = [];
-    if ((nome || usuario || senha) === '') this.mensagem.push('Campo(s) em branco!');
+    if ((nome.trim() === '' || usuario.trim() === '' || senha.trim() === '')) this.mensagem.push('Campo(s) em branco!');
     if (senha.length < 6) this.mensagem.push('A senha prescisa ter no mínimo 6 dígitos!');
-    else {
-      this.usuarioService.getUsuario().subscribe(r => {
-        this.usuarios = r;
+    if (this.mensagem.length > 0) return this.mensagem;
 
-        if (this.usuarios.find(user => user.usuario === usuario)) this.mensagem.push('Nome do usuário já cadastrado no sistema!');
-      }
-      );
+    try {
+      this.usuarios = await firstValueFrom(this.usuarioService.getUsuario());
+      if (this.usuarios.find(user => user.usuario === usuario)) this.mensagem.push('Nome do usuário já cadastrado no sistema!');
+    } catch (error) {
+      this.mensagem.push('Erro ao buscar usuários!');
     }
-
     this.resposta = [...this.mensagem];
     return this.resposta;
   }
 
-  async authRamal(numero_ramal: string, setor: string): Promise<string[]> {
+  async authRamal(numero_ramal: string, setor: string, add?: string): Promise<string[]> {
     this.mensagem = [];
-    if ((numero_ramal) === '') this.mensagem.push('Campo do número do ramal em branco!');
-    if ((setor) === '') this.mensagem.push('Selecione o setor do ramal!');
+    if ((numero_ramal) === '') this.mensagem.push('Campo número do ramal em branco!');
+    if ((setor) === 'opcao1') this.mensagem.push('Selecione o setor do ramal!');
+    if (this.mensagem.length > 0) return this.mensagem;
 
-    else {
-      this.ramalService.getRamal().subscribe(r => {
-        this.ramais = r;
+    if (add === null) {
+      try {
+        this.ramais = await firstValueFrom(this.ramalService.getRamal());
         if (this.ramais.find(ramal => ramal.numero_ramal === numero_ramal)) this.mensagem.push('Número do ramal já cadastrado no sistema!');
+      } catch (error) {
+        this.mensagem.push('Erro ao buscar usuários!');
       }
-      );
     }
+
+
 
     this.resposta = [...this.mensagem];
     return this.resposta;

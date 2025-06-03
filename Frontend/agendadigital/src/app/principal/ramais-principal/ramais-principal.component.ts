@@ -1,10 +1,8 @@
 import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { Contato } from '../../models/contato';
 import { Funcionario } from '../../models/funcionario';
-import { Ramal } from '../../models/ramal';
 import { Setor } from '../../models/setor';
 import { SetorRamal } from '../../models/setor-ramal';
 import { FuncionarioService } from '../../services/funcionario.service';
@@ -19,7 +17,7 @@ import { SetorService } from '../../services/setor.service';
 @Component({
   selector: 'app-ramais-principal',
   standalone: true,
-  imports: [NgFor, HttpClientModule, NgIf, NgStyle, NgClass],
+  imports: [NgFor, NgIf, NgStyle, NgClass],
   templateUrl: './ramais-principal.component.html',
   styleUrl: './ramais-principal.component.css'
 })

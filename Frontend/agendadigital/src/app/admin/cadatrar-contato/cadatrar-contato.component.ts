@@ -22,7 +22,7 @@ import { SetorRamal } from './../../models/setor-ramal';
   standalone: true,
   templateUrl: './cadatrar-contato.component.html',
   styleUrl: './cadatrar-contato.component.css',
-  imports: [NavAdminComponent, NgFor, HttpClientModule, FormsModule, CommonModule]
+  imports: [NavAdminComponent, NgFor, FormsModule, CommonModule]
 })
 export class CadatrarContatoComponent {
 

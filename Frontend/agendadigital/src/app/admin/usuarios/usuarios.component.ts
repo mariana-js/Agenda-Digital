@@ -1,16 +1,16 @@
 import { NgFor, NgIf, NgStyle } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Usuario } from '../../models/usuario';
 import { UsuarioService } from '../../services/usuario.service';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
+import { ValidationSRUService } from '../../services/validation-sru.service';
 @Component({
   selector: 'app-usuarios',
   standalone: true,
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css',
-  imports: [NavAdminComponent, HttpClientModule, NgFor, FormsModule, NgIf, NgStyle]
+  imports: [NavAdminComponent, NgFor, FormsModule, NgIf, NgStyle]
 })
 export class UsuariosComponent {
 
@@ -19,16 +19,17 @@ export class UsuariosComponent {
   nome: string = '';
   usuario: string = '';
   senha: string = '';
+  mensagem: string = '';
+  validacao: string[] = [];
   userSelecionado: Usuario | null = null;
   novoUsuario: Usuario = { id_usuario: '', nome: this.nome, usuario: this.usuario, senha: this.senha };
 
-  constructor(private readonly usuarioService: UsuarioService) {
-  }
-
-  ngOnInit() {
+  constructor(private readonly usuarioService: UsuarioService,
+    private readonly validationService: ValidationSRUService
+  ) {
+  } ngOnInit() {
     this.getUsuarios();
-  }
-  getTdHeight(numRows: number): string {
+  } getTdHeight(numRows: number): string {
     if (numRows >= 1 && numRows <= 4) {
       const dataRows = numRows - 1;
       const remainingSpace = 18 - (dataRows * 4);
@@ -36,32 +37,33 @@ export class UsuariosComponent {
     } else {
       return 'auto';
     }
-  }
-  getUsuarios() {
+  } getUsuarios() {
     this.usuarioService.getUsuario()
       .subscribe(resultados => {
         this.users = resultados;
         this.users.sort((a, b) => a.nome.localeCompare(b.nome));
         this.clear();
       });
-  }
-  clear() {
+  } clear() {
     this.nome = '';
     this.usuario = '';
     this.senha = '';
     this.userSelecionado = null;
-  }
+  } async salvar() {
+    const v = await this.validationService.authUsuario(this.nome, this.usuario, this.senha)
 
-  adicionarUsuario() {
-    if (this.userSelecionado) {
+    this.validacao = v;
+    if ((v).length === 0) {
 
-      this.atualizarUsuario();
+
+      if (this.userSelecionado) this.atualizarUsuario();
+      else this.adicionarNovoUsuario();
+
     } else {
-
-      this.adicionarNovoUsuario();
+      alert(this.validacao)
     }
-  }
-  adicionarNovoUsuario() {
+
+  } adicionarNovoUsuario() {
     this.novoUsuario.nome = this.nome;
     this.novoUsuario.usuario = this.usuario;
     this.novoUsuario.senha = this.senha;
@@ -96,16 +98,12 @@ export class UsuariosComponent {
         alert('Erro ao adicionar usuário!')
         console.error('Erro ao adicionar usuario:', error);
       })
-  }
-
-  selecionarUsuario(user: Usuario) {
+  } selecionarUsuario(user: Usuario) {
     this.userSelecionado = { ...user }
     this.nome = user.nome;
     this.usuario = user.usuario;
     this.senha = user.senha;
-  }
-
-  atualizarUsuario() {
+  } atualizarUsuario() {
     if (!this.userSelecionado) return;
     this.userSelecionado.nome = this.nome;
     console.log(this.nome, this.userSelecionado.nome)
@@ -152,9 +150,7 @@ export class UsuariosComponent {
           alert('Erro ao atualizar usuário!');
         }
       );
-  }
-
-  excluirUsuario(user: Usuario) {
+  } excluirUsuario(user: Usuario) {
     if (confirm('Tem certeza de que deseja excluir este usuário?')) {
       this.usuarioService.deleteUsuario(user.id_usuario)
         .subscribe(

@@ -1,4 +1,3 @@
-import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,7 +10,7 @@ import { UsuarioService } from '../services/usuario.service';
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [FormsModule, HttpClientModule]
+  imports: [FormsModule]
 })
 export class LoginComponent {
   usuario: string | undefined;

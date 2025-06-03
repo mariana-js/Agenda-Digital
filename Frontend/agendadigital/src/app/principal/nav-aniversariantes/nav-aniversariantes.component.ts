@@ -1,5 +1,4 @@
 import { NgFor } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { Contato } from '../../models/contato';
@@ -16,7 +15,7 @@ import { PessoaService } from './../../services/pessoa.service';
   standalone: true,
   templateUrl: './nav-aniversariantes.component.html',
   styleUrl: './nav-aniversariantes.component.css',
-  imports: [NgFor, HttpClientModule]
+  imports: [NgFor]
 })
 export class NavAniversariantesComponent implements OnInit {
 

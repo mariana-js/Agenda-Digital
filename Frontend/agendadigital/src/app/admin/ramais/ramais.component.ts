@@ -1,6 +1,5 @@
 import { NgFor, NgIf, NgStyle } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { Component, NgZone } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { Ramal } from '../../models/ramal';
@@ -10,13 +9,14 @@ import { SetorRamalService } from '../../services/setor-ramal.service';
 import { SetorService } from '../../services/setor.service';
 import { NavAdminComponent } from "../nav-admin/nav-admin.component";
 import { Setor } from './../../models/setor';
+import { ValidationSRUService } from '../../services/validation-sru.service';
 
 @Component({
   selector: 'app-ramais',
   standalone: true,
   templateUrl: './ramais.component.html',
   styleUrl: './ramais.component.css',
-  imports: [HttpClientModule, NavAdminComponent, NgFor, FormsModule, NgIf, NgStyle]
+  imports: [NavAdminComponent, NgFor, FormsModule, NgIf, NgStyle]
 })
 export class RamaisComponent {
 
@@ -30,6 +30,9 @@ export class RamaisComponent {
   setor_ramal: string = '';
   resposta: boolean = false;
 
+  mensagem: string = '';
+  validacao: string[] = [];
+
   setorramalSelecionado: SetorRamal | null = null;
   novoRamal: Ramal = { numero_ramal: this.ramal };
   novoSetorRamal: SetorRamal = {
@@ -40,22 +43,12 @@ export class RamaisComponent {
   };
 
   constructor(
-    private readonly ngZone: NgZone,
     private readonly ramalService: RamalService,
     private readonly setorService: SetorService,
-    private readonly setorRamalService: SetorRamalService
+    private readonly setorRamalService: SetorRamalService,
+    private readonly validationService: ValidationSRUService
   ) {
-  }
-  getTdHeight(numRows: number): string {
-    if (numRows >= 1 && numRows <= 4) {
-      const dataRows = numRows - 1;
-      const remainingSpace = 18 - (dataRows * 4);
-      return `${remainingSpace}rem`;
-    } else {
-      return 'auto';
-    }
-  }
-  ngOnInit() {
+  } ngOnInit() {
 
     forkJoin({
       numero_ramal: this.ramalService.getRamal(),
@@ -88,6 +81,14 @@ export class RamaisComponent {
       }
     });
     this.setor_ramais.sort((a, b) => a.setor.localeCompare(b.setor));
+  } getTdHeight(numRows: number): string {
+    if (numRows >= 1 && numRows <= 4) {
+      const dataRows = numRows - 1;
+      const remainingSpace = 18 - (dataRows * 4);
+      return `${remainingSpace}rem`;
+    } else {
+      return 'auto';
+    }
   } onChange(event: any) {
     const valorSelecionado = event.target.value;
     this.setor = valorSelecionado;
@@ -96,22 +97,22 @@ export class RamaisComponent {
     this.ramal = '';
     this.setorramalSelecionado = null;
     this.ramalDesabilitado = false;
-  } adicionarRamal() {
-    if (this.setorramalSelecionado) {
-      this.atualizarRamal();
+  } async salvar() {
+    const v = await this.validationService.authRamal(this.ramal, this.setor, this.setorramalSelecionado?.id_setor_ramal)
+
+    this.validacao = v;
+    if ((v).length === 0) {
+      if (this.setorramalSelecionado) {
+        this.atualizarSetorRamal();
+      } else {
+        this.adicionarNovoRamal();
+      }
+
     } else {
-      this.adicionarNovoRamal();
+      alert(this.validacao)
     }
   } adicionarNovoRamal() {
     this.novoRamal.numero_ramal = this.ramal;
-    const ramalExistente = this.numero_ramal.find(ramal =>
-      ramal.numero_ramal.trim().toLowerCase() === this.novoRamal.numero_ramal.trim().toLowerCase()
-    );
-    if (ramalExistente) {
-      alert('O ramal já está cadastrado.');
-      this.resposta = false;
-      return;
-    }
     this.ramalService.addRamal(this.novoRamal)
       .subscribe(
         novoRamal => {
@@ -156,42 +157,19 @@ export class RamaisComponent {
     } else {
       console.error('Nome do setor não encontrado.');
     }
-  } adicionarSetorRamal() {
-    if (this.setorramalSelecionado) {
-
-      this.atualizarRamal();
-    } else {
-      this.adicionarRamal();
-    }
-  } atualizarRamal() {
-
+  }
+  // adicionarSetorRamal() {
+  //   if (this.setorramalSelecionado) {
+  //     this.atualizarRamal();
+  //   } else {
+  //     this.salvar();
+  //   }
+  // }
+  atualizarSetorRamal() {
     if (!this.setorramalSelecionado) return;
     this.setorramalSelecionado.id_setor = this.setor;
-    this.setorramalSelecionado.id_ramal_setor = this.ramal;
-    const setorExistente = this.setor_ramais.some(setorramal =>
-      setorramal.id_setor.trim().toLowerCase() === this.setor.trim().toLowerCase() &&
-      setorramal.id_setor !== this.setorramalSelecionado?.id_setor
-    );
+    // this.setorramalSelecionado.id_ramal_setor = this.ramal;
 
-    if (setorExistente) {
-      alert('O setor já está vinculado a este ramal.');
-      return;
-    }
-
-    const ramalExistente = this.setor_ramais.some(ramal =>
-      ramal.id_ramal_setor.trim().toLowerCase() === this.ramal.trim().toLowerCase() &&
-      ramal.id_ramal_setor !== this.setorramalSelecionado?.id_ramal_setor
-    );
-
-    if (ramalExistente) {
-      alert('O ramal já está cadastrado!');
-      return;
-    }
-    // Atualizar o setor apenas se nenhum nome ou sigla existir
-    this.setorramalSelecionado.id_setor = this.setor;
-    this.setorramalSelecionado.id_ramal_setor = this.ramal;
-
-    // this.http.put<Ramal>(`${this.url}/ramal/${this.setorramalSelecionado.id_ramal_setor}`, this.setorramalSelecionado)
     this.setorRamalService.updateSetorRamal(this.setorramalSelecionado)
       .subscribe(
         () => {

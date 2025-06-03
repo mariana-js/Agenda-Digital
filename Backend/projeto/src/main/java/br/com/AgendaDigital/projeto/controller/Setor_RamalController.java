@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +26,6 @@ import br.com.AgendaDigital.projeto.dtos.Setor_RamalDtos;
 import br.com.AgendaDigital.projeto.model.Setor_Ramal;
 import br.com.AgendaDigital.projeto.services.Setor_RamalService;
 @RestController
-// @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/setor_ramal")
 public class Setor_RamalController {
 	private static final Logger log = LoggerFactory.getLogger(UsuarioController.class);
