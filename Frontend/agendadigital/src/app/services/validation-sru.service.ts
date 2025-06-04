@@ -25,7 +25,7 @@ export class ValidationSRUService {
   ) { }
 
 
-  async authSetor(nomesetor: string, sigla: string): Promise<string[]> {
+  async authSetor(nomesetor: string, sigla: string, add: 'adicionar' | 'atualizar', idAtual?: string): Promise<string[]> {
     this.mensagem = [];
     if (nomesetor.trim() === '' || sigla.trim() === '') this.mensagem.push('Campo(s) em branco!');
     if (sigla.length > 5) this.mensagem.push('Sigla muito grande!');
@@ -33,13 +33,23 @@ export class ValidationSRUService {
     if (this.mensagem.length > 0) return this.mensagem;
     try {
       this.setores = await firstValueFrom(this.setorService.getSetor());
+      if (add === 'adicionar') {
+        if (this.setores.find(setor => setor.nome_setor === nomesetor)) {
+          this.mensagem.push('Nome do setor já cadastrado no sistema!');
+        }
 
-      if (this.setores.find(setor => setor.nome_setor === nomesetor)) {
-        this.mensagem.push('Nome do setor já cadastrado no sistema!');
-      }
+        if (this.setores.find(setor => setor.sigla_setor === sigla)) {
+          this.mensagem.push('Sigla já cadastrada no sistema!');
+        }
 
-      if (this.setores.find(setor => setor.sigla_setor === sigla)) {
-        this.mensagem.push('Sigla já cadastrada no sistema!');
+      } else if (add === 'atualizar' && idAtual) {
+        if (this.setores.find(setor => setor.nome_setor === nomesetor && setor.id_setor !== idAtual)) {
+          this.mensagem.push('Nome do setor já cadastrado por outro setor!');
+        }
+
+        if (this.setores.find(setor => setor.sigla_setor === sigla && setor.id_setor !== idAtual)) {
+          this.mensagem.push('Sigla já cadastrada por outro setor!');
+        }
       }
     } catch (error) {
       this.mensagem.push('Erro ao buscar setores!');
@@ -48,7 +58,7 @@ export class ValidationSRUService {
     return this.resposta;
   }
 
-  async authUsuario(nome: string, usuario: string, senha: string): Promise<string[]> {
+  async authUsuario(nome: string, usuario: string, senha: string, add: 'adicionar' | 'atualizar', idAtual?: string): Promise<string[]> {
     this.mensagem = [];
     if ((nome.trim() === '' || usuario.trim() === '' || senha.trim() === '')) this.mensagem.push('Campo(s) em branco!');
     if (senha.length < 6) this.mensagem.push('A senha prescisa ter no mínimo 6 dígitos!');
@@ -56,7 +66,14 @@ export class ValidationSRUService {
 
     try {
       this.usuarios = await firstValueFrom(this.usuarioService.getUsuario());
-      if (this.usuarios.find(user => user.usuario === usuario)) this.mensagem.push('Nome do usuário já cadastrado no sistema!');
+
+      if (add === 'adicionar') {
+        if (this.usuarios.find(user => user.usuario === usuario)) this.mensagem.push('Nome do usuário já cadastrado no sistema!');
+
+      } else if (add === 'atualizar' && idAtual) {
+        if (this.usuarios.find(user => user.usuario === usuario && user.id_usuario !== idAtual)) this.mensagem.push('Nome do usuário já cadastrado por outro usuário!');
+
+      }
     } catch (error) {
       this.mensagem.push('Erro ao buscar usuários!');
     }
@@ -64,7 +81,7 @@ export class ValidationSRUService {
     return this.resposta;
   }
 
-  async authRamal(numero_ramal: string, setor: string, add?: string): Promise<string[]> {
+  async authRamal(numero_ramal: string, setor: string, add: 'adicionar' | 'atualizar', idAtual?: string): Promise<string[]> {
     this.mensagem = [];
     if ((numero_ramal) === '') this.mensagem.push('Campo número do ramal em branco!');
     if ((setor) === 'opcao1') this.mensagem.push('Selecione o setor do ramal!');
@@ -73,7 +90,14 @@ export class ValidationSRUService {
     if (add === null) {
       try {
         this.ramais = await firstValueFrom(this.ramalService.getRamal());
-        if (this.ramais.find(ramal => ramal.numero_ramal === numero_ramal)) this.mensagem.push('Número do ramal já cadastrado no sistema!');
+
+        if (add === 'adicionar') {
+          if (this.ramais.find(ramal => ramal.numero_ramal === numero_ramal)) this.mensagem.push('Número do ramal já cadastrado no sistema!');
+
+        } else if (add === 'atualizar' && idAtual) {
+          if (this.ramais.find(ramal => ramal.numero_ramal === numero_ramal && ramal.numero_ramal !== idAtual)) this.mensagem.push('Número do ramal já cadastrado no sistema!');
+
+        }
       } catch (error) {
         this.mensagem.push('Erro ao buscar usuários!');
       }

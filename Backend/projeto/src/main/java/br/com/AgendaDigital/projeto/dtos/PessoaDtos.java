@@ -7,7 +7,7 @@ public class PessoaDtos {
     @JsonProperty("nome_pessoa")
     private String nome_pessoa;
 
-    @JsonProperty("email")
+    // @JsonProperty("email")
     private String email;
 
     @JsonProperty("celular1")

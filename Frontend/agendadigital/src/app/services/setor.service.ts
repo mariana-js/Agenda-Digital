@@ -22,9 +22,9 @@ private readonly api = 'http://localhost:8080/setor';
   }
 
   updateSetor(setor: Setor): Observable<Setor>{
-    return this.http.put<Setor>(`${this.api},${setor.id_setor}`,setor);
+    return this.http.put<Setor>(`${this.api}/${setor.id_setor}`,setor);
   }
-
+  
   deleteSetor(id:string): Observable<void>{
     this.setor = this.setor.filter(resp => resp.id_setor !== id);
     return this.http.delete<void>(`${this.api}/${id}`);

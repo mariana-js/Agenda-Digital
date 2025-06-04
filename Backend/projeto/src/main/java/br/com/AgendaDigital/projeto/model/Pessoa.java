@@ -24,7 +24,7 @@ public class Pessoa implements Serializable {
 	@Column(name = "nome_pessoa", length = 50, nullable = false)
 	private String nome_pessoa;
 
-	@Column(name = "email", length = 50, nullable = false)
+	@Column(name = "email", length = 50)
 	private String email;
 
 	@Column(name = "celular1", length = 16, nullable = false)

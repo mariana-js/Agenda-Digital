@@ -43,7 +43,7 @@
               <input type="text" name="email" required #emailInput [(ngModel)]="email" id="email" required
                 (blur)="validation('email')" [ngClass]="{'invalid-field': !validation('email')}"
                 placeholder="Ex.: email@gmail.com">
-              <span *ngIf="emailExistente && (emailExistente !== undefined)" class="invalid-field">Email já cadastrado!</span>
+              <span *ngIf="emailExistente && (emailExistente !== undefined) && this.email !== ''" class="invalid-field">Email já cadastrado!</span>
               <span *ngIf="this.email && (!this.email.includes('@') || this.email.split('@')[1].length === 1)"
                 class="invalid-field">Formato incorreto!</span>
             </div>

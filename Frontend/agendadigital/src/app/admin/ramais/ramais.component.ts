@@ -98,7 +98,11 @@ export class RamaisComponent {
     this.setorramalSelecionado = null;
     this.ramalDesabilitado = false;
   } async salvar() {
-    const v = await this.validationService.authRamal(this.ramal, this.setor, this.setorramalSelecionado?.id_setor_ramal)
+
+    const modo = this.setorramalSelecionado? 'adicionar' : 'atualizar';
+    const idAtual = this.setorramalSelecionado?.id_setor_ramal;
+
+    const v = await this.validationService.authRamal(this.ramal, this.setor, modo, idAtual)
 
     this.validacao = v;
     if ((v).length === 0) {
@@ -109,7 +113,7 @@ export class RamaisComponent {
       }
 
     } else {
-      alert(this.validacao)
+      alert(this.validacao.join('\n'))
     }
   } adicionarNovoRamal() {
     this.novoRamal.numero_ramal = this.ramal;

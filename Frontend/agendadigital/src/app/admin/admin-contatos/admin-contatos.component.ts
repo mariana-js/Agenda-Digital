@@ -23,7 +23,7 @@ import { Funcionario } from './../../models/funcionario';
 export class AdminContatosComponent {
 
   id_contatoSelecionado: string | null = null;
-  contatosHide: Contato[] = [];
+  contatos: Contato[] = [];
   endereco: Endereco[] = [];
   funcionario: Funcionario[] = [];
   amount: number = 0;
@@ -31,7 +31,7 @@ export class AdminContatosComponent {
   retorno: string = "";
   itemsPerPage = 15;
   currentPage = 1;
-  filtroAtual: 'todos' | 'funcionarios' |  'ocultos' = 'todos';
+  filtroAtual: 'todos' | 'funcionarios' | 'ocultos' = 'todos';
   private restaurarEstado = true;
 
   constructor(
@@ -58,7 +58,7 @@ export class AdminContatosComponent {
 
         if (this.filtroAtual === 'funcionarios') {
           this.getContatosFuncionarios(callback);
-        } else if(this.filtroAtual === 'ocultos'){
+        } else if (this.filtroAtual === 'ocultos') {
           this.getContatosHides(callback);
         } else {
           this.getContatos(callback);
@@ -75,7 +75,6 @@ export class AdminContatosComponent {
         this.funcionario = funcionario;
         this.getContatos();
       });
-
     }
   } getTdHeight(numRows: number): string {
     if (numRows >= 1 && numRows <= 8) {
@@ -86,10 +85,11 @@ export class AdminContatosComponent {
       return 'auto';
     }
   } get totalPages(): number {
-    return Math.ceil(this.contatosHide.length / this.itemsPerPage);
+    return Math.ceil(this.contatos.length / this.itemsPerPage);
   } nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+      window.scrollTo(0, 0);
     }
   } previousPage() {
     if (this.currentPage > 1) {
@@ -97,53 +97,7 @@ export class AdminContatosComponent {
     }
   } capitalize(text: string): string {
     return text.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
-  } navegarParaAddContato() {
-    this.router.navigate(['/cadastrar-contato']);
-  } getContatos(callback?: () => void) {
-    this.contatoService.getPessoa()
-      .subscribe((resultados: Contato[]) => {
-        this.contatosHide = resultados;
-        this.amount = this.contatosHide.length;
-        this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
-        if (this.amount === 0) {
-          console.log("Erro ao trazer os contatos!");
-        }
-      });
-    if (callback) {
-      callback();
-    }
-  } getContatosFuncionarios(callback?: () => void) {
-    this.filtroAtual = 'funcionarios';
-    this.contatoService.getPessoa()
-      .subscribe((resultados: any[]) => {
-        this.contatosHide = resultados.filter((contatosHide: { flag_funcionario: boolean; }) => contatosHide.flag_funcionario === true);
-        this.amount = this.contatosHide.length;
-        this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
-        if (this.amount === 0) {
-          console.log("Erro ao trazer os funcionários!");
-        }
-      });
-    if (callback) {
-      callback();
-    }
-  } getContatosHides(callback?: () => void) {
-    this.filtroAtual = 'ocultos';
-    this.contatoService.getPessoa()
-      .subscribe((resultados: any[]) => {
-        this.contatosHide = resultados.filter((contatosHide: { flag_privado: boolean; }) => contatosHide.flag_privado === true);
-        this.amount = this.contatosHide.length;
-        this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
-        if (this.amount === 0) {
-          console.log("Erro ao trazer os contatos ocultos!");
-        }
-      });
-      if (callback) {
-      callback();
-    }
-  } informacoes(contatosHide: Contato) {
-
-    // Salvando o estado atual da página e do scrolly:
-
+  } navegarParaContato() {
     this.contatoStateService.saveState({
       currentPage: this.currentPage,
       searchTerm: this.searchTerm,
@@ -151,12 +105,48 @@ export class AdminContatosComponent {
       filtro: this.filtroAtual
     });
 
-
-    contatosHide.id_contatoSelecionado = contatosHide.id_pessoa;
-    this.contatoStateService.contatoSelecionado = contatosHide;
-    this.router.navigate(['/contato', contatosHide.id_contatoSelecionado]);
-
-
+    this.router.navigate(['/cadastrar-contato']);
+  } getContatos(callback?: () => void) {
+    this.contatoService.getPessoa()
+      .subscribe((resultados: Contato[]) => {
+        this.contatos = resultados;
+        this.amount = this.contatos.length;
+        this.contatos.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
+        if (this.amount === 0) {
+          console.log("Erro ao trazer os contatos!");
+        }
+        if (callback) {
+          callback();
+        }
+      });
+  } getContatosFuncionarios(callback?: () => void) {
+    this.filtroAtual = 'funcionarios';
+    this.contatoService.getPessoa()
+      .subscribe((resultados: any[]) => {
+        this.contatos = resultados.filter((contatosHide: { flag_funcionario: boolean; }) => contatosHide.flag_funcionario === true);
+        this.amount = this.contatos.length;
+        this.contatos.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
+        if (this.amount === 0) {
+          console.log("Erro ao trazer os funcionários!");
+        }
+        if (callback) {
+          callback();
+        }
+      });
+  } getContatosHides(callback?: () => void) {
+    this.filtroAtual = 'ocultos';
+    this.contatoService.getPessoa()
+      .subscribe((resultados: any[]) => {
+        this.contatos = resultados.filter((contatosHide: { flag_privado: boolean; }) => contatosHide.flag_privado === true);
+        this.amount = this.contatos.length;
+        this.contatos.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
+        if (this.amount === 0) {
+          console.log("Erro ao trazer os contatos ocultos!");
+        }
+        if (callback) {
+          callback();
+        }
+      });
   } search() {
     const searchTerm = (document.querySelector('.search input') as HTMLInputElement).value;
     this.filterContacts(searchTerm);
@@ -170,13 +160,13 @@ export class AdminContatosComponent {
     }
     this.contatoService.getPessoa()
       .subscribe((resultados: any[]) => {
-        this.contatosHide = resultados.filter((contato: { nome_pessoa: string; }) =>
+        this.contatos = resultados.filter((contato: { nome_pessoa: string; }) =>
           contato.nome_pessoa.toLowerCase().includes(searchTerm.toLowerCase())
 
         );
-        this.contatosHide.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa))
+        this.contatos.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa))
 
-        this.amount = this.contatosHide.length;
+        this.amount = this.contatos.length;
         if (this.amount === 0) {
           this.retorno = "Nenhum contato encontrado.";
           this.getContatos();
@@ -223,7 +213,7 @@ export class AdminContatosComponent {
     this.contatoService.deletePessoa(contato.id_pessoa)
       .subscribe(
         () => {
-          this.contatosHide = this.contatosHide.filter(s => s.id_pessoa !== contato.id_pessoa);
+          this.contatos = this.contatos.filter(s => s.id_pessoa !== contato.id_pessoa);
           this.getContatos();
           alert('Contato excluído com sucesso!');
         },
@@ -234,6 +224,15 @@ export class AdminContatosComponent {
         }
       );
   } alterarContato(contato: Contato) {
+
+    this.contatoStateService.saveState({
+      currentPage: this.currentPage,
+      searchTerm: this.searchTerm,
+      scrollY: window.scrollY,
+      filtro: this.filtroAtual
+    });
+
+
     contato.id_contatoSelecionado = contato.id_pessoa;
     this.contatoStateService.contatoSelecionado = contato;
     this.router.navigate(['/contato-admin', contato.id_contatoSelecionado]);

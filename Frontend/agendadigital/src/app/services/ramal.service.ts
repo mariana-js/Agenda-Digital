@@ -21,7 +21,7 @@ private readonly api = 'http://localhost:8080/ramal';
   }
 
   updateRamal(ramal: Ramal): Observable<Ramal>{
-    return this.http.put<Ramal>(`${this.api},${ramal.numero_ramal}`,ramal);
+    return this.http.put<Ramal>(`${this.api}/${ramal.numero_ramal}`,ramal);
   }
 
   deleteRamal(id:string): Observable<void>{

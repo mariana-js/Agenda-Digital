@@ -67,9 +67,10 @@ export class ContatoComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.activatedRoute.params.subscribe(params => {
       this.id_rota = params['id'];
-
+      window.scrollTo(0, 0);
       if (this.id_rota) {
         forkJoin({
           contato: this.pessoaService.getPessoa(),
@@ -132,7 +133,7 @@ export class ContatoComponent implements OnInit {
     const informacoesContato = this.contato.find(pessoa => pessoa.id_pessoa === id_contato);
     if (informacoesContato !== undefined) {
       this.nome = informacoesContato.nome_pessoa;
-      this.email = informacoesContato.email;
+      this.email = informacoesContato.email ?? '';
       this.celular1 = informacoesContato.celular1;
       this.celular2 = informacoesContato.celular2;
       this.celular3 = informacoesContato.celular3;

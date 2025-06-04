@@ -13,6 +13,7 @@ import br.com.AgendaDigital.projeto.repositories.PessoaRepository;
 
 @Service
 public class PessoaService {
+
     final PessoaRepository pessoaRepository;
 
     public PessoaService(PessoaRepository pessoaRepository) {
@@ -21,13 +22,16 @@ public class PessoaService {
 
     @Transactional
     public Pessoa save(Pessoa pessoa) {
+        if (pessoa.getEmail() != null && pessoa.getEmail().isBlank()) {
+            pessoa.setEmail(null);
+        }
+
         return pessoaRepository.save(pessoa);
     }
 
-    public boolean existsByEmail(String email) {
-        return pessoaRepository.existsByEmail(email);
-    }
-
+    // public boolean existsByEmail(String email) {
+    //     return pessoaRepository.existsByEmail(email);
+    // }
     public List<Pessoa> findAll() {
         return pessoaRepository.findAll();
     }
@@ -40,21 +44,16 @@ public class PessoaService {
         pessoaRepository.delete(pessoa);
     }
 
-
     // public List<Pessoa> findByNome(String nome_pessoa) {
     //     return pessoaRepository.findByNome(nome_pessoa);
     // }
-
     // public boolean existsByCelular_corporativo(String celular_corporativo) {a
     // return pessoaRepository.existsByCelular_corporativo(celular_corporativo);
     // }
-
     // public boolean existsByCelular_pessoal(String celular_pessoal) {
     // return pessoaRepository.existsByCelular_pessoal(celular_pessoal);
     // }
-
     // public boolean existsByTelefone(String telefone) {
     // return pessoaRepository.existsByTelefone(telefone);
     // }
-
 }

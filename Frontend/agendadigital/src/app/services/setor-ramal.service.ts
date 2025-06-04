@@ -21,7 +21,7 @@ private readonly api = 'http://localhost:8080/setor_ramal';
   }
 
   updateSetorRamal(setorRamal: SetorRamal): Observable<SetorRamal>{
-    return this.http.put<SetorRamal>(`${this.api},${setorRamal.id_setor_ramal}`,setorRamal);
+    return this.http.put<SetorRamal>(`${this.api}/${setorRamal.id_setor_ramal}`,setorRamal);
   }
 
   deleteSetorRamal(id:string): Observable<void>{

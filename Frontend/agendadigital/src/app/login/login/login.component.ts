@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import { Usuario } from '../models/usuario';
-import { UsuarioService } from '../services/usuario.service';
+import { Usuario } from '../../models/usuario';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -48,7 +48,7 @@ export class LoginComponent {
 
   }
   rememberPassword() {
-      alert('Contacte o administrador para alterar a senha.');
+      this.router.navigate(['/alterar-senha'])
   }
 }
 //   console.log('Usuario e senha: ',this.usuario,this.senha)

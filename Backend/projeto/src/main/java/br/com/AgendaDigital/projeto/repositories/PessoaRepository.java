@@ -12,7 +12,7 @@ public interface PessoaRepository extends JpaRepository<Pessoa, UUID> {
 
     // List<Pessoa> findByNome(String nome_pessoa);
     
-    boolean existsByEmail(String email);
+    // boolean existsByEmail(String email);
 
 
     // boolean existsByCelular_corporativo(String celular_corporativo);

@@ -8,7 +8,7 @@ nav {
   display: flex;
   justify-content: center;
   flex-direction: row;
-  margin: 4rem 0rem;
+  margin: 4rem 0rem 0.8rem 0rem ;
 }
 
 .pagina-pessoa {

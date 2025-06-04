@@ -50,7 +50,11 @@ export class UsuariosComponent {
     this.senha = '';
     this.userSelecionado = null;
   } async salvar() {
-    const v = await this.validationService.authUsuario(this.nome, this.usuario, this.senha)
+
+    const modo = this.userSelecionado ? 'atualizar' : 'adicionar';
+    const idAtual = this.userSelecionado?.id_usuario;
+
+    const v = await this.validationService.authUsuario(this.nome, this.usuario, this.senha, modo, idAtual)
 
     this.validacao = v;
     if ((v).length === 0) {
@@ -60,7 +64,7 @@ export class UsuariosComponent {
       else this.adicionarNovoUsuario();
 
     } else {
-      alert(this.validacao)
+      alert(this.validacao.join('\n'))
     }
 
   } adicionarNovoUsuario() {

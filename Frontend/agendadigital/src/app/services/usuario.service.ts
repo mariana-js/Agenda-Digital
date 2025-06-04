@@ -21,7 +21,7 @@ private readonly api = 'http://localhost:8080/usuario';
   }
 
   updateUsuario(usuario: Usuario): Observable<Usuario>{
-    return this.http.put<Usuario>(`${this.api},${usuario.id_usuario}`,usuario);
+    return this.http.put<Usuario>(`${this.api}/${usuario.id_usuario}`,usuario);
   }
 
   deleteUsuario(id:string): Observable<void>{

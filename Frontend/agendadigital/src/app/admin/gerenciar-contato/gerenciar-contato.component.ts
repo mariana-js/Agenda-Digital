@@ -1,30 +1,29 @@
-import { CommonModule, NgFor } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { NavAdminComponent } from '../nav-admin/nav-admin.component';
+import { NgFor, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { forkJoin } from 'rxjs/internal/observable/forkJoin';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { Contato } from '../../models/contato';
 import { Endereco } from '../../models/endereco';
 import { Funcionario } from '../../models/funcionario';
 import { Setor } from '../../models/setor';
+import { SetorRamal } from '../../models/setor-ramal';
 import { ContatoStateService } from '../../services/contato-state.service';
 import { EnderecoService } from '../../services/endereco.service';
 import { FuncionarioService } from '../../services/funcionario.service';
 import { PessoaService } from '../../services/pessoa.service';
 import { SetorRamalService } from '../../services/setor-ramal.service';
 import { SetorService } from '../../services/setor.service';
-import { NavAdminComponent } from "../nav-admin/nav-admin.component";
-import { SetorRamal } from './../../models/setor-ramal';
 
 @Component({
-  selector: 'app-cadatrar-contato',
+  selector: 'app-gerenciar-contato',
   standalone: true,
-  templateUrl: './cadatrar-contato.component.html',
-  styleUrl: './cadatrar-contato.component.css',
-  imports: [NavAdminComponent, NgFor, FormsModule, CommonModule]
+  imports: [NavAdminComponent, NgFor, FormsModule, CommonModule],
+  templateUrl: './gerenciar-contato.component.html',
+  styleUrl: './gerenciar-contato.component.css'
 })
-export class CadatrarContatoComponent {
+export class GerenciarContatoComponent {
 
   @ViewChild('celular1Input') celular1Input!: ElementRef;
   @ViewChild('celular2Input') celular2Input!: ElementRef;
@@ -126,16 +125,20 @@ export class CadatrarContatoComponent {
     private readonly enderecoService: EnderecoService,
     private readonly funcionarioService: FuncionarioService,
     private readonly setorRamalService: SetorRamalService,
-    private readonly setorService: SetorService
+    private readonly setorService: SetorService,
+    private readonly router: Router
   ) {
 
   } ngOnInit() {
+    window.scrollTo(0, 0);
     this.activatedRoute.params.subscribe(params => {
       this.id_rota = params['id'];
       this.estados();
       this.checkbox();
       this.getSetores();
       this.getSetorRamal();
+
+      this.estados();
 
       forkJoin({
         contatos: this.contatoService.getPessoa(),
@@ -200,10 +203,12 @@ export class CadatrarContatoComponent {
       });
   } getInformacoes() {
     const id_contato = this.id_rota;
+
+    // Dados do contato
     const informacoesContato = this.contatos.find(pessoa => pessoa.id_pessoa === id_contato);
     if (informacoesContato !== undefined) {
       this.nome_pessoa = informacoesContato.nome_pessoa;
-      this.email = informacoesContato.email;
+      this.email = informacoesContato.email ?? '';
       this.celular1 = informacoesContato.celular1;
       this.celular2 = informacoesContato.celular2;
       this.celular3 = informacoesContato.celular3;
@@ -211,7 +216,8 @@ export class CadatrarContatoComponent {
       this.box_fun = informacoesContato.flag_funcionario;
       this.boxPrivate = informacoesContato.flag_privado;
     }
-    // Dados do endereco da pessoa
+
+    // Dados do endereço
     const endereco = this.enderecos.find(endereco => endereco.id_pessoa === id_contato);
     if (endereco !== undefined) {
       this.logradouro = endereco.logradouro;
@@ -221,8 +227,12 @@ export class CadatrarContatoComponent {
       this.numero = endereco.numero;
       this.uf = endereco.uf;
       this.cep = endereco.cep;
+
+      this.estados(this.estado, this.cidade);
+
     }
-    // Dados do funcionario
+
+    // Dados do funcionário
     const funcionario = this.funcionarios.find(funcionario => funcionario.id_pessoa === id_contato)
     if (funcionario !== undefined) {
       const setor_ramal = this.setor_ramais.find(setor_ramal => setor_ramal.id_setor_ramal === funcionario.id_setor_ramal);
@@ -231,18 +241,12 @@ export class CadatrarContatoComponent {
         if (setor !== undefined) {
           this.getRamaisPorSetor(setor?.id_setor);
           const ramal = this.ramaisFiltrados.find(ramal => ramal.id_ramal_setor === setor_ramal.id_ramal_setor);
-          if (setor !== undefined) {
-            this.data_nascimento = funcionario.data_nascimento;
-            this.setor = setor.id_setor ?? 'op';
-            this.nramal = ramal?.id_ramal_setor ?? 'op2';
-            console.log(this.nramal)
-          } else {
-            console.log("Setor nao encontrado")
-          }
+          this.data_nascimento = funcionario.data_nascimento;
+          this.setor = setor.id_setor ?? 'op';
+          this.nramal = ramal?.id_ramal_setor ?? 'op2';
         }
       }
     }
-
   } selecionarSetor(event: Event) {
     const idSetor = (event.target as HTMLSelectElement).value;
     this.getRamaisPorSetor(idSetor);
@@ -276,79 +280,75 @@ export class CadatrarContatoComponent {
         ramalSelect.disabled = true;
       }
     });
-  } estados() {
-    // Salvar uma referência à instância da classe
+  } estados(estadoSelecionado?: string, cidadeSelecionada?: string) {
     const self = this;
-
-    // Objeto para mapear o UF de cada estado
     const stateUFs: { [key: string]: string } = {};
 
-    // Função para popular as UF
-    async function populateUFs() {
-      const ufSelect = document.querySelector<HTMLSelectElement>("select[name=uf]") ?? document.createElement("select");
-      const states = await (await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados")).json();
-
-      states.sort((a: any, b: any) => a.nome.localeCompare(b.nome));
-
-      // Adicionando a opção "Selecione o Estado" como a primeira opção
-      ufSelect.innerHTML = `<option value="">Selecione o Estado</option>`;
-
-      // Adicionando as opções dos estados
-      states.forEach((state: any) => {
-        ufSelect.innerHTML += `<option value="${state.id}">${state.nome}</option>`;
-        // Mapeia o UF de cada estado
-        stateUFs[state.nome] = state.sigla;
-      });
-    }
-    // Função para obter as cidades
-    async function getCities(event: Event) {
-      const target = event.target as HTMLSelectElement;
-      const ufId = target.value;
-      const ufName = target.options[target.selectedIndex].text;
-
-      // Obtém o UF correspondente ao estado selecionado
-      const uf1 = stateUFs[ufName];
-
-      // Agora você pode usar 'uf' conforme necessário
-      self.uf = uf1;
+    async function getCities(ufId: string, ufName: string, cidadeSelecionada?: string) {
+      const citySelect = document.querySelector<HTMLSelectElement>("select[name=city]")!;
+      self.uf = stateUFs[ufName];
       self.estado = ufName;
-      // Limpa o valor anterior da cidade
-      self.cidade = '';
-
-      // Restante do código para obter e mostrar as cidades...
-      const stateInput = document.querySelector<HTMLInputElement>("input[name=state]") ?? document.createElement("input");
-      const citySelect = document.querySelector<HTMLSelectElement>("select[name=city]") ?? document.createElement("select");
-
-      stateInput.value = ufName;
 
       const url = `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${ufId}/municipios`;
       const response = await fetch(url);
       const cities = await response.json();
 
-      // Limpa o conteúdo atual do select de cidades
-      citySelect.innerHTML = "";
-
-      // Adiciona a opção "Selecione a Cidade" como a primeira opção
       citySelect.innerHTML = `<option value="">Selecione a Cidade</option>`;
-
-      // Adiciona as opções das cidades
       cities.forEach((city: any) => {
         citySelect.innerHTML += `<option value="${city.nome}">${city.nome}</option>`;
       });
 
       citySelect.disabled = false;
 
-      // Adiciona um ouvinte de evento para atualizar o valor da cidade quando o usuário selecionar uma opção na lista de cidades
+      if (cidadeSelecionada) {
+        const cidadeOption = Array.from(citySelect.options).find(opt =>
+          opt.value.trim().toLowerCase() === cidadeSelecionada.trim().toLowerCase()
+        );
+        if (cidadeOption) {
+          citySelect.value = cidadeSelecionada;
+          self.cidade = cidadeSelecionada;
+          console.log('Cidade marcada automaticamente:', cidadeSelecionada);
+        } else {
+          console.warn('Cidade não encontrada:', cidadeSelecionada);
+        }
+      }
+
       citySelect.addEventListener('change', (event) => {
-        const selectedCity = (event.target as HTMLSelectElement).value; // Obtém o valor da cidade selecionada pelo usuário
-        self.cidade = selectedCity; // Define a cidade com a cidade selecionada pelo usuário
+        const selectedCity = (event.target as HTMLSelectElement).value;
+        self.cidade = selectedCity;
       });
     }
 
-    // Adicionando evento de mudança para as UF
-    document.querySelector("select[name=uf]")?.addEventListener("change", getCities);
+    async function populateUFs() {
+      const ufSelect = document.querySelector<HTMLSelectElement>("select[name=uf]")!;
+      const states = await (await fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados")).json();
 
-    // Populando as UF
+      states.sort((a: any, b: any) => a.nome.localeCompare(b.nome));
+      ufSelect.innerHTML = `<option value="">Selecione o Estado</option>`;
+
+      states.forEach((state: any) => {
+        ufSelect.innerHTML += `<option value="${state.id}">${state.nome}</option>`;
+        stateUFs[state.nome] = state.sigla;
+      });
+
+      // Habilita cidades ao selecionar um estado (caso novo)
+      ufSelect.addEventListener("change", (event: Event) => {
+        const target = event.target as HTMLSelectElement;
+        const ufId = target.value;
+        const ufName = target.options[target.selectedIndex].text;
+        if (ufId) getCities(ufId, ufName); // só chama se selecionou algo
+      });
+
+      // Se for edição (estado e cidade já existem)
+      if (estadoSelecionado && cidadeSelecionada) {
+        const option = Array.from(ufSelect.options).find(opt => opt.text === estadoSelecionado);
+        if (option) {
+          ufSelect.value = option.value;
+          await getCities(option.value, option.text, cidadeSelecionada);
+        }
+      }
+    }
+
     populateUFs();
   } clear() {
     this.nome_pessoa = '';
@@ -402,12 +402,16 @@ export class CadatrarContatoComponent {
       alert("Erro ao salvar o contato, verifique as validações!")
       this.resposta = 'Erro ao salvar o contato!'
     }
+
+    window.scrollTo(0, 0);
   } adicionarContato() {
     const setorRamalEncontrado = this.setor_ramais.find(setorRamal =>
       setorRamal.id_setor === this.setor && setorRamal.id_ramal_setor === this.nramal
     );
     this.novoContato.nome_pessoa = this.nome_pessoa;
     this.novoContato.email = this.email;
+
+
     this.novoContato.celular1 = this.removerCaracteresEspeciais(this.celular1);
     this.novoContato.celular2 = this.removerCaracteresEspeciais(this.celular2);
     this.novoContato.celular3 = this.removerCaracteresEspeciais(this.celular3);
@@ -428,7 +432,13 @@ export class CadatrarContatoComponent {
         if (this.box_fun === true && setorRamalEncontrado !== undefined) {
           this.adicionarFuncionario(id, setorRamalEncontrado);
         }
+
+        this.id_rota = novoContato.id_pessoa;
+
+        this.router.navigate(['/contato-admin', novoContato.id_pessoa]);
+        this.getInformacoes();
         alert('Contato adicionado com sucesso!');
+
       }, error => {
         console.error('Erro ao adicionar contato:', error);
         alert('Erro ao adicionar contato!');
@@ -573,7 +583,7 @@ export class CadatrarContatoComponent {
     );
     if (nomeExistente) return false;
     const emailExistente = this.contatos.find(pessoa =>
-      pessoa.email.trim().toLowerCase() === this.novoContato.email.trim().toLowerCase() &&
+      pessoa.email?.trim().toLowerCase() === this.novoContato.email?.trim().toLowerCase() &&
       pessoa.email !== contatoSelecionado?.email
     );
     if (emailExistente && this.email) return false;
@@ -600,7 +610,7 @@ export class CadatrarContatoComponent {
       case 'email':
         if (this.email && (!this.email.includes('@') || this.email.split('@')[1].length === 1)) return false;
         const emailExistente = this.contatos.find(pessoa =>
-          pessoa.email.trim().toLowerCase() === this.email.trim().toLowerCase() &&
+          pessoa.email?.trim().toLowerCase() === this.email.trim().toLowerCase() &&
           pessoa.email !== contatoSelecionado?.email
         );
         this.emailExistente = emailExistente;

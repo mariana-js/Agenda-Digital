@@ -91,7 +91,7 @@ export class PrincipalComponent {
   } getFuncionarios(callback?: () => void) {
     this.filtroAtual = 'funcionarios';
     this.pessoaService.getPessoa().subscribe(r => {
-      this.contatos = r.filter(contatos => contatos.flag_funcionario === true);
+      this.contatos = r.filter(contatos => contatos.flag_funcionario === true && contatos.flag_privado === false);
       this.contatos.sort((a, b) => a.nome_pessoa.localeCompare(b.nome_pessoa));
       this.amount = this.contatos.length;
       if (this.amount === 0) {
@@ -144,4 +144,3 @@ export class PrincipalComponent {
     this.contatoStateService.saveState(null);
   }
 }
-

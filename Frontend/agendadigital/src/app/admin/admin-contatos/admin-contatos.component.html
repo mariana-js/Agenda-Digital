@@ -30,7 +30,7 @@
 
           <h2>Contatos<span> ({{amount}})</span></h2>
           <div class="add-contato">
-            <img src="assets/Imagens/adicionar-contato-b.png" alt="add-contato" (click)="navegarParaAddContato()">
+            <img src="assets/Imagens/adicionar-contato-b.png" alt="add-contato" (click)="navegarParaContato()">
           </div>
         </div>
 
@@ -47,23 +47,22 @@
             </thead>
 
             <tbody>
-              <tr
-                *ngFor="let contato of contatosHide.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)">
+              <tr *ngFor="let contato of contatos.slice((currentPage-1) * itemsPerPage, currentPage * itemsPerPage)">
 
-                <td class="foto" (click)="informacoes(contato)"> <img src="assets/foto/foto.png" alt=""></td>
-                <td (click)="informacoes(contato)" class="truncate">
+                <td class="foto" (click)="alterarContato(contato)"> <img src="assets/foto/foto.png" alt=""></td>
+                <td (click)="alterarContato(contato)" class="truncate">
                   {{contato.nome_pessoa}}</td>
-                <td (click)="informacoes(contato)" class="truncate">{{contato.email}}</td>
-                <td (click)="informacoes(contato)">{{contato.celular1}}</td>
-                <td class="foto2"><img class="up" src="assets/img/editar.png" alt="editar"
-                    (click)="alterarContato(contato)"><img class="up" src="assets/img/lixo.png" alt="excluir"
-                    (click)="excluir(contato)"></td>
+                <td (click)="alterarContato(contato)" class="truncate">{{contato.email}}</td>
+                <td (click)="alterarContato(contato)">{{contato.celular1}}</td>
+                <td class="foto2">
+                  <img class="up" src="assets/img/lixo.png" alt="excluir" (click)="excluir(contato)">
+                </td>
               </tr>
-              <tr *ngIf="contatosHide.length === 0" class="no-data">
+              <tr *ngIf="contatos.length === 0" class="no-data">
                 <td colspan="5">Não há contatos.</td>
               </tr>
-              <tr *ngIf="contatosHide.length < 8 && contatosHide.length !== 0">
-                <td colspan="5" [ngStyle]="{'height': getTdHeight(contatosHide.length)}"></td>
+              <tr *ngIf="contatos.length < 8 && contatos.length !== 0">
+                <td colspan="5" [ngStyle]="{'height': getTdHeight(contatos.length)}"></td>
               </tr>
             </tbody>
 
@@ -76,10 +75,9 @@
                   <span (click)="nextPage()" [class.disabled]="currentPage === totalPages"> >> </span>
             </button>
           </div>
-        </
-div>
+          </ div>
+        </div>
+
+
+
       </div>
-
-
-
-    </div>

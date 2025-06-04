@@ -51,11 +51,13 @@ export class SetoresComponent {
     this.setor = '';
     this.sigla = '';
   } async salvar() {
-    const v = await this.validationService.authSetor(this.setor, this.sigla)
+    const modo = this.setorSelecionado ? 'atualizar' : 'adicionar';
+    const idAtual = this.setorSelecionado?.id_setor;
+
+    const v = await this.validationService.authSetor(this.setor, this.sigla, modo, idAtual)
 
     this.validacao = v;
     if ((v).length === 0) {
-
 
       if (this.setorSelecionado) {
         this.atualizarSetor();
@@ -64,7 +66,7 @@ export class SetoresComponent {
       }
 
     } else {
-      alert(this.validacao)
+      alert(this.validacao.join('\n'))
     }
   } adicionarNovoSetor() {
     this.novoSetor.nome_setor = this.setor;
@@ -118,7 +120,7 @@ export class SetoresComponent {
 
             this.getSetores();
             console.error('Erro ao excluir setor:', error);
-            alert('Erro ao excluir setor!');
+            alert('Não foi possível excluir o setor!');
           }
         );
     }

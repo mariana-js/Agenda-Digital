@@ -33,81 +33,80 @@ import br.com.AgendaDigital.projeto.services.PessoaService;
 
 public class PessoaController {
 
-	private static final Logger log = LoggerFactory.getLogger(UsuarioController.class);
-	final PessoaService pessoaService;
+    private static final Logger log = LoggerFactory.getLogger(UsuarioController.class);
+    final PessoaService pessoaService;
 
-	public PessoaController(PessoaService pessoaService) {
-		this.pessoaService = pessoaService;
-	}
+    public PessoaController(PessoaService pessoaService) {
+        this.pessoaService = pessoaService;
+    }
 
-	@PostMapping
-	public ResponseEntity<Object> savePessoa(@RequestBody @Valid PessoaDtos pessoaDtos) {
+    @PostMapping
+    public ResponseEntity<Object> savePessoa(@RequestBody @Valid PessoaDtos pessoaDtos) {
 
-		if (pessoaService.existsByEmail(pessoaDtos.getEmail())) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Email is already in use!");
-		}
-		// if
-		// (pessoaService.existsByCelular_corporativo(pessoaDtos.getCelular_corporativo()))
-		// {
-		// return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular
-		// corporativo is already in use!");
-		// }
-		// if (pessoaService.existsByCelular_pessoal(pessoaDtos.getCelular_pessoal())) {
-		// return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular
-		// pessoal is already in use!");
-		// }
-		// if (pessoaService.existsByTelefone(pessoaDtos.getTelefone())) {
-		// return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Telefone is
-		// already in use!");
-		// }
+        // if (pessoaService.existsByEmail(pessoaDtos.getEmail())) {
+        // 	return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Email is already in use!");
+        // }
+        // if
+        // (pessoaService.existsByCelular_corporativo(pessoaDtos.getCelular_corporativo()))
+        // {
+        // return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular
+        // corporativo is already in use!");
+        // }
+        // if (pessoaService.existsByCelular_pessoal(pessoaDtos.getCelular_pessoal())) {
+        // return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Celular
+        // pessoal is already in use!");
+        // }
+        // if (pessoaService.existsByTelefone(pessoaDtos.getTelefone())) {
+        // return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Telefone is
+        // already in use!");
+        // }
+        var pessoa = new Pessoa();
+        BeanUtils.copyProperties(pessoaDtos, pessoa);
+        pessoa.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
+        return ResponseEntity.status(HttpStatus.CREATED).body(pessoaService.save(pessoa));
+    }
 
-		var pessoa = new Pessoa();
-		BeanUtils.copyProperties(pessoaDtos, pessoa);
-		pessoa.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
-		return ResponseEntity.status(HttpStatus.CREATED).body(pessoaService.save(pessoa));
-	}
+    @GetMapping
+    public ResponseEntity<List<Pessoa>> getAllPessoas() {
+        return ResponseEntity.status(HttpStatus.OK).body(pessoaService.findAll());
+    }
 
-	@GetMapping
-	public ResponseEntity<List<Pessoa>> getAllPessoas() {
-		return ResponseEntity.status(HttpStatus.OK).body(pessoaService.findAll());
-	}
+    @SuppressWarnings("rawtypes")
+    @GetMapping("/{id_pessoa}")
+    public ResponseEntity getOneUsuario(@PathVariable(value = "id_pessoa") UUID id_pessoa) {
+        Optional<Pessoa> pessoaOptional = pessoaService.findById(id_pessoa);
+        if (!pessoaOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pessoa not found.");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(pessoaOptional.get());
+    }
 
-	@SuppressWarnings("rawtypes")
-	@GetMapping("/{id_pessoa}")
-	public ResponseEntity getOneUsuario(@PathVariable(value = "id_pessoa") UUID id_pessoa) {
-		Optional<Pessoa> pessoaOptional = pessoaService.findById(id_pessoa);
-		if (!pessoaOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pessoa not found.");
-		}
-		return ResponseEntity.status(HttpStatus.OK).body(pessoaOptional.get());
-	}
+    @DeleteMapping("/{id_pessoa}")
+    public ResponseEntity<Object> deletePessoa(@PathVariable(value = "id_pessoa") UUID id_pessoa) {
+        Optional<Pessoa> pessoaOptional = pessoaService.findById(id_pessoa);
+        if (!pessoaOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pessoa not found.");
+        }
+        try {
+            pessoaService.delete(pessoaOptional.get());
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            log.error("Erro ao excluir usuario:", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir pessoa.");
+        }
+    }
 
-	@DeleteMapping("/{id_pessoa}")
-	public ResponseEntity<Object> deletePessoa(@PathVariable(value = "id_pessoa") UUID id_pessoa) {
-		Optional<Pessoa> pessoaOptional = pessoaService.findById(id_pessoa);
-		if (!pessoaOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pessoa not found.");
-		}
-		try {
-			pessoaService.delete(pessoaOptional.get());
-			return ResponseEntity.noContent().build();
-		} catch (Exception e) {
-			log.error("Erro ao excluir usuario:", e);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir pessoa.");
-		}
-	}
+    @PutMapping("/{id_pessoa}")
+    public ResponseEntity<Object> updatePessoa(@PathVariable(value = "id_pessoa") UUID id_pessoa,
+            @RequestBody @Valid PessoaDtos pessoaDtos) {
+        Optional<Pessoa> pessoaOptional = pessoaService.findById(id_pessoa);
+        if (!pessoaOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pessoa not found.");
+        }
 
-	@PutMapping("/{id_pessoa}")
-	public ResponseEntity<Object> updatePessoa(@PathVariable(value = "id_pessoa") UUID id_pessoa,
-			@RequestBody @Valid PessoaDtos pessoaDtos) {
-		Optional<Pessoa> pessoaOptional = pessoaService.findById(id_pessoa);
-		if (!pessoaOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pessoa not found.");
-		}
-
-		var pessoa = new Pessoa();
-		BeanUtils.copyProperties(pessoaDtos, pessoa);
-		pessoa.setId_pessoa(pessoaOptional.get().getId_pessoa());
-		return ResponseEntity.status(HttpStatus.OK).body(pessoaService.save(pessoa));
-	}
+        var pessoa = new Pessoa();
+        BeanUtils.copyProperties(pessoaDtos, pessoa);
+        pessoa.setId_pessoa(pessoaOptional.get().getId_pessoa());
+        return ResponseEntity.status(HttpStatus.OK).body(pessoaService.save(pessoa));
+    }
 }

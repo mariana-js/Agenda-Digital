@@ -22,7 +22,7 @@ export class PessoaService {
   }
 
   updatePessoa(contato: Contato): Observable<Contato>{
-    return this.http.put<Contato>(`${this.api},${contato.id_pessoa}`,contato);
+    return this.http.put<Contato>(`${this.api}/${contato.id_pessoa}`,contato);
   }
 
   deletePessoa(id:string): Observable<void>{
