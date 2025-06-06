@@ -11,6 +11,7 @@ import { PessoaService } from '../../services/pessoa.service';
 import { NavAdminComponent } from '../nav-admin/nav-admin.component';
 import { Contato } from './../../models/contato';
 import { Funcionario } from './../../models/funcionario';
+import { SetorRamalService } from '../../services/setor-ramal.service';
 
 @Component({
   selector: 'app-admin-contatos',
@@ -39,7 +40,8 @@ export class AdminContatosComponent {
     private readonly contatoStateService: ContatoStateService,
     private readonly enderecoService: EnderecoService,
     private readonly funcionarioService: FuncionarioService,
-    private readonly contatoService: PessoaService) {
+    private readonly contatoService: PessoaService,
+    private readonly setorRamalService: SetorRamalService) {
   } ngOnInit() {
     if (this.restaurarEstado) {
       const savedState = this.contatoStateService.getState();
@@ -199,6 +201,19 @@ export class AdminContatosComponent {
         }
       );
   } excluirFuncionario(id_funcionario: string, contato: Contato) {
+    // Excluir o setor ramal
+    this.funcionarioService.deleteFuncionario(id_funcionario)
+      .subscribe(
+        () => {
+          this.funcionario = this.funcionario.filter(s => s.id_funcionario !== id_funcionario);
+          this.excluirContato(contato);
+        },
+        (error: any) => {
+          console.error('Erro ao excluir funcionario:', error);
+        }
+      );
+
+    // Excluir o funcionário
     this.funcionarioService.deleteFuncionario(id_funcionario)
       .subscribe(
         () => {

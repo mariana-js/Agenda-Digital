@@ -49,9 +49,9 @@ export class GerenciarContatoComponent {
 
   setorSelecionado: Setor | null = null;
   ramalSelecionado: SetorRamal | null = null;
-  contatoSelecionado: Contato | null = null;
+  contatoSelecionado: Contato | undefined | null = null;
   enderecoSelecionado: Endereco | null = null;
-  funcionarioSelecionado: Funcionario | null = null;
+  funcionarioSelecionado: Funcionario | undefined | null = null;
 
   //Contato
   nome_pessoa: string = '';
@@ -233,6 +233,7 @@ export class GerenciarContatoComponent {
     }
 
     // Dados do funcionário
+
     const funcionario = this.funcionarios.find(funcionario => funcionario.id_pessoa === id_contato)
     if (funcionario !== undefined) {
       const setor_ramal = this.setor_ramais.find(setor_ramal => setor_ramal.id_setor_ramal === funcionario.id_setor_ramal);
@@ -357,13 +358,16 @@ export class GerenciarContatoComponent {
     this.celular2 = '';
     this.telefone = '';
     this.boxPrivate = false;
-    this.box_fun = false;
 
     this.logradouro = '';
     this.numero = '';
     this.bairro = '';
     this.cep = '';
+    this.estados();
 
+    this.clearFuncionario();
+  } clearFuncionario() {
+    this.box_fun = false;
     this.nramal = 'op2';
     this.setor = 'op';
     this.data_nascimento = '';
@@ -463,16 +467,7 @@ export class GerenciarContatoComponent {
   } adicionarFuncionario(id_contato: string, setorRamalEncontrado: SetorRamal) {
     this.novoFuncionario.id_pessoa = id_contato;
     this.novoFuncionario.data_nascimento = this.data_nascimento;
-    // console.log(this.foto)
-    // Construir um objeto FormData
-    // const formData = new FormData();
-    // formData.append('funcionarioDtos', JSON.stringify(this.novoFuncionario));
-    // if (this.foto !== null) {
-    //   formData.append('foto', this.foto);
-    //   console.log(this.foto)
-    // } else {
-    //   console.error('A imagem não está definida.');
-    // }
+
     if (setorRamalEncontrado) {
       this.novoFuncionario.id_setor_ramal = setorRamalEncontrado.id_setor_ramal;
       this.funcionarioService.addFuncionario(this.novoFuncionario)
@@ -552,8 +547,38 @@ export class GerenciarContatoComponent {
           console.error('Erro ao atualizar funcionario:', error);
         }
       );
-  }
+  } apagarFuncionarioChechbox() {
+    this.box_fun = !this.box_fun;
 
+    this.funcionarioSelecionado = this.id_rota ? this.funcionarios.find(funcionario => funcionario.id_pessoa === this.id_rota) : null;
+
+    this.contatoSelecionado = this.id_rota ? this.contatos.find(contato => contato.id_pessoa === this.id_rota) : null;
+
+    console.log('Checkbox', this.box_fun, this.funcionarioSelecionado, this.id_rota)
+    if (this.box_fun === false && this.funcionarioSelecionado && this.contatoSelecionado) {
+      if (confirm('Deseja remover os dados do funcionário?')) {
+        this.deleteFuncionario(this.funcionarioSelecionado?.id_funcionario);
+        this.updateContato(this.contatoSelecionado);
+        this.getInformacoes();
+      } else {
+        this.getInformacoes();
+      }
+    }
+
+  } deleteFuncionario(id: string) {
+    this.funcionarioService.deleteFuncionario(id)
+      .subscribe(
+        () => {
+          this.funcionarios = this.funcionarios.filter(s => s.id_funcionario !== id);
+          this.clearFuncionario();
+          alert('Setor excluído com sucesso!');
+        },
+        error => {
+          console.error('Erro ao excluir setor:', error);
+          alert('Não foi possível excluir o setor!');
+        }
+      );
+  } delete() { }
 
   // Validações
   validation2() {

@@ -2,18 +2,23 @@
   background-color: rgb(212, 222, 245);
   color: rgb(15, 29, 105);
   display: block;
+  font-size: 15px;
   width: 13.8rem;
   text-align: left;
-  height: calc(100vh - 3.5rem); /* Altura da barra lateral para cobrir toda a altura da tela */
+  height: calc(100vh - 3.5rem);
   z-index: 2;
-  position: fixed; /* Faz a barra lateral ficar fixa */
-  top: 4.49rem; 
+  position: fixed;
+  top: 4.49rem;
   left: 0;
-  overflow-y: auto; /* Adiciona scroll se o conteúdo ultrapassar a altura da tela */
+  font-weight: bolder;
+  overflow-y: auto;
 }
 
-.nav-admin a{
+.nav-admin a {
   margin-left: 0.3rem;
+}
+.corpo-nav{
+  display: grid;
 }
 
 table tr {
@@ -34,5 +39,5 @@ table tr:hover {
 td {
   margin: 0.7rem;
   display: inline-flex;
-  align-items: flex-end;
+  align-items: center;
 }

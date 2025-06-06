@@ -1,13 +1,17 @@
-03-05-2025 - Falta fazer
+Falta fazer
+
 
 -> Excluir contato para isto deve-se:
   - Verifcar se tem endereco desta pessoa
   - Verifcar se tem funcionario desta pessoa
   - Verifcar se tem setor_ramal desta pessoa
   - E por fim exluir todos nesta sequencia finalizando com a pessoa
+    OBS: na lista de contato e em gerenciar contato.
 
+-> Tela sobre
 -> Implementar alteração de senha;
--> Implementar login com spring security
+-> Implementar login com spring security;
 -> Roles
 -> Tratamento dos dados do banco exportado
+-> CSS e Responsividade
 -> Documentação

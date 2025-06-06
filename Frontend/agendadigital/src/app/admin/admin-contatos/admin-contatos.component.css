@@ -12,6 +12,9 @@
   text-align: center;
   color: rgb(100, 14, 14);
 }
+.celular {
+  text-align: center;
+}
 
 .no-data td:hover{
   background-color: #fff;

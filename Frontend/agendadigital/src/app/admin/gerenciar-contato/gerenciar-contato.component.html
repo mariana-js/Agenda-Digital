@@ -7,10 +7,12 @@
     <div class="area a">
 
       <h2 class="top"> <img src="assets/Imagens/adicionar-contato-b.png" alt="add-contato">Gerenciar contato</h2>
-      <span [ngClass]="{'alt_add': resposta === 'Contato salvo com sucesso!', 'erro': resposta === 'Erro ao salvar o contato!'}">{{resposta}}</span>
+      <span
+        [ngClass]="{'alt_add': resposta === 'Contato salvo com sucesso!', 'erro': resposta === 'Erro ao salvar o contato!'}">{{resposta}}</span>
 
       <form action="/pessoa" method="POST" enctype="multipart/form-data">
 
+        <Span (click)="delete()">Excluir contato.</Span>
         <fieldset>
           <legend>
             <h2>Contato</h2>
@@ -23,7 +25,8 @@
             </div>
 
             <div class="field-chekbox">
-              <input id="box_fun" type="checkbox" name="box_fun" [(ngModel)]="box_fun">
+              <input id="box_fun" type="checkbox" name="box_fun" [(ngModel)]="box_fun"
+                (click)="apagarFuncionarioChechbox()">
               <label for="box-funcionario">Funcionario</label>
             </div>
           </div>
@@ -43,7 +46,8 @@
               <input type="text" name="email" required #emailInput [(ngModel)]="email" id="email" required
                 (blur)="validation('email')" [ngClass]="{'invalid-field': !validation('email')}"
                 placeholder="Ex.: email@gmail.com">
-              <span *ngIf="emailExistente && (emailExistente !== undefined) && this.email !== ''" class="invalid-field">Email já cadastrado!</span>
+              <span *ngIf="emailExistente && (emailExistente !== undefined) && this.email !== ''"
+                class="invalid-field">Email já cadastrado!</span>
               <span *ngIf="this.email && (!this.email.includes('@') || this.email.split('@')[1].length === 1)"
                 class="invalid-field">Formato incorreto!</span>
             </div>
@@ -186,7 +190,7 @@
         </fieldset>
 
         <div class="botao">
-          <button class="limpar" (click)="clear()">Limpar</button>
+          <!-- <button class="limpar" (click)="clear()">Limpar</button> -->
           <button type="submit" value="submit" (click)="salvar()">Salvar</button>
         </div>
 

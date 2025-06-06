@@ -3,13 +3,13 @@
   position: relative;
 }
 
-.no-data, .no-data td{
+.no-data, .no-data td {
   height: 18rem;
   text-align: center;
   color: rgb(100, 14, 14);
 }
 
-.no-data td:hover{
+.no-data td:hover {
   background-color: #fff;
 }
 
@@ -79,7 +79,7 @@ tr:first-child {
   border-top: 2px;
 }
 
-tr:hover td{
+tr:hover td {
   background-color: #f3f5ff;
 }
 
@@ -92,6 +92,10 @@ td {
   text-align: left;
 }
 
+.celular {
+  text-align: center;
+}
+
 button {
   border: none;
   border-radius: 1rem;
@@ -101,7 +105,7 @@ button {
   cursor: pointer;
 }
 
-.foto{
+.foto {
   width: 2%;
   text-align: center;
 }
@@ -148,8 +152,8 @@ img {
   object-fit: cover;
   padding: 0rem;
 }
-.next
-{
+
+.next {
   display: flex;
   align-items: center;
   justify-content: center;

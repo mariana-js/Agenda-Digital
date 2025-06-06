@@ -43,7 +43,7 @@
                     {{ contato.nome_pessoa }}
                   </td>
                   <td class="truncate">{{ contato.email }}</td>
-                  <td>{{ contato.celular1}}</td>
+                  <td class="celular">{{ contato.celular1}}</td>
                 </tr>
                 <tr *ngIf="contatos.length === 0" class="no-data">
                   <td colspan="4">Não há contatos.</td>
