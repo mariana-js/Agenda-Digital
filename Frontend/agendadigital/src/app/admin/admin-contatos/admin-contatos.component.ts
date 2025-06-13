@@ -201,19 +201,6 @@ export class AdminContatosComponent {
         }
       );
   } excluirFuncionario(id_funcionario: string, contato: Contato) {
-    // Excluir o setor ramal
-    this.funcionarioService.deleteFuncionario(id_funcionario)
-      .subscribe(
-        () => {
-          this.funcionario = this.funcionario.filter(s => s.id_funcionario !== id_funcionario);
-          this.excluirContato(contato);
-        },
-        (error: any) => {
-          console.error('Erro ao excluir funcionario:', error);
-        }
-      );
-
-    // Excluir o funcionário
     this.funcionarioService.deleteFuncionario(id_funcionario)
       .subscribe(
         () => {

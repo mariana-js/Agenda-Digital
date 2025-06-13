@@ -10,6 +10,18 @@
   justify-content: center;
 }
 
+.topo-options {
+  display: flex;
+  justify-content: space-between;
+}
+.topo-options span{
+  color: red;
+  cursor: pointer;
+}
+.topo-options span:hover{
+  color: rgb(211, 4, 4);
+}
+
 .invalid-field {
   color: red;
   font-size: 0.8rem;

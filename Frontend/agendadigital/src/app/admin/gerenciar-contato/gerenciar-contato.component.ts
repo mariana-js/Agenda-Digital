@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NavAdminComponent } from '../nav-admin/nav-admin.component';
 import { NgFor, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { Contato } from '../../models/contato';
 import { Endereco } from '../../models/endereco';
@@ -19,7 +19,7 @@ import { SetorService } from '../../services/setor.service';
 @Component({
   selector: 'app-gerenciar-contato',
   standalone: true,
-  imports: [NavAdminComponent, NgFor, FormsModule, CommonModule],
+  imports: [NavAdminComponent, NgFor, FormsModule, CommonModule, RouterOutlet, RouterLink],
   templateUrl: './gerenciar-contato.component.html',
   styleUrl: './gerenciar-contato.component.css'
 })
@@ -248,6 +248,9 @@ export class GerenciarContatoComponent {
         }
       }
     }
+
+
+
   } selecionarSetor(event: Event) {
     const idSetor = (event.target as HTMLSelectElement).value;
     this.getRamaisPorSetor(idSetor);
@@ -308,9 +311,6 @@ export class GerenciarContatoComponent {
         if (cidadeOption) {
           citySelect.value = cidadeSelecionada;
           self.cidade = cidadeSelecionada;
-          console.log('Cidade marcada automaticamente:', cidadeSelecionada);
-        } else {
-          console.warn('Cidade não encontrada:', cidadeSelecionada);
         }
       }
 
@@ -414,12 +414,11 @@ export class GerenciarContatoComponent {
     );
     this.novoContato.nome_pessoa = this.nome_pessoa;
     this.novoContato.email = this.email;
-
-
     this.novoContato.celular1 = this.removerCaracteresEspeciais(this.celular1);
     this.novoContato.celular2 = this.removerCaracteresEspeciais(this.celular2);
     this.novoContato.celular3 = this.removerCaracteresEspeciais(this.celular3);
     this.novoContato.telefone = this.removerCaracteresEspeciais(this.telefone);
+    
     this.novoContato.flag_privado = this.boxPrivate;
     this.novoContato.flag_funcionario = this.box_fun;
 
@@ -559,6 +558,7 @@ export class GerenciarContatoComponent {
       if (confirm('Deseja remover os dados do funcionário?')) {
         this.deleteFuncionario(this.funcionarioSelecionado?.id_funcionario);
         this.updateContato(this.contatoSelecionado);
+        // alert('Funcionário excluído com sucesso!');
         this.getInformacoes();
       } else {
         this.getInformacoes();
@@ -571,15 +571,47 @@ export class GerenciarContatoComponent {
         () => {
           this.funcionarios = this.funcionarios.filter(s => s.id_funcionario !== id);
           this.clearFuncionario();
-          alert('Setor excluído com sucesso!');
         },
         error => {
           console.error('Erro ao excluir setor:', error);
-          alert('Não foi possível excluir o setor!');
         }
       );
-  } delete() { }
+  } delete() {
+    const end = this.enderecos.find(end => end.id_pessoa === this.id_rota)
+    const func = this.funcionarios.find(func => func.id_pessoa === this.id_rota)
+    const cont = this.contatos.find(cont => cont.id_pessoa === this.id_rota)
 
+    if (end) this.excluirEndereco(end.id_endereco);
+    if (func) this.deleteFuncionario(func.id_funcionario)
+    if (cont) this.excluirContato(cont)
+
+    this.router.navigate(['/contatos-admin'])
+
+  } excluirEndereco(id_endereco: string) {
+    this.enderecoService.deleteEndereco(id_endereco)
+      .subscribe(
+        () => {
+          this.enderecos = this.enderecos.filter(s => s.id_endereco !== id_endereco);
+        },
+        (error: any) => {
+          console.error('Erro ao excluir contato:', error);
+        }
+      );
+  } excluirContato(contato: Contato) {
+    this.contatoService.deletePessoa(contato.id_pessoa)
+      .subscribe(
+        () => {
+          this.contatos = this.contatos.filter(s => s.id_pessoa !== contato.id_pessoa);
+          this.router.navigate(['/contatos-admin'])
+          alert('Contato excluído com sucesso!');
+        },
+        (error: any) => {
+          this.getInformacoes();
+          console.error('Erro ao excluir contato:', error);
+          alert('Erro ao excluir contato!');
+        }
+      );
+  }
   // Validações
   validation2() {
     if (!this.nome_pessoa) return false;

@@ -11,8 +11,12 @@
         [ngClass]="{'alt_add': resposta === 'Contato salvo com sucesso!', 'erro': resposta === 'Erro ao salvar o contato!'}">{{resposta}}</span>
 
       <form action="/pessoa" method="POST" enctype="multipart/form-data">
+        <div class="topo-options">
+          <a routerLink="/contatos-admin">Voltar a página anterior</a>
+      
+          <Span *ngIf="id_rota" (click)="delete()">Excluir contato.</Span>
+        </div>
 
-        <Span (click)="delete()">Excluir contato.</Span>
         <fieldset>
           <legend>
             <h2>Contato</h2>
@@ -42,7 +46,7 @@
               <span *ngIf="nomeExistente" class="invalid-field">Nome já cadastrado!</span>
             </div>
             <div class="field">
-              <label for="mail">E-mail *</label>
+              <label for="mail">E-mail</label>
               <input type="text" name="email" required #emailInput [(ngModel)]="email" id="email" required
                 (blur)="validation('email')" [ngClass]="{'invalid-field': !validation('email')}"
                 placeholder="Ex.: email@gmail.com">
@@ -123,7 +127,7 @@
               <label for="Ramal">Ramal</label>
               <select name="ramal" required onchange disabled (change)="selecionarRamal($event)" [(ngModel)]="nramal">
                 <option value="op2"> Selecione o Ramal </option>
-                <option value="{{ramal.id_ramal_setor}}" *ngFor="let ramal of ramaisFiltrados">
+                <option *ngFor="let ramal of ramaisFiltrados" value="{{ramal.id_ramal_setor}}">
                   {{ramal.id_ramal_setor}}</option>
               </select>
             </div>
@@ -195,3 +199,5 @@
         </div>
 
       </form>
+
+      <router-outlet></router-outlet>
