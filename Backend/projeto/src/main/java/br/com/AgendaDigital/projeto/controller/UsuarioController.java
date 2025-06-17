@@ -1,6 +1,7 @@
 package br.com.AgendaDigital.projeto.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -49,6 +50,24 @@ public class UsuarioController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuario));
 	}
 
+	@PostMapping("/verificar-senha")
+	public ResponseEntity<Object> verificarSenha(@RequestBody Map<String, String> dados) {
+		String usuario = dados.get("usuario");
+		String senhaDigitada = dados.get("senha");
+
+		Optional<User> usuarioOptional = usuarioService.findByUsuario(usuario);
+		if (usuarioOptional.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado.");
+		}
+
+		User user = usuarioOptional.get();
+		if (passwordEncoder.matches(senhaDigitada, user.getSenha())) {
+			return ResponseEntity.ok(true);
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Senha incorreta.");
+		}
+	}
+
 	@GetMapping
 	public ResponseEntity<List<User>> getAllUsuarios() {
 		return ResponseEntity.status(HttpStatus.OK).body(usuarioService.findAll());
@@ -92,8 +111,8 @@ public class UsuarioController {
 		BeanUtils.copyProperties(usuarioDtos, usuario);
 		usuario.setId_usuario(usuarioOptional.get().getId_usuario());
 
-		  // Criptografar a senha antes de salvar
-		  usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+		// Criptografar a senha antes de salvar
+		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 		return ResponseEntity.status(HttpStatus.OK).body(usuarioService.save(usuario));
 	}
 

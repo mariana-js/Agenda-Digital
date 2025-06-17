@@ -36,4 +36,8 @@ public class UsuarioService {
         usuarioRepository.delete(usuario);
     }
 
+    public Optional<User> findByUsuario(String usuario) {
+        return usuarioRepository.findByUsuario(usuario);
+    }
+
 }

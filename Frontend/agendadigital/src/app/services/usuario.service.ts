@@ -7,24 +7,30 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UsuarioService {
-private readonly api = 'http://localhost:8080/usuario';
+  private readonly api = 'http://localhost:8080/usuario';
   usuario: Usuario[] = [];
   constructor(private http: HttpClient) { }
 
   getUsuario(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(`${this.api}`);
   }
+  verificarSenha(usuario: string, senha: string) {
+    return this.http.post<boolean>(`${this.api}/verificar-senha`, {
+      usuario,
+      senha
+    });
+  }
 
-  addUsuario(usuario: Usuario): Observable<Usuario>{
+  addUsuario(usuario: Usuario): Observable<Usuario> {
     this.usuario.push(usuario);
     return this.http.post<Usuario>(this.api, usuario);
   }
 
-  updateUsuario(usuario: Usuario): Observable<Usuario>{
-    return this.http.put<Usuario>(`${this.api}/${usuario.id_usuario}`,usuario);
+  updateUsuario(usuario: Usuario): Observable<Usuario> {
+    return this.http.put<Usuario>(`${this.api}/${usuario.id_usuario}`, usuario);
   }
 
-  deleteUsuario(id:string): Observable<void>{
+  deleteUsuario(id: string): Observable<void> {
     this.usuario = this.usuario.filter(resp => resp.id_usuario !== id);
     return this.http.delete<void>(`${this.api}/${id}`);
   }
