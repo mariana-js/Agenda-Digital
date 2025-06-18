@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { Usuario } from '../../models/usuario';
 import { UsuarioService } from '../../services/usuario.service';
@@ -8,7 +8,7 @@ import { UsuarioService } from '../../services/usuario.service';
 @Component({
   selector: 'app-alterarsenha',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterOutlet, RouterLink],
   templateUrl: './alterarsenha.component.html',
   styleUrl: './alterarsenha.component.css'
 })
@@ -53,7 +53,9 @@ export class AlterarsenhaComponent {
             next: () => {
               this.usuarioService.updateUsuario(this.newUser)
                 .subscribe(
-                  () => {
+                  (r) => {
+                    console.log(r)
+                    this.router.navigate(['/login']);
                     alert('Senha alterada com sucesso!');
                   },
                   error => {
@@ -68,12 +70,13 @@ export class AlterarsenhaComponent {
               } else {
                 this.mensagens.push('Erro ao verificar senha');
               }
+              alert(this.mensagens)
             }
           });
 
 
       }
-      this.router.navigate(['/login']);
+
 
 
     } else alert(this.mensagens)
@@ -82,16 +85,20 @@ export class AlterarsenhaComponent {
   verificarUsuario() {
     this.mensagens = [];
 
-    if((this.usuario || this.senhaAtual || this.senha1 || this.senha2) === '') return this.mensagens.push('Campo(s) vazio(s).')
+    if ((this.usuario === '' || this.senhaAtual === '' || this.senha1 === '' || this.senha2 === '')) return this.mensagens.push('Campo(s) vazio(s).')
     const user = this.acesso.find(user => user.usuario === this.usuario);
     if (!user) return this.mensagens.push('Usuário não não encontrado!')
-    console.log(user)
 
     if (this.senhaAtual === (this.senha1 && this.senha2)) return this.mensagens.push('Insira uma senha diferente da anterior.')
 
     if (this.senha1 !== this.senha2) return this.mensagens.push('As senhas precisam ser iguais.')
 
-    else return this.mensagens;
+    if (this.senha1.length < 6) return this.mensagens.push('A senha precisa ter 6 caracteres ou mais.')
+
+    return this.mensagens;
+
+
+
   }
 
 }
