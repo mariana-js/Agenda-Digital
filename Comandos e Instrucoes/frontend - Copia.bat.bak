@@ -2,7 +2,7 @@ color a
 
 cd D:\Projetos\Agenda-Digital\Frontend\agendadigital
 
-ng serve --port 4200 --host 0.0.0.0
+ng serve --port 8080 --host 0.0.0.0
 
 
 npm start
