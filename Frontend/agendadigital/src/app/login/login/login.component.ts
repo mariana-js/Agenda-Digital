@@ -36,7 +36,6 @@ export class LoginComponent {
       this.usuarioService.verificarSenha(this.usuario!, this.senha!)
         .subscribe({
           next: () => {
-            alert('Usuario logado com sucesso!')
             this.router.navigate(['/contatos-admin']);
           },
           error: err => {
@@ -54,42 +53,3 @@ export class LoginComponent {
     this.router.navigate(['/alterar-senha'])
   }
 }
-//   console.log('Usuario e senha: ',this.usuario,this.senha)
-//   if (this.usuario && this.senha) {
-//     this.http.post<any>(this.apiUrl, { username: this.usuario, password: this.senha }).subscribe(
-//       response => {
-//         if (response.token) {
-//           this.setToken(response.token);
-//           this.router.navigate(['/contatos-admin']);
-//         } else {
-//           alert('Login falhou: token não recebido.');
-//         }
-//       },
-//       error => {
-//         console.error('Login falhou', error);
-//         alert('Usuário ou senha inválidos');
-//       }
-//     );
-//   } else {
-//     alert('Por favor, insira usuário e senha');
-//   }
-// }
-
-// setToken(token: string): void {
-//   localStorage.setItem('token', token);
-// }
-
-// getToken(): string | null {
-//   return localStorage.getItem('token');
-// }
-
-// isLoggedIn(): boolean {
-//   return this.getToken() !== null;
-// }
-
-// logout(): void {
-//   localStorage.removeItem('token');
-// }
-
-// rememberPassword() {
-//   alert('Contacte o administrador para alterar a senha.');
