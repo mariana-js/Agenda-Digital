@@ -1,0 +1,71 @@
+.sobre-container {
+  max-width: 45rem;
+  margin: 50px auto 0 auto;
+  padding: 20px;
+}
+
+.sobre-card {
+  margin: 2rem 2rem 3rem 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sobre-titulo {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.sobre-subtitulo {
+  font-size: 16px;
+  color: #34495e;
+}
+
+.sobre-links {
+  margin-top: 10px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.sobre-links a {
+  text-decoration: none;
+  color: rgb(95, 127, 185);
+  font-weight: 500;
+  border: 1px solid rgb(95, 127, 185);
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+.sobre-links a:hover {
+  background-color: rgb(95, 127, 185);
+  color: white;
+}
+
+
+p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+}
+
+ul {
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+ul li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #444;
+}
+
+hr {
+  margin: 10px 0;
+  border: none;
+  height: 1px;
+  background: #e0e0e0;
+}

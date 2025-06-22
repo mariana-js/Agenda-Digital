@@ -31,24 +31,27 @@ export class LoginComponent {
   }
 
   login() {
-      this.router.navigate(['/contatos-admin']);
-    // if (this.usuario && this.senha) {
-    //   const acc = this.acesso.find(acesso => acesso.usuario === this.usuario && acesso.senha == this.senha);
-    //   if (acc !== undefined) {
-    //     console.log("Resultado:", acc)
-    //     if (acc) {
-    //       this.router.navigate(['/contatos-admin']);
-    //     } else {
-    //       alert('Usuário ou senha inválidos');
-    //     }
-    //   }
-    // } else {
-    //   alert('Por favor, insira usuário e senha');
-    // }
+
+    if (this.usuario !== '' && this.senha !== '') {
+      this.usuarioService.verificarSenha(this.usuario!, this.senha!)
+        .subscribe({
+          next: () => {
+            alert('Usuario logado com sucesso!')
+            this.router.navigate(['/contatos-admin']);
+          },
+          error: err => {
+            if (err.status === 401) {
+              alert('Senha atual incorreta!');
+            } else {
+              alert('Verifique se usuário e senha estão corretos.');
+            }
+          }
+        });
+    }
 
   }
-  rememberPassword() {
-      this.router.navigate(['/alterar-senha'])
+  alterarSenha() {
+    this.router.navigate(['/alterar-senha'])
   }
 }
 //   console.log('Usuario e senha: ',this.usuario,this.senha)

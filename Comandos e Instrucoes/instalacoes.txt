@@ -1,5 +1,5 @@
- npm cache clean --force
- npm install @angular/common/http
+npm cache clean --force
+npm install @angular/common/http
 yarn add ngx-mask
 npm install angular2-text-mask --save
 npm install ngx-mask --save

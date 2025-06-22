@@ -1,3 +1,5 @@
-cd C:\Users\maria\OneDrive\"Área de Trabalho"\Agenda-Digital\Frontend\agendadigital
+color a 
+
+cd D:\Projetos\Agenda-Digital\Frontend\agendadigital
 
 npm start
